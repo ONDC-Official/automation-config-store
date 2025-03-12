@@ -11,7 +11,7 @@ jobs:
   ssh-ec2:
     runs-on: ubuntu-latest
     environment:  
-          name: dev
+          name: logistics
           url: https://github.com
 
     steps:
