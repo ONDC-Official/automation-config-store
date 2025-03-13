@@ -9,7 +9,7 @@ on:
 
 jobs:
   deploy-draft-logistics125:
-    if: github.ref == 'draft-logistics-1.2.5'
+    if: github.ref == 'refs/heads/draft-logistics-1.2.5'
     runs-on: ubuntu-latest
     environment:  
           name: logistics
