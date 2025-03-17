@@ -103,8 +103,8 @@ jobs:
         run: |
           ssh -i ./key.pem ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} <<EOF
           REPO_DIR=~/ONDC-automation-framework/api-service-generator
-          git clone --single-branch --branch draft-logistics-1.2.5 https://github.com/ONDC-Official/automation-config-store.git \$REPO_DIR/mobility-specification
-           mv -f \$REPO_DIR/mobility-specification/api/build/build.yaml  \$REPO_DIR/src/config/build.yaml
+          git clone --single-branch --branch draft-logistics-1.2.5 https://github.com/ONDC-Official/automation-config-store.git \$REPO_DIR/automation-config-store
+           mv -f \$REPO_DIR/automation-config-store/src/config/build.yaml  \$REPO_DIR/src/config/build.yaml
           EOF
 
 
