@@ -8,11 +8,10 @@ on:
       - draft-logistics-1.2.5  # Change to your primary branch
 
 jobs:
-  deploy-draft-logistics125:
-    if: github.ref == 'refs/heads/draft-logistics-1.2.5'
+  deploy-draft:
     runs-on: ubuntu-latest
     environment:  
-          name: logistics
+          name: ${{ github.ref_name }}
           url: https://github.com
 
     steps:
@@ -29,8 +28,6 @@ jobs:
 
 
           ssh -i ./key.pem ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} -T <<EOF
-          echo ${{ github.ref_name }}
-          exit 1  # This will terminate the pipeline with a failure
           REPO_DIR=~/ONDC-automation-framework/api-service-generator
           echo "Removing existing repository directory if exists"
           rm -rf \$REPO_DIR
@@ -107,7 +104,7 @@ jobs:
         run: |
           ssh -i ./key.pem ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} <<EOF
           REPO_DIR=~/ONDC-automation-framework/api-service-generator
-          git clone --single-branch --branch draft-logistics-1.2.5 https://github.com/ONDC-Official/automation-config-store.git \$REPO_DIR/automation-config-store
+          git clone --single-branch --branch ${{ github.ref_name }} https://github.com/ONDC-Official/automation-config-store.git \$REPO_DIR/automation-config-store
            mv -f \$REPO_DIR/automation-config-store/src/config/build.yaml  \$REPO_DIR/src/config/build.yaml
           EOF
 
