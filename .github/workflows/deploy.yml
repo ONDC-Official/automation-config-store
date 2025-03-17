@@ -30,7 +30,7 @@ jobs:
 
 
           ssh -i ./key.pem ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} -T <<EOF
-          REPO_DIR=~/ONDC-automation-framework/api-service-generator
+          REPO_DIR=~/ONDC-automation-framework/api-service-generator-${{ github.ref_name }}
           echo "Removing existing repository directory if exists"
           rm -rf \$REPO_DIR
           echo "Cloning repository from main branch"
@@ -55,7 +55,7 @@ jobs:
         run: |
           echo "Writing secrets to .env file"
           ssh -i ./key.pem ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} <<EOF
-          REPO_DIR=~/ONDC-automation-framework/api-service-generator
+          REPO_DIR=~/ONDC-automation-framework/api-service-generator-${{ github.ref_name }}
           echo "Writing environment variables to .env file"
           echo "NODE_ENV=${{ vars.NODE_ENV }}" >> \$REPO_DIR/.env
           echo "SIGN_PRIVATE_KEY=${{ secrets.SIGN_PRIVATE_KEY }}" >> \$REPO_DIR/.env
@@ -79,7 +79,7 @@ jobs:
       - name: Verify .env and docker-compose.yml files
         run: |
           ssh -i ./key.pem ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} <<EOF
-          REPO_DIR=~/ONDC-automation-framework/api-service-generator
+          REPO_DIR=~/ONDC-automation-framework/api-service-generator-${{ github.ref_name }}
           # Check if .env and docker-compose.yml files exist
           if [ ! -f \$REPO_DIR/.env ]; then
             echo ".env file not found in \$REPO_DIR!"
@@ -96,7 +96,7 @@ jobs:
         run : |
           echo "cloning submodule"
           ssh -i ./key.pem ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} <<EOF
-          REPO_DIR=~/ONDC-automation-framework/api-service-generator
+          REPO_DIR=~/ONDC-automation-framework/api-service-generator-${{ github.ref_name }}
           cd \$REPO_DIR
           git submodule update --init --recursive
           EOF
@@ -105,7 +105,7 @@ jobs:
       - name: Add latest build.yaml file
         run: |
           ssh -i ./key.pem ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} <<EOF
-          REPO_DIR=~/ONDC-automation-framework/api-service-generator
+          REPO_DIR=~/ONDC-automation-framework/api-service-generator-${{ github.ref_name }}
           git clone --single-branch --branch ${{ github.ref_name }} https://github.com/ONDC-Official/automation-config-store.git \$REPO_DIR/automation-config-store
            mv -f \$REPO_DIR/automation-config-store/src/config/build.yaml  \$REPO_DIR/src/config/build.yaml
           EOF
@@ -116,7 +116,7 @@ jobs:
         run: |
           echo "Deploying with Docker Compose"
           ssh -i ./key.pem ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} <<EOF
-          REPO_DIR=~/ONDC-automation-framework/api-service-generator
+          REPO_DIR=~/ONDC-automation-framework/api-service-generator-${{ github.ref_name }}
           cd \$REPO_DIR
 
           # Ensure the .env and docker-compose.yml files exist
