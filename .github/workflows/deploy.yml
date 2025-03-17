@@ -1,4 +1,4 @@
-name: Deploy logistics api service
+name: Deploy api service
 on:
   workflow_dispatch:
   push:
