@@ -25,8 +25,12 @@ jobs:
           chmod 600 ./key.pem
           mkdir -p ~/.ssh
           ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          
+
 
           ssh -i ./key.pem ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} -T <<EOF
+          echo ${{ github.ref_name }}
+          exit 1  # This will terminate the pipeline with a failure
           REPO_DIR=~/ONDC-automation-framework/api-service-generator
           echo "Removing existing repository directory if exists"
           rm -rf \$REPO_DIR
