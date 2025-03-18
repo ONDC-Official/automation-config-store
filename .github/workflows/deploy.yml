@@ -4,10 +4,9 @@ on:
   push:
     paths:
       - "src/config/build.yaml"
-    branches:
-      - draft-logistics-1.2.5  # Change to your primary branch
-      - release-TRV11-2.0.0
-      - draft-TRV10-2.1.0
+    branches-ignore:
+      - main
+      - dev
 
 jobs:
   deploy-draft:
