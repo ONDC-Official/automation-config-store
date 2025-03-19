@@ -107,7 +107,7 @@ jobs:
           REPO_DIR=~/ONDC-automation-framework/api-service/api-service-generator-${{ github.ref_name }}
           git clone --single-branch --branch ${{ github.ref_name }} https://github.com/ONDC-Official/automation-config-store.git \$REPO_DIR/automation-config-store
           echo $REPO_DIR
-          rsync -av $REPO_DIR/automation-config-store/src/config/ $REPO_DIR/src/config/
+          mv -f $REPO_DIR/automation-config-store/src/config $REPO_DIR/src/
           EOF
 
 
