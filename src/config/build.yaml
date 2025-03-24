@@ -26358,17 +26358,17 @@ x-validations:
           - type
           - url
         _RETURN_: subTags all in validValues
-      - _NAME_: shipping_label_for_p2h2p
-        _DESCRIPTION_: >-
-          Shipping label should be provided for P2H2P orders in start.instructions
-          and fulfillments.tags
-        orderType: $.message.order.items[0].descriptor.code
-        p2h2p:
-          - P2H2P
-        shippingLabel: $.message.order.fulfillments[*].start.instructions.images
-        tags: $.message.order.fulfillments[*].tags[?(@.code=='shipping_label')].code
-        _CONTINUE_: '!(orderType all in p2h2p)'
-        _RETURN_: shippingLabel are present && tags are present
+      # - _NAME_: shipping_label_for_p2h2p
+      #   _DESCRIPTION_: >-
+      #     Shipping label should be provided for P2H2P orders in start.instructions
+      #     and fulfillments.tags
+      #   orderType: $.message.order.items[0].descriptor.code
+      #   p2h2p:
+      #     - P2H2P
+      #   shippingLabel: $.message.order.fulfillments[*].start.instructions.images
+      #   tags: $.message.order.fulfillments[*].tags[?(@.code=='shipping_label')].code
+      #   _CONTINUE_: '!(orderType all in p2h2p)'
+      #   _RETURN_: shippingLabel are present && tags are present
     on_status:
       - _NAME_: REQUIRED_CONTEXT_DOMAIN_1
         attr: $.context.domain
