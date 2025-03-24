@@ -3770,7 +3770,7 @@ x-tags:
             - code: cod_settlement_detail
               description: COD settlement details.
               reference: <PR/Issue/Discussion Links md format text>
-              list: &ref_32
+              list: &ref_33
                 - code: settlement_window
                   description: Settlement window duration.
                   reference: <PR/Issue/Discussion Links md format text>
@@ -3839,7 +3839,7 @@ x-tags:
             - code: reverseqc_input
               description: Reverse QC input details.
               reference: <PR/Issue/Discussion Links md format text>
-              list: &ref_33
+              list: &ref_34
                 - code: P001
                   description: Product identifier.
                   reference: <PR/Issue/Discussion Links md format text>
@@ -4038,6 +4038,19 @@ x-tags:
               description: Fulfillment request details.
               reference: <PR/Issue/Discussion Links md format text>
               list: *ref_13
+            - code: ebn
+              description: >-
+                e-way bill details - will also be added, as applicable, to RTO
+                fulfillment in on_cancel; should be sent in response to LBNP’s
+                "ready_to_ship"="yes";
+              reference: <PR/Issue/Discussion Links md format text>
+              list: &ref_32
+                - code: id
+                  description: e-way bill no, mapped to "@ondc/org/ewaybillno";
+                  reference: <PR/Issue/Discussion Links md format text>
+                - code: expiry_date
+                  description: e-way bill expiry date, mapped to "@ondc/org/ebnexpirydate";
+                  reference: <PR/Issue/Discussion Links md format text>
             - code: fulfill_response
               description: Fulfillment response details.
               reference: <PR/Issue/Discussion Links md format text>
@@ -4092,16 +4105,6 @@ x-tags:
                   reference: <PR/Issue/Discussion Links md format text>
                 - code: url
                   description: Link to the proof image.
-                  reference: <PR/Issue/Discussion Links md format text>
-            - code: ebn
-              description: Electronic bill number details.
-              reference: <PR/Issue/Discussion Links md format text>
-              list:
-                - code: id
-                  description: EBN identifier.
-                  reference: <PR/Issue/Discussion Links md format text>
-                - code: expiry_date
-                  description: Expiry date of the EBN.
                   reference: <PR/Issue/Discussion Links md format text>
             - code: linked_order_diff
               description: Differences in the linked order details.
@@ -4236,6 +4239,13 @@ x-tags:
                 - code: cancelled_by
                   description: Entity responsible for cancellation.
                   reference: <PR/Issue/Discussion Links md format text>
+            - code: ebn
+              description: >-
+                e-way bill details - will also be added, as applicable, to RTO
+                fulfillment in on_cancel; should be sent in response to LBNP’s
+                "ready_to_ship"="yes";
+              reference: <PR/Issue/Discussion Links md format text>
+              list: *ref_32
   on_track:
     message:
       tracking:
@@ -4361,7 +4371,7 @@ x-tags:
             - code: cod_settlement_detail
               description: Details of COD settlement.
               reference: <PR/Issue/Discussion Links md format text>
-              list: *ref_32
+              list: *ref_33
             - code: rto_event
               description: Details of the RTO (Return to Origin) event.
               reference: <PR/Issue/Discussion Links md format text>
@@ -4387,7 +4397,14 @@ x-tags:
             - code: reverseqc_output
               description: Output details of the reverse quality check (QC).
               reference: <PR/Issue/Discussion Links md format text>
-              list: *ref_33
+              list: *ref_34
+            - code: ebn
+              description: >-
+                e-way bill details - will also be added, as applicable, to RTO
+                fulfillment in on_cancel; should be sent in response to LBNP’s
+                "ready_to_ship"="yes";
+              reference: <PR/Issue/Discussion Links md format text>
+              list: *ref_32
         tags:
           - code: diff_dim
             description: Dimension differences recorded.
@@ -4496,7 +4513,7 @@ x-flows:
                 LBNP ->> LSP: **/search** - Request available options based on shipment details
                 LSP -->> LBNP: ACK - Confirm search request received
                 LSP ->> LBNP: **/on_search** - Respond with available fulfillment options
-        example: &ref_35
+        example: &ref_36
           summary: Search (Baseline)
           description: Logistics Buyer app sends a search request
           value:
@@ -4617,7 +4634,7 @@ x-flows:
                 participant LSP
                 LSP ->> LBNP: **/on_search** - Return available fulfillment options with rates
                 LBNP ->> LSP: ACK - Confirm catalog received
-        example: &ref_48
+        example: &ref_49
           summary: Returns the catalog
           description: >-
             LSP returns the catalog of its services in response to the search
@@ -4944,7 +4961,7 @@ x-flows:
                   type: ON-FULFILLMENT
                   collected_by: BPP
                   '@ondc/org/settlement_details':
-                    - settlement_counterparty: buyer-app
+                    - settlement_counterparty: lbnp
                       settlement_type: upi
                       beneficiary_name: xxxxx
                       upi_address: gft@oksbi
@@ -5024,7 +5041,7 @@ x-flows:
                   LBNP ->> LSP: **Retry /confirm**
                   LBNP -->> LSP: **Cancel Order** if no response (Reason Code 996)
                 end
-        example: &ref_42
+        example: &ref_43
           summary: Order confirmation
           description: LBNP confirms the order
           value:
@@ -5222,7 +5239,7 @@ x-flows:
                   '@ondc/org/settlement_basis': invoicing
                   '@ondc/org/settlement_window': P15D
                   '@ondc/org/settlement_details':
-                    - settlement_counterparty: buyer-app
+                    - settlement_counterparty: lbnp
                       settlement_type: upi
                       upi_address: gft@oksbi
                       settlement_bank_account_no: XXXXXXXXXX
@@ -5324,7 +5341,7 @@ x-flows:
                   LSP ->> LBNP: **Retry /on_confirm**
                   LSP -->> LBNP: **Cancel Order** if no response (Reason Code 997)
                 end
-        example: &ref_55
+        example: &ref_56
           summary: Order Acceptance
           description: LSP provides acceptance to the order
           value:
@@ -5550,7 +5567,7 @@ x-flows:
                   '@ondc/org/settlement_basis': invoicing
                   '@ondc/org/settlement_window': P15D
                   '@ondc/org/settlement_details':
-                    - settlement_counterparty: buyer-app
+                    - settlement_counterparty: lbnp
                       settlement_type: upi
                       upi_address: gft@oksbi
                       settlement_bank_account_no: XXXXXXXXXX
@@ -5619,7 +5636,7 @@ x-flows:
                 LBNP ->> LSP: **/update** - Send updated order details
                 LSP -->> LBNP: ACK - Confirm update received
                 LSP ->> LBNP: **/on_update** - Confirm changes applied
-        example: &ref_45
+        example: &ref_46
           summary: Order updates
           description: >-
             Logistics Buyer app updates the order, marks the fulfillment ready
@@ -5781,7 +5798,7 @@ x-flows:
                 participant LSP
                 LSP ->> LBNP: **/on_update** - Update order details
                 LBNP ->> LSP: ACK - Acknowledge weight diff charges, else NACK
-        example: &ref_64
+        example: &ref_65
           summary: Order updates
           description: >-
             LSP acknowledges order updates such as agent assignment by LBNP,
@@ -6007,7 +6024,7 @@ x-flows:
                   '@ondc/org/settlement_basis': invoicing
                   '@ondc/org/settlement_window': P15D
                   '@ondc/org/settlement_details':
-                    - settlement_counterparty: buyer-app
+                    - settlement_counterparty: lbnp
                       settlement_type: upi
                       upi_address: gft@oksbi
                       settlement_bank_account_no: XXXXXXXXXX
@@ -6066,7 +6083,7 @@ x-flows:
                 participant LSP
                 LSP ->> LBNP: **/on_status** - Update order status
                 LBNP ->> LSP: ACK - Acknowledge order status
-        example: &ref_34
+        example: &ref_35
           summary: Order status (In-progress)
           description: >-
             LSP updates the order status such as any changes to the fulfillment
@@ -6297,7 +6314,7 @@ x-flows:
                   time:
                     timestamp: '2024-11-21T10:00:00.000Z'
                   '@ondc/org/settlement_details':
-                    - settlement_counterparty: buyer-app
+                    - settlement_counterparty: lbnp
                       settlement_type: upi
                       upi_address: gft@oksbi
                       settlement_bank_account_no: XXXXXXXXXX
@@ -6396,7 +6413,7 @@ x-flows:
                 participant LSP
                 LBNP ->> LSP: **/track** - Requests for tracking information
                 LSP -->> LBNP: ACK
-        example: &ref_47
+        example: &ref_48
           summary: Order tracking
           description: Logistics Buyer app requests for tracking information
           value:
@@ -6428,7 +6445,7 @@ x-flows:
                 participant LSP
                 LSP ->> LBNP: **/on_track** - Update order tracking information
                 LBNP ->> LSP: ACK
-        example: &ref_67
+        example: &ref_68
           summary: Order tracking
           description: LSP provides live tracking details
           value:
@@ -6499,7 +6516,7 @@ x-flows:
                 participant LSP
                 LSP ->> LBNP: **/on_status** - Update order status
                 LBNP ->> LSP: ACK - Acknowledge order status
-        example: &ref_59
+        example: &ref_60
           summary: Order status (Completed)
           description: >-
             LSP updates the order status such as any changes to the fulfillment
@@ -6731,7 +6748,7 @@ x-flows:
                   time:
                     timestamp: '2024-11-21T10:00:00.000Z'
                   '@ondc/org/settlement_details':
-                    - settlement_counterparty: buyer-app
+                    - settlement_counterparty: lbnp
                       settlement_type: upi
                       upi_address: gft@oksbi
                       settlement_bank_account_no: XXXXXXXXXX
@@ -7098,7 +7115,7 @@ x-flows:
                   '@ondc/org/settlement_basis': invoicing
                   '@ondc/org/settlement_window': P15D
                   '@ondc/org/settlement_details':
-                    - settlement_counterparty: buyer-app
+                    - settlement_counterparty: lbnp
                       settlement_type: upi
                       upi_address: gft@oksbi
                       settlement_bank_account_no: XXXXXXXXXX
@@ -7321,7 +7338,7 @@ x-flows:
                 participant LSP
                 LSP ->> LBNP: **/on_status** - Fulfillment state: "At-pickup"
                 LBNP -->> LSP: ACK
-        example: &ref_63
+        example: &ref_64
           summary: Order status (At-pickup)
           description: >-
             LSP updates the order status such as any changes to the fulfillment
@@ -7535,7 +7552,7 @@ x-flows:
                   time:
                     timestamp: '2024-11-21T10:00:00.000Z'
                   '@ondc/org/settlement_details':
-                    - settlement_counterparty: buyer-app
+                    - settlement_counterparty: lbnp
                       settlement_type: upi
                       upi_address: gft@oksbi
                       settlement_bank_account_no: XXXXXXXXXX
@@ -7731,7 +7748,7 @@ x-flows:
                 participant LSP
                 LBNP ->> LSP: /search (Order details, pickup & delivery slots, max distance, rate basis)
                 LSP -->> LBNP: ACK
-        example: &ref_37
+        example: &ref_38
           summary: Search (Quick Commerce)
           description: >-
             LBNP sends /search request by providing details such as no of orders
@@ -7898,7 +7915,7 @@ x-flows:
                 participant LSP
                 LSP ->> LBNP: /on_search (Fulfillment capacity, pricing details)
                 LBNP ->> LSP: ACK
-        example: &ref_50
+        example: &ref_51
           summary: Returns the catalog (Quick Commerce)
           description: >-
             LSP returns the catalog of its services. It also includes the
@@ -8662,7 +8679,7 @@ x-flows:
                   '@ondc/org/settlement_basis': invoicing
                   '@ondc/org/settlement_window': P15D
                   '@ondc/org/settlement_details':
-                    - settlement_counterparty: buyer-app
+                    - settlement_counterparty: lbnp
                       settlement_type: upi
                       beneficiary_name: xxxxx
                       upi_address: gft@oksbi
@@ -8686,7 +8703,7 @@ x-flows:
                 participant LSP
                 LBNP ->> LSP: /confirm (Confirmation of the order)
                 LSP -->> LBNP: ACK
-        example: &ref_44
+        example: &ref_45
           summary: Order confirmation (Quick Commerce)
           description: LBNP confirms the order
           value:
@@ -9086,7 +9103,7 @@ x-flows:
                   '@ondc/org/settlement_basis': invoicing
                   '@ondc/org/settlement_window': P15D
                   '@ondc/org/settlement_details':
-                    - settlement_counterparty: buyer-app
+                    - settlement_counterparty: lbnp
                       settlement_type: upi
                       upi_address: gft@oksbi
                       settlement_bank_account_no: XXXXXXXXXX
@@ -9152,7 +9169,7 @@ x-flows:
                 participant LSP
                 LSP ->> LBNP: /on_confirm (Order acceptance)
                 LBNP ->> LSP: ACK
-        example: &ref_57
+        example: &ref_58
           summary: Order Acceptance (Quick commerce)
           description: LSP provides acceptance to the order
           value:
@@ -9574,7 +9591,7 @@ x-flows:
                   '@ondc/org/settlement_basis': invoicing
                   '@ondc/org/settlement_window': P15D
                   '@ondc/org/settlement_details':
-                    - settlement_counterparty: buyer-app
+                    - settlement_counterparty: lbnp
                       settlement_type: upi
                       upi_address: gft@oksbi
                       settlement_bank_account_no: XXXXXXXXXX
@@ -9638,7 +9655,7 @@ x-flows:
                 participant LSP
                 LSP ->> LBNP: /on_status (Updated order status and rider information)
                 LBNP ->> LSP: ACK
-        example: &ref_61
+        example: &ref_62
           summary: Order status (Quick Commerce)
           description: >-
             LSP updates the order status such as any changes to the fulfillment
@@ -10111,7 +10128,7 @@ x-flows:
                   '@ondc/org/settlement_basis': invoicing
                   '@ondc/org/settlement_window': P15D
                   '@ondc/org/settlement_details':
-                    - settlement_counterparty: buyer-app
+                    - settlement_counterparty: lbnp
                       settlement_type: upi
                       upi_address: gft@oksbi
                       settlement_bank_account_no: XXXXXXXXXX
@@ -10176,7 +10193,7 @@ x-flows:
                 participant LSP
                 LBNP ->> LSP: /update (Updated order details)
                 LSP ->> LBNP: ACK
-        example: &ref_46
+        example: &ref_47
           summary: Order updates (Quick Commerce)
           description: >-
             Logistics Buyer app updates the order, assigns agent to the
@@ -10524,7 +10541,7 @@ x-flows:
                 participant LSP
                 LSP ->> LBNP: /on_update (Updated fulfillment details)
                 LBNP ->> LSP: ACK
-        example: &ref_65
+        example: &ref_66
           summary: Order updates (Quick Commerce)
           description: >-
             LSP acknowledges order updates such as agent assignment by LBNP,
@@ -10967,7 +10984,7 @@ x-flows:
                   '@ondc/org/settlement_basis': invoicing
                   '@ondc/org/settlement_window': P15D
                   '@ondc/org/settlement_details':
-                    - settlement_counterparty: buyer-app
+                    - settlement_counterparty: lbnp
                       settlement_type: upi
                       upi_address: gft@oksbi
                       settlement_bank_account_no: XXXXXXXXXX
@@ -11094,7 +11111,7 @@ x-flows:
                 participant LSP
                 LBNP ->> LSP: /search (Declare COD order, collection amount)
                 LSP -->> LBNP: ACK
-        example: &ref_36
+        example: &ref_37
           summary: Search (For Retail COD order)
           description: Logistics Buyer app sends a search request for retail COD order
           value:
@@ -11221,7 +11238,7 @@ x-flows:
                 participant LSP
                 LSP ->> LBNP: /on_search (COD capability, service charge details)
                 LBNP -->> LSP: ACK
-        example: &ref_49
+        example: &ref_50
           summary: Returns the catalog (Cash on delivery)
           description: >-
             LSP returns the catalog of its services in response to the search
@@ -11630,7 +11647,7 @@ x-flows:
                 participant LSP
                 LBNP ->> LSP: /confirm (COD settlement details)
                 LSP -->> LBNP: ACK
-        example: &ref_43
+        example: &ref_44
           summary: Order confirmation (Cash on delivery)
           description: LBNP confirms the order
           value:
@@ -11904,7 +11921,7 @@ x-flows:
                 participant LSP
                 LSP ->> LBNP: /on_confirm
                 LBNP -->> LSP: ACK
-        example: &ref_56
+        example: &ref_57
           summary: Order Acceptance (Cash on delivery)
           description: LSP provides acceptance to the order
           value:
@@ -12152,7 +12169,7 @@ x-flows:
                   '@ondc/org/settlement_basis': invoicing
                   '@ondc/org/settlement_window': P15D
                   '@ondc/org/settlement_details':
-                    - settlement_counterparty: buyer-app
+                    - settlement_counterparty: lbnp
                       settlement_type: upi
                       upi_address: gft@oksbi
                       settlement_bank_account_no: XXXXXXXXXX
@@ -12222,7 +12239,7 @@ x-flows:
                 participant LSP
                 LSP ->> LBNP: /on_status (COD deposit transaction details)
                 LBNP -->> LSP: ACK
-        example: &ref_60
+        example: &ref_61
           summary: Order status (Cash on delivery)
           description: >-
             LSP updates the order status such as any changes to the fulfillment
@@ -12652,7 +12669,7 @@ x-flows:
                 participant LSP
                 LSP ->> LBNP: **/on_status** - Update order status (Out-for-delivery, etc.)
                 LBNP ->> LSP: ACK
-        example: *ref_34
+        example: *ref_35
       - summary: <b>LSP marks the forward shipment as 'RTO' </b>
         api: on_cancel
         details:
@@ -12674,7 +12691,7 @@ x-flows:
                 participant LSP
                 LSP ->> LBNP: **/on_cancel** - Update forward shipment to 'RTO' and create RTO fulfillment
                 LBNP ->> LSP: ACK
-        example: &ref_66
+        example: &ref_67
           summary: RTO Initiation
           description: >-
             LSP updates the forward shipment to RTO and creates a new RTO
@@ -12951,7 +12968,7 @@ x-flows:
                   '@ondc/org/settlement_basis': invoicing
                   '@ondc/org/settlement_window': P15D
                   '@ondc/org/settlement_details':
-                    - settlement_counterparty: buyer-app
+                    - settlement_counterparty: lbnp
                       settlement_type: upi
                       upi_address: gft@oksbi
                       settlement_bank_account_no: XXXXXXXXXX
@@ -13009,7 +13026,7 @@ x-flows:
                 participant LSP
                 LSP ->> LBNP: **/on_status** - Update RTO fulfillment to its terminal state
                 LBNP ->> LSP: ACK
-        example: &ref_62
+        example: &ref_63
           summary: Order status (RTO)
           description: >-
             LSP updates the order status such as any changes to the fulfillment
@@ -13289,7 +13306,7 @@ x-flows:
                   time:
                     timestamp: '2024-11-21T10:00:00.000Z'
                   '@ondc/org/settlement_details':
-                    - settlement_counterparty: buyer-app
+                    - settlement_counterparty: lbnp
                       settlement_type: upi
                       upi_address: gft@oksbi
                       settlement_bank_account_no: XXXXXXXXXX
@@ -13423,15 +13440,13 @@ x-flows:
 
             LBNP --> LSP: **/search**   
             LSP --> LBNP: **/on_search**   
-            LBNP ->> LSP: **/select** - Sends the payment type as ON-ORDER, which is collected by the BPP.
-            LSP ->> LBNP: **/on_select** - LSP provides payment tags, including the available wallet balance of the LBNP.
-            LBNP --> LSP: **/init**   
-            LSP --> LBNP: **/on_init**  
+            LBNP ->> LSP: **/init** - Sends the payment type as ON-ORDER, which is collected by the BPP.
+            LSP ->> LBNP: **/on_init** - LSP provides payment tags, including the available wallet balance of the LBNP. 
             LBNP --> LSP: **/confirm**   
             LSP ->> LBNP: **/on_confirm** - Automatically deducts the amount from the LBNP wallet and sends both the deducted amount and the updated wallet balance.
     steps:
       - summary: <b>LSP initiates payment collection via prepaid wallet</b>
-        api: select
+        api: init
         details:
           - description: >
               <b>LBNP</b> specifies that the payment will be collected through a
@@ -13444,9 +13459,9 @@ x-flows:
                 title Prepaid Payment Selection
                 participant LBNP
                 participant LSP
-                LBNP ->> LSP: **/select** - Payment type: Prepaid, Collected by - LSP
+                LBNP ->> LSP: **/init** - Payment type: Prepaid, Collected by - LSP
                 LSP ->> LBNP: ACK
-        example: &ref_38
+        example: &ref_42
           summary: LBNP proposes prepaid payment collection by LSP
           description: LBNP proposes prepaid payment collection by LSP
           value:
@@ -13454,7 +13469,7 @@ x-flows:
               domain: nic2004:60232
               country: IND
               city: std:080
-              action: select
+              action: init
               core_version: 1.2.5
               bap_id: lbnp.com
               bap_uri: https://lbnp.com/ondc
@@ -13539,7 +13554,7 @@ x-flows:
                       - code: accept_bpp_terms
                         value: 'yes'
       - summary: <b>LSP provides wallet balance information</b>
-        api: on_select
+        api: on_init
         details:
           - description: >
               <b>LSP</b> sends the <b>LBNP</b>'s current wallet balance in the
@@ -13552,9 +13567,9 @@ x-flows:
                 title Wallet Balance Information
                 participant LBNP
                 participant LSP
-                LSP ->> LBNP: **/on_select** - Provide wallet balance inside payment.tags
+                LSP ->> LBNP: **/on_init** - Provide wallet balance inside payment.tags
                 LBNP ->> LSP: ACK
-        example: &ref_51
+        example: &ref_55
           summary: LSP responds with payment collection details
           description: LSP responds with payment collection details
           value:
@@ -13562,7 +13577,7 @@ x-flows:
               domain: nic2004:60232
               country: IND
               city: std:080
-              action: on_select
+              action: on_init
               core_version: 1.2.5
               bap_id: lbnp.com
               bap_uri: https://lbnp.com/ondc
@@ -13671,7 +13686,7 @@ x-flows:
                 participant LSP
                 LSP ->> LBNP: **/on_confirm** - Deduct amount from wallet and send updated balance
                 LBNP ->> LSP: ACK
-        example: &ref_58
+        example: &ref_59
           summary: Order Confirmation (Auto-debit of wallet balance)
           description: >-
             LSP provides acceptance to the order and auto-debit of wallet
@@ -13976,26 +13991,24 @@ x-examples:
     example_set:
       search:
         examples:
-          - *ref_35
           - *ref_36
           - *ref_37
-      select:
-        examples:
           - *ref_38
       init:
         examples:
           - *ref_39
           - *ref_40
           - *ref_41
+          - *ref_42
       confirm:
         examples:
-          - *ref_42
           - *ref_43
           - *ref_44
+          - *ref_45
       update:
         examples:
-          - *ref_45
           - *ref_46
+          - *ref_47
       status:
         examples:
           - summary: Order Status
@@ -14019,7 +14032,7 @@ x-examples:
                 order_id: O2
       track:
         examples:
-          - *ref_47
+          - *ref_48
       cancel:
         examples:
           - summary: Order cancellation
@@ -14044,35 +14057,33 @@ x-examples:
                 cancellation_reason_id: '126'
       on_search:
         examples:
-          - *ref_48
           - *ref_49
           - *ref_50
-      on_select:
-        examples:
           - *ref_51
       on_init:
         examples:
           - *ref_52
           - *ref_53
           - *ref_54
+          - *ref_55
       on_confirm:
         examples:
-          - *ref_55
           - *ref_56
           - *ref_57
           - *ref_58
+          - *ref_59
       on_status:
         examples:
-          - *ref_59
           - *ref_60
           - *ref_61
           - *ref_62
-          - *ref_34
           - *ref_63
+          - *ref_35
+          - *ref_64
       on_update:
         examples:
-          - *ref_64
           - *ref_65
+          - *ref_66
       on_cancel:
         examples:
           - summary: Order cancellation
@@ -14299,7 +14310,7 @@ x-examples:
                     '@ondc/org/settlement_basis': invoicing
                     '@ondc/org/settlement_window': P15D
                     '@ondc/org/settlement_details':
-                      - settlement_counterparty: buyer-app
+                      - settlement_counterparty: lbnp
                         settlement_type: upi
                         upi_address: gft@oksbi
                         settlement_bank_account_no: XXXXXXXXXX
@@ -14343,10 +14354,10 @@ x-examples:
                           unit: centimeter
                           value: 1
                   updated_at: '2024-11-20T22:00:30.000Z'
-          - *ref_66
+          - *ref_67
       on_track:
         examples:
-          - *ref_67
+          - *ref_68
 x-attributes:
   logistics:
     attribute_set:
