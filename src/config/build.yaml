@@ -25297,6 +25297,7 @@ x-validations:
           - linked_order_item
           - shipping_label
           - rto_event
+          - ebn
         tagPath: $.message.order.fulfillments[*].tags[*].code
         _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
@@ -25364,6 +25365,13 @@ x-validations:
           - cancellation_reason_id
           - sub_reason_id
           - cancelled_by
+        _RETURN_: subTags all in validValues
+      - _NAME_: validate_tag_2_ebn
+        _SCOPE_: $.message.order.fulfillments[*].tags[?(@.code=='ebn')]
+        subTags: $.list[*].code
+        validValues:
+          - id
+          - expiry_date
         _RETURN_: subTags all in validValues
     on_update:
       - _NAME_: REQUIRED_CONTEXT_DOMAIN_1
@@ -26436,6 +26444,7 @@ x-validations:
           - cod_settlement_detail
           - rto_event
           - reverseqc_output
+          - ebn   
         tagPath: $.message.order.fulfillments[*].tags[*].code
         _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
@@ -26559,6 +26568,13 @@ x-validations:
           - P001
           - P003
           - Q001
+        _RETURN_: subTags all in validValues
+      - _NAME_: validate_tag_2_ebn
+        _SCOPE_: $.message.order.fulfillments[*].tags[?(@.code=='ebn')]
+        subTags: $.list[*].code
+        validValues:
+          - id
+          - expiry_date
         _RETURN_: subTags all in validValues
       - _NAME_: validate_tag_3
         validTags:
