@@ -25158,10 +25158,6 @@ x-validations:
           - lat_lng
           - sequence
         _RETURN_: subTags all in validValues
-      - _NAME_: tags_are_present
-        _DESCRIPTION_: Tags should be present in message/tracking
-        tags: $.message.tracking.tags
-        _RETURN_: tags are present
     on_cancel:
       - _NAME_: REQUIRED_CONTEXT_DOMAIN_1
         attr: $.context.domain
