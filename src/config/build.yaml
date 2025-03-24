@@ -26366,7 +26366,7 @@ x-validations:
         p2h2p:
           - P2H2P
         shippingLabel: $.message.order.fulfillments[*].start.instructions.images
-        tags: $.message.order.fulfillments[*].tags[?(@.code=='shipping_label')]
+        tags: $.message.order.fulfillments[*].tags[?(@.code=='shipping_label')].code
         _CONTINUE_: '!(orderType all in p2h2p)'
         _RETURN_: shippingLabel are present && tags are present
     on_status:
