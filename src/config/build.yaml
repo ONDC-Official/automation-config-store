@@ -25697,7 +25697,7 @@ x-validations:
           rto_event tag should be present in fulfillment with type 'Delivery' if
           that fulfillment is marked 'RTO'
         rtoEventTag: >-
-          $.message.order.fulfillments[?(@.type=='Delivery')].tags[?(@.code=='rto_event')]
+          $.message.order.fulfillments[?(@.type=='Delivery')].tags[?(@.code=='rto_event')].code
         fulfillmentState: >-
           $.message.order.fulfillments[?(@.type=='Delivery')].state.descriptor.code
         state:
