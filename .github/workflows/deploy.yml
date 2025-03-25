@@ -71,6 +71,7 @@ jobs:
           echo "MOCK_SERVER_URL=${{ vars.MOCK_SERVER_URL }}" >> \$REPO_DIR/.env
           echo "DATA_BASE_URL=${{ vars.DATA_BASE_URL }}" >> \$REPO_DIR/.env
           echo "API_SERVICE_URL=${{ vars.API_SERVICE_URL }}" >> \$REPO_DIR/.env
+          echo "CONFIG_SERVICE_URL=${{ vars.CONFIG_SERVICE_URL }}" >> \$REPO_DIR/.env
           echo "CONTAINER_NAME=${{ vars.CONTAINER_NAME }}" >> \$REPO_DIR/.env
           
           EOF
