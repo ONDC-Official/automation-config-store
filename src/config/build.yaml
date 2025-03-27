@@ -22057,42 +22057,42 @@ x-featureui:
 x-validations:
   _TESTS_:
     search:
-      - _NAME_: REQUIRED_CONTEXT_DOMAIN_1
+      - _NAME_: REQUIRED_CONTEXT_DOMAIN
         attr: $.context.domain
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - nic2004:60232
-      - _NAME_: REQUIRED_CONTEXT_COUNTRY_2
+      - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_CITY_3
+      - _NAME_: REQUIRED_CONTEXT_CITY
         attr: $.context.city
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_ACTION_4
+      - _NAME_: REQUIRED_CONTEXT_ACTION
         attr: $.context.action
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_CORE_VERSION_5
+      - _NAME_: REQUIRED_CONTEXT_CORE_VERSION
         attr: $.context.core_version
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BAP_ID_6
+      - _NAME_: REQUIRED_CONTEXT_BAP_ID
         attr: $.context.bap_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BAP_URI_7
+      - _NAME_: REQUIRED_CONTEXT_BAP_URI
         attr: $.context.bap_uri
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID_8
+      - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID
         attr: $.context.transaction_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID_9
+      - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID
         attr: $.context.message_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TIMESTAMP_10
+      - _NAME_: REQUIRED_CONTEXT_TIMESTAMP
         attr: $.context.timestamp
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TTL_11
+      - _NAME_: REQUIRED_CONTEXT_TTL
         attr: $.context.ttl
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_ID_12
+      - _NAME_: REQUIRED_MESSAGE_ID
         attr: $.message.intent.category.id
         _RETURN_: attr are present && attr all in enumList
         enumList:
@@ -22102,32 +22102,32 @@ x-validations:
           - Next Day Delivery
           - Same Day Delivery
           - Instant Delivery
-      - _NAME_: REQUIRED_MESSAGE_DAYS_13
+      - _NAME_: REQUIRED_MESSAGE_DAYS
         attr: $.message.intent.provider.time.days
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_HOLIDAYS_14
+      - _NAME_: REQUIRED_MESSAGE_HOLIDAYS
         attr: $.message.intent.provider.time.schedule.holidays[*]
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_DURATION_15
+      - _NAME_: REQUIRED_MESSAGE_DURATION
         attr: $.message.intent.provider.time.duration
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_START_16
+      - _NAME_: REQUIRED_MESSAGE_START
         attr: $.message.intent.provider.time.range.start
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_END_17
+      - _NAME_: REQUIRED_MESSAGE_END
         attr: $.message.intent.provider.time.range.end
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_TYPE_18
+      - _NAME_: REQUIRED_MESSAGE_TYPE
         attr: $.message.intent.fulfillment.type
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - Delivery
           - Return
           - RTO
-      - _NAME_: REQUIRED_MESSAGE_GPS_19
+      - _NAME_: REQUIRED_MESSAGE_GPS
         attr: $.message.intent.fulfillment.start.location.gps
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_AREA_CODE_20
+      - _NAME_: REQUIRED_MESSAGE_AREA_CODE
         attr: $.message.intent.fulfillment.start.location.address.area_code
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_GPS_21
@@ -22143,49 +22143,49 @@ x-validations:
           - ON-ORDER
           - ON-FULFILLMENT
           - POST-FULFILLMENT
-      - _NAME_: REQUIRED_MESSAGE_UNIT_24
-        attr: $.message.intent['@ondc/org/payload_details'].weight.unit
+      - _NAME_: REQUIRED_MESSAGE_UNIT
+        attr: $.message.intent.@ondc/org/payload_details.weight.unit
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_VALUE_25
-        attr: $.message.intent['@ondc/org/payload_details'].weight.value
+      - _NAME_: REQUIRED_MESSAGE_VALUE
+        attr: $.message.intent.@ondc/org/payload_details.weight.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_UNIT_26
-        attr: $.message.intent['@ondc/org/payload_details'].dimensions.length.unit
+        attr: $.message.intent.@ondc/org/payload_details.dimensions.length.unit
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_27
-        attr: $.message.intent['@ondc/org/payload_details'].dimensions.length.value
+        attr: $.message.intent.@ondc/org/payload_details.dimensions.length.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_UNIT_28
-        attr: $.message.intent['@ondc/org/payload_details'].dimensions.breadth.unit
+        attr: $.message.intent.@ondc/org/payload_details.dimensions.breadth.unit
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_29
-        attr: $.message.intent['@ondc/org/payload_details'].dimensions.breadth.value
+        attr: $.message.intent.@ondc/org/payload_details.dimensions.breadth.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_UNIT_30
-        attr: $.message.intent['@ondc/org/payload_details'].dimensions.height.unit
+        attr: $.message.intent.@ondc/org/payload_details.dimensions.height.unit
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_31
-        attr: $.message.intent['@ondc/org/payload_details'].dimensions.height.value
+        attr: $.message.intent.@ondc/org/payload_details.dimensions.height.value
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CATEGORY_32
-        attr: $.message.intent['@ondc/org/payload_details'].category
+      - _NAME_: REQUIRED_MESSAGE_CATEGORY
+        attr: $.message.intent.@ondc/org/payload_details.category
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CURRENCY_33
-        attr: $.message.intent['@ondc/org/payload_details'].value.currency
+      - _NAME_: REQUIRED_MESSAGE_CURRENCY
+        attr: $.message.intent.@ondc/org/payload_details.value.currency
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_34
-        attr: $.message.intent['@ondc/org/payload_details'].value.value
+        attr: $.message.intent.@ondc/org/payload_details.value.value
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_DANGEROUS_GOODS_35
-        attr: $.message.intent['@ondc/org/payload_details'].dangerous_goods
+      - _NAME_: REQUIRED_MESSAGE_DANGEROUS_GOODS
+        attr: $.message.intent.@ondc/org/payload_details.dangerous_goods
         _RETURN_: attr are present
-      - _NAME_: VALID_ENUM_CONTEXT_DOMAIN_1
+      - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - nic2004:60232
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_TYPE_2
+      - _NAME_: VALID_ENUM_MESSAGE_TYPE
         enumList:
           - Delivery
           - Return
@@ -22199,7 +22199,7 @@ x-validations:
         enumPath: $.message.intent.fulfillment.start.authorization.type
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_CODE_4
+      - _NAME_: VALID_ENUM_MESSAGE_CODE
         enumList:
           - '2'
           - '3'
@@ -22231,7 +22231,7 @@ x-validations:
         enumPath: $.message.intent.payment.type
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_ID_8
+      - _NAME_: VALID_ENUM_MESSAGE_ID
         enumList:
           - Express Delivery
           - Standard Delivery
@@ -22353,57 +22353,57 @@ x-validations:
           - penalty_value
         _RETURN_: subTags all in validValues
     init:
-      - _NAME_: REQUIRED_CONTEXT_DOMAIN_1
+      - _NAME_: REQUIRED_CONTEXT_DOMAIN
         attr: $.context.domain
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - nic2004:60232
-      - _NAME_: REQUIRED_CONTEXT_COUNTRY_2
+      - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_CITY_3
+      - _NAME_: REQUIRED_CONTEXT_CITY
         attr: $.context.city
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_ACTION_4
+      - _NAME_: REQUIRED_CONTEXT_ACTION
         attr: $.context.action
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_CORE_VERSION_5
+      - _NAME_: REQUIRED_CONTEXT_CORE_VERSION
         attr: $.context.core_version
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BAP_ID_6
+      - _NAME_: REQUIRED_CONTEXT_BAP_ID
         attr: $.context.bap_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BAP_URI_7
+      - _NAME_: REQUIRED_CONTEXT_BAP_URI
         attr: $.context.bap_uri
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BPP_ID_8
+      - _NAME_: REQUIRED_CONTEXT_BPP_ID
         attr: $.context.bpp_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BPP_URI_9
+      - _NAME_: REQUIRED_CONTEXT_BPP_URI
         attr: $.context.bpp_uri
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID_10
+      - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID
         attr: $.context.transaction_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID_11
+      - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID
         attr: $.context.message_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TIMESTAMP_12
+      - _NAME_: REQUIRED_CONTEXT_TIMESTAMP
         attr: $.context.timestamp
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TTL_13
+      - _NAME_: REQUIRED_CONTEXT_TTL
         attr: $.context.ttl
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_ID_14
+      - _NAME_: REQUIRED_MESSAGE_ID
         attr: $.message.order.provider.id
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_ID_15
         attr: $.message.order.items[*].id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CATEGORY_ID_16
+      - _NAME_: REQUIRED_MESSAGE_CATEGORY_ID
         attr: $.message.order.items[*].category_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CODE_17
+      - _NAME_: REQUIRED_MESSAGE_CODE
         attr: $.message.order.items[*].descriptor.code
         _RETURN_: attr are present && attr all in enumList
         enumList:
@@ -22412,41 +22412,41 @@ x-validations:
       - _NAME_: REQUIRED_MESSAGE_ID_18
         attr: $.message.order.fulfillments[*].id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_TYPE_19
+      - _NAME_: REQUIRED_MESSAGE_TYPE
         attr: $.message.order.fulfillments[*].type
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - Delivery
           - Return
           - RTO
-      - _NAME_: REQUIRED_MESSAGE_GPS_20
+      - _NAME_: REQUIRED_MESSAGE_GPS
         attr: $.message.order.fulfillments[*].start.location.gps
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_NAME_21
+      - _NAME_: REQUIRED_MESSAGE_NAME
         attr: $.message.order.fulfillments[*].start.location.address.name
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_BUILDING_22
+      - _NAME_: REQUIRED_MESSAGE_BUILDING
         attr: $.message.order.fulfillments[*].start.location.address.building
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_LOCALITY_23
+      - _NAME_: REQUIRED_MESSAGE_LOCALITY
         attr: $.message.order.fulfillments[*].start.location.address.locality
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CITY_24
+      - _NAME_: REQUIRED_MESSAGE_CITY
         attr: $.message.order.fulfillments[*].start.location.address.city
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_STATE_25
+      - _NAME_: REQUIRED_MESSAGE_STATE
         attr: $.message.order.fulfillments[*].start.location.address.state
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_COUNTRY_26
+      - _NAME_: REQUIRED_MESSAGE_COUNTRY
         attr: $.message.order.fulfillments[*].start.location.address.country
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_AREA_CODE_27
+      - _NAME_: REQUIRED_MESSAGE_AREA_CODE
         attr: $.message.order.fulfillments[*].start.location.address.area_code
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_PHONE_28
+      - _NAME_: REQUIRED_MESSAGE_PHONE
         attr: $.message.order.fulfillments[*].start.contact.phone
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_EMAIL_29
+      - _NAME_: REQUIRED_MESSAGE_EMAIL
         attr: $.message.order.fulfillments[*].start.contact.email
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_GPS_30
@@ -22500,7 +22500,7 @@ x-validations:
       - _NAME_: REQUIRED_MESSAGE_AREA_CODE_46
         attr: $.message.order.billing.address.area_code
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_TAX_NUMBER_47
+      - _NAME_: REQUIRED_MESSAGE_TAX_NUMBER
         attr: $.message.order.billing.tax_number
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_PHONE_48
@@ -22509,13 +22509,13 @@ x-validations:
       - _NAME_: REQUIRED_MESSAGE_EMAIL_49
         attr: $.message.order.billing.email
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CREATED_AT_50
+      - _NAME_: REQUIRED_MESSAGE_CREATED_AT
         attr: $.message.order.billing.created_at
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_UPDATED_AT_51
+      - _NAME_: REQUIRED_MESSAGE_UPDATED_AT
         attr: $.message.order.billing.updated_at
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_COLLECTED_BY_52
+      - _NAME_: REQUIRED_MESSAGE_COLLECTED_BY
         attr: $.message.order.payment.collected_by
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_TYPE_53
@@ -22525,20 +22525,20 @@ x-validations:
           - ON-ORDER
           - ON-FULFILLMENT
           - POST-FULFILLMENT
-      - _NAME_: VALID_ENUM_CONTEXT_DOMAIN_1
+      - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - nic2004:60232
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_CODE_2
+      - _NAME_: VALID_ENUM_MESSAGE_CODE
         enumList:
           - P2P
           - P2H2P
         enumPath: $.message.order.items[*].descriptor.code
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_TYPE_3
+      - _NAME_: VALID_ENUM_MESSAGE_TYPE
         enumList:
           - Delivery
           - Return
@@ -22554,12 +22554,12 @@ x-validations:
         enumPath: $.message.order.payment.type
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_SETTLEMENT_COUNTERPARTY_5
+      - _NAME_: VALID_ENUM_MESSAGE_SETTLEMENT_COUNTERPARTY
         enumList:
           - lbnp
           - lsp
         enumPath: >-
-          $.message.order.payment['@ondc/org/settlement_details'][*].settlement_counterparty
+          $.message.order.payment.@ondc/org/settlement_details[*].settlement_counterparty
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
       - _NAME_: validate_tag_0
@@ -22687,57 +22687,57 @@ x-validations:
               item_fulfillment_id all in fulfillment_id && item_fulfillment_ids
               all in fulfillment_id
     confirm:
-      - _NAME_: REQUIRED_CONTEXT_DOMAIN_1
+      - _NAME_: REQUIRED_CONTEXT_DOMAIN
         attr: $.context.domain
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - nic2004:60232
-      - _NAME_: REQUIRED_CONTEXT_COUNTRY_2
+      - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_CITY_3
+      - _NAME_: REQUIRED_CONTEXT_CITY
         attr: $.context.city
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_ACTION_4
+      - _NAME_: REQUIRED_CONTEXT_ACTION
         attr: $.context.action
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_CORE_VERSION_5
+      - _NAME_: REQUIRED_CONTEXT_CORE_VERSION
         attr: $.context.core_version
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BAP_ID_6
+      - _NAME_: REQUIRED_CONTEXT_BAP_ID
         attr: $.context.bap_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BAP_URI_7
+      - _NAME_: REQUIRED_CONTEXT_BAP_URI
         attr: $.context.bap_uri
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BPP_ID_8
+      - _NAME_: REQUIRED_CONTEXT_BPP_ID
         attr: $.context.bpp_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BPP_URI_9
+      - _NAME_: REQUIRED_CONTEXT_BPP_URI
         attr: $.context.bpp_uri
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID_10
+      - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID
         attr: $.context.transaction_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID_11
+      - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID
         attr: $.context.message_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TIMESTAMP_12
+      - _NAME_: REQUIRED_CONTEXT_TIMESTAMP
         attr: $.context.timestamp
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TTL_13
+      - _NAME_: REQUIRED_CONTEXT_TTL
         attr: $.context.ttl
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_ID_14
+      - _NAME_: REQUIRED_MESSAGE_ID
         attr: $.message.order.id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_STATE_15
+      - _NAME_: REQUIRED_MESSAGE_STATE
         attr: $.message.order.state
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_ID_16
         attr: $.message.order.provider.id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CATEGORY_ID_17
+      - _NAME_: REQUIRED_MESSAGE_CATEGORY_ID
         attr: $.message.order.items[*].category_id
         _RETURN_: attr are present && attr all in enumList
         enumList:
@@ -22747,32 +22747,32 @@ x-validations:
           - Next Day Delivery
           - Same Day Delivery
           - Instant Delivery
-      - _NAME_: REQUIRED_MESSAGE_CODE_18
+      - _NAME_: REQUIRED_MESSAGE_CODE
         attr: $.message.order.items[*].descriptor.code
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - P2P
           - P2H2P
-      - _NAME_: REQUIRED_MESSAGE_LABEL_19
+      - _NAME_: REQUIRED_MESSAGE_LABEL
         attr: $.message.order.items[*].time.label
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_DURATION_20
+      - _NAME_: REQUIRED_MESSAGE_DURATION
         attr: $.message.order.items[*].time.duration
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_TIMESTAMP_21
+      - _NAME_: REQUIRED_MESSAGE_TIMESTAMP
         attr: $.message.order.items[*].time.timestamp
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CURRENCY_22
+      - _NAME_: REQUIRED_MESSAGE_CURRENCY
         attr: $.message.order.quote.price.currency
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_VALUE_23
+      - _NAME_: REQUIRED_MESSAGE_VALUE
         attr: $.message.order.quote.price.value
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_BREAKUPONDCORGITEM_ID_24
-        attr: $.message.order.quote.breakup[*]['@ondc/org/item_id']
+      - _NAME_: REQUIRED_MESSAGE_ONDCORGITEM_ID
+        attr: $.message.order.quote.breakup[*].@ondc/org/item_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_BREAKUPONDCORGTITLE_TYPE_25
-        attr: $.message.order.quote.breakup[*]['@ondc/org/title_type']
+      - _NAME_: REQUIRED_MESSAGE_ONDCORGTITLE_TYPE
+        attr: $.message.order.quote.breakup[*].@ondc/org/title_type
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - delivery
@@ -22791,7 +22791,7 @@ x-validations:
       - _NAME_: REQUIRED_MESSAGE_ID_28
         attr: $.message.order.fulfillments[*].id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_TYPE_29
+      - _NAME_: REQUIRED_MESSAGE_TYPE
         attr: $.message.order.fulfillments[*].type
         _RETURN_: attr are present && attr all in enumList
         enumList:
@@ -22801,40 +22801,40 @@ x-validations:
       - _NAME_: REQUIRED_MESSAGE_DURATION_30
         attr: $.message.order.fulfillments[*].start.time.duration
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_NAME_31
+      - _NAME_: REQUIRED_MESSAGE_NAME
         attr: $.message.order.fulfillments[*].start.person.name
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_ID_32
         attr: $.message.order.fulfillments[*].start.location.id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_GPS_33
+      - _NAME_: REQUIRED_MESSAGE_GPS
         attr: $.message.order.fulfillments[*].start.location.gps
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_NAME_34
         attr: $.message.order.fulfillments[*].start.location.address.name
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_BUILDING_35
+      - _NAME_: REQUIRED_MESSAGE_BUILDING
         attr: $.message.order.fulfillments[*].start.location.address.building
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_LOCALITY_36
+      - _NAME_: REQUIRED_MESSAGE_LOCALITY
         attr: $.message.order.fulfillments[*].start.location.address.locality
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CITY_37
+      - _NAME_: REQUIRED_MESSAGE_CITY
         attr: $.message.order.fulfillments[*].start.location.address.city
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_STATE_38
         attr: $.message.order.fulfillments[*].start.location.address.state
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_COUNTRY_39
+      - _NAME_: REQUIRED_MESSAGE_COUNTRY
         attr: $.message.order.fulfillments[*].start.location.address.country
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_AREA_CODE_40
+      - _NAME_: REQUIRED_MESSAGE_AREA_CODE
         attr: $.message.order.fulfillments[*].start.location.address.area_code
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_PHONE_41
+      - _NAME_: REQUIRED_MESSAGE_PHONE
         attr: $.message.order.fulfillments[*].start.contact.phone
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_EMAIL_42
+      - _NAME_: REQUIRED_MESSAGE_EMAIL
         attr: $.message.order.fulfillments[*].start.contact.email
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_CODE_43
@@ -22845,14 +22845,14 @@ x-validations:
           - '3'
           - '4'
           - '5'
-      - _NAME_: REQUIRED_MESSAGE_SHORT_DESC_44
+      - _NAME_: REQUIRED_MESSAGE_SHORT_DESC
         attr: $.message.order.fulfillments[*].start.instructions.short_desc
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CONTENT_TYPE_45
+      - _NAME_: REQUIRED_MESSAGE_CONTENT_TYPE
         attr: >-
           $.message.order.fulfillments[*].start.instructions.additional_desc.content_type
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_URL_46
+      - _NAME_: REQUIRED_MESSAGE_URL
         attr: $.message.order.fulfillments[*].start.instructions.additional_desc.url
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_NAME_47
@@ -22912,7 +22912,7 @@ x-validations:
       - _NAME_: REQUIRED_MESSAGE_AREA_CODE_65
         attr: $.message.order.billing.address.area_code
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_TAX_NUMBER_66
+      - _NAME_: REQUIRED_MESSAGE_TAX_NUMBER
         attr: $.message.order.billing.tax_number
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_PHONE_67
@@ -22921,13 +22921,13 @@ x-validations:
       - _NAME_: REQUIRED_MESSAGE_EMAIL_68
         attr: $.message.order.billing.email
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CREATED_AT_69
+      - _NAME_: REQUIRED_MESSAGE_CREATED_AT
         attr: $.message.order.billing.created_at
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_UPDATED_AT_70
+      - _NAME_: REQUIRED_MESSAGE_UPDATED_AT
         attr: $.message.order.billing.updated_at
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_COLLECTED_BY_71
+      - _NAME_: REQUIRED_MESSAGE_COLLECTED_BY
         attr: $.message.order.payment.collected_by
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_TYPE_72
@@ -22938,71 +22938,70 @@ x-validations:
           - ON-FULFILLMENT
           - POST-FULFILLMENT
       - _NAME_: REQUIRED_MESSAGE_NAME_73
-        attr: $.message.order['@ondc/org/linked_order'].items[*].descriptor.name
+        attr: $.message.order.@ondc/org/linked_order.items[*].descriptor.name
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_COUNT_74
-        attr: $.message.order['@ondc/org/linked_order'].items[*].quantity.count
+      - _NAME_: REQUIRED_MESSAGE_COUNT
+        attr: $.message.order.@ondc/org/linked_order.items[*].quantity.count
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_UNIT_75
-        attr: $.message.order['@ondc/org/linked_order'].items[*].quantity.measure.unit
+      - _NAME_: REQUIRED_MESSAGE_UNIT
+        attr: $.message.order.@ondc/org/linked_order.items[*].quantity.measure.unit
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_76
-        attr: >-
-          $.message.order['@ondc/org/linked_order'].items[*].quantity.measure.value
+        attr: $.message.order.@ondc/org/linked_order.items[*].quantity.measure.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_CURRENCY_77
-        attr: $.message.order['@ondc/org/linked_order'].items[*].price.currency
+        attr: $.message.order.@ondc/org/linked_order.items[*].price.currency
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_78
-        attr: $.message.order['@ondc/org/linked_order'].items[*].price.value
+        attr: $.message.order.@ondc/org/linked_order.items[*].price.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_NAME_79
-        attr: $.message.order['@ondc/org/linked_order'].provider.descriptor.name
+        attr: $.message.order.@ondc/org/linked_order.provider.descriptor.name
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_NAME_80
-        attr: $.message.order['@ondc/org/linked_order'].provider.address.name
+        attr: $.message.order.@ondc/org/linked_order.provider.address.name
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_BUILDING_81
-        attr: $.message.order['@ondc/org/linked_order'].provider.address.building
+        attr: $.message.order.@ondc/org/linked_order.provider.address.building
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_LOCALITY_82
-        attr: $.message.order['@ondc/org/linked_order'].provider.address.locality
+        attr: $.message.order.@ondc/org/linked_order.provider.address.locality
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_CITY_83
-        attr: $.message.order['@ondc/org/linked_order'].provider.address.city
+        attr: $.message.order.@ondc/org/linked_order.provider.address.city
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_STATE_84
-        attr: $.message.order['@ondc/org/linked_order'].provider.address.state
+        attr: $.message.order.@ondc/org/linked_order.provider.address.state
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_AREA_CODE_85
-        attr: $.message.order['@ondc/org/linked_order'].provider.address.area_code
+        attr: $.message.order.@ondc/org/linked_order.provider.address.area_code
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_ID_86
-        attr: $.message.order['@ondc/org/linked_order'].order.id
+        attr: $.message.order.@ondc/org/linked_order.order.id
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_UNIT_87
-        attr: $.message.order['@ondc/org/linked_order'].order.weight.unit
+        attr: $.message.order.@ondc/org/linked_order.order.weight.unit
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_88
-        attr: $.message.order['@ondc/org/linked_order'].order.weight.value
+        attr: $.message.order.@ondc/org/linked_order.order.weight.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_UNIT_89
-        attr: $.message.order['@ondc/org/linked_order'].order.dimensions.length.unit
+        attr: $.message.order.@ondc/org/linked_order.order.dimensions.length.unit
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_90
-        attr: $.message.order['@ondc/org/linked_order'].order.dimensions.length.value
+        attr: $.message.order.@ondc/org/linked_order.order.dimensions.length.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_UNIT_91
-        attr: $.message.order['@ondc/org/linked_order'].order.dimensions.breadth.unit
+        attr: $.message.order.@ondc/org/linked_order.order.dimensions.breadth.unit
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_92
-        attr: $.message.order['@ondc/org/linked_order'].order.dimensions.breadth.value
+        attr: $.message.order.@ondc/org/linked_order.order.dimensions.breadth.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_UNIT_93
-        attr: $.message.order['@ondc/org/linked_order'].order.dimensions.height.unit
+        attr: $.message.order.@ondc/org/linked_order.order.dimensions.height.unit
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_94
-        attr: $.message.order['@ondc/org/linked_order'].order.dimensions.height.value
+        attr: $.message.order.@ondc/org/linked_order.order.dimensions.height.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_CREATED_AT_95
         attr: $.message.order.created_at
@@ -23010,20 +23009,20 @@ x-validations:
       - _NAME_: REQUIRED_MESSAGE_UPDATED_AT_96
         attr: $.message.order.updated_at
         _RETURN_: attr are present
-      - _NAME_: VALID_ENUM_CONTEXT_DOMAIN_1
+      - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - nic2004:60232
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_CODE_2
+      - _NAME_: VALID_ENUM_MESSAGE_CODE
         enumList:
           - P2P
           - P2H2P
         enumPath: $.message.order.items[*].descriptor.code
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_CATEGORY_ID_3
+      - _NAME_: VALID_ENUM_MESSAGE_CATEGORY_ID
         enumList:
           - Express Delivery
           - Standard Delivery
@@ -23034,7 +23033,7 @@ x-validations:
         enumPath: $.message.order.items[*].category_id
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_BREAKUPONDCORGTITLE_TYPE_4
+      - _NAME_: VALID_ENUM_MESSAGE_ONDCORGTITLE_TYPE
         enumList:
           - delivery
           - rto
@@ -23043,10 +23042,10 @@ x-validations:
           - tax_diff
           - discount
           - cod
-        enumPath: $.message.order.quote.breakup[*]['@ondc/org/title_type']
+        enumPath: $.message.order.quote.breakup[*].@ondc/org/title_type
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_TYPE_5
+      - _NAME_: VALID_ENUM_MESSAGE_TYPE
         enumList:
           - Delivery
           - Return
@@ -23117,12 +23116,12 @@ x-validations:
         enumPath: $.message.order.payment.type
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_SETTLEMENT_COUNTERPARTY_12
+      - _NAME_: VALID_ENUM_MESSAGE_SETTLEMENT_COUNTERPARTY
         enumList:
           - lbnp
           - lsp
         enumPath: >-
-          $.message.order.payment['@ondc/org/settlement_details'][*].settlement_counterparty
+          $.message.order.payment.@ondc/org/settlement_details[*].settlement_counterparty
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
       - _NAME_: validate_tag_0
@@ -23363,156 +23362,156 @@ x-validations:
           - 'yes'
         _RETURN_: tags all in acceptance
     status:
-      - _NAME_: REQUIRED_CONTEXT_DOMAIN_1
+      - _NAME_: REQUIRED_CONTEXT_DOMAIN
         attr: $.context.domain
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - nic2004:60232
-      - _NAME_: REQUIRED_CONTEXT_COUNTRY_2
+      - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_CITY_3
+      - _NAME_: REQUIRED_CONTEXT_CITY
         attr: $.context.city
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_ACTION_4
+      - _NAME_: REQUIRED_CONTEXT_ACTION
         attr: $.context.action
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_CORE_VERSION_5
+      - _NAME_: REQUIRED_CONTEXT_CORE_VERSION
         attr: $.context.core_version
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BAP_ID_6
+      - _NAME_: REQUIRED_CONTEXT_BAP_ID
         attr: $.context.bap_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BAP_URI_7
+      - _NAME_: REQUIRED_CONTEXT_BAP_URI
         attr: $.context.bap_uri
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BPP_ID_8
+      - _NAME_: REQUIRED_CONTEXT_BPP_ID
         attr: $.context.bpp_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BPP_URI_9
+      - _NAME_: REQUIRED_CONTEXT_BPP_URI
         attr: $.context.bpp_uri
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID_10
+      - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID
         attr: $.context.transaction_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID_11
+      - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID
         attr: $.context.message_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TIMESTAMP_12
+      - _NAME_: REQUIRED_CONTEXT_TIMESTAMP
         attr: $.context.timestamp
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TTL_13
+      - _NAME_: REQUIRED_CONTEXT_TTL
         attr: $.context.ttl
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_ORDER_ID_14
+      - _NAME_: REQUIRED_MESSAGE_ORDER_ID
         attr: $.message.order_id
         _RETURN_: attr are present
-      - _NAME_: VALID_ENUM_CONTEXT_DOMAIN_1
+      - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - nic2004:60232
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
     track:
-      - _NAME_: REQUIRED_CONTEXT_DOMAIN_1
+      - _NAME_: REQUIRED_CONTEXT_DOMAIN
         attr: $.context.domain
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - nic2004:60232
-      - _NAME_: REQUIRED_CONTEXT_COUNTRY_2
+      - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_CITY_3
+      - _NAME_: REQUIRED_CONTEXT_CITY
         attr: $.context.city
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_ACTION_4
+      - _NAME_: REQUIRED_CONTEXT_ACTION
         attr: $.context.action
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_CORE_VERSION_5
+      - _NAME_: REQUIRED_CONTEXT_CORE_VERSION
         attr: $.context.core_version
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BAP_ID_6
+      - _NAME_: REQUIRED_CONTEXT_BAP_ID
         attr: $.context.bap_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BAP_URI_7
+      - _NAME_: REQUIRED_CONTEXT_BAP_URI
         attr: $.context.bap_uri
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BPP_ID_8
+      - _NAME_: REQUIRED_CONTEXT_BPP_ID
         attr: $.context.bpp_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BPP_URI_9
+      - _NAME_: REQUIRED_CONTEXT_BPP_URI
         attr: $.context.bpp_uri
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID_10
+      - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID
         attr: $.context.transaction_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID_11
+      - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID
         attr: $.context.message_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TIMESTAMP_12
+      - _NAME_: REQUIRED_CONTEXT_TIMESTAMP
         attr: $.context.timestamp
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TTL_13
+      - _NAME_: REQUIRED_CONTEXT_TTL
         attr: $.context.ttl
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_ORDER_ID_14
+      - _NAME_: REQUIRED_MESSAGE_ORDER_ID
         attr: $.message.order_id
         _RETURN_: attr are present
-      - _NAME_: VALID_ENUM_CONTEXT_DOMAIN_1
+      - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - nic2004:60232
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
     cancel:
-      - _NAME_: REQUIRED_CONTEXT_DOMAIN_1
+      - _NAME_: REQUIRED_CONTEXT_DOMAIN
         attr: $.context.domain
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - nic2004:60232
-      - _NAME_: REQUIRED_CONTEXT_COUNTRY_2
+      - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_CITY_3
+      - _NAME_: REQUIRED_CONTEXT_CITY
         attr: $.context.city
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_ACTION_4
+      - _NAME_: REQUIRED_CONTEXT_ACTION
         attr: $.context.action
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_CORE_VERSION_5
+      - _NAME_: REQUIRED_CONTEXT_CORE_VERSION
         attr: $.context.core_version
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BAP_ID_6
+      - _NAME_: REQUIRED_CONTEXT_BAP_ID
         attr: $.context.bap_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BAP_URI_7
+      - _NAME_: REQUIRED_CONTEXT_BAP_URI
         attr: $.context.bap_uri
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BPP_ID_8
+      - _NAME_: REQUIRED_CONTEXT_BPP_ID
         attr: $.context.bpp_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BPP_URI_9
+      - _NAME_: REQUIRED_CONTEXT_BPP_URI
         attr: $.context.bpp_uri
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID_10
+      - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID
         attr: $.context.transaction_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID_11
+      - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID
         attr: $.context.message_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TIMESTAMP_12
+      - _NAME_: REQUIRED_CONTEXT_TIMESTAMP
         attr: $.context.timestamp
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TTL_13
+      - _NAME_: REQUIRED_CONTEXT_TTL
         attr: $.context.ttl
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_ORDER_ID_14
+      - _NAME_: REQUIRED_MESSAGE_ORDER_ID
         attr: $.message.order_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CANCELLATION_REASON_ID_15
+      - _NAME_: REQUIRED_MESSAGE_CANCELLATION_REASON_ID
         attr: $.message.cancellation_reason_id
         _RETURN_: attr are present
-      - _NAME_: VALID_ENUM_CONTEXT_DOMAIN_1
+      - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - nic2004:60232
         enumPath: $.context.domain
@@ -23537,57 +23536,57 @@ x-validations:
         cancellationId: $.message.cancellation_reason_id
         _RETURN_: cancellationId all in cancellationCodes
     update:
-      - _NAME_: REQUIRED_CONTEXT_DOMAIN_1
+      - _NAME_: REQUIRED_CONTEXT_DOMAIN
         attr: $.context.domain
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - nic2004:60232
-      - _NAME_: REQUIRED_CONTEXT_COUNTRY_2
+      - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_CITY_3
+      - _NAME_: REQUIRED_CONTEXT_CITY
         attr: $.context.city
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_ACTION_4
+      - _NAME_: REQUIRED_CONTEXT_ACTION
         attr: $.context.action
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_CORE_VERSION_5
+      - _NAME_: REQUIRED_CONTEXT_CORE_VERSION
         attr: $.context.core_version
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BAP_ID_6
+      - _NAME_: REQUIRED_CONTEXT_BAP_ID
         attr: $.context.bap_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BAP_URI_7
+      - _NAME_: REQUIRED_CONTEXT_BAP_URI
         attr: $.context.bap_uri
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BPP_ID_8
+      - _NAME_: REQUIRED_CONTEXT_BPP_ID
         attr: $.context.bpp_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BPP_URI_9
+      - _NAME_: REQUIRED_CONTEXT_BPP_URI
         attr: $.context.bpp_uri
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID_10
+      - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID
         attr: $.context.transaction_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID_11
+      - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID
         attr: $.context.message_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TIMESTAMP_12
+      - _NAME_: REQUIRED_CONTEXT_TIMESTAMP
         attr: $.context.timestamp
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TTL_13
+      - _NAME_: REQUIRED_CONTEXT_TTL
         attr: $.context.ttl
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_UPDATE_TARGET_14
+      - _NAME_: REQUIRED_MESSAGE_UPDATE_TARGET
         attr: $.message.update_target
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_ID_15
+      - _NAME_: REQUIRED_MESSAGE_ID
         attr: $.message.order.id
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_ID_16
         attr: $.message.order.items[*].id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CATEGORY_ID_17
+      - _NAME_: REQUIRED_MESSAGE_CATEGORY_ID
         attr: $.message.order.items[*].category_id
         _RETURN_: attr are present && attr all in enumList
         enumList:
@@ -23597,29 +23596,29 @@ x-validations:
           - Next Day Delivery
           - Same Day Delivery
           - Instant Delivery
-      - _NAME_: REQUIRED_MESSAGE_CODE_18
+      - _NAME_: REQUIRED_MESSAGE_CODE
         attr: $.message.order.items[*].descriptor.code
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - P2P
           - P2H2P
-      - _NAME_: REQUIRED_MESSAGE_TYPE_19
+      - _NAME_: REQUIRED_MESSAGE_TYPE
         attr: $.message.order.fulfillments[*].type
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - Delivery
           - Return
           - RTO
-      - _NAME_: REQUIRED_MESSAGE_UPDATED_AT_20
+      - _NAME_: REQUIRED_MESSAGE_UPDATED_AT
         attr: $.message.order.updated_at
         _RETURN_: attr are present
-      - _NAME_: VALID_ENUM_CONTEXT_DOMAIN_1
+      - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - nic2004:60232
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_STATE_2
+      - _NAME_: VALID_ENUM_MESSAGE_STATE
         enumList:
           - Created
           - Accepted
@@ -23629,14 +23628,14 @@ x-validations:
         enumPath: $.message.order.state
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_CODE_3
+      - _NAME_: VALID_ENUM_MESSAGE_CODE
         enumList:
           - P2P
           - P2H2P
         enumPath: $.message.order.items[*].descriptor.code
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_CATEGORY_ID_4
+      - _NAME_: VALID_ENUM_MESSAGE_CATEGORY_ID
         enumList:
           - Express Delivery
           - Standard Delivery
@@ -23647,7 +23646,7 @@ x-validations:
         enumPath: $.message.order.items[*].category_id
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_TYPE_5
+      - _NAME_: VALID_ENUM_MESSAGE_TYPE
         enumList:
           - Delivery
           - Return
@@ -23718,15 +23717,15 @@ x-validations:
         enumPath: $.message.order.payment.type
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_SETTLEMENT_COUNTERPARTY_12
+      - _NAME_: VALID_ENUM_MESSAGE_SETTLEMENT_COUNTERPARTY
         enumList:
           - lbnp
           - lsp
         enumPath: >-
-          $.message.order.payment['@ondc/org/settlement_details'][*].settlement_counterparty
+          $.message.order.payment.@ondc/org/settlement_details[*].settlement_counterparty
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_BREAKUPONDCORGTITLE_TYPE_13
+      - _NAME_: VALID_ENUM_MESSAGE_ONDCORGTITLE_TYPE
         enumList:
           - delivery
           - rto
@@ -23735,7 +23734,7 @@ x-validations:
           - tax_diff
           - discount
           - cod
-        enumPath: $.message.order.quote.breakup[*]['@ondc/org/title_type']
+        enumPath: $.message.order.quote.breakup[*].@ondc/org/title_type
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
       - _NAME_: validate_tag_0
@@ -23804,61 +23803,61 @@ x-validations:
             _CONTINUE_: '!(shipStatus all in ship_status)'
             _RETURN_: instructions_code are present && instructions_short_desc are present
     on_search:
-      - _NAME_: REQUIRED_CONTEXT_DOMAIN_1
+      - _NAME_: REQUIRED_CONTEXT_DOMAIN
         attr: $.context.domain
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - nic2004:60232
-      - _NAME_: REQUIRED_CONTEXT_COUNTRY_2
+      - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_CITY_3
+      - _NAME_: REQUIRED_CONTEXT_CITY
         attr: $.context.city
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_ACTION_4
+      - _NAME_: REQUIRED_CONTEXT_ACTION
         attr: $.context.action
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_CORE_VERSION_5
+      - _NAME_: REQUIRED_CONTEXT_CORE_VERSION
         attr: $.context.core_version
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BAP_ID_6
+      - _NAME_: REQUIRED_CONTEXT_BAP_ID
         attr: $.context.bap_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BAP_URI_7
+      - _NAME_: REQUIRED_CONTEXT_BAP_URI
         attr: $.context.bap_uri
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BPP_ID_8
+      - _NAME_: REQUIRED_CONTEXT_BPP_ID
         attr: $.context.bpp_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BPP_URI_9
+      - _NAME_: REQUIRED_CONTEXT_BPP_URI
         attr: $.context.bpp_uri
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID_10
+      - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID
         attr: $.context.transaction_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID_11
+      - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID
         attr: $.context.message_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TIMESTAMP_12
+      - _NAME_: REQUIRED_CONTEXT_TIMESTAMP
         attr: $.context.timestamp
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_NAME_13
-        attr: $.message.catalog['bpp/descriptor'].name
+      - _NAME_: REQUIRED_MESSAGE_NAME
+        attr: $.message.catalog.bpp/descriptor.name
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_ID_14
-        attr: $.message.catalog['bpp/providers'][*].id
+      - _NAME_: REQUIRED_MESSAGE_ID
+        attr: $.message.catalog.bpp/providers[*].id
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_NAME_15
-        attr: $.message.catalog['bpp/providers'][*].descriptor.name
+        attr: $.message.catalog.bpp/providers[*].descriptor.name
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_SHORT_DESC_16
-        attr: $.message.catalog['bpp/providers'][*].descriptor.short_desc
+      - _NAME_: REQUIRED_MESSAGE_SHORT_DESC
+        attr: $.message.catalog.bpp/providers[*].descriptor.short_desc
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_LONG_DESC_17
-        attr: $.message.catalog['bpp/providers'][*].descriptor.long_desc
+      - _NAME_: REQUIRED_MESSAGE_LONG_DESC
+        attr: $.message.catalog.bpp/providers[*].descriptor.long_desc
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_ID_18
-        attr: $.message.catalog['bpp/providers'][*].categories[*].id
+        attr: $.message.catalog.bpp/providers[*].categories[*].id
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - Express Delivery
@@ -23867,33 +23866,33 @@ x-validations:
           - Next Day Delivery
           - Same Day Delivery
           - Instant Delivery
-      - _NAME_: REQUIRED_MESSAGE_LABEL_19
-        attr: $.message.catalog['bpp/providers'][*].categories[*].time.label
+      - _NAME_: REQUIRED_MESSAGE_LABEL
+        attr: $.message.catalog.bpp/providers[*].categories[*].time.label
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_DURATION_20
-        attr: $.message.catalog['bpp/providers'][*].categories[*].time.duration
+      - _NAME_: REQUIRED_MESSAGE_DURATION
+        attr: $.message.catalog.bpp/providers[*].categories[*].time.duration
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_TIMESTAMP_21
-        attr: $.message.catalog['bpp/providers'][*].categories[*].time.timestamp
+      - _NAME_: REQUIRED_MESSAGE_TIMESTAMP
+        attr: $.message.catalog.bpp/providers[*].categories[*].time.timestamp
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_ID_22
-        attr: $.message.catalog['bpp/providers'][*].fulfillments[*].id
+        attr: $.message.catalog.bpp/providers[*].fulfillments[*].id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_TYPE_23
-        attr: $.message.catalog['bpp/providers'][*].fulfillments[*].type
+      - _NAME_: REQUIRED_MESSAGE_TYPE
+        attr: $.message.catalog.bpp/providers[*].fulfillments[*].type
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - Delivery
           - Return
           - RTO
       - _NAME_: REQUIRED_MESSAGE_ID_24
-        attr: $.message.catalog['bpp/providers'][*].id
+        attr: $.message.catalog.bpp/providers[*].items[*].id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_PARENT_ITEM_ID_25
-        attr: $.message.catalog['bpp/providers'][*].items[*].parent_item_id
+      - _NAME_: REQUIRED_MESSAGE_PARENT_ITEM_ID
+        attr: $.message.catalog.bpp/providers[*].items[*].parent_item_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CATEGORY_ID_26
-        attr: $.message.catalog['bpp/providers'][*].category_id
+      - _NAME_: REQUIRED_MESSAGE_CATEGORY_ID
+        attr: $.message.catalog.bpp/providers[*].items[*].category_id
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - Express Delivery
@@ -23902,44 +23901,44 @@ x-validations:
           - Next Day Delivery
           - Same Day Delivery
           - Instant Delivery
-      - _NAME_: REQUIRED_MESSAGE_FULFILLMENT_ID_27
-        attr: $.message.catalog['bpp/providers'][*].items[*].fulfillment_id
+      - _NAME_: REQUIRED_MESSAGE_FULFILLMENT_ID
+        attr: $.message.catalog.bpp/providers[*].items[*].fulfillment_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CODE_28
-        attr: $.message.catalog['bpp/providers'][*].descriptor.code
+      - _NAME_: REQUIRED_MESSAGE_CODE
+        attr: $.message.catalog.bpp/providers[*].items[*].descriptor.code
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - P2P
           - P2H2P
       - _NAME_: REQUIRED_MESSAGE_NAME_29
-        attr: $.message.catalog['bpp/providers'][*].descriptor.name
+        attr: $.message.catalog.bpp/providers[*].items[*].descriptor.name
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_SHORT_DESC_30
-        attr: $.message.catalog['bpp/providers'][*].descriptor.short_desc
+        attr: $.message.catalog.bpp/providers[*].items[*].descriptor.short_desc
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_LONG_DESC_31
-        attr: $.message.catalog['bpp/providers'][*].descriptor.long_desc
+        attr: $.message.catalog.bpp/providers[*].items[*].descriptor.long_desc
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CURRENCY_32
-        attr: $.message.catalog['bpp/providers'][*].items[*].price.currency
+      - _NAME_: REQUIRED_MESSAGE_CURRENCY
+        attr: $.message.catalog.bpp/providers[*].items[*].price.currency
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_VALUE_33
-        attr: $.message.catalog['bpp/providers'][*].items[*].price.value
+      - _NAME_: REQUIRED_MESSAGE_VALUE
+        attr: $.message.catalog.bpp/providers[*].items[*].price.value
         _RETURN_: attr are present
-      - _NAME_: VALID_ENUM_CONTEXT_DOMAIN_1
+      - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - nic2004:60232
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_CODE_2
+      - _NAME_: VALID_ENUM_MESSAGE_CODE
         enumList:
           - P2P
           - P2H2P
-        enumPath: $.message.catalog['bpp/providers'][*].descriptor.code
+        enumPath: $.message.catalog.bpp/providers[*].items[*].descriptor.code
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_CATEGORY_ID_3
+      - _NAME_: VALID_ENUM_MESSAGE_CATEGORY_ID
         enumList:
           - Express Delivery
           - Standard Delivery
@@ -23947,10 +23946,10 @@ x-validations:
           - Next Day Delivery
           - Same Day Delivery
           - Instant Delivery
-        enumPath: $.message.catalog['bpp/providers'][*].category_id
+        enumPath: $.message.catalog.bpp/providers[*].items[*].category_id
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_ID_4
+      - _NAME_: VALID_ENUM_MESSAGE_ID
         enumList:
           - Express Delivery
           - Standard Delivery
@@ -23958,25 +23957,25 @@ x-validations:
           - Next Day Delivery
           - Same Day Delivery
           - Instant Delivery
-        enumPath: $.message.catalog['bpp/providers'][*].categories[*].id
+        enumPath: $.message.catalog.bpp/providers[*].categories[*].id
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_TYPE_5
+      - _NAME_: VALID_ENUM_MESSAGE_TYPE
         enumList:
           - Delivery
           - Return
           - RTO
-        enumPath: $.message.catalog['bpp/providers'][*].fulfillments[*].type
+        enumPath: $.message.catalog.bpp/providers[*].fulfillments[*].type
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
       - _NAME_: validate_tag_0
         validTags:
           - bpp_terms
-        tagPath: $.message.catalog['bpp/descriptor'].tags[*].code
+        tagPath: $.message.catalog.bpp/descriptor.tags[*].code
         _CONTINUE_: '!(tagPath are present)'
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_0_bpp_terms
-        _SCOPE_: $.message.catalog['bpp/descriptor'].tags[?(@.code=='bpp_terms')]
+        _SCOPE_: $.message.catalog.bpp/descriptor.tags[?(@.code=='bpp_terms')]
         subTags: $.list[*].code
         validValues:
           - static_terms
@@ -23994,12 +23993,12 @@ x-validations:
           - distance
           - fulfill_request
           - fulfill_response
-        tagPath: $.message.catalog['bpp/providers'][*].fulfillments[*].tags[*].code
+        tagPath: $.message.catalog.bpp/providers[*].fulfillments[*].tags[*].code
         _CONTINUE_: '!(tagPath are present)'
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_1_distance
         _SCOPE_: >-
-          $.message.catalog['bpp/providers'][*].fulfillments[*].tags[?(@.code=='distance')]
+          $.message.catalog.bpp/providers[*].fulfillments[*].tags[?(@.code=='distance')]
         subTags: $.list[*].code
         validValues:
           - motorable_distance_type
@@ -24007,7 +24006,7 @@ x-validations:
         _RETURN_: subTags all in validValues
       - _NAME_: validate_tag_1_fulfill_request
         _SCOPE_: >-
-          $.message.catalog['bpp/providers'][*].fulfillments[*].tags[?(@.code=='fulfill_request')]
+          $.message.catalog.bpp/providers[*].fulfillments[*].tags[?(@.code=='fulfill_request')]
         subTags: $.list[*].code
         validValues:
           - rider_count
@@ -24021,7 +24020,7 @@ x-validations:
         _RETURN_: subTags all in validValues
       - _NAME_: validate_tag_1_fulfill_response
         _SCOPE_: >-
-          $.message.catalog['bpp/providers'][*].fulfillments[*].tags[?(@.code=='fulfill_response')]
+          $.message.catalog.bpp/providers[*].fulfillments[*].tags[?(@.code=='fulfill_response')]
         subTags: $.list[*].code
         validValues:
           - rider_count
@@ -24031,11 +24030,11 @@ x-validations:
       - _NAME_: validate_tag_2
         validTags:
           - type
-        tagPath: $.message.catalog['bpp/providers'][*].tags[*].code
+        tagPath: $.message.catalog.bpp/providers[*].items[*].tags[*].code
         _CONTINUE_: '!(tagPath are present)'
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_2_type
-        _SCOPE_: $.message.catalog['bpp/providers'][*].tags[?(@.code=='type')]
+        _SCOPE_: $.message.catalog.bpp/providers[*].items[*].tags[?(@.code=='type')]
         subTags: $.list[*].code
         validValues:
           - type
@@ -24045,11 +24044,11 @@ x-validations:
         validTags:
           - lsp_features
           - special_req
-        tagPath: $.message.catalog['bpp/providers'][*].tags[*].code
+        tagPath: $.message.catalog.bpp/providers[*].tags[*].code
         _CONTINUE_: '!(tagPath are present)'
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_3_lsp_features
-        _SCOPE_: $.message.catalog['bpp/providers'][*].tags[?(@.code=='lsp_features')]
+        _SCOPE_: $.message.catalog.bpp/providers[*].tags[?(@.code=='lsp_features')]
         subTags: $.list[*].code
         validValues:
           - 00B
@@ -24089,7 +24088,7 @@ x-validations:
           - '021'
         _RETURN_: subTags all in validValues
       - _NAME_: validate_tag_3_special_req
-        _SCOPE_: $.message.catalog['bpp/providers'][*].tags[?(@.code=='special_req')]
+        _SCOPE_: $.message.catalog.bpp/providers[*].tags[?(@.code=='special_req')]
         subTags: $.list[*].code
         validValues:
           - dangerous_goods
@@ -24106,51 +24105,51 @@ x-validations:
           $.message.catalog['bpp/descriptor'].tags[?(@.code=='bpp_terms')].list[?(@.code=='static_terms_new')].value
         _RETURN_: staticTermsNew are present || staticTerms are present
     on_init:
-      - _NAME_: REQUIRED_CONTEXT_DOMAIN_1
+      - _NAME_: REQUIRED_CONTEXT_DOMAIN
         attr: $.context.domain
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - nic2004:60232
-      - _NAME_: REQUIRED_CONTEXT_COUNTRY_2
+      - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_CITY_3
+      - _NAME_: REQUIRED_CONTEXT_CITY
         attr: $.context.city
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_ACTION_4
+      - _NAME_: REQUIRED_CONTEXT_ACTION
         attr: $.context.action
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_CORE_VERSION_5
+      - _NAME_: REQUIRED_CONTEXT_CORE_VERSION
         attr: $.context.core_version
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BAP_ID_6
+      - _NAME_: REQUIRED_CONTEXT_BAP_ID
         attr: $.context.bap_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BAP_URI_7
+      - _NAME_: REQUIRED_CONTEXT_BAP_URI
         attr: $.context.bap_uri
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BPP_ID_8
+      - _NAME_: REQUIRED_CONTEXT_BPP_ID
         attr: $.context.bpp_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BPP_URI_9
+      - _NAME_: REQUIRED_CONTEXT_BPP_URI
         attr: $.context.bpp_uri
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID_10
+      - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID
         attr: $.context.transaction_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID_11
+      - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID
         attr: $.context.message_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TIMESTAMP_12
+      - _NAME_: REQUIRED_CONTEXT_TIMESTAMP
         attr: $.context.timestamp
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_ID_13
+      - _NAME_: REQUIRED_MESSAGE_ID
         attr: $.message.order.items[*].id
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_ID_14
         attr: $.message.order.fulfillments[*].id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_TYPE_15
+      - _NAME_: REQUIRED_MESSAGE_TYPE
         attr: $.message.order.fulfillments[*].type
         _RETURN_: attr are present && attr all in enumList
         enumList:
@@ -24160,34 +24159,34 @@ x-validations:
       - _NAME_: REQUIRED_MESSAGE_ID_16
         attr: $.message.order.fulfillments[*].start.location.id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_GPS_17
+      - _NAME_: REQUIRED_MESSAGE_GPS
         attr: $.message.order.fulfillments[*].start.location.gps
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_NAME_18
+      - _NAME_: REQUIRED_MESSAGE_NAME
         attr: $.message.order.fulfillments[*].start.location.address.name
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_BUILDING_19
+      - _NAME_: REQUIRED_MESSAGE_BUILDING
         attr: $.message.order.fulfillments[*].start.location.address.building
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_LOCALITY_20
+      - _NAME_: REQUIRED_MESSAGE_LOCALITY
         attr: $.message.order.fulfillments[*].start.location.address.locality
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CITY_21
+      - _NAME_: REQUIRED_MESSAGE_CITY
         attr: $.message.order.fulfillments[*].start.location.address.city
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_STATE_22
+      - _NAME_: REQUIRED_MESSAGE_STATE
         attr: $.message.order.fulfillments[*].start.location.address.state
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_COUNTRY_23
+      - _NAME_: REQUIRED_MESSAGE_COUNTRY
         attr: $.message.order.fulfillments[*].start.location.address.country
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_AREA_CODE_24
+      - _NAME_: REQUIRED_MESSAGE_AREA_CODE
         attr: $.message.order.fulfillments[*].start.location.address.area_code
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_PHONE_25
+      - _NAME_: REQUIRED_MESSAGE_PHONE
         attr: $.message.order.fulfillments[*].start.contact.phone
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_EMAIL_26
+      - _NAME_: REQUIRED_MESSAGE_EMAIL
         attr: $.message.order.fulfillments[*].start.contact.email
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_GPS_27
@@ -24217,17 +24216,17 @@ x-validations:
       - _NAME_: REQUIRED_MESSAGE_PHONE_35
         attr: $.message.order.fulfillments[*].end.contact.phone
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CURRENCY_36
+      - _NAME_: REQUIRED_MESSAGE_CURRENCY
         attr: $.message.order.quote.price.currency
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_VALUE_37
+      - _NAME_: REQUIRED_MESSAGE_VALUE
         attr: $.message.order.quote.price.value
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_BREAKUPONDCORGITEM_ID_38
-        attr: $.message.order.quote.breakup[*]['@ondc/org/item_id']
+      - _NAME_: REQUIRED_MESSAGE_ONDCORGITEM_ID
+        attr: $.message.order.quote.breakup[*].@ondc/org/item_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_BREAKUPONDCORGTITLE_TYPE_39
-        attr: $.message.order.quote.breakup[*]['@ondc/org/title_type']
+      - _NAME_: REQUIRED_MESSAGE_ONDCORGTITLE_TYPE
+        attr: $.message.order.quote.breakup[*].@ondc/org/title_type
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - delivery
@@ -24243,7 +24242,7 @@ x-validations:
       - _NAME_: REQUIRED_MESSAGE_VALUE_41
         attr: $.message.order.quote.breakup[*].price.value
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_TTL_42
+      - _NAME_: REQUIRED_MESSAGE_TTL
         attr: $.message.order.quote.ttl
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_TYPE_43
@@ -24253,16 +24252,16 @@ x-validations:
           - ON-ORDER
           - ON-FULFILLMENT
           - POST-FULFILLMENT
-      - _NAME_: REQUIRED_MESSAGE_COLLECTED_BY_44
+      - _NAME_: REQUIRED_MESSAGE_COLLECTED_BY
         attr: $.message.order.payment.collected_by
         _RETURN_: attr are present
-      - _NAME_: VALID_ENUM_CONTEXT_DOMAIN_1
+      - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - nic2004:60232
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_TYPE_2
+      - _NAME_: VALID_ENUM_MESSAGE_TYPE
         enumList:
           - Delivery
           - Return
@@ -24278,15 +24277,15 @@ x-validations:
         enumPath: $.message.order.payment.type
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_SETTLEMENT_COUNTERPARTY_4
+      - _NAME_: VALID_ENUM_MESSAGE_SETTLEMENT_COUNTERPARTY
         enumList:
           - lbnp
           - lsp
         enumPath: >-
-          $.message.order.payment['@ondc/org/settlement_details'][*].settlement_counterparty
+          $.message.order.payment.@ondc/org/settlement_details[*].settlement_counterparty
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_BREAKUPONDCORGTITLE_TYPE_5
+      - _NAME_: VALID_ENUM_MESSAGE_ONDCORGTITLE_TYPE
         enumList:
           - delivery
           - rto
@@ -24295,7 +24294,7 @@ x-validations:
           - tax_diff
           - discount
           - cod
-        enumPath: $.message.order.quote.breakup[*]['@ondc/org/title_type']
+        enumPath: $.message.order.quote.breakup[*].@ondc/org/title_type
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
       - _NAME_: validate_tag_0
@@ -24430,48 +24429,48 @@ x-validations:
               item_fulfillment_id all in fulfillment_id && item_fulfillment_ids
               all in fulfillment_id
     on_confirm:
-      - _NAME_: REQUIRED_CONTEXT_DOMAIN_1
+      - _NAME_: REQUIRED_CONTEXT_DOMAIN
         attr: $.context.domain
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - nic2004:60232
-      - _NAME_: REQUIRED_CONTEXT_COUNTRY_2
+      - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_CITY_3
+      - _NAME_: REQUIRED_CONTEXT_CITY
         attr: $.context.city
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_ACTION_4
+      - _NAME_: REQUIRED_CONTEXT_ACTION
         attr: $.context.action
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_CORE_VERSION_5
+      - _NAME_: REQUIRED_CONTEXT_CORE_VERSION
         attr: $.context.core_version
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BAP_ID_6
+      - _NAME_: REQUIRED_CONTEXT_BAP_ID
         attr: $.context.bap_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BAP_URI_7
+      - _NAME_: REQUIRED_CONTEXT_BAP_URI
         attr: $.context.bap_uri
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BPP_ID_8
+      - _NAME_: REQUIRED_CONTEXT_BPP_ID
         attr: $.context.bpp_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BPP_URI_9
+      - _NAME_: REQUIRED_CONTEXT_BPP_URI
         attr: $.context.bpp_uri
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID_10
+      - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID
         attr: $.context.transaction_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID_11
+      - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID
         attr: $.context.message_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TIMESTAMP_12
+      - _NAME_: REQUIRED_CONTEXT_TIMESTAMP
         attr: $.context.timestamp
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_ID_13
+      - _NAME_: REQUIRED_MESSAGE_ID
         attr: $.message.order.id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_STATE_14
+      - _NAME_: REQUIRED_MESSAGE_STATE
         attr: $.message.order.state
         _RETURN_: attr are present && attr all in enumList
         enumList:
@@ -24489,7 +24488,7 @@ x-validations:
       - _NAME_: REQUIRED_MESSAGE_ID_17
         attr: $.message.order.items[*].id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CATEGORY_ID_18
+      - _NAME_: REQUIRED_MESSAGE_CATEGORY_ID
         attr: $.message.order.items[*].category_id
         _RETURN_: attr are present && attr all in enumList
         enumList:
@@ -24499,32 +24498,32 @@ x-validations:
           - Next Day Delivery
           - Same Day Delivery
           - Instant Delivery
-      - _NAME_: REQUIRED_MESSAGE_CODE_19
+      - _NAME_: REQUIRED_MESSAGE_CODE
         attr: $.message.order.items[*].descriptor.code
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - P2P
           - P2H2P
-      - _NAME_: REQUIRED_MESSAGE_LABEL_20
+      - _NAME_: REQUIRED_MESSAGE_LABEL
         attr: $.message.order.items[*].time.label
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_DURATION_21
+      - _NAME_: REQUIRED_MESSAGE_DURATION
         attr: $.message.order.items[*].time.duration
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_TIMESTAMP_22
+      - _NAME_: REQUIRED_MESSAGE_TIMESTAMP
         attr: $.message.order.items[*].time.timestamp
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CURRENCY_23
+      - _NAME_: REQUIRED_MESSAGE_CURRENCY
         attr: $.message.order.quote.price.currency
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_VALUE_24
+      - _NAME_: REQUIRED_MESSAGE_VALUE
         attr: $.message.order.quote.price.value
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_BREAKUPONDCORGITEM_ID_25
-        attr: $.message.order.quote.breakup[*]['@ondc/org/item_id']
+      - _NAME_: REQUIRED_MESSAGE_ONDCORGITEM_ID
+        attr: $.message.order.quote.breakup[*].@ondc/org/item_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_BREAKUPONDCORGTITLE_TYPE_26
-        attr: $.message.order.quote.breakup[*]['@ondc/org/title_type']
+      - _NAME_: REQUIRED_MESSAGE_ONDCORGTITLE_TYPE
+        attr: $.message.order.quote.breakup[*].@ondc/org/title_type
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - delivery
@@ -24543,7 +24542,7 @@ x-validations:
       - _NAME_: REQUIRED_MESSAGE_ID_29
         attr: $.message.order.fulfillments[*].id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_TYPE_30
+      - _NAME_: REQUIRED_MESSAGE_TYPE
         attr: $.message.order.fulfillments[*].type
         _RETURN_: attr are present && attr all in enumList
         enumList:
@@ -24574,43 +24573,43 @@ x-validations:
           - Delivery-failed
           - Delivery-rescheduled
           - Order-delivered
-      - _NAME_: REQUIRED_MESSAGE_TRACKING_32
+      - _NAME_: REQUIRED_MESSAGE_TRACKING
         attr: $.message.order.fulfillments[*].tracking
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_NAME_33
+      - _NAME_: REQUIRED_MESSAGE_NAME
         attr: $.message.order.fulfillments[*].start.person.name
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_ID_34
         attr: $.message.order.fulfillments[*].start.location.id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_GPS_35
+      - _NAME_: REQUIRED_MESSAGE_GPS
         attr: $.message.order.fulfillments[*].start.location.gps
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_NAME_36
         attr: $.message.order.fulfillments[*].start.location.address.name
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_BUILDING_37
+      - _NAME_: REQUIRED_MESSAGE_BUILDING
         attr: $.message.order.fulfillments[*].start.location.address.building
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_LOCALITY_38
+      - _NAME_: REQUIRED_MESSAGE_LOCALITY
         attr: $.message.order.fulfillments[*].start.location.address.locality
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CITY_39
+      - _NAME_: REQUIRED_MESSAGE_CITY
         attr: $.message.order.fulfillments[*].start.location.address.city
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_STATE_40
         attr: $.message.order.fulfillments[*].start.location.address.state
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_COUNTRY_41
+      - _NAME_: REQUIRED_MESSAGE_COUNTRY
         attr: $.message.order.fulfillments[*].start.location.address.country
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_AREA_CODE_42
+      - _NAME_: REQUIRED_MESSAGE_AREA_CODE
         attr: $.message.order.fulfillments[*].start.location.address.area_code
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_PHONE_43
+      - _NAME_: REQUIRED_MESSAGE_PHONE
         attr: $.message.order.fulfillments[*].start.contact.phone
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_EMAIL_44
+      - _NAME_: REQUIRED_MESSAGE_EMAIL
         attr: $.message.order.fulfillments[*].start.contact.email
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_DURATION_45
@@ -24670,7 +24669,7 @@ x-validations:
       - _NAME_: REQUIRED_MESSAGE_AREA_CODE_63
         attr: $.message.order.billing.address.area_code
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_TAX_NUMBER_64
+      - _NAME_: REQUIRED_MESSAGE_TAX_NUMBER
         attr: $.message.order.billing.tax_number
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_PHONE_65
@@ -24679,13 +24678,13 @@ x-validations:
       - _NAME_: REQUIRED_MESSAGE_EMAIL_66
         attr: $.message.order.billing.email
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CREATED_AT_67
+      - _NAME_: REQUIRED_MESSAGE_CREATED_AT
         attr: $.message.order.billing.created_at
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_UPDATED_AT_68
+      - _NAME_: REQUIRED_MESSAGE_UPDATED_AT
         attr: $.message.order.billing.updated_at
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_COLLECTED_BY_69
+      - _NAME_: REQUIRED_MESSAGE_COLLECTED_BY
         attr: $.message.order.payment.collected_by
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_TYPE_70
@@ -24696,74 +24695,73 @@ x-validations:
           - ON-FULFILLMENT
           - POST-FULFILLMENT
       - _NAME_: REQUIRED_MESSAGE_CATEGORY_ID_71
-        attr: $.message.order['@ondc/org/linked_order'].items[*].category_id
+        attr: $.message.order.@ondc/org/linked_order.items[*].category_id
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_NAME_72
-        attr: $.message.order['@ondc/org/linked_order'].items[*].descriptor.name
+        attr: $.message.order.@ondc/org/linked_order.items[*].descriptor.name
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_COUNT_73
-        attr: $.message.order['@ondc/org/linked_order'].items[*].quantity.count
+      - _NAME_: REQUIRED_MESSAGE_COUNT
+        attr: $.message.order.@ondc/org/linked_order.items[*].quantity.count
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_UNIT_74
-        attr: $.message.order['@ondc/org/linked_order'].items[*].quantity.measure.unit
+      - _NAME_: REQUIRED_MESSAGE_UNIT
+        attr: $.message.order.@ondc/org/linked_order.items[*].quantity.measure.unit
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_75
-        attr: >-
-          $.message.order['@ondc/org/linked_order'].items[*].quantity.measure.value
+        attr: $.message.order.@ondc/org/linked_order.items[*].quantity.measure.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_CURRENCY_76
-        attr: $.message.order['@ondc/org/linked_order'].items[*].price.currency
+        attr: $.message.order.@ondc/org/linked_order.items[*].price.currency
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_77
-        attr: $.message.order['@ondc/org/linked_order'].items[*].price.value
+        attr: $.message.order.@ondc/org/linked_order.items[*].price.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_NAME_78
-        attr: $.message.order['@ondc/org/linked_order'].provider.descriptor.name
+        attr: $.message.order.@ondc/org/linked_order.provider.descriptor.name
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_NAME_79
-        attr: $.message.order['@ondc/org/linked_order'].provider.address.name
+        attr: $.message.order.@ondc/org/linked_order.provider.address.name
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_BUILDING_80
-        attr: $.message.order['@ondc/org/linked_order'].provider.address.building
+        attr: $.message.order.@ondc/org/linked_order.provider.address.building
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_LOCALITY_81
-        attr: $.message.order['@ondc/org/linked_order'].provider.address.locality
+        attr: $.message.order.@ondc/org/linked_order.provider.address.locality
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_CITY_82
-        attr: $.message.order['@ondc/org/linked_order'].provider.address.city
+        attr: $.message.order.@ondc/org/linked_order.provider.address.city
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_STATE_83
-        attr: $.message.order['@ondc/org/linked_order'].provider.address.state
+        attr: $.message.order.@ondc/org/linked_order.provider.address.state
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_AREA_CODE_84
-        attr: $.message.order['@ondc/org/linked_order'].provider.address.area_code
+        attr: $.message.order.@ondc/org/linked_order.provider.address.area_code
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_ID_85
-        attr: $.message.order['@ondc/org/linked_order'].order.id
+        attr: $.message.order.@ondc/org/linked_order.order.id
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_UNIT_86
-        attr: $.message.order['@ondc/org/linked_order'].order.weight.unit
+        attr: $.message.order.@ondc/org/linked_order.order.weight.unit
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_87
-        attr: $.message.order['@ondc/org/linked_order'].order.weight.value
+        attr: $.message.order.@ondc/org/linked_order.order.weight.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_UNIT_88
-        attr: $.message.order['@ondc/org/linked_order'].order.dimensions.length.unit
+        attr: $.message.order.@ondc/org/linked_order.order.dimensions.length.unit
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_89
-        attr: $.message.order['@ondc/org/linked_order'].order.dimensions.length.value
+        attr: $.message.order.@ondc/org/linked_order.order.dimensions.length.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_UNIT_90
-        attr: $.message.order['@ondc/org/linked_order'].order.dimensions.breadth.unit
+        attr: $.message.order.@ondc/org/linked_order.order.dimensions.breadth.unit
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_91
-        attr: $.message.order['@ondc/org/linked_order'].order.dimensions.breadth.value
+        attr: $.message.order.@ondc/org/linked_order.order.dimensions.breadth.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_UNIT_92
-        attr: $.message.order['@ondc/org/linked_order'].order.dimensions.height.unit
+        attr: $.message.order.@ondc/org/linked_order.order.dimensions.height.unit
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_93
-        attr: $.message.order['@ondc/org/linked_order'].order.dimensions.height.value
+        attr: $.message.order.@ondc/org/linked_order.order.dimensions.height.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_CREATED_AT_94
         attr: $.message.order.created_at
@@ -24771,13 +24769,13 @@ x-validations:
       - _NAME_: REQUIRED_MESSAGE_UPDATED_AT_95
         attr: $.message.order.updated_at
         _RETURN_: attr are present
-      - _NAME_: VALID_ENUM_CONTEXT_DOMAIN_1
+      - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - nic2004:60232
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_STATE_2
+      - _NAME_: VALID_ENUM_MESSAGE_STATE
         enumList:
           - Created
           - Accepted
@@ -24787,14 +24785,14 @@ x-validations:
         enumPath: $.message.order.state
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_CODE_3
+      - _NAME_: VALID_ENUM_MESSAGE_CODE
         enumList:
           - P2P
           - P2H2P
         enumPath: $.message.order.items[*].descriptor.code
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_CATEGORY_ID_4
+      - _NAME_: VALID_ENUM_MESSAGE_CATEGORY_ID
         enumList:
           - Express Delivery
           - Standard Delivery
@@ -24805,7 +24803,7 @@ x-validations:
         enumPath: $.message.order.items[*].category_id
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_TYPE_5
+      - _NAME_: VALID_ENUM_MESSAGE_TYPE
         enumList:
           - Delivery
           - Return
@@ -24876,15 +24874,15 @@ x-validations:
         enumPath: $.message.order.payment.type
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_SETTLEMENT_COUNTERPARTY_12
+      - _NAME_: VALID_ENUM_MESSAGE_SETTLEMENT_COUNTERPARTY
         enumList:
           - lbnp
           - lsp
         enumPath: >-
-          $.message.order.payment['@ondc/org/settlement_details'][*].settlement_counterparty
+          $.message.order.payment.@ondc/org/settlement_details[*].settlement_counterparty
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_BREAKUPONDCORGTITLE_TYPE_13
+      - _NAME_: VALID_ENUM_MESSAGE_ONDCORGTITLE_TYPE
         enumList:
           - delivery
           - rto
@@ -24893,7 +24891,7 @@ x-validations:
           - tax_diff
           - discount
           - cod
-        enumPath: $.message.order.quote.breakup[*]['@ondc/org/title_type']
+        enumPath: $.message.order.quote.breakup[*].@ondc/org/title_type
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
       - _NAME_: validate_tag_0
@@ -25061,69 +25059,69 @@ x-validations:
               item_fulfillment_id all in fulfillment_id && item_fulfillment_ids
               all in fulfillment_id
     on_track:
-      - _NAME_: REQUIRED_CONTEXT_DOMAIN_1
+      - _NAME_: REQUIRED_CONTEXT_DOMAIN
         attr: $.context.domain
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - nic2004:60232
-      - _NAME_: REQUIRED_CONTEXT_COUNTRY_2
+      - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_CITY_3
+      - _NAME_: REQUIRED_CONTEXT_CITY
         attr: $.context.city
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_ACTION_4
+      - _NAME_: REQUIRED_CONTEXT_ACTION
         attr: $.context.action
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_CORE_VERSION_5
+      - _NAME_: REQUIRED_CONTEXT_CORE_VERSION
         attr: $.context.core_version
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BAP_ID_6
+      - _NAME_: REQUIRED_CONTEXT_BAP_ID
         attr: $.context.bap_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BAP_URI_7
+      - _NAME_: REQUIRED_CONTEXT_BAP_URI
         attr: $.context.bap_uri
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BPP_ID_8
+      - _NAME_: REQUIRED_CONTEXT_BPP_ID
         attr: $.context.bpp_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BPP_URI_9
+      - _NAME_: REQUIRED_CONTEXT_BPP_URI
         attr: $.context.bpp_uri
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID_10
+      - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID
         attr: $.context.transaction_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID_11
+      - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID
         attr: $.context.message_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TIMESTAMP_12
+      - _NAME_: REQUIRED_CONTEXT_TIMESTAMP
         attr: $.context.timestamp
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_ID_13
+      - _NAME_: REQUIRED_MESSAGE_ID
         attr: $.message.tracking.id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_GPS_14
+      - _NAME_: REQUIRED_MESSAGE_GPS
         attr: $.message.tracking.location.gps
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_TIMESTAMP_15
+      - _NAME_: REQUIRED_MESSAGE_TIMESTAMP
         attr: $.message.tracking.location.time.timestamp
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_ID_16
-        attr: $.message.tracking.location.id
+      - _NAME_: REQUIRED_MESSAGE_UPDATED_AT
+        attr: $.message.tracking.location.updated_at
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_STATUS_17
+      - _NAME_: REQUIRED_MESSAGE_STATUS
         attr: $.message.tracking.status
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - active
           - inactive
-      - _NAME_: VALID_ENUM_CONTEXT_DOMAIN_1
+      - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - nic2004:60232
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_STATUS_2
+      - _NAME_: VALID_ENUM_MESSAGE_STATUS
         enumList:
           - active
           - inactive
@@ -25159,48 +25157,48 @@ x-validations:
           - sequence
         _RETURN_: subTags all in validValues
     on_cancel:
-      - _NAME_: REQUIRED_CONTEXT_DOMAIN_1
+      - _NAME_: REQUIRED_CONTEXT_DOMAIN
         attr: $.context.domain
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - nic2004:60232
-      - _NAME_: REQUIRED_CONTEXT_COUNTRY_2
+      - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_CITY_3
+      - _NAME_: REQUIRED_CONTEXT_CITY
         attr: $.context.city
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_ACTION_4
+      - _NAME_: REQUIRED_CONTEXT_ACTION
         attr: $.context.action
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_CORE_VERSION_5
+      - _NAME_: REQUIRED_CONTEXT_CORE_VERSION
         attr: $.context.core_version
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BAP_ID_6
+      - _NAME_: REQUIRED_CONTEXT_BAP_ID
         attr: $.context.bap_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BAP_URI_7
+      - _NAME_: REQUIRED_CONTEXT_BAP_URI
         attr: $.context.bap_uri
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BPP_ID_8
+      - _NAME_: REQUIRED_CONTEXT_BPP_ID
         attr: $.context.bpp_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BPP_URI_9
+      - _NAME_: REQUIRED_CONTEXT_BPP_URI
         attr: $.context.bpp_uri
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID_10
+      - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID
         attr: $.context.transaction_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID_11
+      - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID
         attr: $.context.message_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TIMESTAMP_12
+      - _NAME_: REQUIRED_CONTEXT_TIMESTAMP
         attr: $.context.timestamp
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_ID_13
+      - _NAME_: REQUIRED_MESSAGE_ID
         attr: $.message.order.id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_STATE_14
+      - _NAME_: REQUIRED_MESSAGE_STATE
         attr: $.message.order.state
         _RETURN_: attr are present && attr all in enumList
         enumList:
@@ -25209,7 +25207,7 @@ x-validations:
           - In-progress
           - Completed
           - Cancelled
-      - _NAME_: REQUIRED_MESSAGE_CANCELLED_BY_15
+      - _NAME_: REQUIRED_MESSAGE_CANCELLED_BY
         attr: $.message.order.cancellation.cancelled_by
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_ID_16
@@ -25221,7 +25219,7 @@ x-validations:
       - _NAME_: REQUIRED_MESSAGE_ID_18
         attr: $.message.order.items[*].id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CATEGORY_ID_19
+      - _NAME_: REQUIRED_MESSAGE_CATEGORY_ID
         attr: $.message.order.items[*].category_id
         _RETURN_: attr are present && attr all in enumList
         enumList:
@@ -25231,32 +25229,32 @@ x-validations:
           - Next Day Delivery
           - Same Day Delivery
           - Instant Delivery
-      - _NAME_: REQUIRED_MESSAGE_CODE_20
+      - _NAME_: REQUIRED_MESSAGE_CODE
         attr: $.message.order.items[*].descriptor.code
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - P2P
           - P2H2P
-      - _NAME_: REQUIRED_MESSAGE_LABEL_21
+      - _NAME_: REQUIRED_MESSAGE_LABEL
         attr: $.message.order.items[*].time.label
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_DURATION_22
+      - _NAME_: REQUIRED_MESSAGE_DURATION
         attr: $.message.order.items[*].time.duration
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_TIMESTAMP_23
+      - _NAME_: REQUIRED_MESSAGE_TIMESTAMP
         attr: $.message.order.items[*].time.timestamp
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CURRENCY_24
+      - _NAME_: REQUIRED_MESSAGE_CURRENCY
         attr: $.message.order.quote.price.currency
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_VALUE_25
+      - _NAME_: REQUIRED_MESSAGE_VALUE
         attr: $.message.order.quote.price.value
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_BREAKUPONDCORGITEM_ID_26
-        attr: $.message.order.quote.breakup[*]['@ondc/org/item_id']
+      - _NAME_: REQUIRED_MESSAGE_ONDCORGITEM_ID
+        attr: $.message.order.quote.breakup[*].@ondc/org/item_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_BREAKUPONDCORGTITLE_TYPE_27
-        attr: $.message.order.quote.breakup[*]['@ondc/org/title_type']
+      - _NAME_: REQUIRED_MESSAGE_ONDCORGTITLE_TYPE
+        attr: $.message.order.quote.breakup[*].@ondc/org/title_type
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - delivery
@@ -25275,7 +25273,7 @@ x-validations:
       - _NAME_: REQUIRED_MESSAGE_ID_30
         attr: $.message.order.fulfillments[*].id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_TYPE_31
+      - _NAME_: REQUIRED_MESSAGE_TYPE
         attr: $.message.order.fulfillments[*].type
         _RETURN_: attr are present && attr all in enumList
         enumList:
@@ -25313,131 +25311,130 @@ x-validations:
           - ON-ORDER
           - ON-FULFILLMENT
           - POST-FULFILLMENT
-      - _NAME_: REQUIRED_MESSAGE_COLLECTED_BY_34
+      - _NAME_: REQUIRED_MESSAGE_COLLECTED_BY
         attr: $.message.order.payment.collected_by
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_STATUS_35
+      - _NAME_: REQUIRED_MESSAGE_STATUS
         attr: $.message.order.payment.status
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_NAME_36
+      - _NAME_: REQUIRED_MESSAGE_NAME
         attr: $.message.order.billing.name
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_NAME_37
         attr: $.message.order.billing.address.name
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_BUILDING_38
+      - _NAME_: REQUIRED_MESSAGE_BUILDING
         attr: $.message.order.billing.address.building
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_LOCALITY_39
+      - _NAME_: REQUIRED_MESSAGE_LOCALITY
         attr: $.message.order.billing.address.locality
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CITY_40
+      - _NAME_: REQUIRED_MESSAGE_CITY
         attr: $.message.order.billing.address.city
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_STATE_41
         attr: $.message.order.billing.address.state
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_COUNTRY_42
+      - _NAME_: REQUIRED_MESSAGE_COUNTRY
         attr: $.message.order.billing.address.country
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_AREA_CODE_43
+      - _NAME_: REQUIRED_MESSAGE_AREA_CODE
         attr: $.message.order.billing.address.area_code
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_TAX_NUMBER_44
+      - _NAME_: REQUIRED_MESSAGE_TAX_NUMBER
         attr: $.message.order.billing.tax_number
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_PHONE_45
+      - _NAME_: REQUIRED_MESSAGE_PHONE
         attr: $.message.order.billing.phone
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_EMAIL_46
+      - _NAME_: REQUIRED_MESSAGE_EMAIL
         attr: $.message.order.billing.email
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CREATED_AT_47
+      - _NAME_: REQUIRED_MESSAGE_CREATED_AT
         attr: $.message.order.billing.created_at
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_UPDATED_AT_48
+      - _NAME_: REQUIRED_MESSAGE_UPDATED_AT
         attr: $.message.order.billing.updated_at
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_CATEGORY_ID_49
-        attr: $.message.order['@ondc/org/linked_order'].items[*].category_id
+        attr: $.message.order.@ondc/org/linked_order.items[*].category_id
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_NAME_50
-        attr: $.message.order['@ondc/org/linked_order'].items[*].descriptor.name
+        attr: $.message.order.@ondc/org/linked_order.items[*].descriptor.name
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_COUNT_51
-        attr: $.message.order['@ondc/org/linked_order'].items[*].quantity.count
+      - _NAME_: REQUIRED_MESSAGE_COUNT
+        attr: $.message.order.@ondc/org/linked_order.items[*].quantity.count
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_UNIT_52
-        attr: $.message.order['@ondc/org/linked_order'].items[*].quantity.measure.unit
+      - _NAME_: REQUIRED_MESSAGE_UNIT
+        attr: $.message.order.@ondc/org/linked_order.items[*].quantity.measure.unit
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_53
-        attr: >-
-          $.message.order['@ondc/org/linked_order'].items[*].quantity.measure.value
+        attr: $.message.order.@ondc/org/linked_order.items[*].quantity.measure.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_CURRENCY_54
-        attr: $.message.order['@ondc/org/linked_order'].items[*].price.currency
+        attr: $.message.order.@ondc/org/linked_order.items[*].price.currency
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_55
-        attr: $.message.order['@ondc/org/linked_order'].items[*].price.value
+        attr: $.message.order.@ondc/org/linked_order.items[*].price.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_NAME_56
-        attr: $.message.order['@ondc/org/linked_order'].provider.descriptor.name
+        attr: $.message.order.@ondc/org/linked_order.provider.descriptor.name
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_NAME_57
-        attr: $.message.order['@ondc/org/linked_order'].provider.address.name
+        attr: $.message.order.@ondc/org/linked_order.provider.address.name
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_BUILDING_58
-        attr: $.message.order['@ondc/org/linked_order'].provider.address.building
+        attr: $.message.order.@ondc/org/linked_order.provider.address.building
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_LOCALITY_59
-        attr: $.message.order['@ondc/org/linked_order'].provider.address.locality
+        attr: $.message.order.@ondc/org/linked_order.provider.address.locality
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_CITY_60
-        attr: $.message.order['@ondc/org/linked_order'].provider.address.city
+        attr: $.message.order.@ondc/org/linked_order.provider.address.city
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_STATE_61
-        attr: $.message.order['@ondc/org/linked_order'].provider.address.state
+        attr: $.message.order.@ondc/org/linked_order.provider.address.state
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_AREA_CODE_62
-        attr: $.message.order['@ondc/org/linked_order'].provider.address.area_code
+        attr: $.message.order.@ondc/org/linked_order.provider.address.area_code
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_ID_63
-        attr: $.message.order['@ondc/org/linked_order'].order.id
+        attr: $.message.order.@ondc/org/linked_order.order.id
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_UNIT_64
-        attr: $.message.order['@ondc/org/linked_order'].order.weight.unit
+        attr: $.message.order.@ondc/org/linked_order.order.weight.unit
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_65
-        attr: $.message.order['@ondc/org/linked_order'].order.weight.value
+        attr: $.message.order.@ondc/org/linked_order.order.weight.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_UNIT_66
-        attr: $.message.order['@ondc/org/linked_order'].order.dimensions.length.unit
+        attr: $.message.order.@ondc/org/linked_order.order.dimensions.length.unit
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_67
-        attr: $.message.order['@ondc/org/linked_order'].order.dimensions.length.value
+        attr: $.message.order.@ondc/org/linked_order.order.dimensions.length.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_UNIT_68
-        attr: $.message.order['@ondc/org/linked_order'].order.dimensions.breadth.unit
+        attr: $.message.order.@ondc/org/linked_order.order.dimensions.breadth.unit
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_69
-        attr: $.message.order['@ondc/org/linked_order'].order.dimensions.breadth.value
+        attr: $.message.order.@ondc/org/linked_order.order.dimensions.breadth.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_UNIT_70
-        attr: $.message.order['@ondc/org/linked_order'].order.dimensions.height.unit
+        attr: $.message.order.@ondc/org/linked_order.order.dimensions.height.unit
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_71
-        attr: $.message.order['@ondc/org/linked_order'].order.dimensions.height.value
+        attr: $.message.order.@ondc/org/linked_order.order.dimensions.height.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_UPDATED_AT_72
         attr: $.message.order.updated_at
         _RETURN_: attr are present
-      - _NAME_: VALID_ENUM_CONTEXT_DOMAIN_1
+      - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - nic2004:60232
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_STATE_2
+      - _NAME_: VALID_ENUM_MESSAGE_STATE
         enumList:
           - Created
           - Accepted
@@ -25447,14 +25444,14 @@ x-validations:
         enumPath: $.message.order.state
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_CODE_3
+      - _NAME_: VALID_ENUM_MESSAGE_CODE
         enumList:
           - P2P
           - P2H2P
         enumPath: $.message.order.items[*].descriptor.code
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_CATEGORY_ID_4
+      - _NAME_: VALID_ENUM_MESSAGE_CATEGORY_ID
         enumList:
           - Express Delivery
           - Standard Delivery
@@ -25465,7 +25462,7 @@ x-validations:
         enumPath: $.message.order.items[*].category_id
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_TYPE_5
+      - _NAME_: VALID_ENUM_MESSAGE_TYPE
         enumList:
           - Delivery
           - Return
@@ -25536,15 +25533,15 @@ x-validations:
         enumPath: $.message.order.payment.type
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_SETTLEMENT_COUNTERPARTY_12
+      - _NAME_: VALID_ENUM_MESSAGE_SETTLEMENT_COUNTERPARTY
         enumList:
           - lbnp
           - lsp
         enumPath: >-
-          $.message.order.payment['@ondc/org/settlement_details'][*].settlement_counterparty
+          $.message.order.payment.@ondc/org/settlement_details[*].settlement_counterparty
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_BREAKUPONDCORGTITLE_TYPE_13
+      - _NAME_: VALID_ENUM_MESSAGE_ONDCORGTITLE_TYPE
         enumList:
           - delivery
           - rto
@@ -25553,7 +25550,7 @@ x-validations:
           - tax_diff
           - discount
           - cod
-        enumPath: $.message.order.quote.breakup[*]['@ondc/org/title_type']
+        enumPath: $.message.order.quote.breakup[*].@ondc/org/title_type
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
       - _NAME_: validate_tag_0
@@ -25715,48 +25712,48 @@ x-validations:
           $.message.order.fulfillments[?(@.type=='Delivery')].end.location.address.city
         _RETURN_: endLocation are present
     on_update:
-      - _NAME_: REQUIRED_CONTEXT_DOMAIN_1
+      - _NAME_: REQUIRED_CONTEXT_DOMAIN
         attr: $.context.domain
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - nic2004:60232
-      - _NAME_: REQUIRED_CONTEXT_COUNTRY_2
+      - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_CITY_3
+      - _NAME_: REQUIRED_CONTEXT_CITY
         attr: $.context.city
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_ACTION_4
+      - _NAME_: REQUIRED_CONTEXT_ACTION
         attr: $.context.action
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_CORE_VERSION_5
+      - _NAME_: REQUIRED_CONTEXT_CORE_VERSION
         attr: $.context.core_version
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BAP_ID_6
+      - _NAME_: REQUIRED_CONTEXT_BAP_ID
         attr: $.context.bap_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BAP_URI_7
+      - _NAME_: REQUIRED_CONTEXT_BAP_URI
         attr: $.context.bap_uri
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BPP_ID_8
+      - _NAME_: REQUIRED_CONTEXT_BPP_ID
         attr: $.context.bpp_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BPP_URI_9
+      - _NAME_: REQUIRED_CONTEXT_BPP_URI
         attr: $.context.bpp_uri
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID_10
+      - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID
         attr: $.context.transaction_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID_11
+      - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID
         attr: $.context.message_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TIMESTAMP_12
+      - _NAME_: REQUIRED_CONTEXT_TIMESTAMP
         attr: $.context.timestamp
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_ID_13
+      - _NAME_: REQUIRED_MESSAGE_ID
         attr: $.message.order.id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_STATE_14
+      - _NAME_: REQUIRED_MESSAGE_STATE
         attr: $.message.order.state
         _RETURN_: attr are present && attr all in enumList
         enumList:
@@ -25774,7 +25771,7 @@ x-validations:
       - _NAME_: REQUIRED_MESSAGE_ID_17
         attr: $.message.order.items[*].id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CATEGORY_ID_18
+      - _NAME_: REQUIRED_MESSAGE_CATEGORY_ID
         attr: $.message.order.items[*].category_id
         _RETURN_: attr are present && attr all in enumList
         enumList:
@@ -25784,32 +25781,32 @@ x-validations:
           - Next Day Delivery
           - Same Day Delivery
           - Instant Delivery
-      - _NAME_: REQUIRED_MESSAGE_CODE_19
+      - _NAME_: REQUIRED_MESSAGE_CODE
         attr: $.message.order.items[*].descriptor.code
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - P2P
           - P2H2P
-      - _NAME_: REQUIRED_MESSAGE_LABEL_20
+      - _NAME_: REQUIRED_MESSAGE_LABEL
         attr: $.message.order.items[*].time.label
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_DURATION_21
+      - _NAME_: REQUIRED_MESSAGE_DURATION
         attr: $.message.order.items[*].time.duration
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_TIMESTAMP_22
+      - _NAME_: REQUIRED_MESSAGE_TIMESTAMP
         attr: $.message.order.items[*].time.timestamp
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CURRENCY_23
+      - _NAME_: REQUIRED_MESSAGE_CURRENCY
         attr: $.message.order.quote.price.currency
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_VALUE_24
+      - _NAME_: REQUIRED_MESSAGE_VALUE
         attr: $.message.order.quote.price.value
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_BREAKUPONDCORGITEM_ID_25
-        attr: $.message.order.quote.breakup[*]['@ondc/org/item_id']
+      - _NAME_: REQUIRED_MESSAGE_ONDCORGITEM_ID
+        attr: $.message.order.quote.breakup[*].@ondc/org/item_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_BREAKUPONDCORGTITLE_TYPE_26
-        attr: $.message.order.quote.breakup[*]['@ondc/org/title_type']
+      - _NAME_: REQUIRED_MESSAGE_ONDCORGTITLE_TYPE
+        attr: $.message.order.quote.breakup[*].@ondc/org/title_type
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - delivery
@@ -25828,7 +25825,7 @@ x-validations:
       - _NAME_: REQUIRED_MESSAGE_ID_29
         attr: $.message.order.fulfillments[*].id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_TYPE_30
+      - _NAME_: REQUIRED_MESSAGE_TYPE
         attr: $.message.order.fulfillments[*].type
         _RETURN_: attr are present && attr all in enumList
         enumList:
@@ -25859,52 +25856,52 @@ x-validations:
           - Delivery-failed
           - Delivery-rescheduled
           - Order-delivered
-      - _NAME_: REQUIRED_MESSAGE_TRACKING_32
+      - _NAME_: REQUIRED_MESSAGE_TRACKING
         attr: $.message.order.fulfillments[*].tracking
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_NAME_33
+      - _NAME_: REQUIRED_MESSAGE_NAME
         attr: $.message.order.fulfillments[*].start.person.name
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_ID_34
         attr: $.message.order.fulfillments[*].start.location.id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_GPS_35
+      - _NAME_: REQUIRED_MESSAGE_GPS
         attr: $.message.order.fulfillments[*].start.location.gps
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_NAME_36
         attr: $.message.order.fulfillments[*].start.location.address.name
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_BUILDING_37
+      - _NAME_: REQUIRED_MESSAGE_BUILDING
         attr: $.message.order.fulfillments[*].start.location.address.building
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_LOCALITY_38
+      - _NAME_: REQUIRED_MESSAGE_LOCALITY
         attr: $.message.order.fulfillments[*].start.location.address.locality
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CITY_39
+      - _NAME_: REQUIRED_MESSAGE_CITY
         attr: $.message.order.fulfillments[*].start.location.address.city
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_STATE_40
         attr: $.message.order.fulfillments[*].start.location.address.state
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_COUNTRY_41
+      - _NAME_: REQUIRED_MESSAGE_COUNTRY
         attr: $.message.order.fulfillments[*].start.location.address.country
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_AREA_CODE_42
+      - _NAME_: REQUIRED_MESSAGE_AREA_CODE
         attr: $.message.order.fulfillments[*].start.location.address.area_code
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_PHONE_43
+      - _NAME_: REQUIRED_MESSAGE_PHONE
         attr: $.message.order.fulfillments[*].start.contact.phone
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_EMAIL_44
+      - _NAME_: REQUIRED_MESSAGE_EMAIL
         attr: $.message.order.fulfillments[*].start.contact.email
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_DURATION_45
         attr: $.message.order.fulfillments[*].start.time.duration
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_START_46
+      - _NAME_: REQUIRED_MESSAGE_START
         attr: $.message.order.fulfillments[*].start.time.range.start
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_END_47
+      - _NAME_: REQUIRED_MESSAGE_END
         attr: $.message.order.fulfillments[*].start.time.range.end
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_NAME_48
@@ -25943,7 +25940,7 @@ x-validations:
       - _NAME_: REQUIRED_MESSAGE_END_59
         attr: $.message.order.fulfillments[*].end.time.range.end
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_REGISTRATION_60
+      - _NAME_: REQUIRED_MESSAGE_REGISTRATION
         attr: $.message.order.fulfillments[*].vehicle.registration
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_NAME_61
@@ -25970,7 +25967,7 @@ x-validations:
       - _NAME_: REQUIRED_MESSAGE_AREA_CODE_68
         attr: $.message.order.billing.address.area_code
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_TAX_NUMBER_69
+      - _NAME_: REQUIRED_MESSAGE_TAX_NUMBER
         attr: $.message.order.billing.tax_number
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_PHONE_70
@@ -25979,13 +25976,13 @@ x-validations:
       - _NAME_: REQUIRED_MESSAGE_EMAIL_71
         attr: $.message.order.billing.email
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CREATED_AT_72
+      - _NAME_: REQUIRED_MESSAGE_CREATED_AT
         attr: $.message.order.billing.created_at
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_UPDATED_AT_73
+      - _NAME_: REQUIRED_MESSAGE_UPDATED_AT
         attr: $.message.order.billing.updated_at
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_COLLECTED_BY_74
+      - _NAME_: REQUIRED_MESSAGE_COLLECTED_BY
         attr: $.message.order.payment.collected_by
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_TYPE_75
@@ -25996,88 +25993,87 @@ x-validations:
           - ON-FULFILLMENT
           - POST-FULFILLMENT
       - _NAME_: REQUIRED_MESSAGE_CATEGORY_ID_76
-        attr: $.message.order['@ondc/org/linked_order'].items[*].category_id
+        attr: $.message.order.@ondc/org/linked_order.items[*].category_id
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_NAME_77
-        attr: $.message.order['@ondc/org/linked_order'].items[*].descriptor.name
+        attr: $.message.order.@ondc/org/linked_order.items[*].descriptor.name
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_COUNT_78
-        attr: $.message.order['@ondc/org/linked_order'].items[*].quantity.count
+      - _NAME_: REQUIRED_MESSAGE_COUNT
+        attr: $.message.order.@ondc/org/linked_order.items[*].quantity.count
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_UNIT_79
-        attr: $.message.order['@ondc/org/linked_order'].items[*].quantity.measure.unit
+      - _NAME_: REQUIRED_MESSAGE_UNIT
+        attr: $.message.order.@ondc/org/linked_order.items[*].quantity.measure.unit
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_80
-        attr: >-
-          $.message.order['@ondc/org/linked_order'].items[*].quantity.measure.value
+        attr: $.message.order.@ondc/org/linked_order.items[*].quantity.measure.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_CURRENCY_81
-        attr: $.message.order['@ondc/org/linked_order'].items[*].price.currency
+        attr: $.message.order.@ondc/org/linked_order.items[*].price.currency
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_82
-        attr: $.message.order['@ondc/org/linked_order'].items[*].price.value
+        attr: $.message.order.@ondc/org/linked_order.items[*].price.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_NAME_83
-        attr: $.message.order['@ondc/org/linked_order'].provider.descriptor.name
+        attr: $.message.order.@ondc/org/linked_order.provider.descriptor.name
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_NAME_84
-        attr: $.message.order['@ondc/org/linked_order'].provider.address.name
+        attr: $.message.order.@ondc/org/linked_order.provider.address.name
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_BUILDING_85
-        attr: $.message.order['@ondc/org/linked_order'].provider.address.building
+        attr: $.message.order.@ondc/org/linked_order.provider.address.building
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_STREET_86
-        attr: $.message.order['@ondc/org/linked_order'].provider.address.street
+      - _NAME_: REQUIRED_MESSAGE_STREET
+        attr: $.message.order.@ondc/org/linked_order.provider.address.street
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_LOCALITY_87
-        attr: $.message.order['@ondc/org/linked_order'].provider.address.locality
+        attr: $.message.order.@ondc/org/linked_order.provider.address.locality
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_CITY_88
-        attr: $.message.order['@ondc/org/linked_order'].provider.address.city
+        attr: $.message.order.@ondc/org/linked_order.provider.address.city
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_STATE_89
-        attr: $.message.order['@ondc/org/linked_order'].provider.address.state
+        attr: $.message.order.@ondc/org/linked_order.provider.address.state
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_AREA_CODE_90
-        attr: $.message.order['@ondc/org/linked_order'].provider.address.area_code
+        attr: $.message.order.@ondc/org/linked_order.provider.address.area_code
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_ID_91
-        attr: $.message.order['@ondc/org/linked_order'].order.id
+        attr: $.message.order.@ondc/org/linked_order.order.id
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_UNIT_92
-        attr: $.message.order['@ondc/org/linked_order'].order.weight.unit
+        attr: $.message.order.@ondc/org/linked_order.order.weight.unit
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_93
-        attr: $.message.order['@ondc/org/linked_order'].order.weight.value
+        attr: $.message.order.@ondc/org/linked_order.order.weight.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_UNIT_94
-        attr: $.message.order['@ondc/org/linked_order'].order.dimensions.length.unit
+        attr: $.message.order.@ondc/org/linked_order.order.dimensions.length.unit
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_95
-        attr: $.message.order['@ondc/org/linked_order'].order.dimensions.length.value
+        attr: $.message.order.@ondc/org/linked_order.order.dimensions.length.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_UNIT_96
-        attr: $.message.order['@ondc/org/linked_order'].order.dimensions.breadth.unit
+        attr: $.message.order.@ondc/org/linked_order.order.dimensions.breadth.unit
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_97
-        attr: $.message.order['@ondc/org/linked_order'].order.dimensions.breadth.value
+        attr: $.message.order.@ondc/org/linked_order.order.dimensions.breadth.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_UNIT_98
-        attr: $.message.order['@ondc/org/linked_order'].order.dimensions.height.unit
+        attr: $.message.order.@ondc/org/linked_order.order.dimensions.height.unit
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_99
-        attr: $.message.order['@ondc/org/linked_order'].order.dimensions.height.value
+        attr: $.message.order.@ondc/org/linked_order.order.dimensions.height.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_UPDATED_AT_100
         attr: $.message.order.updated_at
         _RETURN_: attr are present
-      - _NAME_: VALID_ENUM_CONTEXT_DOMAIN_1
+      - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - nic2004:60232
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_STATE_2
+      - _NAME_: VALID_ENUM_MESSAGE_STATE
         enumList:
           - Created
           - Accepted
@@ -26087,14 +26083,14 @@ x-validations:
         enumPath: $.message.order.state
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_CODE_3
+      - _NAME_: VALID_ENUM_MESSAGE_CODE
         enumList:
           - P2P
           - P2H2P
         enumPath: $.message.order.items[*].descriptor.code
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_CATEGORY_ID_4
+      - _NAME_: VALID_ENUM_MESSAGE_CATEGORY_ID
         enumList:
           - Express Delivery
           - Standard Delivery
@@ -26105,7 +26101,7 @@ x-validations:
         enumPath: $.message.order.items[*].category_id
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_TYPE_5
+      - _NAME_: VALID_ENUM_MESSAGE_TYPE
         enumList:
           - Delivery
           - Return
@@ -26176,15 +26172,15 @@ x-validations:
         enumPath: $.message.order.payment.type
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_SETTLEMENT_COUNTERPARTY_12
+      - _NAME_: VALID_ENUM_MESSAGE_SETTLEMENT_COUNTERPARTY
         enumList:
           - lbnp
           - lsp
         enumPath: >-
-          $.message.order.payment['@ondc/org/settlement_details'][*].settlement_counterparty
+          $.message.order.payment.@ondc/org/settlement_details[*].settlement_counterparty
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_BREAKUPONDCORGTITLE_TYPE_13
+      - _NAME_: VALID_ENUM_MESSAGE_ONDCORGTITLE_TYPE
         enumList:
           - delivery
           - rto
@@ -26193,7 +26189,7 @@ x-validations:
           - tax_diff
           - discount
           - cod
-        enumPath: $.message.order.quote.breakup[*]['@ondc/org/title_type']
+        enumPath: $.message.order.quote.breakup[*].@ondc/org/title_type
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
       - _NAME_: validate_tag_0
@@ -26358,60 +26354,49 @@ x-validations:
           - type
           - url
         _RETURN_: subTags all in validValues
-      # - _NAME_: shipping_label_for_p2h2p
-      #   _DESCRIPTION_: >-
-      #     Shipping label should be provided for P2H2P orders in start.instructions
-      #     and fulfillments.tags
-      #   orderType: $.message.order.items[0].descriptor.code
-      #   p2h2p:
-      #     - P2H2P
-      #   shippingLabel: $.message.order.fulfillments[*].start.instructions.images
-      #   tags: $.message.order.fulfillments[*].tags[?(@.code=='shipping_label')].code
-      #   _CONTINUE_: '!(orderType all in p2h2p)'
-      #   _RETURN_: shippingLabel are present && tags are present
     on_status:
-      - _NAME_: REQUIRED_CONTEXT_DOMAIN_1
+      - _NAME_: REQUIRED_CONTEXT_DOMAIN
         attr: $.context.domain
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - nic2004:60232
-      - _NAME_: REQUIRED_CONTEXT_COUNTRY_2
+      - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_CITY_3
+      - _NAME_: REQUIRED_CONTEXT_CITY
         attr: $.context.city
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_ACTION_4
+      - _NAME_: REQUIRED_CONTEXT_ACTION
         attr: $.context.action
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_CORE_VERSION_5
+      - _NAME_: REQUIRED_CONTEXT_CORE_VERSION
         attr: $.context.core_version
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BAP_ID_6
+      - _NAME_: REQUIRED_CONTEXT_BAP_ID
         attr: $.context.bap_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BAP_URI_7
+      - _NAME_: REQUIRED_CONTEXT_BAP_URI
         attr: $.context.bap_uri
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BPP_ID_8
+      - _NAME_: REQUIRED_CONTEXT_BPP_ID
         attr: $.context.bpp_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_BPP_URI_9
+      - _NAME_: REQUIRED_CONTEXT_BPP_URI
         attr: $.context.bpp_uri
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID_10
+      - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID
         attr: $.context.transaction_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID_11
+      - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID
         attr: $.context.message_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_CONTEXT_TIMESTAMP_12
+      - _NAME_: REQUIRED_CONTEXT_TIMESTAMP
         attr: $.context.timestamp
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_ID_13
+      - _NAME_: REQUIRED_MESSAGE_ID
         attr: $.message.order.id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_STATE_14
+      - _NAME_: REQUIRED_MESSAGE_STATE
         attr: $.message.order.state
         _RETURN_: attr are present && attr all in enumList
         enumList:
@@ -26426,7 +26411,7 @@ x-validations:
       - _NAME_: REQUIRED_MESSAGE_ID_16
         attr: $.message.order.items[*].id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CATEGORY_ID_17
+      - _NAME_: REQUIRED_MESSAGE_CATEGORY_ID
         attr: $.message.order.items[*].category_id
         _RETURN_: attr are present && attr all in enumList
         enumList:
@@ -26436,32 +26421,32 @@ x-validations:
           - Next Day Delivery
           - Same Day Delivery
           - Instant Delivery
-      - _NAME_: REQUIRED_MESSAGE_CODE_18
+      - _NAME_: REQUIRED_MESSAGE_CODE
         attr: $.message.order.items[*].descriptor.code
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - P2P
           - P2H2P
-      - _NAME_: REQUIRED_MESSAGE_LABEL_19
+      - _NAME_: REQUIRED_MESSAGE_LABEL
         attr: $.message.order.items[*].time.label
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_DURATION_20
+      - _NAME_: REQUIRED_MESSAGE_DURATION
         attr: $.message.order.items[*].time.duration
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_TIMESTAMP_21
+      - _NAME_: REQUIRED_MESSAGE_TIMESTAMP
         attr: $.message.order.items[*].time.timestamp
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CURRENCY_22
+      - _NAME_: REQUIRED_MESSAGE_CURRENCY
         attr: $.message.order.quote.price.currency
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_VALUE_23
+      - _NAME_: REQUIRED_MESSAGE_VALUE
         attr: $.message.order.quote.price.value
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_BREAKUPONDCORGITEM_ID_24
-        attr: $.message.order.quote.breakup[*]['@ondc/org/item_id']
+      - _NAME_: REQUIRED_MESSAGE_ONDCORGITEM_ID
+        attr: $.message.order.quote.breakup[*].@ondc/org/item_id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_BREAKUPONDCORGTITLE_TYPE_25
-        attr: $.message.order.quote.breakup[*]['@ondc/org/title_type']
+      - _NAME_: REQUIRED_MESSAGE_ONDCORGTITLE_TYPE
+        attr: $.message.order.quote.breakup[*].@ondc/org/title_type
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - delivery
@@ -26480,7 +26465,7 @@ x-validations:
       - _NAME_: REQUIRED_MESSAGE_ID_28
         attr: $.message.order.fulfillments[*].id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_TYPE_29
+      - _NAME_: REQUIRED_MESSAGE_TYPE
         attr: $.message.order.fulfillments[*].type
         _RETURN_: attr are present && attr all in enumList
         enumList:
@@ -26518,131 +26503,130 @@ x-validations:
           - ON-ORDER
           - ON-FULFILLMENT
           - POST-FULFILLMENT
-      - _NAME_: REQUIRED_MESSAGE_COLLECTED_BY_32
+      - _NAME_: REQUIRED_MESSAGE_COLLECTED_BY
         attr: $.message.order.payment.collected_by
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_STATUS_33
+      - _NAME_: REQUIRED_MESSAGE_STATUS
         attr: $.message.order.payment.status
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_NAME_34
+      - _NAME_: REQUIRED_MESSAGE_NAME
         attr: $.message.order.billing.name
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_NAME_35
         attr: $.message.order.billing.address.name
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_BUILDING_36
+      - _NAME_: REQUIRED_MESSAGE_BUILDING
         attr: $.message.order.billing.address.building
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_LOCALITY_37
+      - _NAME_: REQUIRED_MESSAGE_LOCALITY
         attr: $.message.order.billing.address.locality
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CITY_38
+      - _NAME_: REQUIRED_MESSAGE_CITY
         attr: $.message.order.billing.address.city
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_STATE_39
         attr: $.message.order.billing.address.state
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_COUNTRY_40
+      - _NAME_: REQUIRED_MESSAGE_COUNTRY
         attr: $.message.order.billing.address.country
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_AREA_CODE_41
+      - _NAME_: REQUIRED_MESSAGE_AREA_CODE
         attr: $.message.order.billing.address.area_code
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_TAX_NUMBER_42
+      - _NAME_: REQUIRED_MESSAGE_TAX_NUMBER
         attr: $.message.order.billing.tax_number
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_PHONE_43
+      - _NAME_: REQUIRED_MESSAGE_PHONE
         attr: $.message.order.billing.phone
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_EMAIL_44
+      - _NAME_: REQUIRED_MESSAGE_EMAIL
         attr: $.message.order.billing.email
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CREATED_AT_45
+      - _NAME_: REQUIRED_MESSAGE_CREATED_AT
         attr: $.message.order.billing.created_at
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_UPDATED_AT_46
+      - _NAME_: REQUIRED_MESSAGE_UPDATED_AT
         attr: $.message.order.billing.updated_at
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_CATEGORY_ID_47
-        attr: $.message.order['@ondc/org/linked_order'].items[*].category_id
+        attr: $.message.order.@ondc/org/linked_order.items[*].category_id
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_NAME_48
-        attr: $.message.order['@ondc/org/linked_order'].items[*].descriptor.name
+        attr: $.message.order.@ondc/org/linked_order.items[*].descriptor.name
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_COUNT_49
-        attr: $.message.order['@ondc/org/linked_order'].items[*].quantity.count
+      - _NAME_: REQUIRED_MESSAGE_COUNT
+        attr: $.message.order.@ondc/org/linked_order.items[*].quantity.count
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_UNIT_50
-        attr: $.message.order['@ondc/org/linked_order'].items[*].quantity.measure.unit
+      - _NAME_: REQUIRED_MESSAGE_UNIT
+        attr: $.message.order.@ondc/org/linked_order.items[*].quantity.measure.unit
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_51
-        attr: >-
-          $.message.order['@ondc/org/linked_order'].items[*].quantity.measure.value
+        attr: $.message.order.@ondc/org/linked_order.items[*].quantity.measure.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_CURRENCY_52
-        attr: $.message.order['@ondc/org/linked_order'].items[*].price.currency
+        attr: $.message.order.@ondc/org/linked_order.items[*].price.currency
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_53
-        attr: $.message.order['@ondc/org/linked_order'].items[*].price.value
+        attr: $.message.order.@ondc/org/linked_order.items[*].price.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_NAME_54
-        attr: $.message.order['@ondc/org/linked_order'].provider.descriptor.name
+        attr: $.message.order.@ondc/org/linked_order.provider.descriptor.name
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_NAME_55
-        attr: $.message.order['@ondc/org/linked_order'].provider.address.name
+        attr: $.message.order.@ondc/org/linked_order.provider.address.name
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_BUILDING_56
-        attr: $.message.order['@ondc/org/linked_order'].provider.address.building
+        attr: $.message.order.@ondc/org/linked_order.provider.address.building
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_LOCALITY_57
-        attr: $.message.order['@ondc/org/linked_order'].provider.address.locality
+        attr: $.message.order.@ondc/org/linked_order.provider.address.locality
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_CITY_58
-        attr: $.message.order['@ondc/org/linked_order'].provider.address.city
+        attr: $.message.order.@ondc/org/linked_order.provider.address.city
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_STATE_59
-        attr: $.message.order['@ondc/org/linked_order'].provider.address.state
+        attr: $.message.order.@ondc/org/linked_order.provider.address.state
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_AREA_CODE_60
-        attr: $.message.order['@ondc/org/linked_order'].provider.address.area_code
+        attr: $.message.order.@ondc/org/linked_order.provider.address.area_code
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_ID_61
-        attr: $.message.order['@ondc/org/linked_order'].order.id
+        attr: $.message.order.@ondc/org/linked_order.order.id
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_UNIT_62
-        attr: $.message.order['@ondc/org/linked_order'].order.weight.unit
+        attr: $.message.order.@ondc/org/linked_order.order.weight.unit
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_63
-        attr: $.message.order['@ondc/org/linked_order'].order.weight.value
+        attr: $.message.order.@ondc/org/linked_order.order.weight.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_UNIT_64
-        attr: $.message.order['@ondc/org/linked_order'].order.dimensions.length.unit
+        attr: $.message.order.@ondc/org/linked_order.order.dimensions.length.unit
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_65
-        attr: $.message.order['@ondc/org/linked_order'].order.dimensions.length.value
+        attr: $.message.order.@ondc/org/linked_order.order.dimensions.length.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_UNIT_66
-        attr: $.message.order['@ondc/org/linked_order'].order.dimensions.breadth.unit
+        attr: $.message.order.@ondc/org/linked_order.order.dimensions.breadth.unit
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_67
-        attr: $.message.order['@ondc/org/linked_order'].order.dimensions.breadth.value
+        attr: $.message.order.@ondc/org/linked_order.order.dimensions.breadth.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_UNIT_68
-        attr: $.message.order['@ondc/org/linked_order'].order.dimensions.height.unit
+        attr: $.message.order.@ondc/org/linked_order.order.dimensions.height.unit
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_69
-        attr: $.message.order['@ondc/org/linked_order'].order.dimensions.height.value
+        attr: $.message.order.@ondc/org/linked_order.order.dimensions.height.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_UPDATED_AT_70
         attr: $.message.order.updated_at
         _RETURN_: attr are present
-      - _NAME_: VALID_ENUM_CONTEXT_DOMAIN_1
+      - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - nic2004:60232
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_STATE_2
+      - _NAME_: VALID_ENUM_MESSAGE_STATE
         enumList:
           - Created
           - Accepted
@@ -26652,14 +26636,14 @@ x-validations:
         enumPath: $.message.order.state
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_CODE_3
+      - _NAME_: VALID_ENUM_MESSAGE_CODE
         enumList:
           - P2P
           - P2H2P
         enumPath: $.message.order.items[*].descriptor.code
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_CATEGORY_ID_4
+      - _NAME_: VALID_ENUM_MESSAGE_CATEGORY_ID
         enumList:
           - Express Delivery
           - Standard Delivery
@@ -26670,7 +26654,7 @@ x-validations:
         enumPath: $.message.order.items[*].category_id
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_TYPE_5
+      - _NAME_: VALID_ENUM_MESSAGE_TYPE
         enumList:
           - Delivery
           - Return
@@ -26741,15 +26725,15 @@ x-validations:
         enumPath: $.message.order.payment.type
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_SETTLEMENT_COUNTERPARTY_12
+      - _NAME_: VALID_ENUM_MESSAGE_SETTLEMENT_COUNTERPARTY
         enumList:
           - lbnp
           - lsp
         enumPath: >-
-          $.message.order.payment['@ondc/org/settlement_details'][*].settlement_counterparty
+          $.message.order.payment.@ondc/org/settlement_details[*].settlement_counterparty
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
-      - _NAME_: VALID_ENUM_MESSAGE_BREAKUPONDCORGTITLE_TYPE_13
+      - _NAME_: VALID_ENUM_MESSAGE_ONDCORGTITLE_TYPE
         enumList:
           - delivery
           - rto
@@ -26758,7 +26742,7 @@ x-validations:
           - tax_diff
           - discount
           - cod
-        enumPath: $.message.order.quote.breakup[*]['@ondc/org/title_type']
+        enumPath: $.message.order.quote.breakup[*].@ondc/org/title_type
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
       - _NAME_: validate_tag_0
