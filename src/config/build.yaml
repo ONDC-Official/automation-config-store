@@ -23339,7 +23339,7 @@ x-validations:
             item_fulfillment_id: $.message.order.items[*].fulfillment_id
             item_fulfillment_ids: $.message.order.items[*].fulfillment_ids[*]
             _RETURN_: >-
-              item_fulfillment_id all in fulfillment_id && item_fulfillment_ids
+              item_fulfillment_id all in fulfillment_id || item_fulfillment_ids
               all in fulfillment_id
       - _NAME_: instructions_validations
         _RETURN_:
@@ -24427,7 +24427,7 @@ x-validations:
             item_fulfillment_id: $.message.order.items[*].fulfillment_id
             item_fulfillment_ids: $.message.order.items[*].fulfillment_ids[*]
             _RETURN_: >-
-              item_fulfillment_id all in fulfillment_id && item_fulfillment_ids
+              item_fulfillment_id all in fulfillment_id || item_fulfillment_ids
               all in fulfillment_id
     on_confirm:
       - _NAME_: REQUIRED_CONTEXT_DOMAIN
@@ -25058,7 +25058,7 @@ x-validations:
             item_fulfillment_id: $.message.order.items[*].fulfillment_id
             item_fulfillment_ids: $.message.order.items[*].fulfillment_ids[*]
             _RETURN_: >-
-              item_fulfillment_id all in fulfillment_id && item_fulfillment_ids
+              item_fulfillment_id all in fulfillment_id || item_fulfillment_ids
               all in fulfillment_id
     on_track:
       - _NAME_: REQUIRED_CONTEXT_DOMAIN
