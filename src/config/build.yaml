@@ -22684,7 +22684,7 @@ x-validations:
             item_fulfillment_id: $.message.order.items[*].fulfillment_id
             item_fulfillment_ids: $.message.order.items[*].fulfillment_ids[*]
             _RETURN_: >-
-              item_fulfillment_id all in fulfillment_id && item_fulfillment_ids
+              item_fulfillment_id all in fulfillment_id || item_fulfillment_ids
               all in fulfillment_id
     confirm:
       - _NAME_: REQUIRED_CONTEXT_DOMAIN
