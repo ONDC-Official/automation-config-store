@@ -16,7 +16,7 @@ export function onSearch(
   // Initialize results array
   const results: validationOutput = [];
 
-    providers.array.forEach((provider: any) => {
+    providers.forEach((provider: any) => {
       const items = provider?.items;
       const fulfillments = provider?.fulfillments
       RedisService.setKey(
