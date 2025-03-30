@@ -22268,8 +22268,9 @@ x-validations:
         _SCOPE_: $.message.intent.fulfillment.tags[?(@.code=='linked_order')]
         subTags: $.list[*].code
         validValues:
-          - cod_order
           - currency
+          - cod_order
+          - collection_amount
           - declared_value
           - category
           - weight_unit
@@ -22636,6 +22637,8 @@ x-validations:
         validValues:
           - id
           - currency
+          - cod_order
+          - collection_amount
           - declared_value
           - category
           - weight_unit
@@ -23201,6 +23204,8 @@ x-validations:
           - prep_time
           - cod_order
           - currency
+          - cod_order
+          - collection_amount
           - declared_value
           - collection_amount
           - weight_unit
@@ -23768,6 +23773,8 @@ x-validations:
         validValues:
           - id
           - currency
+          - cod_order
+          - collection_amount
           - declared_value
           - weight_unit
           - weight_value
@@ -24380,6 +24387,8 @@ x-validations:
         validValues:
           - id
           - currency
+          - cod_order
+          - collection_amount
           - declared_value
           - weight_unit
           - weight_value
@@ -24964,6 +24973,8 @@ x-validations:
         validValues:
           - id
           - currency
+          - cod_order
+          - collection_amount
           - declared_value
           - weight_unit
           - weight_value
@@ -25596,6 +25607,7 @@ x-validations:
           - shipping_label
           - rto_event
           - ebn
+          - tracking
         tagPath: $.message.order.fulfillments[*].tags[*].code
         _CONTINUE_: '!(tagPath are present)'
         _RETURN_: tagPath all in validTags
@@ -25626,6 +25638,8 @@ x-validations:
         validValues:
           - id
           - currency
+          - cod_order
+          - collection_amount
           - declared_value
           - weight_unit
           - weight_value
@@ -26257,6 +26271,8 @@ x-validations:
         validValues:
           - id
           - currency
+          - cod_order
+          - collection_amount
           - declared_value
           - weight_unit
           - weight_value
@@ -26820,6 +26836,8 @@ x-validations:
         validValues:
           - id
           - currency
+          - cod_order
+          - collection_amount
           - declared_value
           - weight_unit
           - weight_value
@@ -27020,4 +27038,5 @@ x-validations:
           $.message.order.fulfillments[?(@.type=='Delivery')].end.location.address.city
         _RETURN_: endLocation are present
   _SESSION_DATA_: {}
+
 
