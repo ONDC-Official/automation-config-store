@@ -23452,19 +23452,6 @@ x-validations:
           - breadth
           - height
         _RETURN_: subTags all in validValues
-      - _NAME_: validate_tag_3_cod_settlement_detail
-        _SCOPE_: $.message.order.fulfillments[*].tags[?(@.code=='cod_settlement_detail')]
-        subTags: $.list[*].code
-        validValues:
-          - settlement_window
-          - settlement_type
-          - beneficiary_name
-          - upi_address
-          - bank_account_no
-          - ifsc_code
-          - bank_name
-          - branch_name
-        _RETURN_: subTags all in validValues
       - _NAME_: validate_tag_3_rto_verification
         _SCOPE_: $.message.order.fulfillments[*].tags[?(@.code=='rto_verification')]
         subTags: $.list[*].code
