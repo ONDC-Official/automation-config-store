@@ -23019,88 +23019,70 @@ x-validations:
       - _NAME_: REQUIRED_MESSAGE_EMAIL
         attr: $.message.order.fulfillments[*].start.contact.email
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CODE_43
-        attr: $.message.order.fulfillments[*].start.instructions.code
-        _RETURN_: attr are present && attr all in enumList
-        enumList:
-          - '2'
-          - '3'
-          - '4'
-          - '5'
-      - _NAME_: REQUIRED_MESSAGE_SHORT_DESC
-        attr: $.message.order.fulfillments[*].start.instructions.short_desc
-        _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CONTENT_TYPE
-        attr: >-
-          $.message.order.fulfillments[*].start.instructions.additional_desc.content_type
-        _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_URL
-        attr: $.message.order.fulfillments[*].start.instructions.additional_desc.url
-        _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_NAME_47
+      - _NAME_: REQUIRED_MESSAGE_NAME_43
         attr: $.message.order.fulfillments[*].end.person.name
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_GPS_48
+      - _NAME_: REQUIRED_MESSAGE_GPS_44
         attr: $.message.order.fulfillments[*].end.location.gps
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_NAME_49
+      - _NAME_: REQUIRED_MESSAGE_NAME_45
         attr: $.message.order.fulfillments[*].end.location.address.name
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_BUILDING_50
+      - _NAME_: REQUIRED_MESSAGE_BUILDING_46
         attr: $.message.order.fulfillments[*].end.location.address.building
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_LOCALITY_51
+      - _NAME_: REQUIRED_MESSAGE_LOCALITY_47
         attr: $.message.order.fulfillments[*].end.location.address.locality
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CITY_52
+      - _NAME_: REQUIRED_MESSAGE_CITY_48
         attr: $.message.order.fulfillments[*].end.location.address.city
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_STATE_53
+      - _NAME_: REQUIRED_MESSAGE_STATE_49
         attr: $.message.order.fulfillments[*].end.location.address.state
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_COUNTRY_54
+      - _NAME_: REQUIRED_MESSAGE_COUNTRY_50
         attr: $.message.order.fulfillments[*].end.location.address.country
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_AREA_CODE_55
+      - _NAME_: REQUIRED_MESSAGE_AREA_CODE_51
         attr: $.message.order.fulfillments[*].end.location.address.area_code
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_PHONE_56
+      - _NAME_: REQUIRED_MESSAGE_PHONE_52
         attr: $.message.order.fulfillments[*].end.contact.phone
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_EMAIL_57
+      - _NAME_: REQUIRED_MESSAGE_EMAIL_53
         attr: $.message.order.fulfillments[*].end.contact.email
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_NAME_58
+      - _NAME_: REQUIRED_MESSAGE_NAME_54
         attr: $.message.order.billing.name
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_NAME_59
+      - _NAME_: REQUIRED_MESSAGE_NAME_55
         attr: $.message.order.billing.address.name
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_BUILDING_60
+      - _NAME_: REQUIRED_MESSAGE_BUILDING_56
         attr: $.message.order.billing.address.building
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_LOCALITY_61
+      - _NAME_: REQUIRED_MESSAGE_LOCALITY_57
         attr: $.message.order.billing.address.locality
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CITY_62
+      - _NAME_: REQUIRED_MESSAGE_CITY_58
         attr: $.message.order.billing.address.city
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_STATE_63
+      - _NAME_: REQUIRED_MESSAGE_STATE_59
         attr: $.message.order.billing.address.state
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_COUNTRY_64
+      - _NAME_: REQUIRED_MESSAGE_COUNTRY_60
         attr: $.message.order.billing.address.country
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_AREA_CODE_65
+      - _NAME_: REQUIRED_MESSAGE_AREA_CODE_61
         attr: $.message.order.billing.address.area_code
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_TAX_NUMBER
         attr: $.message.order.billing.tax_number
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_PHONE_67
+      - _NAME_: REQUIRED_MESSAGE_PHONE_63
         attr: $.message.order.billing.phone
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_EMAIL_68
+      - _NAME_: REQUIRED_MESSAGE_EMAIL_64
         attr: $.message.order.billing.email
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_CREATED_AT
@@ -23112,14 +23094,14 @@ x-validations:
       - _NAME_: REQUIRED_MESSAGE_COLLECTED_BY
         attr: $.message.order.payment.collected_by
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_TYPE_72
+      - _NAME_: REQUIRED_MESSAGE_TYPE_68
         attr: $.message.order.payment.type
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - ON-ORDER
           - ON-FULFILLMENT
           - POST-FULFILLMENT
-      - _NAME_: REQUIRED_MESSAGE_NAME_73
+      - _NAME_: REQUIRED_MESSAGE_NAME_69
         attr: $.message.order['@ondc/org/linked_order'].items[*].descriptor.name
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_COUNT
@@ -23128,68 +23110,68 @@ x-validations:
       - _NAME_: REQUIRED_MESSAGE_UNIT
         attr: $.message.order['@ondc/org/linked_order'].items[*].quantity.measure.unit
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_VALUE_76
+      - _NAME_: REQUIRED_MESSAGE_VALUE_72
         attr: >-
           $.message.order['@ondc/org/linked_order'].items[*].quantity.measure.value
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CURRENCY_77
+      - _NAME_: REQUIRED_MESSAGE_CURRENCY_73
         attr: $.message.order['@ondc/org/linked_order'].items[*].price.currency
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_VALUE_78
+      - _NAME_: REQUIRED_MESSAGE_VALUE_74
         attr: $.message.order['@ondc/org/linked_order'].items[*].price.value
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_NAME_79
+      - _NAME_: REQUIRED_MESSAGE_NAME_75
         attr: $.message.order['@ondc/org/linked_order'].provider.descriptor.name
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_NAME_80
+      - _NAME_: REQUIRED_MESSAGE_NAME_76
         attr: $.message.order['@ondc/org/linked_order'].provider.address.name
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_BUILDING_81
+      - _NAME_: REQUIRED_MESSAGE_BUILDING_77
         attr: $.message.order['@ondc/org/linked_order'].provider.address.building
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_LOCALITY_82
+      - _NAME_: REQUIRED_MESSAGE_LOCALITY_78
         attr: $.message.order['@ondc/org/linked_order'].provider.address.locality
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CITY_83
+      - _NAME_: REQUIRED_MESSAGE_CITY_79
         attr: $.message.order['@ondc/org/linked_order'].provider.address.city
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_STATE_84
+      - _NAME_: REQUIRED_MESSAGE_STATE_80
         attr: $.message.order['@ondc/org/linked_order'].provider.address.state
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_AREA_CODE_85
+      - _NAME_: REQUIRED_MESSAGE_AREA_CODE_81
         attr: $.message.order['@ondc/org/linked_order'].provider.address.area_code
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_ID_86
+      - _NAME_: REQUIRED_MESSAGE_ID_82
         attr: $.message.order['@ondc/org/linked_order'].order.id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_UNIT_87
+      - _NAME_: REQUIRED_MESSAGE_UNIT_83
         attr: $.message.order['@ondc/org/linked_order'].order.weight.unit
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_VALUE_88
+      - _NAME_: REQUIRED_MESSAGE_VALUE_84
         attr: $.message.order['@ondc/org/linked_order'].order.weight.value
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_UNIT_89
+      - _NAME_: REQUIRED_MESSAGE_UNIT_85
         attr: $.message.order['@ondc/org/linked_order'].order.dimensions.length.unit
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_VALUE_90
+      - _NAME_: REQUIRED_MESSAGE_VALUE_86
         attr: $.message.order['@ondc/org/linked_order'].order.dimensions.length.value
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_UNIT_91
+      - _NAME_: REQUIRED_MESSAGE_UNIT_87
         attr: $.message.order['@ondc/org/linked_order'].order.dimensions.breadth.unit
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_VALUE_92
+      - _NAME_: REQUIRED_MESSAGE_VALUE_88
         attr: $.message.order['@ondc/org/linked_order'].order.dimensions.breadth.value
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_UNIT_93
+      - _NAME_: REQUIRED_MESSAGE_UNIT_89
         attr: $.message.order['@ondc/org/linked_order'].order.dimensions.height.unit
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_VALUE_94
+      - _NAME_: REQUIRED_MESSAGE_VALUE_90
         attr: $.message.order['@ondc/org/linked_order'].order.dimensions.height.value
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CREATED_AT_95
+      - _NAME_: REQUIRED_MESSAGE_CREATED_AT_91
         attr: $.message.order.created_at
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_UPDATED_AT_96
+      - _NAME_: REQUIRED_MESSAGE_UPDATED_AT_92
         attr: $.message.order.updated_at
         _RETURN_: attr are present
       - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
