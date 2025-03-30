@@ -22362,7 +22362,7 @@ x-validations:
         enumList:
           - nic2004:60232
         enumPath: $.context.domain
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_TYPE_2
         enumList:
@@ -22370,37 +22370,37 @@ x-validations:
           - Return
           - RTO
         enumPath: $.message.intent.fulfillment.type
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_TYPE_3
         enumList:
           - OTP
         enumPath: $.message.intent.fulfillment.start.authorization.type
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CODE_4
         enumList:
-          - '2'
-          - '3'
-          - '4'
-          - '5'
+          - "2"
+          - "3"
+          - "4"
+          - "5"
         enumPath: $.message.intent.fulfillment.start.instructions.code
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_TYPE_5
         enumList:
           - OTP
         enumPath: $.message.intent.fulfillment.end.authorization.type
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CODE_6
         enumList:
-          - '1'
-          - '2'
-          - '3'
-          - '5'
+          - "1"
+          - "2"
+          - "3"
+          - "5"
         enumPath: $.message.intent.fulfillment.end.instructions.code
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_TYPE_7
         enumList:
@@ -22408,7 +22408,7 @@ x-validations:
           - ON-FULFILLMENT
           - POST-FULFILLMENT
         enumPath: $.message.intent.payment.type
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_ID_8
         enumList:
@@ -22419,14 +22419,14 @@ x-validations:
           - Same Day Delivery
           - Instant Delivery
         enumPath: $.message.intent.category.id
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CODE_9
         enumList:
           - P2P
           - P2H2P
         enumPath: $.message.intent.item.descriptor.code
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: validate_tag_0
         validTags:
@@ -22434,7 +22434,7 @@ x-validations:
           - linked_order
           - fulfill_request
         tagPath: $.message.intent.fulfillment.tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_0_linked_provider
         _SCOPE_: $.message.intent.fulfillment.tags[?(@.code=='linked_provider')]
@@ -22477,7 +22477,7 @@ x-validations:
           - lbnp_features
           - lbnp_sla_terms
         tagPath: $.message.intent.tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_1_lbnp_features
         _SCOPE_: $.message.intent.tags[?(@.code=='lbnp_features')]
@@ -22486,38 +22486,38 @@ x-validations:
           - 00B
           - 00E
           - 01D
-          - '005'
-          - '009'
+          - "005"
+          - "009"
           - 00C
-          - '000'
-          - '001'
-          - '002'
-          - '003'
-          - '004'
-          - '006'
-          - '007'
-          - '008'
+          - "000"
+          - "001"
+          - "002"
+          - "003"
+          - "004"
+          - "006"
+          - "007"
+          - "008"
           - 00A
           - 00D
           - 00F
-          - '010'
-          - '011'
-          - '012'
-          - '013'
-          - '014'
-          - '015'
-          - '016'
-          - '017'
-          - '018'
-          - '019'
+          - "010"
+          - "011"
+          - "012"
+          - "013"
+          - "014"
+          - "015"
+          - "016"
+          - "017"
+          - "018"
+          - "019"
           - 01A
           - 01B
           - 01C
           - 01D
           - 01E
           - 01F
-          - '020'
-          - '021'
+          - "020"
+          - "021"
         _RETURN_: subTags all in validValues
       - _NAME_: validate_tag_1_lbnp_sla_terms
         _SCOPE_: $.message.intent.tags[?(@.code=='lbnp_sla_terms')]
@@ -22709,14 +22709,14 @@ x-validations:
         enumList:
           - nic2004:60232
         enumPath: $.context.domain
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CODE_2
         enumList:
           - P2P
           - P2H2P
         enumPath: $.message.order.items[*].descriptor.code
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_TYPE_3
         enumList:
@@ -22724,7 +22724,7 @@ x-validations:
           - Return
           - RTO
         enumPath: $.message.order.fulfillments[*].type
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_TYPE_4
         enumList:
@@ -22732,25 +22732,23 @@ x-validations:
           - ON-FULFILLMENT
           - POST-FULFILLMENT
         enumPath: $.message.order.payment.type
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_SETTLEMENT_COUNTERPARTY_5
         enumList:
           - lbnp
           - lsp
-        enumPath: >-
-          $.message.order.payment['@ondc/org/settlement_details'][*].settlement_counterparty
-        _CONTINUE_: '!(enumPath are present)'
+        enumPath: $.message.order.payment['@ondc/org/settlement_details'][*].settlement_counterparty
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: validate_tag_0
         validTags:
           - masked_contact
         tagPath: $.message.order.fulfillments[*].start.contact.tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_0_masked_contact
-        _SCOPE_: >-
-          $.message.order.fulfillments[*].start.contact.tags[?(@.code=='masked_contact')]
+        _SCOPE_: $.message.order.fulfillments[*].start.contact.tags[?(@.code=='masked_contact')]
         subTags: $.list[*].code
         validValues:
           - type
@@ -22761,11 +22759,10 @@ x-validations:
         validTags:
           - masked_contact
         tagPath: $.message.order.fulfillments[*].end.contact.tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_1_masked_contact
-        _SCOPE_: >-
-          $.message.order.fulfillments[*].end.contact.tags[?(@.code=='masked_contact')]
+        _SCOPE_: $.message.order.fulfillments[*].end.contact.tags[?(@.code=='masked_contact')]
         subTags: $.list[*].code
         validValues:
           - type
@@ -22779,7 +22776,7 @@ x-validations:
           - fulfill_response
           - linked_order
         tagPath: $.message.order.fulfillments[*].tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_2_linked_provider
         _SCOPE_: $.message.order.fulfillments[*].tags[?(@.code=='linked_provider')]
@@ -22831,7 +22828,7 @@ x-validations:
         validTags:
           - type
         tagPath: $.message.order.items[*].tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_3_type
         _SCOPE_: $.message.order.items[*].tags[?(@.code=='type')]
@@ -22843,7 +22840,7 @@ x-validations:
         validTags:
           - bap_terms
         tagPath: $.message.order.tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_4_bap_terms
         _SCOPE_: $.message.order.tags[?(@.code=='bap_terms')]
@@ -22851,23 +22848,6 @@ x-validations:
         validValues:
           - accept_bpp_terms
         _RETURN_: subTags all in validValues
-      - _NAME_: init_fulfillment_id_validations
-        _RETURN_:
-          - _NAME_: validate_fulfillment_id_in_items
-            _DESCRIPTION_: fulfillment_id or fulfillment_ids should be present in items
-            fulfillment_id: $.message.order.items[*].fulfillment_id
-            fulfillment_ids: $.message.order.items[*].fulfillment_ids[*]
-            _RETURN_: fulfillment_id are present || fulfillment_ids are present
-          - _NAME_: validate_fulfillment_id_in_fulfillments
-            _DESCRIPTION_: >-
-              Fulfillment id in items should be mapped correctly in fulfillments
-              array
-            fulfillment_id: $.message.order.fulfillments[*].id
-            item_fulfillment_id: $.message.order.items[*].fulfillment_id
-            item_fulfillment_ids: $.message.order.items[*].fulfillment_ids[*]
-            _RETURN_: >-
-              item_fulfillment_id all in fulfillment_id || item_fulfillment_ids
-              all in fulfillment_id
     confirm:
       - _NAME_: REQUIRED_CONTEXT_DOMAIN_1
         attr: $.context.domain
@@ -23023,16 +23003,15 @@ x-validations:
         attr: $.message.order.fulfillments[*].start.instructions.code
         _RETURN_: attr are present && attr all in enumList
         enumList:
-          - '2'
-          - '3'
-          - '4'
-          - '5'
+          - "2"
+          - "3"
+          - "4"
+          - "5"
       - _NAME_: REQUIRED_MESSAGE_SHORT_DESC_44
         attr: $.message.order.fulfillments[*].start.instructions.short_desc
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_CONTENT_TYPE_45
-        attr: >-
-          $.message.order.fulfillments[*].start.instructions.additional_desc.content_type
+        attr: $.message.order.fulfillments[*].start.instructions.additional_desc.content_type
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_URL_46
         attr: $.message.order.fulfillments[*].start.instructions.additional_desc.url
@@ -23129,8 +23108,7 @@ x-validations:
         attr: $.message.order['@ondc/org/linked_order'].items[*].quantity.measure.unit
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_76
-        attr: >-
-          $.message.order['@ondc/org/linked_order'].items[*].quantity.measure.value
+        attr: $.message.order['@ondc/org/linked_order'].items[*].quantity.measure.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_CURRENCY_77
         attr: $.message.order['@ondc/org/linked_order'].items[*].price.currency
@@ -23196,14 +23174,14 @@ x-validations:
         enumList:
           - nic2004:60232
         enumPath: $.context.domain
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CODE_2
         enumList:
           - P2P
           - P2H2P
         enumPath: $.message.order.items[*].descriptor.code
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CATEGORY_ID_3
         enumList:
@@ -23214,7 +23192,7 @@ x-validations:
           - Same Day Delivery
           - Instant Delivery
         enumPath: $.message.order.items[*].category_id
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_BREAKUPONDCORGTITLE_TYPE_4
         enumList:
@@ -23226,7 +23204,7 @@ x-validations:
           - discount
           - cod
         enumPath: $.message.order.quote.breakup[*]['@ondc/org/title_type']
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_TYPE_5
         enumList:
@@ -23234,37 +23212,37 @@ x-validations:
           - Return
           - RTO
         enumPath: $.message.order.fulfillments[*].type
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_TYPE_6
         enumList:
           - OTP
         enumPath: $.message.order.fulfillments[*].start.authorization.type
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CODE_7
         enumList:
-          - '2'
-          - '3'
-          - '4'
-          - '5'
+          - "2"
+          - "3"
+          - "4"
+          - "5"
         enumPath: $.message.order.fulfillments[*].start.instructions.code
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_TYPE_8
         enumList:
           - OTP
         enumPath: $.message.order.fulfillments[*].end.authorization.type
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CODE_9
         enumList:
-          - '1'
-          - '2'
-          - '3'
-          - '5'
+          - "1"
+          - "2"
+          - "3"
+          - "5"
         enumPath: $.message.order.fulfillments[*].end.instructions.code
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CODE_10
         enumList:
@@ -23289,7 +23267,7 @@ x-validations:
           - Delivery-rescheduled
           - Order-delivered
         enumPath: $.message.order.fulfillments[*].state.descriptor.code
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_TYPE_11
         enumList:
@@ -23297,21 +23275,20 @@ x-validations:
           - ON-FULFILLMENT
           - POST-FULFILLMENT
         enumPath: $.message.order.payment.type
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_SETTLEMENT_COUNTERPARTY_12
         enumList:
           - lbnp
           - lsp
-        enumPath: >-
-          $.message.order.payment['@ondc/org/settlement_details'][*].settlement_counterparty
-        _CONTINUE_: '!(enumPath are present)'
+        enumPath: $.message.order.payment['@ondc/org/settlement_details'][*].settlement_counterparty
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: validate_tag_0
         validTags:
           - type
         tagPath: $.message.order.items[*].tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_0_type
         _SCOPE_: $.message.order.items[*].tags[?(@.code=='type')]
@@ -23323,11 +23300,10 @@ x-validations:
         validTags:
           - masked_contact
         tagPath: $.message.order.fulfillments[*].start.contact.tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_1_masked_contact
-        _SCOPE_: >-
-          $.message.order.fulfillments[*].start.contact.tags[?(@.code=='masked_contact')]
+        _SCOPE_: $.message.order.fulfillments[*].start.contact.tags[?(@.code=='masked_contact')]
         subTags: $.list[*].code
         validValues:
           - type
@@ -23338,11 +23314,10 @@ x-validations:
         validTags:
           - masked_contact
         tagPath: $.message.order.fulfillments[*].end.contact.tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_2_masked_contact
-        _SCOPE_: >-
-          $.message.order.fulfillments[*].end.contact.tags[?(@.code=='masked_contact')]
+        _SCOPE_: $.message.order.fulfillments[*].end.contact.tags[?(@.code=='masked_contact')]
         subTags: $.list[*].code
         validValues:
           - type
@@ -23359,12 +23334,11 @@ x-validations:
           - rto_action
           - provider
           - order
-          - cod_settlement_detail
           - rto_verification
           - items
           - reverseqc_input
         tagPath: $.message.order.fulfillments[*].tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_3_linked_provider
         _SCOPE_: $.message.order.fulfillments[*].tags[?(@.code=='linked_provider')]
@@ -23486,7 +23460,7 @@ x-validations:
           - bap_terms
           - lbnp_sla_terms
         tagPath: $.message.order.tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_4_bap_terms
         _SCOPE_: $.message.order.tags[?(@.code=='bap_terms')]
@@ -23507,44 +23481,6 @@ x-validations:
           - penalty_unit
           - penalty_value
         _RETURN_: subTags all in validValues
-      - _NAME_: confirm_fulfillment_id_validations
-        _RETURN_:
-          - _NAME_: validate_fulfillment_id_in_items
-            _DESCRIPTION_: fulfillment_id or fulfillment_ids should be present in items
-            fulfillment_id: $.message.order.items[*].fulfillment_id
-            fulfillment_ids: $.message.order.items[*].fulfillment_ids[*]
-            _RETURN_: fulfillment_id are present || fulfillment_ids are present
-          - _NAME_: validate_fulfillment_id_in_fulfillments
-            _DESCRIPTION_: >-
-              Fulfillment id in items should be mapped correctly in fulfillments
-              array
-            fulfillment_id: $.message.order.fulfillments[*].id
-            item_fulfillment_id: $.message.order.items[*].fulfillment_id
-            item_fulfillment_ids: $.message.order.items[*].fulfillment_ids[*]
-            _RETURN_: >-
-              item_fulfillment_id all in fulfillment_id || item_fulfillment_ids
-              all in fulfillment_id
-      - _NAME_: instructions_validations
-        _RETURN_:
-          - _NAME_: start_instructions_short_desc_present
-            _DESCRIPTION_: >-
-              In start instructions, short description is required when
-              ready_to_ship = yes
-            ship_status:
-              - 'yes'
-            instructions_code: $.message.order.fulfillments[*].start.instructions.code
-            instructions_short_desc: $.message.order.fulfillments[*].start.instructions.short_desc
-            shipStatus: >-
-              $.message.order.fulfillments[*].tags[?(@.code=='state')].list[?(@.code=='ready_to_ship')].value
-            _CONTINUE_: '!(shipStatus all in ship_status)'
-            _RETURN_: instructions_code are present && instructions_short_desc are present
-      - _NAME_: accept_bpp_terms
-        _DESCRIPTION_: Acceptance to the LSP terms should be provided by LBNP in order/tags
-        tags: >-
-          $.message.order.tags[?(@.code=='bap_terms')].list[?(@.code=='accept_bpp_terms')].value
-        acceptance:
-          - 'yes'
-        _RETURN_: tags all in acceptance
     status:
       - _NAME_: REQUIRED_CONTEXT_DOMAIN_1
         attr: $.context.domain
@@ -23594,7 +23530,7 @@ x-validations:
         enumList:
           - nic2004:60232
         enumPath: $.context.domain
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
     track:
       - _NAME_: REQUIRED_CONTEXT_DOMAIN_1
@@ -23645,7 +23581,7 @@ x-validations:
         enumList:
           - nic2004:60232
         enumPath: $.context.domain
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
     cancel:
       - _NAME_: REQUIRED_CONTEXT_DOMAIN_1
@@ -23699,26 +23635,8 @@ x-validations:
         enumList:
           - nic2004:60232
         enumPath: $.context.domain
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
-      - _NAME_: validate_cancellation_codes
-        _DESCRIPTION_: Appropriate cancellation code should be used by LBNP
-        cancellationCodes:
-          - '004'
-          - '005'
-          - '007'
-          - '150'
-          - '151'
-          - '152'
-          - '153'
-          - '154'
-          - '155'
-          - '156'
-          - '175'
-          - '996'
-          - '994'
-        cancellationId: $.message.cancellation_reason_id
-        _RETURN_: cancellationId all in cancellationCodes
     update:
       - _NAME_: REQUIRED_CONTEXT_DOMAIN_1
         attr: $.context.domain
@@ -23800,7 +23718,7 @@ x-validations:
         enumList:
           - nic2004:60232
         enumPath: $.context.domain
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_STATE_2
         enumList:
@@ -23810,14 +23728,14 @@ x-validations:
           - Completed
           - Cancelled
         enumPath: $.message.order.state
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CODE_3
         enumList:
           - P2P
           - P2H2P
         enumPath: $.message.order.items[*].descriptor.code
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CATEGORY_ID_4
         enumList:
@@ -23828,7 +23746,7 @@ x-validations:
           - Same Day Delivery
           - Instant Delivery
         enumPath: $.message.order.items[*].category_id
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_TYPE_5
         enumList:
@@ -23836,37 +23754,37 @@ x-validations:
           - Return
           - RTO
         enumPath: $.message.order.fulfillments[*].type
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_TYPE_6
         enumList:
           - OTP
         enumPath: $.message.order.fulfillments[*].start.authorization.type
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CODE_7
         enumList:
-          - '2'
-          - '3'
-          - '4'
-          - '5'
+          - "2"
+          - "3"
+          - "4"
+          - "5"
         enumPath: $.message.order.fulfillments[*].start.instructions.code
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_TYPE_8
         enumList:
           - OTP
         enumPath: $.message.order.fulfillments[*].end.authorization.type
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CODE_9
         enumList:
-          - '1'
-          - '2'
-          - '3'
-          - '5'
+          - "1"
+          - "2"
+          - "3"
+          - "5"
         enumPath: $.message.order.fulfillments[*].end.instructions.code
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CODE_10
         enumList:
@@ -23891,7 +23809,7 @@ x-validations:
           - Delivery-rescheduled
           - Order-delivered
         enumPath: $.message.order.fulfillments[*].state.descriptor.code
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_TYPE_11
         enumList:
@@ -23899,15 +23817,14 @@ x-validations:
           - ON-FULFILLMENT
           - POST-FULFILLMENT
         enumPath: $.message.order.payment.type
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_SETTLEMENT_COUNTERPARTY_12
         enumList:
           - lbnp
           - lsp
-        enumPath: >-
-          $.message.order.payment['@ondc/org/settlement_details'][*].settlement_counterparty
-        _CONTINUE_: '!(enumPath are present)'
+        enumPath: $.message.order.payment['@ondc/org/settlement_details'][*].settlement_counterparty
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_BREAKUPONDCORGTITLE_TYPE_13
         enumList:
@@ -23919,7 +23836,7 @@ x-validations:
           - discount
           - cod
         enumPath: $.message.order.quote.breakup[*]['@ondc/org/title_type']
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: validate_tag_0
         validTags:
@@ -23928,7 +23845,7 @@ x-validations:
           - linked_order
           - linked_order_item
         tagPath: $.message.order.fulfillments[*].tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_0_state
         _SCOPE_: $.message.order.fulfillments[*].tags[?(@.code=='state')]
@@ -23974,20 +23891,6 @@ x-validations:
           - weight_unit
           - weight_value
         _RETURN_: subTags all in validValues
-      - _NAME_: instructions_validations
-        _RETURN_:
-          - _NAME_: start_instructions_short_desc_present
-            _DESCRIPTION_: >-
-              In start instructions, short description is required when
-              ready_to_ship = yes
-            ship_status:
-              - 'yes'
-            instructions_code: $.message.order.fulfillments[*].start.instructions.code
-            instructions_short_desc: $.message.order.fulfillments[*].start.instructions.short_desc
-            shipStatus: >-
-              $.message.order.fulfillments[*].tags[?(@.code=='state')].list[?(@.code=='ready_to_ship')].value
-            _CONTINUE_: '!(shipStatus all in ship_status)'
-            _RETURN_: instructions_code are present && instructions_short_desc are present
     on_search:
       - _NAME_: REQUIRED_CONTEXT_DOMAIN_1
         attr: $.context.domain
@@ -24115,14 +24018,14 @@ x-validations:
         enumList:
           - nic2004:60232
         enumPath: $.context.domain
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CODE_2
         enumList:
           - P2P
           - P2H2P
         enumPath: $.message.catalog['bpp/providers'][*].descriptor.code
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CATEGORY_ID_3
         enumList:
@@ -24133,7 +24036,7 @@ x-validations:
           - Same Day Delivery
           - Instant Delivery
         enumPath: $.message.catalog['bpp/providers'][*].category_id
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_ID_4
         enumList:
@@ -24144,7 +24047,7 @@ x-validations:
           - Same Day Delivery
           - Instant Delivery
         enumPath: $.message.catalog['bpp/providers'][*].categories[*].id
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_TYPE_5
         enumList:
@@ -24152,13 +24055,13 @@ x-validations:
           - Return
           - RTO
         enumPath: $.message.catalog['bpp/providers'][*].fulfillments[*].type
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: validate_tag_0
         validTags:
           - bpp_terms
         tagPath: $.message.catalog['bpp/descriptor'].tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_0_bpp_terms
         _SCOPE_: $.message.catalog['bpp/descriptor'].tags[?(@.code=='bpp_terms')]
@@ -24180,19 +24083,17 @@ x-validations:
           - fulfill_request
           - fulfill_response
         tagPath: $.message.catalog['bpp/providers'][*].fulfillments[*].tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_1_distance
-        _SCOPE_: >-
-          $.message.catalog['bpp/providers'][*].fulfillments[*].tags[?(@.code=='distance')]
+        _SCOPE_: $.message.catalog['bpp/providers'][*].fulfillments[*].tags[?(@.code=='distance')]
         subTags: $.list[*].code
         validValues:
           - motorable_distance_type
           - motorable_distance
         _RETURN_: subTags all in validValues
       - _NAME_: validate_tag_1_fulfill_request
-        _SCOPE_: >-
-          $.message.catalog['bpp/providers'][*].fulfillments[*].tags[?(@.code=='fulfill_request')]
+        _SCOPE_: $.message.catalog['bpp/providers'][*].fulfillments[*].tags[?(@.code=='fulfill_request')]
         subTags: $.list[*].code
         validValues:
           - rider_count
@@ -24205,8 +24106,7 @@ x-validations:
           - delivery_slot_end
         _RETURN_: subTags all in validValues
       - _NAME_: validate_tag_1_fulfill_response
-        _SCOPE_: >-
-          $.message.catalog['bpp/providers'][*].fulfillments[*].tags[?(@.code=='fulfill_response')]
+        _SCOPE_: $.message.catalog['bpp/providers'][*].fulfillments[*].tags[?(@.code=='fulfill_response')]
         subTags: $.list[*].code
         validValues:
           - rider_count
@@ -24217,7 +24117,7 @@ x-validations:
         validTags:
           - type
         tagPath: $.message.catalog['bpp/providers'][*].tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_2_type
         _SCOPE_: $.message.catalog['bpp/providers'][*].tags[?(@.code=='type')]
@@ -24231,7 +24131,7 @@ x-validations:
           - lsp_features
           - special_req
         tagPath: $.message.catalog['bpp/providers'][*].tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_3_lsp_features
         _SCOPE_: $.message.catalog['bpp/providers'][*].tags[?(@.code=='lsp_features')]
@@ -24240,38 +24140,38 @@ x-validations:
           - 00B
           - 00E
           - 01D
-          - '005'
-          - '009'
+          - "005"
+          - "009"
           - 00C
-          - '000'
-          - '001'
-          - '002'
-          - '003'
-          - '004'
-          - '006'
-          - '007'
-          - '008'
+          - "000"
+          - "001"
+          - "002"
+          - "003"
+          - "004"
+          - "006"
+          - "007"
+          - "008"
           - 00A
           - 00D
           - 00F
-          - '010'
-          - '011'
-          - '012'
-          - '013'
-          - '014'
-          - '015'
-          - '016'
-          - '017'
-          - '018'
-          - '019'
+          - "010"
+          - "011"
+          - "012"
+          - "013"
+          - "014"
+          - "015"
+          - "016"
+          - "017"
+          - "018"
+          - "019"
           - 01A
           - 01B
           - 01C
           - 01D
           - 01E
           - 01F
-          - '020'
-          - '021'
+          - "020"
+          - "021"
         _RETURN_: subTags all in validValues
       - _NAME_: validate_tag_3_special_req
         _SCOPE_: $.message.catalog['bpp/providers'][*].tags[?(@.code=='special_req')]
@@ -24283,13 +24183,6 @@ x-validations:
           - fragile_handling
           - cod_order
         _RETURN_: subTags all in validValues
-      - _NAME_: validate_static_terms
-        _DESCRIPTION_: Static terms should be sent inside bpp/descriptor/tags
-        staticTerms: >-
-          $.message.catalog['bpp/descriptor'].tags[?(@.code=='bpp_terms')].list[?(@.code=='static_terms')].value
-        staticTermsNew: >-
-          $.message.catalog['bpp/descriptor'].tags[?(@.code=='bpp_terms')].list[?(@.code=='static_terms_new')].value
-        _RETURN_: staticTermsNew are present || staticTerms are present
     on_init:
       - _NAME_: REQUIRED_CONTEXT_DOMAIN_1
         attr: $.context.domain
@@ -24445,7 +24338,7 @@ x-validations:
         enumList:
           - nic2004:60232
         enumPath: $.context.domain
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_TYPE_2
         enumList:
@@ -24453,7 +24346,7 @@ x-validations:
           - Return
           - RTO
         enumPath: $.message.order.fulfillments[*].type
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_TYPE_3
         enumList:
@@ -24461,15 +24354,14 @@ x-validations:
           - ON-FULFILLMENT
           - POST-FULFILLMENT
         enumPath: $.message.order.payment.type
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_SETTLEMENT_COUNTERPARTY_4
         enumList:
           - lbnp
           - lsp
-        enumPath: >-
-          $.message.order.payment['@ondc/org/settlement_details'][*].settlement_counterparty
-        _CONTINUE_: '!(enumPath are present)'
+        enumPath: $.message.order.payment['@ondc/org/settlement_details'][*].settlement_counterparty
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_BREAKUPONDCORGTITLE_TYPE_5
         enumList:
@@ -24481,17 +24373,16 @@ x-validations:
           - discount
           - cod
         enumPath: $.message.order.quote.breakup[*]['@ondc/org/title_type']
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: validate_tag_0
         validTags:
           - masked_contact
         tagPath: $.message.order.fulfillments[*].start.contact.tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_0_masked_contact
-        _SCOPE_: >-
-          $.message.order.fulfillments[*].start.contact.tags[?(@.code=='masked_contact')]
+        _SCOPE_: $.message.order.fulfillments[*].start.contact.tags[?(@.code=='masked_contact')]
         subTags: $.list[*].code
         validValues:
           - type
@@ -24502,11 +24393,10 @@ x-validations:
         validTags:
           - masked_contact
         tagPath: $.message.order.fulfillments[*].end.contact.tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_1_masked_contact
-        _SCOPE_: >-
-          $.message.order.fulfillments[*].end.contact.tags[?(@.code=='masked_contact')]
+        _SCOPE_: $.message.order.fulfillments[*].end.contact.tags[?(@.code=='masked_contact')]
         subTags: $.list[*].code
         validValues:
           - type
@@ -24522,7 +24412,7 @@ x-validations:
           - linked_order
           - linked_order_item
         tagPath: $.message.order.fulfillments[*].tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_2_rider_check
         _SCOPE_: $.message.order.fulfillments[*].tags[?(@.code=='rider_check')]
@@ -24591,7 +24481,7 @@ x-validations:
         validTags:
           - bpp_terms
         tagPath: $.message.order.tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_3_bpp_terms
         _SCOPE_: $.message.order.tags[?(@.code=='bpp_terms')]
@@ -24599,23 +24489,6 @@ x-validations:
         validValues:
           - static_terms
         _RETURN_: subTags all in validValues
-      - _NAME_: on_init_fulfillment_id_validations
-        _RETURN_:
-          - _NAME_: validate_fulfillment_id_in_items
-            _DESCRIPTION_: fulfillment_id or fulfillment_ids should be present in items
-            fulfillment_id: $.message.order.items[*].fulfillment_id
-            fulfillment_ids: $.message.order.items[*].fulfillment_ids[*]
-            _RETURN_: fulfillment_id are present || fulfillment_ids are present
-          - _NAME_: validate_fulfillment_id_in_fulfillments
-            _DESCRIPTION_: >-
-              Fulfillment id in items should be mapped correctly in fulfillments
-              array
-            fulfillment_id: $.message.order.fulfillments[*].id
-            item_fulfillment_id: $.message.order.items[*].fulfillment_id
-            item_fulfillment_ids: $.message.order.items[*].fulfillment_ids[*]
-            _RETURN_: >-
-              item_fulfillment_id all in fulfillment_id || item_fulfillment_ids
-              all in fulfillment_id
     on_confirm:
       - _NAME_: REQUIRED_CONTEXT_DOMAIN_1
         attr: $.context.domain
@@ -24895,8 +24768,7 @@ x-validations:
         attr: $.message.order['@ondc/org/linked_order'].items[*].quantity.measure.unit
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_75
-        attr: >-
-          $.message.order['@ondc/org/linked_order'].items[*].quantity.measure.value
+        attr: $.message.order['@ondc/org/linked_order'].items[*].quantity.measure.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_CURRENCY_76
         attr: $.message.order['@ondc/org/linked_order'].items[*].price.currency
@@ -24962,7 +24834,7 @@ x-validations:
         enumList:
           - nic2004:60232
         enumPath: $.context.domain
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_STATE_2
         enumList:
@@ -24972,14 +24844,14 @@ x-validations:
           - Completed
           - Cancelled
         enumPath: $.message.order.state
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CODE_3
         enumList:
           - P2P
           - P2H2P
         enumPath: $.message.order.items[*].descriptor.code
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CATEGORY_ID_4
         enumList:
@@ -24990,7 +24862,7 @@ x-validations:
           - Same Day Delivery
           - Instant Delivery
         enumPath: $.message.order.items[*].category_id
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_TYPE_5
         enumList:
@@ -24998,37 +24870,37 @@ x-validations:
           - Return
           - RTO
         enumPath: $.message.order.fulfillments[*].type
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_TYPE_6
         enumList:
           - OTP
         enumPath: $.message.order.fulfillments[*].start.authorization.type
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CODE_7
         enumList:
-          - '2'
-          - '3'
-          - '4'
-          - '5'
+          - "2"
+          - "3"
+          - "4"
+          - "5"
         enumPath: $.message.order.fulfillments[*].start.instructions.code
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_TYPE_8
         enumList:
           - OTP
         enumPath: $.message.order.fulfillments[*].end.authorization.type
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CODE_9
         enumList:
-          - '1'
-          - '2'
-          - '3'
-          - '5'
+          - "1"
+          - "2"
+          - "3"
+          - "5"
         enumPath: $.message.order.fulfillments[*].end.instructions.code
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CODE_10
         enumList:
@@ -25053,7 +24925,7 @@ x-validations:
           - Delivery-rescheduled
           - Order-delivered
         enumPath: $.message.order.fulfillments[*].state.descriptor.code
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_TYPE_11
         enumList:
@@ -25061,15 +24933,14 @@ x-validations:
           - ON-FULFILLMENT
           - POST-FULFILLMENT
         enumPath: $.message.order.payment.type
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_SETTLEMENT_COUNTERPARTY_12
         enumList:
           - lbnp
           - lsp
-        enumPath: >-
-          $.message.order.payment['@ondc/org/settlement_details'][*].settlement_counterparty
-        _CONTINUE_: '!(enumPath are present)'
+        enumPath: $.message.order.payment['@ondc/org/settlement_details'][*].settlement_counterparty
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_BREAKUPONDCORGTITLE_TYPE_13
         enumList:
@@ -25081,13 +24952,13 @@ x-validations:
           - discount
           - cod
         enumPath: $.message.order.quote.breakup[*]['@ondc/org/title_type']
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: validate_tag_0
         validTags:
           - type
         tagPath: $.message.order.items[*].tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_0_type
         _SCOPE_: $.message.order.items[*].tags[?(@.code=='type')]
@@ -25099,11 +24970,10 @@ x-validations:
         validTags:
           - masked_contact
         tagPath: $.message.order.fulfillments[*].start.contact.tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_1_masked_contact
-        _SCOPE_: >-
-          $.message.order.fulfillments[*].start.contact.tags[?(@.code=='masked_contact')]
+        _SCOPE_: $.message.order.fulfillments[*].start.contact.tags[?(@.code=='masked_contact')]
         subTags: $.list[*].code
         validValues:
           - type
@@ -25114,11 +24984,10 @@ x-validations:
         validTags:
           - masked_contact
         tagPath: $.message.order.fulfillments[*].end.contact.tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_2_masked_contact
-        _SCOPE_: >-
-          $.message.order.fulfillments[*].end.contact.tags[?(@.code=='masked_contact')]
+        _SCOPE_: $.message.order.fulfillments[*].end.contact.tags[?(@.code=='masked_contact')]
         subTags: $.list[*].code
         validValues:
           - type
@@ -25136,7 +25005,7 @@ x-validations:
           - shipping_label
           - weather_check
         tagPath: $.message.order.fulfillments[*].tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_3_linked_provider
         _SCOPE_: $.message.order.fulfillments[*].tags[?(@.code=='linked_provider')]
@@ -25219,7 +25088,7 @@ x-validations:
           - bap_terms
           - lbnp_sla_terms
         tagPath: $.message.order.tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_4_bpp_terms
         _SCOPE_: $.message.order.tags[?(@.code=='bpp_terms')]
@@ -25246,23 +25115,6 @@ x-validations:
           - penalty_unit
           - penalty_value
         _RETURN_: subTags all in validValues
-      - _NAME_: on_confirm_fulfillment_id_validations
-        _RETURN_:
-          - _NAME_: validate_fulfillment_id_in_items
-            _DESCRIPTION_: fulfillment_id or fulfillment_ids should be present in items
-            fulfillment_id: $.message.order.items[*].fulfillment_id
-            fulfillment_ids: $.message.order.items[*].fulfillment_ids[*]
-            _RETURN_: fulfillment_id are present || fulfillment_ids are present
-          - _NAME_: validate_fulfillment_id_in_fulfillments
-            _DESCRIPTION_: >-
-              Fulfillment id in items should be mapped correctly in fulfillments
-              array
-            fulfillment_id: $.message.order.fulfillments[*].id
-            item_fulfillment_id: $.message.order.items[*].fulfillment_id
-            item_fulfillment_ids: $.message.order.items[*].fulfillment_ids[*]
-            _RETURN_: >-
-              item_fulfillment_id all in fulfillment_id || item_fulfillment_ids
-              all in fulfillment_id
     on_track:
       - _NAME_: REQUIRED_CONTEXT_DOMAIN_1
         attr: $.context.domain
@@ -25324,14 +25176,14 @@ x-validations:
         enumList:
           - nic2004:60232
         enumPath: $.context.domain
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_STATUS_2
         enumList:
           - active
           - inactive
         enumPath: $.message.tracking.status
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: validate_tag_0
         validTags:
@@ -25339,7 +25191,7 @@ x-validations:
           - config
           - path
         tagPath: $.message.tracking.tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_0_order
         _SCOPE_: $.message.tracking.tags[?(@.code=='order')]
@@ -25574,8 +25426,7 @@ x-validations:
         attr: $.message.order['@ondc/org/linked_order'].items[*].quantity.measure.unit
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_53
-        attr: >-
-          $.message.order['@ondc/org/linked_order'].items[*].quantity.measure.value
+        attr: $.message.order['@ondc/org/linked_order'].items[*].quantity.measure.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_CURRENCY_54
         attr: $.message.order['@ondc/org/linked_order'].items[*].price.currency
@@ -25638,7 +25489,7 @@ x-validations:
         enumList:
           - nic2004:60232
         enumPath: $.context.domain
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_STATE_2
         enumList:
@@ -25648,14 +25499,14 @@ x-validations:
           - Completed
           - Cancelled
         enumPath: $.message.order.state
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CODE_3
         enumList:
           - P2P
           - P2H2P
         enumPath: $.message.order.items[*].descriptor.code
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CATEGORY_ID_4
         enumList:
@@ -25666,7 +25517,7 @@ x-validations:
           - Same Day Delivery
           - Instant Delivery
         enumPath: $.message.order.items[*].category_id
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_TYPE_5
         enumList:
@@ -25674,37 +25525,37 @@ x-validations:
           - Return
           - RTO
         enumPath: $.message.order.fulfillments[*].type
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_TYPE_6
         enumList:
           - OTP
         enumPath: $.message.order.fulfillments[*].start.authorization.type
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CODE_7
         enumList:
-          - '2'
-          - '3'
-          - '4'
-          - '5'
+          - "2"
+          - "3"
+          - "4"
+          - "5"
         enumPath: $.message.order.fulfillments[*].start.instructions.code
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_TYPE_8
         enumList:
           - OTP
         enumPath: $.message.order.fulfillments[*].end.authorization.type
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CODE_9
         enumList:
-          - '1'
-          - '2'
-          - '3'
-          - '5'
+          - "1"
+          - "2"
+          - "3"
+          - "5"
         enumPath: $.message.order.fulfillments[*].end.instructions.code
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CODE_10
         enumList:
@@ -25729,7 +25580,7 @@ x-validations:
           - Delivery-rescheduled
           - Order-delivered
         enumPath: $.message.order.fulfillments[*].state.descriptor.code
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_TYPE_11
         enumList:
@@ -25737,15 +25588,14 @@ x-validations:
           - ON-FULFILLMENT
           - POST-FULFILLMENT
         enumPath: $.message.order.payment.type
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_SETTLEMENT_COUNTERPARTY_12
         enumList:
           - lbnp
           - lsp
-        enumPath: >-
-          $.message.order.payment['@ondc/org/settlement_details'][*].settlement_counterparty
-        _CONTINUE_: '!(enumPath are present)'
+        enumPath: $.message.order.payment['@ondc/org/settlement_details'][*].settlement_counterparty
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_BREAKUPONDCORGTITLE_TYPE_13
         enumList:
@@ -25757,17 +25607,16 @@ x-validations:
           - discount
           - cod
         enumPath: $.message.order.quote.breakup[*]['@ondc/org/title_type']
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: validate_tag_0
         validTags:
           - masked_contact
         tagPath: $.message.order.fulfillments[*].start.contact.tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_0_masked_contact
-        _SCOPE_: >-
-          $.message.order.fulfillments[*].start.contact.tags[?(@.code=='masked_contact')]
+        _SCOPE_: $.message.order.fulfillments[*].start.contact.tags[?(@.code=='masked_contact')]
         subTags: $.list[*].code
         validValues:
           - type
@@ -25778,11 +25627,10 @@ x-validations:
         validTags:
           - masked_contact
         tagPath: $.message.order.fulfillments[*].end.contact.tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_1_masked_contact
-        _SCOPE_: >-
-          $.message.order.fulfillments[*].end.contact.tags[?(@.code=='masked_contact')]
+        _SCOPE_: $.message.order.fulfillments[*].end.contact.tags[?(@.code=='masked_contact')]
         subTags: $.list[*].code
         validValues:
           - type
@@ -25802,7 +25650,7 @@ x-validations:
           - rto_event
           - ebn
         tagPath: $.message.order.fulfillments[*].tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_2_igm_request
         _SCOPE_: $.message.order.fulfillments[*].tags[?(@.code=='igm_request')]
@@ -25900,49 +25748,6 @@ x-validations:
           - id
           - expiry_date
         _RETURN_: subTags all in validValues
-      - _NAME_: order_picked_up_timestamp
-        _DESCRIPTION_: >-
-          Order pickup timestamp in fulfillments/start/time/timestamp should be
-          present when order is picked up
-        pickupTimestamp: $.message.order.fulfillments[?(@.type=='Delivery')].start.time.timestamp
-        fulfillmentState: >-
-          $.message.order.fulfillments[?(@.type=='Delivery')].state.descriptor.code
-        state:
-          - RTO
-        _CONTINUE_: '!(fulfillmentState all in state)'
-        _RETURN_: pickupTimestamp are present
-      - _NAME_: rto_initiated_timestamp
-        _DESCRIPTION_: >-
-          RTO-Initiated timestamp in fulfillments/start/time/timestamp (RTO
-          fulfillment) should be present when RTO is initiated 
-        rtoInitiatedTimestamp: $.message.order.fulfillments[?(@.type=='RTO')].start.time.timestamp
-        fulfillmentState: $.message.order.fulfillments[?(@.type=='RTO')].state.descriptor.code
-        state:
-          - RTO-Initiated
-        _CONTINUE_: '!(fulfillmentState all in state)'
-        _RETURN_: rtoInitiatedTimestamp are present
-      - _NAME_: rto_event_tag_validation
-        _DESCRIPTION_: >-
-          rto_event tag should be present in fulfillment with type 'Delivery' if
-          that fulfillment is marked 'RTO'
-        rtoEventTag: >-
-          $.message.order.fulfillments[?(@.type=='Delivery')].tags[?(@.code=='rto_event')].code
-        fulfillmentState: >-
-          $.message.order.fulfillments[?(@.type=='Delivery')].state.descriptor.code
-        state:
-          - RTO
-        _CONTINUE_: '!(fulfillmentState all in state)'
-        _RETURN_: rtoEventTag are present
-      - _NAME_: start_address_validations
-        _DESCRIPTION_: Valid address should be sent in fulfillments/start/location
-        startLocation: >-
-          $.message.order.fulfillments[?(@.type=='Delivery')].start.location.address.city
-        _RETURN_: startLocation are present
-      - _NAME_: end_address_validations
-        _DESCRIPTION_: Valid address should be sent in fulfillments/end/location
-        endLocation: >-
-          $.message.order.fulfillments[?(@.type=='Delivery')].end.location.address.city
-        _RETURN_: endLocation are present
     on_update:
       - _NAME_: REQUIRED_CONTEXT_DOMAIN_1
         attr: $.context.domain
@@ -26237,8 +26042,7 @@ x-validations:
         attr: $.message.order['@ondc/org/linked_order'].items[*].quantity.measure.unit
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_80
-        attr: >-
-          $.message.order['@ondc/org/linked_order'].items[*].quantity.measure.value
+        attr: $.message.order['@ondc/org/linked_order'].items[*].quantity.measure.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_CURRENCY_81
         attr: $.message.order['@ondc/org/linked_order'].items[*].price.currency
@@ -26304,7 +26108,7 @@ x-validations:
         enumList:
           - nic2004:60232
         enumPath: $.context.domain
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_STATE_2
         enumList:
@@ -26314,14 +26118,14 @@ x-validations:
           - Completed
           - Cancelled
         enumPath: $.message.order.state
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CODE_3
         enumList:
           - P2P
           - P2H2P
         enumPath: $.message.order.items[*].descriptor.code
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CATEGORY_ID_4
         enumList:
@@ -26332,7 +26136,7 @@ x-validations:
           - Same Day Delivery
           - Instant Delivery
         enumPath: $.message.order.items[*].category_id
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_TYPE_5
         enumList:
@@ -26340,37 +26144,37 @@ x-validations:
           - Return
           - RTO
         enumPath: $.message.order.fulfillments[*].type
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_TYPE_6
         enumList:
           - OTP
         enumPath: $.message.order.fulfillments[*].start.authorization.type
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CODE_7
         enumList:
-          - '2'
-          - '3'
-          - '4'
-          - '5'
+          - "2"
+          - "3"
+          - "4"
+          - "5"
         enumPath: $.message.order.fulfillments[*].start.instructions.code
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_TYPE_8
         enumList:
           - OTP
         enumPath: $.message.order.fulfillments[*].end.authorization.type
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CODE_9
         enumList:
-          - '1'
-          - '2'
-          - '3'
-          - '5'
+          - "1"
+          - "2"
+          - "3"
+          - "5"
         enumPath: $.message.order.fulfillments[*].end.instructions.code
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CODE_10
         enumList:
@@ -26395,7 +26199,7 @@ x-validations:
           - Delivery-rescheduled
           - Order-delivered
         enumPath: $.message.order.fulfillments[*].state.descriptor.code
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_TYPE_11
         enumList:
@@ -26403,15 +26207,14 @@ x-validations:
           - ON-FULFILLMENT
           - POST-FULFILLMENT
         enumPath: $.message.order.payment.type
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_SETTLEMENT_COUNTERPARTY_12
         enumList:
           - lbnp
           - lsp
-        enumPath: >-
-          $.message.order.payment['@ondc/org/settlement_details'][*].settlement_counterparty
-        _CONTINUE_: '!(enumPath are present)'
+        enumPath: $.message.order.payment['@ondc/org/settlement_details'][*].settlement_counterparty
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_BREAKUPONDCORGTITLE_TYPE_13
         enumList:
@@ -26423,17 +26226,16 @@ x-validations:
           - discount
           - cod
         enumPath: $.message.order.quote.breakup[*]['@ondc/org/title_type']
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: validate_tag_0
         validTags:
           - masked_contact
         tagPath: $.message.order.fulfillments[*].start.contact.tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_0_masked_contact
-        _SCOPE_: >-
-          $.message.order.fulfillments[*].start.contact.tags[?(@.code=='masked_contact')]
+        _SCOPE_: $.message.order.fulfillments[*].start.contact.tags[?(@.code=='masked_contact')]
         subTags: $.list[*].code
         validValues:
           - type
@@ -26444,11 +26246,10 @@ x-validations:
         validTags:
           - masked_contact
         tagPath: $.message.order.fulfillments[*].end.contact.tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_1_masked_contact
-        _SCOPE_: >-
-          $.message.order.fulfillments[*].end.contact.tags[?(@.code=='masked_contact')]
+        _SCOPE_: $.message.order.fulfillments[*].end.contact.tags[?(@.code=='masked_contact')]
         subTags: $.list[*].code
         validValues:
           - type
@@ -26471,7 +26272,7 @@ x-validations:
           - linked_order_diff
           - linked_order_diff_proof
         tagPath: $.message.order.fulfillments[*].tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_2_linked_provider
         _SCOPE_: $.message.order.fulfillments[*].tags[?(@.code=='linked_provider')]
@@ -26596,8 +26397,7 @@ x-validations:
           - height
         _RETURN_: subTags all in validValues
       - _NAME_: validate_tag_2_linked_order_diff_proof
-        _SCOPE_: >-
-          $.message.order.fulfillments[*].tags[?(@.code=='linked_order_diff_proof')]
+        _SCOPE_: $.message.order.fulfillments[*].tags[?(@.code=='linked_order_diff_proof')]
         subTags: $.list[*].code
         validValues:
           - type
@@ -26810,8 +26610,7 @@ x-validations:
         attr: $.message.order['@ondc/org/linked_order'].items[*].quantity.measure.unit
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_VALUE_51
-        attr: >-
-          $.message.order['@ondc/org/linked_order'].items[*].quantity.measure.value
+        attr: $.message.order['@ondc/org/linked_order'].items[*].quantity.measure.value
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_CURRENCY_52
         attr: $.message.order['@ondc/org/linked_order'].items[*].price.currency
@@ -26874,7 +26673,7 @@ x-validations:
         enumList:
           - nic2004:60232
         enumPath: $.context.domain
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_STATE_2
         enumList:
@@ -26884,14 +26683,14 @@ x-validations:
           - Completed
           - Cancelled
         enumPath: $.message.order.state
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CODE_3
         enumList:
           - P2P
           - P2H2P
         enumPath: $.message.order.items[*].descriptor.code
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CATEGORY_ID_4
         enumList:
@@ -26902,7 +26701,7 @@ x-validations:
           - Same Day Delivery
           - Instant Delivery
         enumPath: $.message.order.items[*].category_id
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_TYPE_5
         enumList:
@@ -26910,37 +26709,37 @@ x-validations:
           - Return
           - RTO
         enumPath: $.message.order.fulfillments[*].type
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_TYPE_6
         enumList:
           - OTP
         enumPath: $.message.order.fulfillments[*].start.authorization.type
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CODE_7
         enumList:
-          - '2'
-          - '3'
-          - '4'
-          - '5'
+          - "2"
+          - "3"
+          - "4"
+          - "5"
         enumPath: $.message.order.fulfillments[*].start.instructions.code
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_TYPE_8
         enumList:
           - OTP
         enumPath: $.message.order.fulfillments[*].end.authorization.type
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CODE_9
         enumList:
-          - '1'
-          - '2'
-          - '3'
-          - '5'
+          - "1"
+          - "2"
+          - "3"
+          - "5"
         enumPath: $.message.order.fulfillments[*].end.instructions.code
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_CODE_10
         enumList:
@@ -26965,7 +26764,7 @@ x-validations:
           - Delivery-rescheduled
           - Order-delivered
         enumPath: $.message.order.fulfillments[*].state.descriptor.code
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_TYPE_11
         enumList:
@@ -26973,15 +26772,14 @@ x-validations:
           - ON-FULFILLMENT
           - POST-FULFILLMENT
         enumPath: $.message.order.payment.type
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_SETTLEMENT_COUNTERPARTY_12
         enumList:
           - lbnp
           - lsp
-        enumPath: >-
-          $.message.order.payment['@ondc/org/settlement_details'][*].settlement_counterparty
-        _CONTINUE_: '!(enumPath are present)'
+        enumPath: $.message.order.payment['@ondc/org/settlement_details'][*].settlement_counterparty
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: VALID_ENUM_MESSAGE_BREAKUPONDCORGTITLE_TYPE_13
         enumList:
@@ -26993,17 +26791,16 @@ x-validations:
           - discount
           - cod
         enumPath: $.message.order.quote.breakup[*]['@ondc/org/title_type']
-        _CONTINUE_: '!(enumPath are present)'
+        _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
       - _NAME_: validate_tag_0
         validTags:
           - masked_contact
         tagPath: $.message.order.fulfillments[*].start.contact.tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_0_masked_contact
-        _SCOPE_: >-
-          $.message.order.fulfillments[*].start.contact.tags[?(@.code=='masked_contact')]
+        _SCOPE_: $.message.order.fulfillments[*].start.contact.tags[?(@.code=='masked_contact')]
         subTags: $.list[*].code
         validValues:
           - type
@@ -27014,11 +26811,10 @@ x-validations:
         validTags:
           - masked_contact
         tagPath: $.message.order.fulfillments[*].end.contact.tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_1_masked_contact
-        _SCOPE_: >-
-          $.message.order.fulfillments[*].end.contact.tags[?(@.code=='masked_contact')]
+        _SCOPE_: $.message.order.fulfillments[*].end.contact.tags[?(@.code=='masked_contact')]
         subTags: $.list[*].code
         validValues:
           - type
@@ -27037,13 +26833,11 @@ x-validations:
           - fulfill_request
           - fulfill_response
           - rider_details
-          - cod_collection_detail
-          - cod_settlement_detail
           - rto_event
           - reverseqc_output
           - ebn
         tagPath: $.message.order.fulfillments[*].tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_2_tracking
         _SCOPE_: $.message.order.fulfillments[*].tags[?(@.code=='tracking')]
@@ -27149,28 +26943,6 @@ x-validations:
           - phone
           - vehicle_registration
         _RETURN_: subTags all in validValues
-      - _NAME_: validate_tag_2_cod_collection_detail
-        _SCOPE_: $.message.order.fulfillments[*].tags[?(@.code=='cod_collection_detail')]
-        subTags: $.list[*].code
-        validValues:
-          - currency
-          - value
-          - transaction_id
-          - timestamp
-        _RETURN_: subTags all in validValues
-      - _NAME_: validate_tag_2_cod_settlement_detail
-        _SCOPE_: $.message.order.fulfillments[*].tags[?(@.code=='cod_settlement_detail')]
-        subTags: $.list[*].code
-        validValues:
-          - settlement_window
-          - settlement_type
-          - beneficiary_name
-          - upi_address
-          - bank_account_no
-          - ifsc_code
-          - bank_name
-          - branch_name
-        _RETURN_: subTags all in validValues
       - _NAME_: validate_tag_2_rto_event
         _SCOPE_: $.message.order.fulfillments[*].tags[?(@.code=='rto_event')]
         subTags: $.list[*].code
@@ -27203,7 +26975,7 @@ x-validations:
           - diff_weight
           - diff_proof
         tagPath: $.message.order.tags[*].code
-        _CONTINUE_: '!(tagPath are present)'
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
       - _NAME_: validate_tag_3_diff_dim
         _SCOPE_: $.message.order.tags[?(@.code=='diff_dim')]
@@ -27228,68 +27000,7 @@ x-validations:
           - type
           - url
         _RETURN_: subTags all in validValues
-      - _NAME_: order_picked_up_timestamp
-        _DESCRIPTION_: >-
-          Order pickup timestamp in fulfillments/start/time/timestamp should be
-          present when order is picked up
-        pickupTimestamp: $.message.order.fulfillments[?(@.type=='Delivery')].start.time.timestamp
-        fulfillmentState: >-
-          $.message.order.fulfillments[?(@.type=='Delivery')].state.descriptor.code
-        state:
-          - Order-picked-up
-          - Out-for-delivery
-          - Order-delivered
-          - At-location
-          - In-transit
-          - RTO
-        _CONTINUE_: '!(fulfillmentState all in state)'
-        _RETURN_: pickupTimestamp are present
-      - _NAME_: order_delivered_timestamp
-        _DESCRIPTION_: >-
-          Order pickup timestamp in fulfillments/start/time/timestamp and delivery
-          timestamp in fulfillments/end/time/timestamp should be present when
-          order is delivered
-        pickupTimestamp: $.message.order.fulfillments[?(@.type=='Delivery')].start.time.timestamp
-        deliveryTimestamp: $.message.order.fulfillments[?(@.type=='Delivery')].end.time.timestamp
-        fulfillmentState: >-
-          $.message.order.fulfillments[?(@.type=='Delivery')].state.descriptor.code
-        state:
-          - Order-delivered
-        _CONTINUE_: '!(fulfillmentState all in state)'
-        _RETURN_: pickupTimestamp are present && deliveryTimestamp are present
-      - _NAME_: rto_initiated_timestamp
-        _DESCRIPTION_: >-
-          RTO-Initiated timestamp in fulfillments/start/time/timestamp (RTO
-          fulfillment) should be present when RTO is initiated 
-        rtoInitiatedTimestamp: $.message.order.fulfillments[?(@.type=='RTO')].start.time.timestamp
-        fulfillmentState: $.message.order.fulfillments[?(@.type=='RTO')].state.descriptor.code
-        state:
-          - RTO-Initiated
-        _CONTINUE_: '!(fulfillmentState all in state)'
-        _RETURN_: rtoInitiatedTimestamp are present
-      - _NAME_: rto_delivery_timestamp
-        _DESCRIPTION_: >-
-          RTO-Initiated timestamp in fulfillments/start/time/timestamp and RTO
-          delivery timestamp in fulfillments/end/time/timestamp (RTO fulfillment)
-          should be present when RTO fulfillment reaches its terminal state
-        rtoInitiatedTimestamp: $.message.order.fulfillments[?(@.type=='RTO')].start.time.timestamp
-        rtoDeliveredTimestamp: $.message.order.fulfillments[?(@.type=='RTO')].end.time.timestamp
-        fulfillmentState: $.message.order.fulfillments[?(@.type=='RTO')].state.descriptor.code
-        state:
-          - RTO-Delivered
-          - RTO-Disposed
-        _CONTINUE_: '!(fulfillmentState all in state)'
-        _RETURN_: rtoInitiatedTimestamp are present && rtoDeliveredTimestamp are present
-      - _NAME_: start_address_validations
-        _DESCRIPTION_: Valid address should be sent in fulfillments/start/location
-        startLocation: >-
-          $.message.order.fulfillments[?(@.type=='Delivery')].start.location.address.city
-        _RETURN_: startLocation are present
-      - _NAME_: end_address_validations
-        _DESCRIPTION_: Valid address should be sent in fulfillments/end/location
-        endLocation: >-
-          $.message.order.fulfillments[?(@.type=='Delivery')].end.location.address.city
-        _RETURN_: endLocation are present
   _SESSION_DATA_: {}
+
 
 
