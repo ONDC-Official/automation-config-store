@@ -12,13 +12,13 @@ export function cancel(payload: any): validationOutput {
   const results: validationOutput = [];
 
   //validate items
-  if (!validateCancellationCodes (payload)) {
-    results.push({
-      valid: false,
-      code: 60009,
-      description: `The cancellation reason is not valid`,
-    });
-  }
+  // if (!validateCancellationCodes (payload)) {
+  //   results.push({
+  //     valid: false,
+  //     code: 60009,
+  //     description: `The cancellation reason is not valid`,
+  //   });
+  // }
 
   // If no issues found, return a success result
   if (results.length === 0) {
@@ -34,12 +34,12 @@ export function cancel(payload: any): validationOutput {
  * @param payload The request payload
  * @returns boolean indicating if validation passed
  */
-async function validateCancellationCodes(payload: Record<string, any>): Promise<boolean> {
-  const reasonId = payload?.message?.cancellation_reason_id;
-  const validCodes = [
-    "150", "151", "152", "153", "154", "155", "156", "175", "996", "994",
-    "250", "251", "252", "275"
-  ];
+// async function validateCancellationCodes(payload: Record<string, any>): Promise<boolean> {
+//   const reasonId = payload?.message?.cancellation_reason_id;
+//   const validCodes = [
+//     "150", "151", "152", "153", "154", "155", "156", "175", "996", "994",
+//     "250", "251", "252", "275"
+//   ];
 
-  return validCodes.includes(reasonId)
-}
+//   return validCodes.includes(reasonId)
+// }
