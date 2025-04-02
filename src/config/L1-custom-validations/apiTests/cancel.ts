@@ -11,11 +11,7 @@ export function cancel(payload: any): validationOutput {
   // Initialize results array
   const results: validationOutput = [];
 
-<<<<<<< HEAD
   //validate items
-=======
-  // //validate items
->>>>>>> draft-logistics-1.2.5
   // if (!validateCancellationCodes (payload)) {
   //   results.push({
   //     valid: false,
