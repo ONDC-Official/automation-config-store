@@ -1341,6 +1341,8 @@ components:
       type: string
       enum:
         - nic2004:60232
+        - ONDC:LOG10
+        - ONDC:LOG11
     Duration:
       description: Describes duration as per ISO8601 format
       type: string
@@ -1988,6 +1990,10 @@ components:
                 igst_amount:
                   $ref: '#/components/schemas/DecimalValue'
               additionalProperties: false
+            tags:
+              type: array
+              items:
+                $ref: '#/components/schemas/TagGroup'
           additionalProperties: false
         tags:
           type: array
@@ -4489,6 +4495,41 @@ x-tags:
                 "ready_to_ship"="yes";
               reference: <PR/Issue/Discussion Links md format text>
               list: *ref_26
+            - code: linked_order_diff
+              description: Differences in the linked order details.
+              reference: <PR/Issue/Discussion Links md format text>
+              list:
+                - code: id
+                  description: Order ID.
+                  reference: <PR/Issue/Discussion Links md format text>
+                - code: weight_unit
+                  description: Unit of weight measurement.
+                  reference: <PR/Issue/Discussion Links md format text>
+                - code: weight_value
+                  description: Weight of the order.
+                  reference: <PR/Issue/Discussion Links md format text>
+                - code: dim_unit
+                  description: Unit for dimensions.
+                  reference: <PR/Issue/Discussion Links md format text>
+                - code: length
+                  description: Order length.
+                  reference: <PR/Issue/Discussion Links md format text>
+                - code: breadth
+                  description: Order breadth.
+                  reference: <PR/Issue/Discussion Links md format text>
+                - code: height
+                  description: Order height.
+                  reference: <PR/Issue/Discussion Links md format text>
+            - code: linked_order_diff_proof
+              description: Proof of differences in the order.
+              reference: <PR/Issue/Discussion Links md format text>
+              list:
+                - code: type
+                  description: Type of proof (e.g., image).
+                  reference: <PR/Issue/Discussion Links md format text>
+                - code: url
+                  description: Link to the proof image.
+                  reference: <PR/Issue/Discussion Links md format text>
   on_track:
     message:
       tracking:
@@ -4679,6 +4720,41 @@ x-tags:
                 "ready_to_ship"="yes";
               reference: <PR/Issue/Discussion Links md format text>
               list: *ref_26
+            - code: linked_order_diff
+              description: Differences in the linked order details.
+              reference: <PR/Issue/Discussion Links md format text>
+              list:
+                - code: id
+                  description: Order ID.
+                  reference: <PR/Issue/Discussion Links md format text>
+                - code: weight_unit
+                  description: Unit of weight measurement.
+                  reference: <PR/Issue/Discussion Links md format text>
+                - code: weight_value
+                  description: Weight of the order.
+                  reference: <PR/Issue/Discussion Links md format text>
+                - code: dim_unit
+                  description: Unit for dimensions.
+                  reference: <PR/Issue/Discussion Links md format text>
+                - code: length
+                  description: Order length.
+                  reference: <PR/Issue/Discussion Links md format text>
+                - code: breadth
+                  description: Order breadth.
+                  reference: <PR/Issue/Discussion Links md format text>
+                - code: height
+                  description: Order height.
+                  reference: <PR/Issue/Discussion Links md format text>
+            - code: linked_order_diff_proof
+              description: Proof of differences in the order.
+              reference: <PR/Issue/Discussion Links md format text>
+              list:
+                - code: type
+                  description: Type of proof (e.g., image).
+                  reference: <PR/Issue/Discussion Links md format text>
+                - code: url
+                  description: Link to the proof image.
+                  reference: <PR/Issue/Discussion Links md format text>
         tags:
           - code: diff_dim
             description: Dimension differences recorded.
@@ -4792,7 +4868,7 @@ x-flows:
           description: Logistics Buyer app sends a search request
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: search
@@ -4912,7 +4988,7 @@ x-flows:
             request.
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: on_search
@@ -5031,7 +5107,7 @@ x-flows:
           description: LBNP initialises the order with the selected LSP.
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: init
@@ -5143,7 +5219,7 @@ x-flows:
           description: LBNP acknowledges order initialisation , provides quote breakup.
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: on_init
@@ -5313,7 +5389,7 @@ x-flows:
           description: LBNP confirms the order
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: confirm
@@ -5611,7 +5687,7 @@ x-flows:
           description: LSP provides acceptance to the order
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: on_confirm
@@ -5906,7 +5982,7 @@ x-flows:
             to be shipped, updates delivery address, etc.
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: update
@@ -6066,7 +6142,7 @@ x-flows:
             provide any weight differentail charges, etc.
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: on_update
@@ -6350,7 +6426,7 @@ x-flows:
             etc and maintains the complete order trail.
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: on_status
@@ -6675,7 +6751,7 @@ x-flows:
           description: Logistics Buyer app requests for tracking information
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               action: track
               country: IND
               city: std:080
@@ -6707,7 +6783,7 @@ x-flows:
           description: LSP provides live tracking details
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               action: on_track
               country: IND
               city: std:080
@@ -6781,7 +6857,7 @@ x-flows:
             etc and maintains the complete order trail.
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: on_status
@@ -7175,7 +7251,7 @@ x-flows:
             verification (optional, as required)
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: confirm
@@ -7438,7 +7514,7 @@ x-flows:
           description: Logistics Buyer app updates the fulfillment tag 'order_ready' = yes
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: update
@@ -7597,7 +7673,7 @@ x-flows:
             the complete order trail.
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: on_status
@@ -8005,7 +8081,7 @@ x-flows:
             distance for serviceability, rate basis (rate per rider or order);
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: search
@@ -8168,7 +8244,7 @@ x-flows:
             'fulfill_response' tag in response to the 'fulfill_request' by LBNP.
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: on_search
@@ -8343,7 +8419,7 @@ x-flows:
           description: LBNP initialises the order with the selected LSP.
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: init
@@ -8660,7 +8736,7 @@ x-flows:
           description: LBNP acknowledges order initialisation , provides quote breakup.
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: on_init
@@ -8950,7 +9026,7 @@ x-flows:
           description: LBNP confirms the order
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: confirm
@@ -9414,7 +9490,7 @@ x-flows:
           description: LSP provides acceptance to the order
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: confirm
@@ -9901,7 +9977,7 @@ x-flows:
             etc and maintains the complete order trail.
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: confirm
@@ -10436,7 +10512,7 @@ x-flows:
             fulfillment based on the rider details shared by LSP.
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: update
@@ -10782,7 +10858,7 @@ x-flows:
             provide any weight differentail charges, etc.
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: on_update
@@ -11348,7 +11424,7 @@ x-flows:
           description: Logistics Buyer app sends a search request for retail COD order
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: search
@@ -11474,7 +11550,7 @@ x-flows:
             request and declares its ability to fulfill COD orders.
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: on_search
@@ -11624,7 +11700,7 @@ x-flows:
           description: LBNP initialises the order with the selected LSP.
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: init
@@ -11762,7 +11838,7 @@ x-flows:
           description: LBNP acknowledges order initialisation , provides quote breakup.
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: on_init
@@ -11890,7 +11966,7 @@ x-flows:
           description: LBNP confirms the order
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: confirm
@@ -12162,7 +12238,7 @@ x-flows:
           description: LSP provides acceptance to the order
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: on_confirm
@@ -12481,7 +12557,7 @@ x-flows:
             etc and maintains the complete order trail.
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: on_status
@@ -12928,7 +13004,7 @@ x-flows:
             fulfillment (RTO-Initiated)
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: on_cancel
@@ -13261,7 +13337,7 @@ x-flows:
             updated to its terminal state.
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: on_status
@@ -13688,7 +13764,7 @@ x-flows:
           description: LBNP proposes prepaid payment collection by LSP
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: init
@@ -13794,7 +13870,7 @@ x-flows:
           description: LSP responds with payment collection details
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: on_init
@@ -13913,7 +13989,7 @@ x-flows:
             balance
           value:
             context:
-              domain: nic2004:60232
+              domain: ONDC:LOG10
               country: IND
               city: std:080
               action: on_confirm
@@ -14233,7 +14309,7 @@ x-examples:
             description: Logistics Buyer app requests for order status
             value:
               context:
-                domain: nic2004:60232
+                domain: ONDC:LOG10
                 country: IND
                 city: std:080
                 action: status
@@ -14257,7 +14333,7 @@ x-examples:
             description: LBNP cancels the order
             value:
               context:
-                domain: nic2004:60232
+                domain: ONDC:LOG10
                 country: IND
                 city: std:080
                 action: cancel
@@ -14308,7 +14384,7 @@ x-examples:
             description: LSP cancels the order
             value:
               context:
-                domain: nic2004:60232
+                domain: ONDC:LOG10
                 country: IND
                 city: std:080
                 action: on_cancel
@@ -14583,7 +14659,7 @@ x-attributes:
             required: mandatory
             type: string
             owner: BAP
-            usage: nic2004:60232
+            usage: ONDC:LOG10
             description: Describes domain code that is relevant to this transaction context
           country:
             required: mandatory
@@ -14944,7 +15020,7 @@ x-attributes:
             required: mandatory
             type: string
             owner: BAP
-            usage: nic2004:60232
+            usage: ONDC:LOG10
             description: Describes domain code that is relevant to this transaction context
           country:
             required: mandatory
@@ -15271,7 +15347,7 @@ x-attributes:
             required: mandatory
             type: string
             owner: BAP
-            usage: nic2004:60232
+            usage: ONDC:LOG10
             description: Describes domain code that is relevant to this transaction context
           country:
             required: mandatory
@@ -15572,7 +15648,7 @@ x-attributes:
             required: mandatory
             type: string
             owner: BAP
-            usage: nic2004:60232
+            usage: ONDC:LOG10
             description: Describes domain code that is relevant to this transaction context
           country:
             required: mandatory
@@ -15898,7 +15974,7 @@ x-attributes:
             required: mandatory
             type: string
             owner: BAP
-            usage: nic2004:60232
+            usage: ONDC:LOG10
             description: Describes domain code that is relevant to this transaction context
           country:
             required: mandatory
@@ -16338,7 +16414,7 @@ x-attributes:
             required: mandatory
             type: string
             owner: BAP
-            usage: nic2004:60232
+            usage: ONDC:LOG10
             description: Describes domain code that is relevant to this transaction context
           country:
             required: mandatory
@@ -16722,7 +16798,7 @@ x-attributes:
             required: mandatory
             type: string
             owner: BAP
-            usage: nic2004:60232
+            usage: ONDC:LOG10
             description: Describes domain code that is relevant to this transaction context
           country:
             required: mandatory
@@ -17505,7 +17581,7 @@ x-attributes:
             required: mandatory
             type: string
             owner: BAP
-            usage: nic2004:60232
+            usage: ONDC:LOG10
             description: Describes domain code that is relevant to this transaction context
           country:
             required: mandatory
@@ -18364,7 +18440,7 @@ x-attributes:
             required: mandatory
             type: string
             owner: BAP
-            usage: nic2004:60232
+            usage: ONDC:LOG10
             description: Describes domain code that is relevant to this transaction context
           country:
             required: mandatory
@@ -18777,7 +18853,7 @@ x-attributes:
             required: mandatory
             type: string
             owner: BAP
-            usage: nic2004:60232
+            usage: ONDC:LOG10
             description: Describes domain code that is relevant to this transaction context
           country:
             required: mandatory
@@ -19516,7 +19592,7 @@ x-attributes:
                     usage: false
                     description: false
                   street:
-                    required: mandatory
+                    required: optional
                     type: integer
                     owner: BAP
                     usage: false
@@ -19617,7 +19693,7 @@ x-attributes:
             required: mandatory
             type: string
             owner: BAP
-            usage: nic2004:60232
+            usage: ONDC:LOG10
             description: Describes domain code that is relevant to this transaction context
           country:
             required: mandatory
@@ -19715,7 +19791,7 @@ x-attributes:
             required: mandatory
             type: string
             owner: BAP
-            usage: nic2004:60232
+            usage: ONDC:LOG10
             description: Describes domain code that is relevant to this transaction context
           country:
             required: mandatory
@@ -20661,7 +20737,7 @@ x-attributes:
             required: mandatory
             type: string
             owner: BAP
-            usage: nic2004:60232
+            usage: ONDC:LOG10
             description: Describes domain code that is relevant to this transaction context
           country:
             required: mandatory
@@ -20759,7 +20835,7 @@ x-attributes:
             required: mandatory
             type: string
             owner: BAP
-            usage: nic2004:60232
+            usage: ONDC:LOG10
             description: Describes domain code that is relevant to this transaction context
           country:
             required: mandatory
@@ -20890,7 +20966,7 @@ x-attributes:
             required: mandatory
             type: string
             owner: BAP
-            usage: nic2004:60232
+            usage: ONDC:LOG10
             description: Describes domain code that is relevant to this transaction context
           country:
             required: mandatory
@@ -20994,7 +21070,7 @@ x-attributes:
             required: mandatory
             type: string
             owner: BAP
-            usage: nic2004:60232
+            usage: ONDC:LOG10
             description: Describes domain code that is relevant to this transaction context
           country:
             required: mandatory
@@ -22119,8 +22195,6 @@ x-validations:
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - ONDC:LOG10
-          - ONDC:LOG11
-          - nic2004:60232
       - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
@@ -22241,8 +22315,6 @@ x-validations:
       - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - ONDC:LOG10
-          - ONDC:LOG11
-          - nic2004:60232
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
@@ -22413,8 +22485,7 @@ x-validations:
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - ONDC:LOG10
-          - ONDC:LOG11
-          - nic2004:60232
+
       - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
@@ -22579,8 +22650,7 @@ x-validations:
       - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - ONDC:LOG10
-          - ONDC:LOG11
-          - nic2004:60232
+
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
@@ -22740,8 +22810,7 @@ x-validations:
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - ONDC:LOG10
-          - ONDC:LOG11
-          - nic2004:60232
+
       - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
@@ -23039,8 +23108,7 @@ x-validations:
       - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - ONDC:LOG10
-          - ONDC:LOG11
-          - nic2004:60232
+
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
@@ -23389,8 +23457,7 @@ x-validations:
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - ONDC:LOG10
-          - ONDC:LOG11
-          - nic2004:60232
+
       - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
@@ -23433,8 +23500,7 @@ x-validations:
       - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - ONDC:LOG10
-          - ONDC:LOG11
-          - nic2004:60232
+
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
@@ -23444,8 +23510,7 @@ x-validations:
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - ONDC:LOG10
-          - ONDC:LOG11
-          - nic2004:60232
+
       - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
@@ -23488,8 +23553,7 @@ x-validations:
       - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - ONDC:LOG10
-          - ONDC:LOG11
-          - nic2004:60232
+
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
@@ -23499,8 +23563,7 @@ x-validations:
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - ONDC:LOG10
-          - ONDC:LOG11
-          - nic2004:60232
+
       - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
@@ -23546,8 +23609,7 @@ x-validations:
       - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - ONDC:LOG10
-          - ONDC:LOG11
-          - nic2004:60232
+
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
@@ -23597,8 +23659,7 @@ x-validations:
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - ONDC:LOG10
-          - ONDC:LOG11
-          - nic2004:60232
+
       - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
@@ -23667,8 +23728,7 @@ x-validations:
       - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - ONDC:LOG10
-          - ONDC:LOG11
-          - nic2004:60232
+
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
@@ -23857,8 +23917,7 @@ x-validations:
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - ONDC:LOG10
-          - ONDC:LOG11
-          - nic2004:60232
+
       - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
@@ -23973,8 +24032,7 @@ x-validations:
       - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - ONDC:LOG10
-          - ONDC:LOG11
-          - nic2004:60232
+
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
@@ -24150,8 +24208,7 @@ x-validations:
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - ONDC:LOG10
-          - ONDC:LOG11
-          - nic2004:60232
+
       - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
@@ -24300,8 +24357,7 @@ x-validations:
       - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - ONDC:LOG10
-          - ONDC:LOG11
-          - nic2004:60232
+
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
@@ -24480,8 +24536,7 @@ x-validations:
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - ONDC:LOG10
-          - ONDC:LOG11
-          - nic2004:60232
+
       - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
@@ -24815,8 +24870,7 @@ x-validations:
       - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - ONDC:LOG10
-          - ONDC:LOG11
-          - nic2004:60232
+
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
@@ -25118,8 +25172,7 @@ x-validations:
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - ONDC:LOG10
-          - ONDC:LOG11
-          - nic2004:60232
+
       - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
@@ -25165,8 +25218,7 @@ x-validations:
       - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - ONDC:LOG10
-          - ONDC:LOG11
-          - nic2004:60232
+
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
@@ -25211,8 +25263,7 @@ x-validations:
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - ONDC:LOG10
-          - ONDC:LOG11
-          - nic2004:60232
+
       - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
@@ -25477,8 +25528,7 @@ x-validations:
       - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - ONDC:LOG10
-          - ONDC:LOG11
-          - nic2004:60232
+
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
@@ -25636,6 +25686,8 @@ x-validations:
           - shipping_label
           - rto_event
           - ebn
+          - linked_order_diff
+          - linked_order_diff_proof
         tagPath: $.message.order.fulfillments[*].tags[*].code
         _CONTINUE_: '!(tagPath are present)'
         _RETURN_: tagPath all in validTags
@@ -25735,6 +25787,26 @@ x-validations:
           - id
           - expiry_date
         _RETURN_: subTags all in validValues
+      - _NAME_: validate_tag_2_linked_order_diff
+        _SCOPE_: $.message.order.fulfillments[*].tags[?(@.code=='linked_order_diff')]
+        subTags: $.list[*].code
+        validValues:
+          - id
+          - weight_unit
+          - weight_value
+          - dim_unit
+          - length
+          - breadth
+          - height
+        _RETURN_: subTags all in validValues
+      - _NAME_: validate_tag_2_linked_order_diff_proof
+        _SCOPE_: >-
+          $.message.order.fulfillments[*].tags[?(@.code=='linked_order_diff_proof')]
+        subTags: $.list[*].code
+        validValues:
+          - type
+          - url
+        _RETURN_: subTags all in validValues
       - _NAME_: order_picked_up_timestamp
         _DESCRIPTION_: >-
           Order pickup timestamp in fulfillments/start/time/timestamp should be
@@ -25784,8 +25856,7 @@ x-validations:
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - ONDC:LOG10
-          - ONDC:LOG11
-          - nic2004:60232
+
       - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
@@ -26086,56 +26157,52 @@ x-validations:
       - _NAME_: REQUIRED_MESSAGE_BUILDING_84
         attr: $.message.order['@ondc/org/linked_order'].provider.address.building
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_STREET
-        attr: $.message.order['@ondc/org/linked_order'].provider.address.street
-        _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_LOCALITY_86
+      - _NAME_: REQUIRED_MESSAGE_LOCALITY_85
         attr: $.message.order['@ondc/org/linked_order'].provider.address.locality
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_CITY_87
+      - _NAME_: REQUIRED_MESSAGE_CITY_86
         attr: $.message.order['@ondc/org/linked_order'].provider.address.city
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_STATE_88
+      - _NAME_: REQUIRED_MESSAGE_STATE_87
         attr: $.message.order['@ondc/org/linked_order'].provider.address.state
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_AREA_CODE_89
+      - _NAME_: REQUIRED_MESSAGE_AREA_CODE_88
         attr: $.message.order['@ondc/org/linked_order'].provider.address.area_code
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_ID_90
+      - _NAME_: REQUIRED_MESSAGE_ID_89
         attr: $.message.order['@ondc/org/linked_order'].order.id
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_UNIT_91
+      - _NAME_: REQUIRED_MESSAGE_UNIT_90
         attr: $.message.order['@ondc/org/linked_order'].order.weight.unit
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_VALUE_92
+      - _NAME_: REQUIRED_MESSAGE_VALUE_91
         attr: $.message.order['@ondc/org/linked_order'].order.weight.value
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_UNIT_93
+      - _NAME_: REQUIRED_MESSAGE_UNIT_92
         attr: $.message.order['@ondc/org/linked_order'].order.dimensions.length.unit
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_VALUE_94
+      - _NAME_: REQUIRED_MESSAGE_VALUE_93
         attr: $.message.order['@ondc/org/linked_order'].order.dimensions.length.value
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_UNIT_95
+      - _NAME_: REQUIRED_MESSAGE_UNIT_94
         attr: $.message.order['@ondc/org/linked_order'].order.dimensions.breadth.unit
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_VALUE_96
+      - _NAME_: REQUIRED_MESSAGE_VALUE_95
         attr: $.message.order['@ondc/org/linked_order'].order.dimensions.breadth.value
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_UNIT_97
+      - _NAME_: REQUIRED_MESSAGE_UNIT_96
         attr: $.message.order['@ondc/org/linked_order'].order.dimensions.height.unit
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_VALUE_98
+      - _NAME_: REQUIRED_MESSAGE_VALUE_97
         attr: $.message.order['@ondc/org/linked_order'].order.dimensions.height.value
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_UPDATED_AT_99
+      - _NAME_: REQUIRED_MESSAGE_UPDATED_AT_98
         attr: $.message.order.updated_at
         _RETURN_: attr are present
       - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - ONDC:LOG10
-          - ONDC:LOG11
-          - nic2004:60232
+
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
@@ -26435,8 +26502,7 @@ x-validations:
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - ONDC:LOG10
-          - ONDC:LOG11
-          - nic2004:60232
+
       - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
@@ -26695,8 +26761,7 @@ x-validations:
       - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - ONDC:LOG10
-          - ONDC:LOG11
-          - nic2004:60232
+
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
@@ -26857,6 +26922,8 @@ x-validations:
           - rto_event
           - reverseqc_output
           - ebn
+          - linked_order_diff
+          - linked_order_diff_proof
         tagPath: $.message.order.fulfillments[*].tags[*].code
         _CONTINUE_: '!(tagPath are present)'
         _RETURN_: tagPath all in validTags
@@ -26989,6 +27056,26 @@ x-validations:
         validValues:
           - id
           - expiry_date
+        _RETURN_: subTags all in validValues
+      - _NAME_: validate_tag_2_linked_order_diff
+        _SCOPE_: $.message.order.fulfillments[*].tags[?(@.code=='linked_order_diff')]
+        subTags: $.list[*].code
+        validValues:
+          - id
+          - weight_unit
+          - weight_value
+          - dim_unit
+          - length
+          - breadth
+          - height
+        _RETURN_: subTags all in validValues
+      - _NAME_: validate_tag_2_linked_order_diff_proof
+        _SCOPE_: >-
+          $.message.order.fulfillments[*].tags[?(@.code=='linked_order_diff_proof')]
+        subTags: $.list[*].code
+        validValues:
+          - type
+          - url
         _RETURN_: subTags all in validValues
       - _NAME_: validate_tag_3
         validTags:
