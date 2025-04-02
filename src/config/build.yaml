@@ -22195,6 +22195,8 @@ x-validations:
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - ONDC:LOG10
+          - ONDC:LOG11
+          - nic2004:60232
       - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
@@ -22315,6 +22317,8 @@ x-validations:
       - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - ONDC:LOG10
+          - ONDC:LOG11
+          - nic2004:60232
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
@@ -22485,7 +22489,8 @@ x-validations:
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - ONDC:LOG10
-
+          - ONDC:LOG11
+          - nic2004:60232
       - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
@@ -22650,7 +22655,8 @@ x-validations:
       - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - ONDC:LOG10
-
+          - ONDC:LOG11
+          - nic2004:60232
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
@@ -22810,7 +22816,8 @@ x-validations:
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - ONDC:LOG10
-
+          - ONDC:LOG11
+          - nic2004:60232
       - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
@@ -23108,7 +23115,8 @@ x-validations:
       - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - ONDC:LOG10
-
+          - ONDC:LOG11
+          - nic2004:60232
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
@@ -23457,7 +23465,8 @@ x-validations:
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - ONDC:LOG10
-
+          - ONDC:LOG11
+          - nic2004:60232
       - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
@@ -23500,7 +23509,8 @@ x-validations:
       - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - ONDC:LOG10
-
+          - ONDC:LOG11
+          - nic2004:60232
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
@@ -23510,7 +23520,8 @@ x-validations:
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - ONDC:LOG10
-
+          - ONDC:LOG11
+          - nic2004:60232
       - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
@@ -23553,7 +23564,8 @@ x-validations:
       - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - ONDC:LOG10
-
+          - ONDC:LOG11
+          - nic2004:60232
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
@@ -23563,7 +23575,8 @@ x-validations:
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - ONDC:LOG10
-
+          - ONDC:LOG11
+          - nic2004:60232
       - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
@@ -23609,7 +23622,8 @@ x-validations:
       - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - ONDC:LOG10
-
+          - ONDC:LOG11
+          - nic2004:60232
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
@@ -23659,7 +23673,8 @@ x-validations:
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - ONDC:LOG10
-
+          - ONDC:LOG11
+          - nic2004:60232
       - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
@@ -23728,7 +23743,8 @@ x-validations:
       - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - ONDC:LOG10
-
+          - ONDC:LOG11
+          - nic2004:60232
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
@@ -23917,7 +23933,8 @@ x-validations:
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - ONDC:LOG10
-
+          - ONDC:LOG11
+          - nic2004:60232
       - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
@@ -24032,7 +24049,8 @@ x-validations:
       - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - ONDC:LOG10
-
+          - ONDC:LOG11
+          - nic2004:60232
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
@@ -24208,7 +24226,8 @@ x-validations:
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - ONDC:LOG10
-
+          - ONDC:LOG11
+          - nic2004:60232
       - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
@@ -24357,7 +24376,8 @@ x-validations:
       - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - ONDC:LOG10
-
+          - ONDC:LOG11
+          - nic2004:60232
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
@@ -24536,7 +24556,8 @@ x-validations:
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - ONDC:LOG10
-
+          - ONDC:LOG11
+          - nic2004:60232
       - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
@@ -24870,7 +24891,8 @@ x-validations:
       - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - ONDC:LOG10
-
+          - ONDC:LOG11
+          - nic2004:60232
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
@@ -25172,7 +25194,8 @@ x-validations:
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - ONDC:LOG10
-
+          - ONDC:LOG11
+          - nic2004:60232
       - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
@@ -25218,7 +25241,8 @@ x-validations:
       - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - ONDC:LOG10
-
+          - ONDC:LOG11
+          - nic2004:60232
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
@@ -25263,7 +25287,8 @@ x-validations:
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - ONDC:LOG10
-
+          - ONDC:LOG11
+          - nic2004:60232
       - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
@@ -25528,7 +25553,8 @@ x-validations:
       - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - ONDC:LOG10
-
+          - ONDC:LOG11
+          - nic2004:60232
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
@@ -25856,7 +25882,8 @@ x-validations:
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - ONDC:LOG10
-
+          - ONDC:LOG11
+          - nic2004:60232
       - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
@@ -26202,7 +26229,8 @@ x-validations:
       - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - ONDC:LOG10
-
+          - ONDC:LOG11
+          - nic2004:60232
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
@@ -26502,7 +26530,8 @@ x-validations:
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - ONDC:LOG10
-
+          - ONDC:LOG11
+          - nic2004:60232
       - _NAME_: REQUIRED_CONTEXT_COUNTRY
         attr: $.context.country
         _RETURN_: attr are present
@@ -26761,7 +26790,8 @@ x-validations:
       - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
         enumList:
           - ONDC:LOG10
-
+          - ONDC:LOG11
+          - nic2004:60232
         enumPath: $.context.domain
         _CONTINUE_: '!(enumPath are present)'
         _RETURN_: enumPath all in enumList
@@ -27222,4 +27252,5 @@ x-validations:
           $.message.order.fulfillments[?(@.type=='Delivery')].end.location.address.city
         _RETURN_: endLocation are present
   _SESSION_DATA_: {}
+
 
