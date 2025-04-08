@@ -100117,6 +100117,156 @@ x-errors:
         Type: Seller App
         Message: Fulfillment cannot be updated
         Description: Fulfillment has reached terminal state, cannot be updated
+x-errorcodes:
+  code:
+    - code: '60001'
+      Event: >-
+        Location Serviceability Error - Pickup location not serviceable by
+        Logistics Provider
+      From: BPP
+      Description: Used in error object
+    - code: '60002'
+      Event: >-
+        Location Serviceability Error - Dropoff location not serviceable by
+        Logistics Provider
+      From: BPP
+      Description: Used in error object
+    - code: '60004'
+      Event: Order Serviceability Error - Delivery Partners not available
+      From: BPP
+      Description: Used in error object
+    - code: '60005'
+      Event: Invalid Signature - Cannot verify signature for request
+      From: BPP
+      Description: Used in NACK
+    - code: '60006'
+      Event: Invalid request, not compliant with API contract
+      From: BPP
+      Description: Used in NACK
+    - code: '60007'
+      Event: >-
+        Policy Error - Cancellation not possible because of Logistics Provider
+        policy
+      From: BPP
+    - code: '60008'
+      Event: >-
+        Invalid Fulfillment TAT - Fulfillment TAT is different from what was
+        quoted earlier
+      From: BPP
+    - code: '60009'
+      Event: Invalid cancellation request - Cancellation reason is invalid
+      From: BPP
+    - code: '60010'
+      Event: >-
+        Cancellation unacceptable - Cancellation request is rejected as
+        fulfillment TAT is not breached
+      From: BPP
+    - code: '60011'
+      Event: >-
+        Difference in packaging details - Weight and / or dimensions provided is
+        different from what was originally provided
+      From: BPP
+    - code: '60012'
+      Event: >-
+        Tracking not enabled - Tracking not enabled for any fulfillment in the
+        order
+      From: BPP
+    - code: '61001'
+      Event: Feature not supported
+      From: BPP
+    - code: '62501'
+      Event: >-
+        Terms and Conditions unacceptable - Logistics Provider terms &
+        conditions not acceptable to Logistics Buyer
+      From: BAP
+    - code: '62502'
+      Event: >-
+        Order terminated - Order terminated as Logistics Provider did not accept
+        terms proposed by Logistics Buyer
+      From: BAP
+    - code: '62503'
+      Event: >-
+        RTO rejected - RTO request rejected as quote does not match the quote
+        provided in catalog
+      From: BAP
+    - code: '62504'
+      Event: Weight differential cost rejected
+      From: BAP
+    - code: '62505'
+      Event: >-
+        Cancellation terms unacceptable -  Logistics Provider cancellation terms
+        not acceptable to Logistics Buyer
+      From: BAP
+    - code: '62506'
+      Event: >-
+        Invalid Fulfillment TAT - Fulfillment TAT is different from what was
+        quoted earlier
+      From: BAP
+    - code: '62507'
+      Event: >-
+        Difference in packaging details - Weight and / or dimensions provided is
+        different from what was originally provided
+      From: BAP
+    - code: '62508'
+      Event: >-
+        Quote difference - Total price is different from what was originally
+        provided
+      From: BAP
+    - code: '62509'
+      Event: >-
+        Invalid Cancellation Terms - Cancellation terms are different from what
+        was quoted earlier
+      From: BAP
+    - code: '62510'
+      Event: Expired authorization - Authorization code has expired
+      From: BAP
+    - code: '62511'
+      Event: Invalid authorization - Authorization code is invalid
+      From: BAP
+    - code: '63001'
+      Event: >-
+        Internal Error - Cannot process response due to internal error, please
+        retry
+      From: BAP
+    - code: '63002'
+      Event: Order validation failure
+      From: BAP
+    - code: '64001'
+      Event: Feature not supported
+      From: BAP
+    - code: '65001'
+      Event: Order Confirm Error - Logistics Provider is unable to confirm the order
+      From: BPP
+    - code: '65002'
+      Event: >-
+        Order terminated as Logistics Buyer did not accept terms proposed by
+        Logistics Provider
+      From: BPP
+    - code: '65003'
+      Event: Stale Request - Cannot process stale request
+      From: BPP
+    - code: '65004'
+      Event: >-
+        Terms unacceptable - Logistics Buyer terms not acceptable to Logistics
+        Provider
+      From: BPP
+    - code: '66001'
+      Event: >-
+        Internal Error - Cannot process response due to internal error, please
+        retry
+      From: BPP
+    - code: '66002'
+      Event: Order validation failure
+      From: BPP
+    - code: '66003'
+      Event: Order processing in progress
+      From: BPP
+    - code: '66004'
+      Event: Invalid Order - Order not found
+      From: BPP
+    - code: '66005'
+      Event: Quote unavailable - Quote no longer available
+      From: BPP
 x-validations:
   _TESTS_:
     search:
