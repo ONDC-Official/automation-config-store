@@ -275,7 +275,7 @@ export default async function search(payload: any): Promise<ValidationOutput> {
           ApiSequence.SEARCH
         );
         if (tagErrors?.length) {
-          tagErrors.forEach((err) => addError(40000, err));
+          tagErrors.forEach((err: any) => addError(40000, err));
         }
       }
     }

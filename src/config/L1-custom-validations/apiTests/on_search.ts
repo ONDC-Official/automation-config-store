@@ -482,7 +482,7 @@ export default async function onSearch(
               base_item,
               default_selection_calculated,
               default_selection_actual,
-            }) => {
+            }: any) => {
               if (
                 default_selection_calculated.min !==
                 default_selection_actual.min ||
