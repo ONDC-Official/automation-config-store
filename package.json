@@ -1,0 +1,9 @@
+{
+    "dependencies": {
+        "lodash": "^4.17.21",
+        "ondc-automation-cache-lib": "^2.1.0"
+    },
+    "devDependencies": {
+        "@types/lodash": "^4.17.16"
+    }
+}
