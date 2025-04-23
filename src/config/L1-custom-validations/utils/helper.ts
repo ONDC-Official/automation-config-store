@@ -3,7 +3,7 @@ import constants, { ApiSequence, PAYMENT_STATUS } from "./constants";
 import { RedisService } from "ondc-automation-cache-lib";
 import { groceryCategoryMappingWithStatutory } from "./constants";
 import { statutory_reqs } from "./enum";
-import { data } from "./AreacodeMap";
+import { data } from "./areacodeMap";
 import { InputObject } from "./interface";
 
 
