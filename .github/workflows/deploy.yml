@@ -100,7 +100,7 @@ jobs:
           ssh -i ./key.pem ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} <<EOF
           REPO_DIR=~/ONDC-automation-framework/api-service/api-service-generator-${{ github.ref_name }}
           cd \$REPO_DIR
-          git submodule update --init --recursive
+          git submodule update --init --recursive --remote
           EOF
 
 
