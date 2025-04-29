@@ -4,6 +4,7 @@
         "ondc-automation-cache-lib": "^2.1.0"
     },
     "devDependencies": {
-        "@types/lodash": "^4.17.16"
+        "@types/lodash": "^4.17.16",
+        "@types/node": "^22.15.3"
     }
 }

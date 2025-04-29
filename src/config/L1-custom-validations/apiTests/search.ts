@@ -6,15 +6,16 @@ import {
   checkContext,
   checkTagConditions,
   addMsgIdToRedisSet,
+  addActionToRedisSet,
 } from "../utils/helper";
 import { RedisService } from "ondc-automation-cache-lib";
 
-const TTL_IN_SECONDS = 30000;
+const TTL_IN_SECONDS: number = Number(process.env.TTL_IN_SECONDS) || 3600;
 
 interface ValidationError {
   valid: boolean;
   code: number;
-  description?: string;
+  description: string;
 }
 
 type ValidationOutput = ValidationError[];
@@ -52,6 +53,25 @@ export default async function search(payload: any): Promise<ValidationOutput> {
     if (!context.transaction_id) {
       addError(40000, "Transaction_id is missing");
       return result;
+    }
+
+    try {
+      const previousCallPresent = await addActionToRedisSet(
+        context.transaction_id,
+        ApiSequence.SEARCH,
+        ApiSequence.SEARCH
+      );
+      if (!previousCallPresent) {
+        result.push({
+          valid: false,
+          code: 20000,
+          description: `Previous call doesn't exist`,
+        });
+      }
+    } catch (error: any) {
+      console.error(
+        `!!Error while previous action call /${constants.SEARCH}, ${error.stack}`
+      );
     }
 
     // Validate message.intent
@@ -97,6 +117,8 @@ export default async function search(payload: any): Promise<ValidationOutput> {
       const buyerFF = parseFloat(
         payment["@ondc/org/buyer_app_finder_fee_amount"]
       );
+
+      console.log("buyerFF", buyerFF);
       if (!isNaN(buyerFF)) {
         await RedisService.setKey(
           `${context.transaction_id}_${ApiSequence.SEARCH}_buyerFF`,
@@ -275,22 +297,40 @@ export default async function search(payload: any): Promise<ValidationOutput> {
           ApiSequence.SEARCH
         );
         if (tagErrors?.length) {
-          tagErrors.forEach((err: any) => addError(40000, err));
+          tagErrors.forEach((err) => addError(40000, err));
         }
       }
     }
 
     // Redis operations for message ID and domain
-    await addMsgIdToRedisSet(context.transaction_id, context.message_id);
-    await RedisService.setKey(
-      `${context.transaction_id}_${ApiSequence.SEARCH}_msgId`,
-      context.message_id,
-      TTL_IN_SECONDS
-    );
+    try {
+      console.info(`Adding Message Id /${constants.SEARCH}`);
+      const isMsgIdNotPresent = await addMsgIdToRedisSet(
+        context.transaction_id,
+        context.message_id,
+        ApiSequence.SEARCH
+      );
+      if (!isMsgIdNotPresent) {
+        result.push({
+          valid: false,
+          code: 20000,
+          description: `Message id should not be same with previous calls`,
+        });
+      }
+      await RedisService.setKey(
+        `${context.transaction_id}_${ApiSequence.SEARCH}_msgId`,
+        context.message_id,
+        TTL_IN_SECONDS
+      );
+    } catch (error: any) {
+      console.error(
+        `!!Error while checking message id for /${constants.SEARCH}, ${error.stack}`
+      );
+    }
 
     const domainParts = context.domain?.split(":");
     if (domainParts?.[1]) {
-      const hello = await RedisService.setKey(
+      await RedisService.setKey(
         `${context.transaction_id}_domain`,
         domainParts[1],
         TTL_IN_SECONDS

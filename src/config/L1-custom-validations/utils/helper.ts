@@ -186,30 +186,35 @@ export const checkContext = (
 
 export const addMsgIdToRedisSet = async (
     transactionId: string,
-    messageId: string
-) => {
+    messageId: string,
+    action: string
+): Promise<boolean> => {
     try {
-        const key = `${transactionId}_msgId_set`;
-        let existingSet: string[] = [];
+        const key = `${transactionId}_msgId_map`;
+        let msgMap: Record<string, string> = {};
 
         const existing = await RedisService.getKey(key);
         if (existing) {
-            existingSet = JSON.parse(existing);
+            msgMap = JSON.parse(existing);
         }
 
-        if (!existingSet.includes(messageId)) {
-            existingSet.push(messageId);
-            await RedisService.setKey(
-                key,
-                JSON.stringify(existingSet),
-                TTL_IN_SECONDS
-            );
+        const existingAction = msgMap[messageId];
 
+        if (existingAction) {
+            return existingAction === action;
+        }
+
+        const isActionUsed = Object.values(msgMap).includes(action);
+        if (isActionUsed) {
             return false;
         }
+
+        msgMap[messageId] = action;
+        await RedisService.setKey(key, JSON.stringify(msgMap), TTL_IN_SECONDS);
         return true;
     } catch (error: any) {
         console.error(`Error in addMsgIdToRedisSet: ${error.stack}`);
+        throw error;
     }
 };
 
@@ -966,3 +971,38 @@ export function compareLists(list1: any[], list2: any[]): string[] {
 
     return errors
 }
+
+
+export const addActionToRedisSet = async (
+    transactionId: string,
+    previousAction: string,
+    presentAction: string
+): Promise<boolean> => {
+    try {
+        const key = `${transactionId}_previousCall`;
+        let existingSet: string[] = [];
+
+        const existing = await RedisService.getKey(key);
+        if (existing) {
+            existingSet = JSON.parse(existing);
+        }
+
+        if (
+            previousAction === presentAction ||
+            (!_.isEmpty(existingSet) && existingSet.includes(previousAction))
+        ) {
+            existingSet.push(presentAction);
+            await RedisService.setKey(
+                key,
+                JSON.stringify(existingSet),
+                TTL_IN_SECONDS
+            );
+            return true;
+        }
+
+        return false;
+    } catch (error: any) {
+        console.error(`Error in addActionToRedisSet: ${error.stack}`);
+        throw error;
+    }
+};

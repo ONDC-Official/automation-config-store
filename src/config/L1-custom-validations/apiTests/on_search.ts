@@ -13,6 +13,7 @@ import {
   validateObjectString,
   validateBapUri,
   validateBppUri,
+  addActionToRedisSet,
 } from "../utils/helper";
 import _, { isEmpty } from "lodash";
 import {
@@ -23,8 +24,6 @@ import {
   mapItemToTreeNode,
 } from "../utils/fb_calculation/default_selection/utils";
 import { RedisService } from "ondc-automation-cache-lib";
-
-const TTL_IN_SECONDS = 3000;
 
 interface ValidationError {
   valid: boolean;
@@ -38,6 +37,7 @@ export default async function onSearch(
   payload: any
 ): Promise<validationOutput> {
   const result: validationOutput = [];
+  const TTL_IN_SECONDS: number = Number(process.env.TTL_IN_SECONDS) || 3600;
 
   // Helper function to add validation errors
   const addError = (code: number, description: string) => {
@@ -71,6 +71,28 @@ export default async function onSearch(
     }
 
     const transaction_id = context?.transaction_id;
+
+    try {
+      const previousCallPresent = await addActionToRedisSet(
+        context.transaction_id,
+        ApiSequence.SEARCH,
+        ApiSequence.ON_SEARCH
+      );
+      if (!previousCallPresent) {
+        result.push({
+          valid: false,
+          code: 20000,
+          description: `Previous call doesn't exist`,
+        });
+        return result;
+      }
+
+    } catch (error: any) {
+      console.error(
+        `!!Error while previous action call /${constants.ON_SEARCH}, ${error.stack}`
+      );
+    }
+
     await RedisService.setKey(
       `${transaction_id}_${ApiSequence.ON_SEARCH}_context`,
       JSON.stringify(context),
@@ -81,25 +103,6 @@ export default async function onSearch(
       JSON.stringify(message),
       TTL_IN_SECONDS
     );
-
-    try {
-      console.info(
-        `Comparing Message Ids of /${constants.SEARCH} and /${constants.ON_SEARCH}`
-      );
-      const searchMsgId = await RedisService.getKey(
-        `${transaction_id}_${ApiSequence.SEARCH}_msgId`
-      );
-      if (!_.isEqual(searchMsgId, context.message_id)) {
-        addError(
-          20006,
-          `Message Ids for /${constants.SEARCH} and /${constants.ON_SEARCH} api should be same`
-        );
-      }
-    } catch (error: any) {
-      console.error(
-        `!!Error while checking message id for /${constants.ON_SEARCH}, ${error.stack}`
-      );
-    }
 
     const storedDomain = await RedisService.getKey(`${transaction_id}_domain`);
     if (!_.isEqual(payload.context.domain.split(":")[1], storedDomain)) {
@@ -174,22 +177,6 @@ export default async function onSearch(
     } catch (error: any) {
       console.error(
         `!!Error while comparing timestamp of /${ApiSequence.SEARCH} /${ApiSequence.ON_SEARCH}, ${error.stack}`
-      );
-    }
-
-    try {
-      console.info(
-        `Comparing transaction Ids of /${constants.SEARCH} and /${constants.ON_SEARCH}`
-      );
-      if (!_.isEqual(searchContext.transaction_id, context.transaction_id)) {
-        addError(
-          20006,
-          `Transaction Id for /${constants.SEARCH} and /${constants.ON_SEARCH} api should be same`
-        );
-      }
-    } catch (error: any) {
-      console.info(
-        `Error while comparing transaction ids for /${constants.SEARCH} and /${constants.ON_SEARCH} api, ${error.stack}`
       );
     }
 
@@ -280,7 +267,7 @@ export default async function onSearch(
 
       await RedisService.setKey(
         `${transaction_id}_onSearchFFIdsArray`,
-        JSON.stringify(onSearchFFIdsArray),
+        JSON.stringify([...onSearchFFIdsArray]),
         TTL_IN_SECONDS
       );
     } catch (error: any) {
@@ -363,6 +350,7 @@ export default async function onSearch(
       descriptor?.tags.map(async (tag: { code: any; list: any[] }) => {
         if (tag.code === "bpp_terms") {
           const npType = tag.list.find((item) => item.code === "np_type");
+
           if (!npType) {
             addError(20006, `Missing np_type in bpp/descriptor`);
             await RedisService.setKey(
@@ -373,7 +361,7 @@ export default async function onSearch(
           } else {
             await RedisService.setKey(
               `${transaction_id}_${ApiSequence.ON_SEARCH}np_type`,
-              JSON.stringify(npType.value),
+              npType.value,
               TTL_IN_SECONDS
             );
             const npTypeValue = npType.value.toUpperCase();
@@ -451,8 +439,9 @@ export default async function onSearch(
         );
         const providerTime = new Date(prvdr.time.timestamp).getTime();
         const contextTimestamp = new Date(tmpstmp).getTime();
+
         await RedisService.setKey(
-          `${transaction_id}_tmpstmp`,
+          `${transaction_id}_${ApiSequence.ON_SEARCH}_tmpstmp`,
           JSON.stringify(context.timestamp),
           TTL_IN_SECONDS
         );
@@ -482,7 +471,7 @@ export default async function onSearch(
               base_item,
               default_selection_calculated,
               default_selection_actual,
-            }: any) => {
+            }) => {
               if (
                 default_selection_calculated.min !==
                 default_selection_actual.min ||
@@ -1689,6 +1678,7 @@ export default async function onSearch(
               `Comparing area_code and STD Code for /${constants.ON_SEARCH}`
             );
             const areaWithSTD = compareSTDwithArea(area_code, std);
+
             if (!areaWithSTD) {
               addError(
                 20006,
@@ -2364,19 +2354,19 @@ export default async function onSearch(
 
       await RedisService.setKey(
         `${transaction_id}_${ApiSequence.ON_SEARCH}prvdrsId`,
-        JSON.stringify(prvdrsId),
+        JSON.stringify([...prvdrsId]),
         TTL_IN_SECONDS
       );
 
       await RedisService.setKey(
         `${transaction_id}_${ApiSequence.ON_SEARCH}prvdrLocId`,
-        JSON.stringify(prvdrLocId),
+        JSON.stringify([...prvdrLocId]),
         TTL_IN_SECONDS
       );
 
       await RedisService.setKey(
         `${transaction_id}_${ApiSequence.ON_SEARCH}itemsId`,
-        JSON.stringify(itemsId),
+        JSON.stringify([...itemsId]),
         TTL_IN_SECONDS
       );
     } catch (error: any) {

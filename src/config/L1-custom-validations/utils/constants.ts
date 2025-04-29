@@ -147,3 +147,6 @@ export const groceryCategoryMappingWithStatutory: { [key: string]: statutory_req
     "Frozen Vegetables": statutory_reqs.None,
     "Gift Voucher": statutory_reqs.None
 };
+
+
+export const ffCategory = [["Immediate Delivery", "Standard Delivery", "Express Delivery"], ["Takeaway", "Kerbside"]]
