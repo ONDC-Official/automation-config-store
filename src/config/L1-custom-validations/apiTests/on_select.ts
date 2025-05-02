@@ -418,7 +418,7 @@ const onSelect = async (data: any) => {
                 }
             }
         }
-        const max_tts = max_time_to_ships.sort((a, b) => a - b)[0];
+        const max_tts = max_time_to_ships.sort((a:any, b:any) => a - b)[0];
         const on_select_tat = on_select.fulfillments.map((e: any) =>
             isoDurToSec(e["@ondc/org/TAT"])
         );
