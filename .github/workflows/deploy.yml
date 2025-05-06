@@ -75,7 +75,8 @@ jobs:
           echo "CONTAINER_NAME=${{ vars.CONTAINER_NAME }}" >> \$REPO_DIR/.env
           echo "DOMAIN=${{ vars.DOMAIN }}" >> \$REPO_DIR/.env
           echo "VERSION=${{ vars.VERSION }}" >> \$REPO_DIR/.env
-
+          echo "SERVICE_NAME=${{ vars.SERVICE_NAME }}" >> \$REPO_DIR/.env
+          echo "TRACE_URL=${{ vars.TRACE_URL }}" >> \$REPO_DIR/.env
           EOF
 
       - name: Verify .env and docker-compose.yml files
