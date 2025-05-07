@@ -103859,20 +103859,14 @@ x-validations:
           pattern: ['^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$']
           _RETURN_: attr are present && attr follow regex pattern
     on_update:
-      # ===== CONTEXT VALIDATION =====
-      - _NAME_: UPDATE_CONTEXT
-        _DESCRIPTION_: Validate update context
-        action: ["update"]
+  # ===== CONTEXT VALIDATION =====
+      - _NAME_: ON_UPDATE_CONTEXT
+        _DESCRIPTION_: Validate on_update context
+        action: ["on_update"]
         _RETURN_: *CONTEXT_COMMON
 
-      # ===== UPDATE TARGET VALIDATION =====
-      - _NAME_: UPDATE_TARGET
-        attr: "$.message.update_target"
-        var_enum: ["payment", "item", "billing", "fulfillment"]
-        _RETURN_:  attr are present && attr all in var_enum
-
       # ===== ORDER VALIDATION =====
-      - _NAME_: UPDATE_ORDER
+      - _NAME_: ON_UPDATE_ORDER
         _RETURN_:
         - _NAME_: ORDER_ID
           attr: "$.message.order.id"
