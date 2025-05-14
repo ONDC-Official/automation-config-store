@@ -2619,7 +2619,7 @@ components:
           description: >-
             Rating value given to the object (1 - Poor; 2 - Needs improvement; 3
             - Satisfactory; 4 - Good; 5 - Excellent)
-          type: number
+          type: string
           minimum: 1
           maximum: 5
     Scalar:
@@ -2659,12 +2659,11 @@ components:
           type: array
           items:
             type: string
-            format: date-time
+            format: date
         times:
           type: array
           items:
             type: string
-            format: date-time
     State:
       description: Describes a state
       type: object
