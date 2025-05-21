@@ -100686,11 +100686,11 @@ x-validations:
             _RETURN_: attr all in version
           - _NAME_: CONTEXT_REG_BAP_URI
             attr: "$.context.bap_uri"
-            reg: ['^https\\:\\/\\/']
+            reg: ['^https?\:\/\/']
             _RETURN_: attr follow regex reg
           - _NAME_: CONTEXT_REG_BPP_URI
             attr: "$.context.bpp_uri"
-            reg: ['^https\\:\\/\\/']
+            reg: ['^https?\:\/\/']
             _RETURN_: attr follow regex reg
             search: ["search"]
             _CONTINUE_: "(action equal to search)"
@@ -100801,7 +100801,7 @@ x-validations:
             - _NAME_: TAGS_BAP_TERMS_EFFECTIVE_DATE
               _CONTINUE_: "!(attr are present)"
               attr: "$.message.intent.tags[?(@.code=='bap_terms')].list[?(@.code=='effective_date')].value"
-              var_date_regex: ["^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}"]
+              var_date_regex: ['^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$']
               _RETURN_: attr follow regex var_date_regex
 
         # CATALOG_FULL
@@ -101073,9 +101073,6 @@ x-validations:
             - _NAME_: CATEGORIES_ID
               attr: "$.message.catalog['bpp/providers'][*].categories[*].id"
               _RETURN_: attr are present
-            - _NAME_: CATEGORIES_PARENT_CATEGORY_ID
-              attr: "$.message.catalog['bpp/providers'][*].categories[*].parent_category_id"
-              _RETURN_: attr are present
             - _NAME_: CATEGORIES_DESCRIPTOR_NAME
               attr: "$.message.catalog['bpp/providers'][*].categories[*].descriptor.name"
               _RETURN_: attr are present
@@ -101174,7 +101171,11 @@ x-validations:
               attr: "$.message.catalog['bpp/providers'][*].items[*].id"
               _RETURN_: attr are present
             - _NAME_: ITEMS_RATING
-              attr: "$.message.catalog['bpp/providers'][*].items[*].rating"
+              _SCOPE_: "$.message.catalog['bpp/providers'][*].items[*]"
+              attr: "$.rating"
+              value: "$.tags[?(@.code=='type')].list[*].value"
+              customization: ["customization"]
+              _CONTINUE_: value all in customization
               _RETURN_: attr are present
             - _NAME_: ITEMS_TIME_LABEL
               attr: "$.message.catalog['bpp/providers'][*].items[*].time.label"
@@ -101254,10 +101255,18 @@ x-validations:
               attr: "$.message.catalog['bpp/providers'][*].items[*].category_ids[*]"
               _RETURN_: attr are present
             - _NAME_: ITEMS_FULFILLMENT_ID
-              attr: "$.message.catalog['bpp/providers'][*].items[*].fulfillment_id"
+              _SCOPE_: "$.message.catalog['bpp/providers'][*].items[*]"
+              attr: "$.fulfillment_id"
+              value: "$.tags[?(@.code=='type')].list[*].value"
+              customization: ["customization"]
+              _CONTINUE_: value all in customization
               _RETURN_: attr are present
             - _NAME_: ITEMS_LOCATION_ID
-              attr: "$.message.catalog['bpp/providers'][*].items[*].location_id"
+              _SCOPE_: "$.message.catalog['bpp/providers'][*].items[*]"
+              attr: "$.location_id"
+              value: "$.tags[?(@.code=='type')].list[*].value"
+              customization: ["customization"]
+              _CONTINUE_: value all in customization
               _RETURN_: attr are present
             - _NAME_: ITEMS_RELATED
               attr: "$.message.catalog['bpp/providers'][*].items[*].related"
@@ -101271,21 +101280,25 @@ x-validations:
             - _NAME_: ITEMS_CANCELLABLE
               attr: "$.message.catalog['bpp/providers'][*].items[*]['@ondc/org/cancellable']"
               _RETURN_: attr are present
-            - _NAME_: ITEMS_RETURN_WINDOW
-              attr: "$.message.catalog['bpp/providers'][*].items[*]['@ondc/org/return_window']"
-              _RETURN_: attr are present
+            # - _NAME_: ITEMS_RETURN_WINDOW
+            #   _SCOPE_: "$.message.catalog['bpp/providers'][*].items[*]"
+            #   value: "$.tags[?(@.code=='type')].list[*].value"
+            #   customization: ["customization"]
+            #   _CONTINUE_: value all in customization
+            #   attr: "$['@ondc/org/return_window']"
+            #   _RETURN_: attr are present
             - _NAME_: ITEMS_SELLER_PICKUP_RETURN
               attr: "$.message.catalog['bpp/providers'][*].items[*]['@ondc/org/seller_pickup_return']"
               _RETURN_: attr are present
-            - _NAME_: ITEMS_TIME_TO_SHIP
-              attr: "$.message.catalog['bpp/providers'][*].items[*]['@ondc/org/time_to_ship']"
-              _RETURN_: attr are present
+            # - _NAME_: ITEMS_TIME_TO_SHIP
+            #   attr: "$.message.catalog['bpp/providers'][*].items[*]['@ondc/org/time_to_ship']"
+            #   _RETURN_: attr are present
             - _NAME_: ITEMS_AVAILABLE_ON_COD
               attr: "$.message.catalog['bpp/providers'][*].items[*]['@ondc/org/available_on_cod']"
               _RETURN_: attr are present
-            - _NAME_: ITEMS_CONTACT_DETAILS_CONSUMER_CARE
-              attr: "$.message.catalog['bpp/providers'][*].items[*]['@ondc/org/contact_details_consumer_care']"
-              _RETURN_: attr are present
+            # - _NAME_: ITEMS_CONTACT_DETAILS_CONSUMER_CARE
+            #   attr: "$.message.catalog['bpp/providers'][*].items[*]['@ondc/org/contact_details_consumer_care']"
+            #   _RETURN_: attr are present
             - _NAME_: ITEMS_TAGS
               _RETURN_:
               - _NAME_: ITEMS_TAGS_TYPE
@@ -101859,6 +101872,7 @@ x-validations:
                     - _NAME_: BREAKUP_ITEM_ITEM_TAGS_TAGS_QUOTE_TYPE
                       attr: "$.message.order.quote.breakup[*].item.tags[?(@.code=='quote')].list[?(@.code=='type')].value"
                       var_enum: ["fulfillment", "order", "item"]
+                      _CONTINUE_: "!(attr are present)"
                       _RETURN_: attr all in var_enum
                     - _NAME_: BREAKUP_ITEM_ITEM_TAGS_TAGS_QUOTE_SUBTYPE
                       _CONTINUE_: "!(attr are present)"
@@ -101972,6 +101986,7 @@ x-validations:
           _RETURN_:
           - _NAME_: OFFERS_ID
             attr: "$.message.order.offers[*].id"
+            _CONTINUE_: "!(attr are present)"
             _RETURN_: attr are present
           - _NAME_: OFFERS_TAGS
             _RETURN_:
@@ -102107,8 +102122,7 @@ x-validations:
           _RETURN_:
           - _NAME_: FULFILLMENTS_TRACKING
             attr: "$.message.order.fulfillments[*].tracking"
-            var_enum: ["true", "false"]
-            _RETURN_: attr all in var_enum
+            _RETURN_: attr are present
         - _NAME_: ORDER_FULFILLMENTS_ADDITIONAL_TAGS
           _RETURN_:
           - _NAME_: FULFILLMENTS_TAGS_ORDER_DETAILS
@@ -102351,8 +102365,7 @@ x-validations:
           _RETURN_:
           - _NAME_: FULFILLMENTS_TRACKING
             attr: "$.message.order.fulfillments[*].tracking"
-            var_enum: ["true", "false"]
-            _RETURN_: attr all in var_enum
+            _RETURN_: attr are present
           - _NAME_: FULFILLMENTS_END_PERSON_NAME
             attr: "$.message.order.fulfillments[*].end.person.name"
             _RETURN_: attr are present
@@ -102479,11 +102492,11 @@ x-validations:
               _RETURN_: attr are present
         - _NAME_: ORDER_CREATED_AT
           attr: "$.message.order.created_at"
-          pattern: ['^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$']
+          pattern: ['^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$']
           _RETURN_: attr are present && attr follow regex pattern
         - _NAME_: ORDER_UPDATED_AT
           attr: "$.message.order.updated_at"
-          pattern: ['^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$']
+          pattern: ['^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$']
           _RETURN_: attr are present && attr follow regex pattern
         - _NAME_: ORDER_TAGS
           _RETURN_:
@@ -102541,9 +102554,11 @@ x-validations:
             _RETURN_:
             - _NAME_: FULFILLMENTS_END_TIME_RANGE_START
               attr: "$.message.order.fulfillments[*].end.time.range.start"
+              _CONTINUE_: "!(attr are present)"
               _RETURN_: attr are present
             - _NAME_: FULFILLMENTS_END_TIME_RANGE_END
               attr: "$.message.order.fulfillments[*].end.time.range.end"
+              _CONTINUE_: "!(attr are present)"
               _RETURN_: attr are present
           - _NAME_: FULFILLMENTS_START
             _RETURN_:
@@ -102576,23 +102591,29 @@ x-validations:
                 _RETURN_:
                 - _NAME_: FULFILLMENTS_START_TIME_RANGE_START
                   attr: "$.message.order.fulfillments[*].start.time.range.start"
+                  _CONTINUE_: "!(attr are present)"
                   _RETURN_: attr are present
                 - _NAME_: FULFILLMENTS_START_TIME_RANGE_END
                   attr: "$.message.order.fulfillments[*].start.time.range.end"
+                  _CONTINUE_: "!(attr are present)"
                   _RETURN_: attr are present
               - _NAME_: FULFILLMENTS_START_INSTRUCTIONS
                 _RETURN_:
                 - _NAME_: FULFILLMENTS_START_INSTRUCTIONS_CODE
                   attr: "$.message.order.fulfillments[*].start.instructions.code"
+                  _CONTINUE_: "!(attr are present)"
                   _RETURN_: attr are present
                 - _NAME_: FULFILLMENTS_START_INSTRUCTIONS_NAME
                   attr: "$.message.order.fulfillments[*].start.instructions.name"
+                  _CONTINUE_: "!(attr are present)"
                   _RETURN_: attr are present
                 - _NAME_: FULFILLMENTS_START_INSTRUCTIONS_SHORT_DESC
                   attr: "$.message.order.fulfillments[*].start.instructions.short_desc"
+                  _CONTINUE_: "!(attr are present)"
                   _RETURN_: attr are present
                 - _NAME_: FULFILLMENTS_START_INSTRUCTIONS_LONG_DESC
                   attr: "$.message.order.fulfillments[*].start.instructions.long_desc"
+                  _CONTINUE_: "!(attr are present)"
                   _RETURN_: attr are present
               - _NAME_: FULFILLMENTS_START_CONTACT
                 _RETURN_:
@@ -103034,11 +103055,11 @@ x-validations:
             _RETURN_: attr are present
         - _NAME_: ORDER_CREATED_AT
           attr: "$.message.order.created_at"
-          pattern: ['^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$']
+          pattern: ['^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$']
           _RETURN_: attr are present && attr follow regex pattern
         - _NAME_: ORDER_UPDATED_AT
           attr: "$.message.order.updated_at"
-          pattern: ['^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$']
+          pattern: ['^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$']
           _RETURN_: attr are present && attr follow regex pattern
     update:
       # ===== CONTEXT VALIDATION =====
@@ -103437,9 +103458,11 @@ x-validations:
               _RETURN_: attr all in var_enum
             - _NAME_: PAYMENT_ONDC_ORG_SETTLEMENT_DETAILS_SETTLEMENT_AMOUNT
               attr: "$.message.order.payment['@ondc/org/settlement_details'][*].settlement_amount"
+              _CONTINUE_: "!(attr are present)"
               _RETURN_: attr are present
             - _NAME_: PAYMENT_ONDC_ORG_SETTLEMENT_DETAILS_SETTLEMENT_TIMESTAMP
               attr: "$.message.order.payment['@ondc/org/settlement_details'][*].settlement_timestamp"
+              _CONTINUE_: "!(attr are present)"
               _RETURN_: attr are present
     track:
       - _NAME_: TRACK_CONTEXT
@@ -103743,7 +103766,7 @@ x-validations:
               - _NAME_: PRE_CANCEL_UPDATED_AT
                 _CONTINUE_: "!(attr are present)"
                 attr: "$.message.order.tags[?(@.code=='pre_cancel_state')].list[?(@.code=='updated_at')].value"
-                pattern: ['^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$']
+                pattern: ['^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$']
                 _RETURN_: attr are present && attr follow regex pattern
             - _NAME_: TAGS_QUOTE_TRAIL
               _RETURN_:
@@ -103851,11 +103874,11 @@ x-validations:
             _RETURN_: attr are present && attr all in var_enum
         - _NAME_: ORDER_CREATED_AT
           attr: "$.message.order.created_at"
-          pattern: ['^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$']
+          pattern: ['^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$']
           _RETURN_: attr are present && attr follow regex pattern
         - _NAME_: ORDER_UPDATED_AT
           attr: "$.message.order.updated_at"
-          pattern: ['^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$']
+          pattern: ['^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$']
           _RETURN_: attr are present && attr follow regex pattern
     on_update:
   # ===== CONTEXT VALIDATION =====
