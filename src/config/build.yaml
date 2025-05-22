@@ -100979,7 +100979,7 @@ x-validations:
               _RETURN_: attr are present
             - _NAME_: FULFILLMENTS_TYPE
               attr: "$.message.catalog['bpp/providers'][*].fulfillments[*].type"
-              var_enum: ["Delivery", "Self-Pickup"]
+              var_enum: ["Delivery", "Self-Pickup","Buyer-Delivery"]
               _RETURN_: attr all in var_enum
             - _NAME_: FULFILLMENTS_CONTACT_PHONE  
               attr: "$.message.catalog['bpp/providers'][*].fulfillments[*].contact.phone"
