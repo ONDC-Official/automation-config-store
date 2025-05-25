@@ -64,7 +64,6 @@ jobs:
           echo "SUBSCRIBER_ID=${{ vars.SUBSCRIBER_ID }}" >> \$REPO_DIR/.env
           echo "UKID=${{ vars.UKID }}" >> \$REPO_DIR/.env
           echo "ONDC_ENV=${{ vars.ONDC_ENV }}" >> \$REPO_DIR/.env
-          echo "SUBSCRIBER_URL=${{ vars.SUBSCRIBER_URL }}" >> \$REPO_DIR/.env
           echo "REDIS_USERNAME=${{ vars.REDIS_USERNAME }}" >> \$REPO_DIR/.env
           echo "REDIS_HOST=${{ vars.REDIS_HOST }}" >> \$REPO_DIR/.env
           echo "REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}" >> \$REPO_DIR/.env
@@ -198,7 +197,6 @@ jobs:
           echo "SUBSCRIBER_ID=${{ vars.SUBSCRIBER_ID_STAGING }}" >> \$REPO_DIR/.env
           echo "UKID=${{ vars.UKID_STAGING }}" >> \$REPO_DIR/.env
           echo "ONDC_ENV=${{ vars.ONDC_ENV }}" >> \$REPO_DIR/.env
-          echo "SUBSCRIBER_URL=${{ vars.SUBSCRIBER_URL }}" >> \$REPO_DIR/.env
           echo "REDIS_USERNAME=${{ vars.REDIS_USERNAME }}" >> \$REPO_DIR/.env
           echo "REDIS_HOST=${{ vars.REDIS_HOST }}" >> \$REPO_DIR/.env
           echo "REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}" >> \$REPO_DIR/.env
