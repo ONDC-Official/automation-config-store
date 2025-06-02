@@ -42,7 +42,7 @@ export default async function onSearch(
   // Helper function to add validation errors
   const addError = (code: number, description: string) => {
     result.push({ valid: false, code, description });
-    console.log("result", result);
+    // console.log("result", result);
   };
 
   try {
@@ -86,7 +86,6 @@ export default async function onSearch(
         });
         return result;
       }
-
     } catch (error: any) {
       console.error(
         `!!Error while previous action call /${constants.ON_SEARCH}, ${error.stack}`
@@ -125,8 +124,8 @@ export default async function onSearch(
       );
     }
 
-    validateBapUri(context.bap_uri, context.bap_id, result, addError);
-    validateBppUri(context.bpp_uri, context.bpp_id, result, addError);
+    // validateBapUri(context.bap_uri, context.bap_id, result, addError);
+    // validateBppUri(context.bpp_uri, context.bpp_id, result, addError);
 
     if (context.transaction_id === context.message_id) {
       addError(
@@ -373,15 +372,15 @@ export default async function onSearch(
             }
           }
 
-          const accept_bap_terms = tag.list.find(
-            (item) => item.code === "accept_bap_terms"
-          );
-          if (accept_bap_terms) {
-            addError(
-              20006,
-              `remove accept_bap_terms block in /bpp/descriptor/tags; should be enabled once BNP send their static terms in /search and are later accepted by SNP`
-            );
-          }
+          // const accept_bap_terms = tag.list.find(
+          //   (item) => item.code === "accept_bap_terms"
+          // );
+          // if (accept_bap_terms) {
+          //   addError(
+          //     20006,
+          //     `remove accept_bap_terms block in /bpp/descriptor/tags; should be enabled once BNP send their static terms in /search and are later accepted by SNP`
+          //   );
+          // }
 
           const collect_payment = tag.list.find(
             (item) => item.code === "collect_payment"
@@ -453,51 +452,53 @@ export default async function onSearch(
           );
         }
 
-        try {
-          const customGroupCategory = extractCustomGroups(categories);
-          const baseTreeNodes = mapItemToTreeNode(items);
-          const customItems = mapCustomItemToTreeNode(
-            items,
-            customGroupCategory
-          );
-          const mapItems = mapCustomizationsToBaseItems(
-            baseTreeNodes,
-            customItems
-          );
-          const default_selection = calculateDefaultSelectionPrice(mapItems);
+        // try {
+        //   const customGroupCategory = extractCustomGroups(categories);
+        //   const baseTreeNodes = mapItemToTreeNode(items);
+        //   const customItems = mapCustomItemToTreeNode(
+        //     items,
+        //     customGroupCategory
+        //   );
+        //   console.log("CustomItems:::::::::", customItems);
+        //   const mapItems = mapCustomizationsToBaseItems(
+        //     baseTreeNodes,
+        //     customItems
+        //   );
+        //   const default_selection = calculateDefaultSelectionPrice(mapItems);
 
-          default_selection.forEach(
-            ({
-              base_item,
-              default_selection_calculated,
-              default_selection_actual,
-            }:any) => {
-              if (
-                default_selection_calculated.min !==
-                default_selection_actual.min ||
-                default_selection_calculated.max !==
-                default_selection_actual.max
-              ) {
-                addError(
-                  20006,
-                  `Provided default_selection calculated incorrectly for base_item ${base_item}, ` +
-                  `Calculated: min=${default_selection_calculated.min}, max=${default_selection_calculated.max}. ` +
-                  `Given: min=${default_selection_actual.min}, max=${default_selection_actual.max}`
-                );
-              } else {
-                console.info(`Base item ${base_item} values match. No error.`);
-              }
-            }
-          );
-        } catch (error: any) {
-          addError(
-            20006,
-            `Error while Calculating Default Selection in /${constants.ON_SEARCH}, ${error.message}`
-          );
-          console.info(
-            `Error while Calculating Default Selection in /${constants.ON_SEARCH}, ${error.stack}`
-          );
-        }
+        //   console.log("Defau;lselection", default_selection);
+        //   default_selection.forEach(
+        //     ({
+        //       base_item,
+        //       default_selection_calculated,
+        //       default_selection_actual,
+        //     }: any) => {
+        //       if (
+        //         default_selection_calculated.min !==
+        //           default_selection_actual.min ||
+        //         default_selection_calculated.max !==
+        //           default_selection_actual.max
+        //       ) {
+        //         addError(
+        //           20006,
+        //           `Provided default_selection calculated incorrectly for base_item ${base_item}, ` +
+        //             `Calculated: min=${default_selection_calculated.min}, max=${default_selection_calculated.max}. ` +
+        //             `Given: min=${default_selection_actual.min}, max=${default_selection_actual.max}`
+        //         );
+        //       } else {
+        //         console.info(`Base item ${base_item} values match. No error.`);
+        //       }
+        //     }
+        //   );
+        // } catch (error: any) {
+        //   addError(
+        //     20006,
+        //     `Error while Calculating Default Selection in /${constants.ON_SEARCH}, ${error.message}`
+        //   );
+        //   console.info(
+        //     `Error while Calculating Default Selection in /${constants.ON_SEARCH}, ${error.stack}`
+        //   );
+        // }
 
         try {
           console.info(
@@ -1369,15 +1370,12 @@ export default async function onSearch(
                       if (
                         !qualifierBuyXgetY ||
                         !qualifierBuyXgetY.list.some(
-                          (item: any) => item.code === "min_value"
-                        ) ||
-                        !qualifierBuyXgetY.list.some(
                           (item: any) => item.code === "item_count"
                         )
                       ) {
                         addError(
                           20006,
-                          `'qualifier' tag must include 'min_value' and 'item_count' for offers[${offerIndex}] when offer.descriptor.code = ${offer.descriptor.code}`
+                          `'qualifier' tag must include 'item_count' for offers[${offerIndex}] when offer.descriptor.code = ${offer.descriptor.code}`
                         );
                       }
 
@@ -1565,46 +1563,46 @@ export default async function onSearch(
               );
             }
 
-            try {
-              console.info(`Validating item tags`);
-              const itemTypeTag = item.tags.find(
-                (tag: { code: string }) => tag.code === "type"
-              );
-              const customGroupTag = item.tags.find(
-                (tag: { code: string }) => tag.code === "custom_group"
-              );
-              if (
-                itemTypeTag &&
-                itemTypeTag.list.length > 0 &&
-                itemTypeTag.list[0].value === "item" &&
-                !customGroupTag
-              ) {
-                addError(
-                  20006,
-                  `/message/catalog/bpp/providers/items/tags/'type' is optional for non-customizable (standalone) SKUs`
-                );
-              } else if (
-                itemTypeTag &&
-                itemTypeTag.list.length > 0 &&
-                itemTypeTag.list[0].value === "item" &&
-                customGroupTag
-              ) {
-                if (default_selection_not_present) {
-                  addError(
-                    20006,
-                    `/message/catalog/bpp/providers/items must have default_selection price for customizable items`
-                  );
-                }
-                if (lower_and_upper_not_present) {
-                  addError(
-                    20006,
-                    `/message/catalog/bpp/providers/items must have lower/upper range for customizable items`
-                  );
-                }
-              }
-            } catch (error: any) {
-              console.error(`Error while validating item, ${error.stack}`);
-            }
+            // try {
+            //   console.info(`Validating item tags`);
+            //   const itemTypeTag = item.tags.find(
+            //     (tag: { code: string }) => tag.code === "type"
+            //   );
+            //   const customGroupTag = item.tags.find(
+            //     (tag: { code: string }) => tag.code === "custom_group"
+            //   );
+            //   if (
+            //     itemTypeTag &&
+            //     itemTypeTag.list.length > 0 &&
+            //     itemTypeTag.list[0].value === "item" &&
+            //     !customGroupTag
+            //   ) {
+            //     addError(
+            //       20006,
+            //       `/message/catalog/bpp/providers/items/tags/'type' is optional for non-customizable (standalone) SKUs`
+            //     );
+            //   } else if (
+            //     itemTypeTag &&
+            //     itemTypeTag.list.length > 0 &&
+            //     itemTypeTag.list[0].value === "item" &&
+            //     customGroupTag
+            //   ) {
+            //     if (default_selection_not_present) {
+            //       addError(
+            //         20006,
+            //         `/message/catalog/bpp/providers/items must have default_selection price for customizable items`
+            //       );
+            //     }
+            //     if (lower_and_upper_not_present) {
+            //       addError(
+            //         20006,
+            //         `/message/catalog/bpp/providers/items must have lower/upper range for customizable items`
+            //       );
+            //     }
+            //   }
+            // } catch (error: any) {
+            //   console.error(`Error while validating item, ${error.stack}`);
+            // }
 
             try {
               console.info(`Validating default customizations`);
@@ -1822,7 +1820,6 @@ export default async function onSearch(
                 }
               }
             );
-            let countSeq = 0;
 
             customMenuIds.map((category_id: any) => {
               const categoryArray = categoryMap[`${category_id}`];
@@ -1833,6 +1830,7 @@ export default async function onSearch(
                 );
               } else {
                 let i = 0;
+                let countSeq = 0;
                 while (i < categoryArray.length) {
                   countSeq++;
                   const exist = categoryArray.includes(countSeq);
@@ -1907,13 +1905,6 @@ export default async function onSearch(
 
               serviceabilitySet.add(JSON.stringify(sc));
               if ("list" in sc) {
-                if (sc.list.length != 5) {
-                  addError(
-                    20006,
-                    `serviceability construct /bpp/providers[${i}]/tags[${t}] should be defined as per the API contract`
-                  );
-                }
-
                 const loc =
                   sc.list.find((elem: any) => elem.code === "location") || "";
                 if (!loc) {
@@ -2083,6 +2074,8 @@ export default async function onSearch(
                             );
                           }
                         }
+                        break;
+                      case "13":
                         break;
                       default: {
                         addError(
@@ -2398,17 +2391,17 @@ export default async function onSearch(
             );
             const min = configTag
               ? parseInt(
-                configTag.list.find((item: any) => item.code === "min")
-                  ?.value,
-                10
-              )
+                  configTag.list.find((item: any) => item.code === "min")
+                    ?.value,
+                  10
+                )
               : 0;
             const max = configTag
               ? parseInt(
-                configTag.list.find((item: any) => item.code === "max")
-                  ?.value,
-                10
-              )
+                  configTag.list.find((item: any) => item.code === "max")
+                    ?.value,
+                  10
+                )
               : 0;
 
             if (min > max) {
@@ -2432,7 +2425,7 @@ export default async function onSearch(
           const typeTag = item.tags.find((tag: any) => tag.code === "type");
           const typeValue = typeTag
             ? typeTag.list.find((listItem: any) => listItem.code === "type")
-              ?.value
+                ?.value
             : null;
 
           if (typeValue === "item") {
@@ -2483,7 +2476,7 @@ export default async function onSearch(
             const min = group.min;
             const max = group.max;
 
-            if (group.numberOfElements <= max) {
+            if (group.numberOfElements < max) {
               addError(
                 20006,
                 `The number of elements (${group.numberOfElements}) in customization group ${provider.id}/categories/${id} is less than or equal to the maximum (${max}) that can be selected`

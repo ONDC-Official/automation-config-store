@@ -65,25 +65,25 @@ const onSelect = async (data: any) => {
     const contextRes: any = checkContext(context, constants.ON_SELECT);
     const result: any[] = [];
 
-    try {
-        const previousCallPresent = await addActionToRedisSet(
-            context.transaction_id,
-            ApiSequence.SELECT,
-            ApiSequence.ON_SELECT
-        );
-        if (!previousCallPresent) {
-            result.push({
-                valid: false,
-                code: 20000,
-                description: `Previous call doesn't exist`,
-            });
-            return result;
-        }
-    } catch (error: any) {
-        console.error(
-            `!!Error while previous action call /${constants.ON_SELECT}, ${error.stack}`
-        );
-    }
+    // try {
+    //     const previousCallPresent = await addActionToRedisSet(
+    //         context.transaction_id,
+    //         ApiSequence.SELECT,
+    //         ApiSequence.ON_SELECT
+    //     );
+    //     if (!previousCallPresent) {
+    //         result.push({
+    //             valid: false,
+    //             code: 20000,
+    //             description: `Previous call doesn't exist`,
+    //         });
+    //         return result;
+    //     }
+    // } catch (error: any) {
+    //     console.error(
+    //         `!!Error while previous action call /${constants.ON_SELECT}, ${error.stack}`
+    //     );
+    // }
 
     const checkBap = checkBppIdOrBapId(context.bap_id);
     const checkBpp = checkBppIdOrBapId(context.bpp_id);
@@ -110,18 +110,18 @@ const onSelect = async (data: any) => {
         );
     }
 
-    if (
-        !_.isEqual(
-            data.context.domain.split(":")[1],
-            await RedisService.getKey(`${transaction_id}_domain`)
-        )
-    ) {
-        result.push({
-            valid: false,
-            code: 20000,
-            description: `Domain should be same in each action`,
-        });
-    }
+    // if (
+    //     !_.isEqual(
+    //         data.context.domain.split(":")[1],
+    //         await RedisService.getKey(`${transaction_id}_domain`)
+    //     )
+    // ) {
+    //     result.push({
+    //         valid: false,
+    //         code: 20000,
+    //         description: `Domain should be same in each action`,
+    //     });
+    // }
 
     if (checkBap) {
         result.push({
@@ -213,39 +213,39 @@ const onSelect = async (data: any) => {
         );
     }
 
-    try {
-        const itemsOnSelectRaw = await RedisService.getKey(
-            `${transaction_id}_SelectItemList`
-        );
+    // try {
+    //     const itemsOnSelectRaw = await RedisService.getKey(
+    //         `${transaction_id}_SelectItemList`
+    //     );
 
-        const itemsOnSelect = itemsOnSelectRaw
-            ? JSON.parse(itemsOnSelectRaw)
-            : null;
+    //     const itemsOnSelect = itemsOnSelectRaw
+    //         ? JSON.parse(itemsOnSelectRaw)
+    //         : null;
 
-        console.log("itemsOnSelect", itemsOnSelectRaw, itemsOnSelect);
-        const itemsList = message.order.items;
-        const selectItems: any = [];
-        itemsList.forEach((item: any, index: number) => {
-            if (!itemsOnSelect?.includes(item.id)) {
-                result.push({
-                    valid: false,
-                    code: 20000,
-                    description: `Invalid Item Id provided in /${constants.ON_SELECT}: ${item.id}`,
-                });
-            } else {
-                selectItems.push(item.id);
-            }
-        });
-        await RedisService.setKey(
-            `${transaction_id}_SelectItemList`,
-            JSON.stringify(selectItems),
-            TTL_IN_SECONDS
-        );
-    } catch (error: any) {
-        console.error(
-            `Error while checking for item IDs for /${constants.ON_SELECT}, ${error.stack}`
-        );
-    }
+    //     console.log("itemsOnSelect", itemsOnSelectRaw, itemsOnSelect);
+    //     const itemsList = message.order.items;
+    //     const selectItems: any = [];
+    //     itemsList.forEach((item: any, index: number) => {
+    //         if (!itemsOnSelect?.includes(item.id)) {
+    //             result.push({
+    //                 valid: false,
+    //                 code: 20000,
+    //                 description: `Invalid Item Id provided in /${constants.ON_SELECT}: ${item.id}`,
+    //             });
+    //         } else {
+    //             selectItems.push(item.id);
+    //         }
+    //     });
+    //     await RedisService.setKey(
+    //         `${transaction_id}_SelectItemList`,
+    //         JSON.stringify(selectItems),
+    //         TTL_IN_SECONDS
+    //     );
+    // } catch (error: any) {
+    //     console.error(
+    //         `Error while checking for item IDs for /${constants.ON_SELECT}, ${error.stack}`
+    //     );
+    // }
 
     try {
         const fulfillments = message.order.fulfillments;

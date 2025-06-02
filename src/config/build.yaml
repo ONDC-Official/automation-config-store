@@ -100818,13 +100818,13 @@ x-validations:
           _RETURN_:
             - _NAME_: TAGS_CATALOG_INC_START_TIME
               attr: "$.message.intent.tags[?(@.code=='catalog_inc')].list[?(@.code=='start_time')].value"
-              var_datetime_regex: ["^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}"]
+              var_datetime_regex: ['^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$']
               _CONTINUE_: "!(attr are present)"
               _RETURN_: attr follow regex var_datetime_regex
 
             - _NAME_: TAGS_CATALOG_INC_END_TIME
               attr: "$.message.intent.tags[?(@.code=='catalog_inc')].list[?(@.code=='end_time')].value"
-              var_datetime_regex: ["^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}"]
+              var_datetime_regex: ['^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$']
               _CONTINUE_: "!(attr are present)"
               _RETURN_: attr follow regex var_datetime_regex
 
@@ -100866,13 +100866,13 @@ x-validations:
 
             - _NAME_: TAGS_BAP_PROMOS_FROM
               attr: "$.message.intent.tags[?(@.code=='bap_promos')].list[?(@.code=='from')].value"
-              var_datetime_regex: ["^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}"]
+              var_datetime_regex: ['^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$']
               _CONTINUE_: "!(attr are present)"
               _RETURN_: attr follow regex var_datetime_regex
 
             - _NAME_: TAGS_BAP_PROMOS_TO
               attr: "$.message.intent.tags[?(@.code=='bap_promos')].list[?(@.code=='to')].value"
-              var_datetime_regex: ["^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}"]
+              var_datetime_regex: ['^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$']
               _CONTINUE_: "!(attr are present)"
               _RETURN_: attr follow regex var_datetime_regex
 
@@ -100979,7 +100979,7 @@ x-validations:
               _RETURN_: attr are present
             - _NAME_: FULFILLMENTS_TYPE
               attr: "$.message.catalog['bpp/providers'][*].fulfillments[*].type"
-              var_enum: ["Delivery", "Self-Pickup"]
+              var_enum: ["Delivery", "Self-Pickup", "Buyer-Delivery"]
               _RETURN_: attr all in var_enum
             - _NAME_: FULFILLMENTS_CONTACT_PHONE  
               attr: "$.message.catalog['bpp/providers'][*].fulfillments[*].contact.phone"
@@ -101027,12 +101027,6 @@ x-validations:
               _RETURN_: attr are present
             - _NAME_: LOCATIONS_TIME_SCHEDULE_HOLIDAYS
               attr: "$.message.catalog['bpp/providers'][*].locations[*].time.schedule.holidays[*]"
-              _RETURN_: attr are present
-            - _NAME_: LOCATIONS_TIME_SCHEDULE_FREQUENCY
-              attr: "$.message.catalog['bpp/providers'][*].locations[*].time.schedule.frequency"
-              _RETURN_: attr are present
-            - _NAME_: LOCATIONS_TIME_SCHEDULE_TIMES
-              attr: "$.message.catalog['bpp/providers'][*].locations[*].time.schedule.times[*]"
               _RETURN_: attr are present
             - _NAME_: LOCATIONS_TIME_RANGE_START
               attr: "$.message.catalog['bpp/providers'][*].locations[*].time.range.start"
@@ -101648,7 +101642,7 @@ x-validations:
             _RETURN_: attr are present
           - _NAME_: BPP_FULFILLMENTS_TYPE
             attr: "$.message.catalog['bpp/fulfillments'][*].type"
-            var_enum: ["Delivery", "Self-Pickup"]
+            var_enum: ["Delivery", "Self-Pickup", "Buyer-Delivery"]
             _CONTINUE_: "!(attr are present)"
             _RETURN_: attr all in var_enum
     select:
@@ -102684,7 +102678,7 @@ x-validations:
             _RETURN_: attr are present
           - _NAME_: FULFILLMENTS_STATE_DESCRIPTOR_CODE
             attr: "$.message.order.fulfillments[*].state.descriptor.code"
-            var_enum: [ "Pending", "Packed", "Agent-assigned", "Order-picked-up", "Out-for-delivery", "Order-delivered", "Cancelled", "RTO-Initiated", "RTO-Disposed", "RTO-Delivered" ]
+            var_enum: [ "Pending", "Packed", "Agent-assigned", "At-pickup", "At-delivery", "Order-picked-up", "Out-for-delivery", "Order-delivered", "Cancelled", "RTO-Initiated", "RTO-Disposed", "RTO-Delivered" ]
             _RETURN_: attr are present && attr all in var_enum
           - _NAME_: FULFILLMENTS_TYPE
             attr: "$.message.order.fulfillments[*].type"
@@ -103188,19 +103182,19 @@ x-validations:
                 - _NAME_: UPDATE_FULFILLMENT_TIME_TIMESTAMP
                   _CONTINUE_: "!(attr are present)"
                   attr: "$.message.order.fulfillments[*].tags[?(@.code=='update_fulfillment_time')].list[?(@.code=='timestamp')].value"
-                  reg: ['^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.*Z$']
+                  reg: ['^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$']
                   _RETURN_: attr follow regex reg
 
                 - _NAME_: UPDATE_FULFILLMENT_TIME_START
                   _CONTINUE_: "!(attr are present)"
                   attr: "$.message.order.fulfillments[*].tags[?(@.code=='update_fulfillment_time')].list[?(@.code=='start_time')].value"
-                  reg: ['^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.*Z$']
+                  reg: ['^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$']
                   _RETURN_: attr follow regex reg
 
                 - _NAME_: UPDATE_FULFILLMENT_TIME_END
                   _CONTINUE_: "!(attr are present)"
                   attr: "$.message.order.fulfillments[*].tags[?(@.code=='update_fulfillment_time')].list[?(@.code=='end_time')].value"
-                  reg: ['^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.*Z$']
+                  reg: ['^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$']
                   _RETURN_: attr follow regex reg
 
             - _NAME_: TAGS_UPDATE_AGENT_DETAILS
@@ -103340,19 +103334,19 @@ x-validations:
                 - _NAME_: STATE_TIMESTAMP
                   _CONTINUE_: "!(attr are present)"
                   attr: "$.message.order.fulfillments[*].tags[?(@.code=='update_state')].list[?(@.code=='timestamp')].value"
-                  reg: ['^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.*Z$']
+                  reg: ['^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$']
                   _RETURN_: attr follow regex reg
 
                 - _NAME_: STATE_START_TIME
                   _CONTINUE_: "!(attr are present)"
                   attr: "$.message.order.fulfillments[*].tags[?(@.code=='update_state')].list[?(@.code=='start_time')].value"
-                  reg: ['^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.*Z$']
+                  reg: ['^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$']
                   _RETURN_: attr follow regex reg
 
                 - _NAME_: STATE_END_TIME
                   _CONTINUE_: "!(attr are present)"
                   attr: "$.message.order.fulfillments[*].tags[?(@.code=='update_state')].list[?(@.code=='end_time')].value"
-                  reg: ['^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.*Z$']
+                  reg: ['^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$']
                   _RETURN_: attr follow regex reg
 
             - _NAME_: TAGS_UPDATE_FULFILLMENT_DELAY
@@ -103371,13 +103365,13 @@ x-validations:
                 - _NAME_: DELAY_START_TIME
                   _CONTINUE_: "!(attr are present)"
                   attr: "$.message.order.fulfillments[*].tags[?(@.code=='update_fulfillment_delay')].list[?(@.code=='start_time')].value"
-                  reg: ['^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.*Z$']
+                  reg: ['^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$']
                   _RETURN_: attr follow regex reg
 
                 - _NAME_: DELAY_END_TIME
                   _CONTINUE_: "!(attr are present)"
                   attr: "$.message.order.fulfillments[*].tags[?(@.code=='update_fulfillment_delay')].list[?(@.code=='end_time')].value"
-                  reg: ['^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.*Z$']
+                  reg: ['^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$']
                   _RETURN_: attr follow regex reg
 
                 - _NAME_: DELAY_ATTEMPT
@@ -103492,11 +103486,11 @@ x-validations:
               _RETURN_: attr are present
             - _NAME_: TRACKING_LOCATION_TIME_TIMESTAMP
               attr: "$.message.tracking.location.time.timestamp"
-              reg: ['^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.*Z$']
+              reg: ['^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$']
               _RETURN_: attr follow regex reg
             - _NAME_: TRACKING_LOCATION_UPDATED_AT
               attr: "$.message.tracking.location.updated_at"
-              reg: ['^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.*Z$']
+              reg: ['^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$']
               _RETURN_: attr follow regex reg
         - _NAME_: TRACKING_TAGS 
           _RETURN_:
@@ -103539,32 +103533,32 @@ x-validations:
         attr: "$.message.cancellation_reason_id"
         var_enum: ["001", "002", "003", "004", "005", "006", "009", "010", "011", "013", "014", "016", "017", "018", "020", "998", "999"]
         _RETURN_: attr are present && attr all in var_enum
-      - _NAME_: CANCEL_DESCRIPTOR
-        _RETURN_:
-        - _NAME_: CANCEL_DESCRIPTOR_NAME
-          attr: "$.message.descriptor.name"
-          _RETURN_: attr are present
-        - _NAME_: CANCEL_DESCRIPTOR_SHORT_DESC
-          attr: "$.message.descriptor.short_desc"
-          _RETURN_: attr are present
-        - _NAME_: CANCEL_DESCRIPTOR_TAGS
-          _RETURN_:
-          - _NAME_: PARAMS_TAG
-            _RETURN_:
-              - _NAME_: PARAMS_FORCE
-                attr: "$.message.descriptor.tags[?(@.code=='params')].list[?(@.code=='force')].value"
-                var_enum: ["yes", "no"]
-                _RETURN_: attr all in var_enum
+      # - _NAME_: CANCEL_DESCRIPTOR
+      #   _RETURN_:
+      #   - _NAME_: CANCEL_DESCRIPTOR_NAME
+      #     attr: "$.message.descriptor.name"
+      #     _RETURN_: attr are present
+      #   - _NAME_: CANCEL_DESCRIPTOR_SHORT_DESC
+      #     attr: "$.message.descriptor.short_desc"
+      #     _RETURN_: attr are present
+      #   - _NAME_: CANCEL_DESCRIPTOR_TAGS
+      #     _RETURN_:
+      #     - _NAME_: PARAMS_TAG
+      #       _RETURN_:
+      #         - _NAME_: PARAMS_FORCE
+      #           attr: "$.message.descriptor.tags[?(@.code=='params')].list[?(@.code=='force')].value"
+      #           var_enum: ["yes", "no"]
+      #           _RETURN_: attr all in var_enum
 
-              - _NAME_: PARAMS_TTL_RESPONSE
-                attr: "$.message.descriptor.tags[?(@.code=='params')].list[?(@.code=='ttl_response')].value"
-                _RETURN_: attr are present
+      #         - _NAME_: PARAMS_TTL_RESPONSE
+      #           attr: "$.message.descriptor.tags[?(@.code=='params')].list[?(@.code=='ttl_response')].value"
+      #           _RETURN_: attr are present
 
-          - _NAME_: CANCEL_REQUEST_TAG
-            _RETURN_:
-              - _NAME_: CANCEL_REQUEST_INITIATED_BY
-                attr: "$.message.descriptor.tags[?(@.code=='cancel_request')].list[?(@.code=='initiated_by')].value"
-                _RETURN_: attr are present
+      #     - _NAME_: CANCEL_REQUEST_TAG
+      #       _RETURN_:
+      #         - _NAME_: CANCEL_REQUEST_INITIATED_BY
+      #           attr: "$.message.descriptor.tags[?(@.code=='cancel_request')].list[?(@.code=='initiated_by')].value"
+      #           _RETURN_: attr are present
     on_cancel:
       # ===== CONTEXT VALIDATION =====
       - _NAME_: ON_CANCEL_CONTEXT
@@ -103831,7 +103825,7 @@ x-validations:
                     _RETURN_:
                     - _NAME_: BREAKUP_ITEM_ITEM_TAGS_TAGS_QUOTE_TYPE
                       attr: "$.message.order.quote.breakup[*].item.tags[?(@.code=='quote')].list[?(@.code=='type')].value"
-                      var_enum: ["fulfillment", "order", "item"]
+                      var_enum: ["fulfillment", "order", "item", "customization"]
                       _RETURN_: attr all in var_enum
           - _NAME_: QUOTE_TTL
             attr: "$.message.order.quote.ttl"
@@ -104001,19 +103995,19 @@ x-validations:
                 - _NAME_: UPDATE_FULFILLMENT_TIME_TIMESTAMP
                   _CONTINUE_: "!(attr are present)"
                   attr: "$.message.order.fulfillments[*].tags[?(@.code=='update_fulfillment_time')].list[?(@.code=='timestamp')].value"
-                  reg: ['^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.*Z$']
+                  reg: ['^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$']
                   _RETURN_: attr follow regex reg
 
                 - _NAME_: UPDATE_FULFILLMENT_TIME_START
                   _CONTINUE_: "!(attr are present)"
                   attr: "$.message.order.fulfillments[*].tags[?(@.code=='update_fulfillment_time')].list[?(@.code=='start_time')].value"
-                  reg: ['^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.*Z$']
+                  reg: ['^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$']
                   _RETURN_: attr follow regex reg
 
                 - _NAME_: UPDATE_FULFILLMENT_TIME_END
                   _CONTINUE_: "!(attr are present)"
                   attr: "$.message.order.fulfillments[*].tags[?(@.code=='update_fulfillment_time')].list[?(@.code=='end_time')].value"
-                  reg: ['^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.*Z$']
+                  reg: ['^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$']
                   _RETURN_: attr follow regex reg
 
             - _NAME_: TAGS_UPDATE_AGENT_DETAILS
@@ -104153,19 +104147,19 @@ x-validations:
                 - _NAME_: STATE_TIMESTAMP
                   _CONTINUE_: "!(attr are present)"
                   attr: "$.message.order.fulfillments[*].tags[?(@.code=='update_state')].list[?(@.code=='timestamp')].value"
-                  reg: ['^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.*Z$']
+                  reg: ['^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$']
                   _RETURN_: attr follow regex reg
 
                 - _NAME_: STATE_START_TIME
                   _CONTINUE_: "!(attr are present)"
                   attr: "$.message.order.fulfillments[*].tags[?(@.code=='update_state')].list[?(@.code=='start_time')].value"
-                  reg: ['^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.*Z$']
+                  reg: ['^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$']
                   _RETURN_: attr follow regex reg
 
                 - _NAME_: STATE_END_TIME
                   _CONTINUE_: "!(attr are present)"
                   attr: "$.message.order.fulfillments[*].tags[?(@.code=='update_state')].list[?(@.code=='end_time')].value"
-                  reg: ['^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.*Z$']
+                  reg: ['^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$']
                   _RETURN_: attr follow regex reg
 
             - _NAME_: TAGS_UPDATE_FULFILLMENT_DELAY
@@ -104184,13 +104178,13 @@ x-validations:
                 - _NAME_: DELAY_START_TIME
                   _CONTINUE_: "!(attr are present)"
                   attr: "$.message.order.fulfillments[*].tags[?(@.code=='update_fulfillment_delay')].list[?(@.code=='start_time')].value"
-                  reg: ['^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.*Z$']
+                  reg: ['^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$']
                   _RETURN_: attr follow regex reg
 
                 - _NAME_: DELAY_END_TIME
                   _CONTINUE_: "!(attr are present)"
                   attr: "$.message.order.fulfillments[*].tags[?(@.code=='update_fulfillment_delay')].list[?(@.code=='end_time')].value"
-                  reg: ['^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.*Z$']
+                  reg: ['^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$']
                   _RETURN_: attr follow regex reg
 
                 - _NAME_: DELAY_ATTEMPT
@@ -104269,11 +104263,11 @@ x-validations:
               attr: "$.message.order.payment['@ondc/org/settlement_details'][*].settlement_type"
               var_enum: ['upi', 'neft', 'rtgs', 'wallet', 'netbanking', 'paylater', 'card']
               _RETURN_: attr all in var_enum
-            - _NAME_: PAYMENT_ONDC_ORG_SETTLEMENT_DETAILS_SETTLEMENT_AMOUNT
-              attr: "$.message.order.payment['@ondc/org/settlement_details'][*].settlement_amount"
-              _RETURN_: attr are present
-            - _NAME_: PAYMENT_ONDC_ORG_SETTLEMENT_DETAILS_SETTLEMENT_TIMESTAMP
-              attr: "$.message.order.payment['@ondc/org/settlement_details'][*].settlement_timestamp"
-              _RETURN_: attr are present
+            # - _NAME_: PAYMENT_ONDC_ORG_SETTLEMENT_DETAILS_SETTLEMENT_AMOUNT
+            #   attr: "$.message.order.payment['@ondc/org/settlement_details'][*].settlement_amount"
+            #   _RETURN_: attr are present
+            # - _NAME_: PAYMENT_ONDC_ORG_SETTLEMENT_DETAILS_SETTLEMENT_TIMESTAMP
+            #   attr: "$.message.order.payment['@ondc/org/settlement_details'][*].settlement_timestamp"
+            #   _RETURN_: attr are present
 
   _SESSION_DATA_: {}
