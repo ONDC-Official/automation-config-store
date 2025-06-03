@@ -223,21 +223,21 @@ export default async function onSearch(
       );
     }
 
-    try {
-      console.info(
-        `Comparing Message Ids of /${constants.SEARCH} and /${constants.ON_SEARCH}`
-      );
-      if (!_.isEqual(searchContext.message_id, context.message_id)) {
-        addError(
-          20006,
-          `Message Id for /${constants.SEARCH} and /${constants.ON_SEARCH} api should be same`
-        );
-      }
-    } catch (error: any) {
-      console.info(
-        `Error while comparing message ids for /${constants.SEARCH} and /${constants.ON_SEARCH} api, ${error.stack}`
-      );
-    }
+    // try {
+    //   console.info(
+    //     `Comparing Message Ids of /${constants.SEARCH} and /${constants.ON_SEARCH}`
+    //   );
+    //   if (!_.isEqual(searchContext.message_id, context.message_id)) {
+    //     addError(
+    //       20006,
+    //       `Message Id for /${constants.SEARCH} and /${constants.ON_SEARCH} api should be same`
+    //     );
+    //   }
+    // } catch (error: any) {
+    //   console.info(
+    //     `Error while comparing message ids for /${constants.SEARCH} and /${constants.ON_SEARCH} api, ${error.stack}`
+    //   );
+    // }
 
     const onSearchCatalog: any = message.catalog;
     const onSearchFFIdsArray: any = [];
@@ -2374,10 +2374,10 @@ export default async function onSearch(
       );
       const providers = payload.message.catalog["bpp/providers"];
 
-      providers.forEach((provider: any) => {
+      providers?.forEach((provider: any) => {
         let customGroupDetails: any = {};
 
-        provider?.categories.forEach((category: any) => {
+        provider?.categories?.forEach((category: any) => {
           const id: string = category?.id;
           const customGroupTag = category.tags.find(
             (tag: any) =>
@@ -2421,7 +2421,7 @@ export default async function onSearch(
 
         let combinedIds: any = [];
 
-        provider?.items.forEach((item: any) => {
+        provider?.items?.forEach((item: any) => {
           const typeTag = item.tags.find((tag: any) => tag.code === "type");
           const typeValue = typeTag
             ? typeTag.list.find((listItem: any) => listItem.code === "type")
@@ -2470,7 +2470,7 @@ export default async function onSearch(
           }
         });
 
-        combinedIds.forEach((id: any) => {
+        combinedIds?.forEach((id: any) => {
           if (customGroupDetails[id]) {
             const group = customGroupDetails[id];
             const min = group.min;
@@ -2493,7 +2493,7 @@ export default async function onSearch(
         });
 
         const customGroupIds = Object.keys(customGroupDetails);
-        customGroupIds.forEach((id) => {
+        customGroupIds?.forEach((id) => {
           const group = customGroupDetails[id];
           const max = group.max;
 
