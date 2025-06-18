@@ -719,15 +719,16 @@ const onSelect = async (data: any) => {
                     titleType === "delivery" ||
                     titleType === "misc"
                 ) {
-                    if (
-                        !Object.values(itemFlfllmnts).includes(element["@ondc/org/item_id"])
-                    ) {
-                        result.push({
-                            valid: false,
-                            code: 20000,
-                            description: `invalid  id: ${element["@ondc/org/item_id"]} in ${titleType} line item (should be a valid fulfillment_id as provided in message.items for the items)`,
-                        });
-                    }
+                    // 
+                    // if (
+                    //     !Object.values(itemFlfllmnts).includes(element["@ondc/org/item_id"])
+                    // ) {
+                    //     result.push({
+                    //         valid: false,
+                    //         code: 20000,
+                    //         description: `invalid  id: ${element["@ondc/org/item_id"]} in ${titleType} line item (should be a valid fulfillment_id as provided in message.items for the items)`,
+                    //     });
+                    // }
                 }
             });
             await RedisService.setKey(

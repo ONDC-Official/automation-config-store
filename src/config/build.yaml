@@ -104356,16 +104356,16 @@ x-validations:
           _RETURN_: *INIT_BILLING
         - _NAME_: ORDER_FULFILLMENTS
           _RETURN_:
-          - _NAME_: FULFILLMENTS_ID
-            attr: "$.message.order.fulfillments[*].id"
-            _RETURN_: attr are present
+          # - _NAME_: FULFILLMENTS_ID
+          #   attr: "$.message.order.fulfillments[*].id"
+          #   _RETURN_: attr are present
           - _NAME_: FULFILLMENTS_STATE_DESCRIPTOR_CODE
             attr: "$.message.order.fulfillments[*].state.descriptor.code"
             var_enum: [ "Cancelled", "RTO-Initiated", "RTO-Disposed", "RTO-Delivered" ]
             _RETURN_: attr are present && attr all in var_enum
-          - _NAME_: FULFILLMENTS_TYPE
-            attr: "$.message.order.fulfillments[*].type"
-            _RETURN_: attr are present
+          # - _NAME_: FULFILLMENTS_TYPE
+          #   attr: "$.message.order.fulfillments[*].type"
+          #   _RETURN_: attr are present
           - _NAME_: FULFILLMENTS_ONDC_ORG_PROVIDER_NAME
             _CONTINUE_: "!(attr are present)"
             attr: "$.message.order.fulfillments[*]['@ondc/org/provider_name']"
