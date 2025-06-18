@@ -100830,7 +100830,7 @@ x-validations:
 
             - _NAME_: TAGS_CATALOG_INC_MODE
               attr: "$.message.intent.tags[?(@.code=='catalog_inc')].list[?(@.code=='mode')].value"
-              var_enum_mode: ["start"]
+              var_enum_mode: ["start", "stop"]
               _CONTINUE_: "!(attr are present)"
               _RETURN_: attr all in var_enum_mode
 
