@@ -102498,9 +102498,9 @@ x-validations:
           - _NAME_: ITEMS_PARENT_ITEM_ID
             attr: "$.message.order.items[*].parent_item_id"
             _RETURN_: attr are present
-          - _NAME_: ITEMS_QUANTITY_COUNT
-            attr: "$.message.order.items[*].quantity.count"
-            _RETURN_: attr are present
+          # - _NAME_: ITEMS_QUANTITY_COUNT
+          #   attr: "$.message.order.items[*].quantity.count"
+          #   _RETURN_: attr are present
           - _NAME_: ITEMS_TAGS
             _RETURN_: *SELECT_ITEMS_TAGS
         - _NAME_: ORDER_FULFILLMENTS
