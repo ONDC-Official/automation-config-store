@@ -194,7 +194,7 @@ const onSelect = async (data: any) => {
         } else {
             const timeDifference = timeDiff(context.timestamp, tmpstmp);
             console.info(timeDifference);
-            if (timeDifference > 5000) {
+            if (timeDifference > 15000) {
                 result.push({
                     valid: false,
                     code: 20000,

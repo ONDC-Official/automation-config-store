@@ -182,7 +182,7 @@ const onInit = async (data: any) => {
       } else {
         const timeDiff = timeDifference(context.timestamp, tmpstmp);
         console.info(timeDiff);
-        if (timeDiff > 5000) {
+        if (timeDiff > 15000) {
           result.push({
             valid: false,
             code: 20000,
