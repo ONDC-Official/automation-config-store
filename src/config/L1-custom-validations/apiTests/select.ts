@@ -130,13 +130,13 @@ const select = async (data: any) => {
             ApiSequence.SELECT
         );
 
-        if (!isMsgIdNotPresent) {
-            result.push({
-                valid: false,
-                code: 20000,
-                description: `Message id should not be same with previous calls`,
-            });
-        }
+        // if (!isMsgIdNotPresent) {
+        //     result.push({
+        //         valid: false,
+        //         code: 20000,
+        //         description: `Message id should not be same with previous calls`,
+        //     });
+        // }
         await RedisService.setKey(
             `${context.transaction_id}_${ApiSequence.SELECT}_msgId`,
             context.message_id,

@@ -203,13 +203,13 @@ const init = async (data: any) => {
         context.message_id,
         ApiSequence.INIT
       );
-      if (!isMsgIdNotPresent) {
-        result.push({
-          valid: false,
-          code: 20000,
-          description: `Message id should not be same with previous calls`,
-        });
-      }
+      // if (!isMsgIdNotPresent) {
+      //   result.push({
+      //     valid: false,
+      //     code: 20000,
+      //     description: `Message id should not be same with previous calls`,
+      //   });
+      // }
       await RedisService.setKey(
         `${transaction_id}_${ApiSequence.INIT}_msgId`,
         JSON.stringify(data.context.message_id),

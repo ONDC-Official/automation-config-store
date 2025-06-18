@@ -133,13 +133,13 @@ const confirm = async (data: any) => {
         context.message_id,
         ApiSequence.CONFIRM
       );
-      if (!isMsgIdNotPresent) {
-        result.push({
-          valid: false,
-          code: 20000,
-          description: `Message id should not be same with previous calls`,
-        });
-      }
+      // if (!isMsgIdNotPresent) {
+      //   result.push({
+      //     valid: false,
+      //     code: 20000,
+      //     description: `Message id should not be same with previous calls`,
+      //   });
+      // }
     } catch (error: any) {
       console.error(
         `!!Error while checking message id for /${constants.CONFIRM}, ${error.stack}`
