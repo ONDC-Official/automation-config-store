@@ -602,44 +602,44 @@ const onSelect = async (data: any) => {
         );
     }
 
-    try {
-        console.info(
-            `Checking available and maximum count in ${constants.ON_SELECT}`
-        );
-        on_select.quote.breakup.forEach((element: any, i: any) => {
-            const itemId = element["@ondc/org/item_id"];
-            if (
-                element.item?.quantity &&
-                element.item.quantity?.available &&
-                element.item.quantity?.maximum &&
-                typeof element.item.quantity.available.count === "string" &&
-                typeof element.item.quantity.maximum.count === "string"
-            ) {
-                const availCount = parseInt(element.item.quantity.available.count, 10);
-                const maxCount = parseInt(element.item.quantity.maximum.count, 10);
-                if (isNaN(availCount) || isNaN(maxCount) || availCount <= 0) {
-                    result.push({
-                        valid: false,
-                        code: 20000,
-                        description: `Available and Maximum count should be greater than 0 for item id: ${itemId} in quote.breakup[${i}]`,
-                    });
-                } else if (
-                    element.item.quantity.available.count.trim() === "" ||
-                    element.item.quantity.maximum.count.trim() === ""
-                ) {
-                    result.push({
-                        valid: false,
-                        code: 20000,
-                        description: `Available or Maximum count should not be empty string for item id: ${itemId} in quote.breakup[${i}]`,
-                    });
-                }
-            }
-        });
-    } catch (error: any) {
-        console.error(
-            `Error while checking available and maximum count in ${constants.ON_SELECT}, ${error.stack}`
-        );
-    }
+    // try {
+    //     console.info(
+    //         `Checking available and maximum count in ${constants.ON_SELECT}`
+    //     );
+    //     on_select.quote.breakup.forEach((element: any, i: any) => {
+    //         const itemId = element["@ondc/org/item_id"];
+    //         if (
+    //             element.item?.quantity &&
+    //             element.item.quantity?.available &&
+    //             element.item.quantity?.maximum &&
+    //             typeof element.item.quantity.available.count === "string" &&
+    //             typeof element.item.quantity.maximum.count === "string"
+    //         ) {
+    //             const availCount = parseInt(element.item.quantity.available.count, 10);
+    //             const maxCount = parseInt(element.item.quantity.maximum.count, 10);
+    //             if (isNaN(availCount) || isNaN(maxCount) || availCount <= 0) {
+    //                 result.push({
+    //                     valid: false,
+    //                     code: 20000,
+    //                     description: `Available and Maximum count should be greater than 0 for item id: ${itemId} in quote.breakup[${i}]`,
+    //                 });
+    //             } else if (
+    //                 element.item.quantity.available.count.trim() === "" ||
+    //                 element.item.quantity.maximum.count.trim() === ""
+    //             ) {
+    //                 result.push({
+    //                     valid: false,
+    //                     code: 20000,
+    //                     description: `Available or Maximum count should not be empty string for item id: ${itemId} in quote.breakup[${i}]`,
+    //                 });
+    //             }
+    //         }
+    //     });
+    // } catch (error: any) {
+    //     console.error(
+    //         `Error while checking available and maximum count in ${constants.ON_SELECT}, ${error.stack}`
+    //     );
+    // }
 
     try {
         console.info(
