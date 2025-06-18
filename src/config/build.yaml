@@ -104572,14 +104572,14 @@ x-validations:
                   _CONTINUE_: "!(attr are present)"
                   attr: "$.message.order.quote.breakup[*].item.price.value"
                   _RETURN_: attr are present
-                - _NAME_: BREAKUP_ITEM_ITEM_TAGS
-                  _RETURN_:
-                  - _NAME_: BREAKUP_ITEM_ITEM_TAGS_TAGS_QUOTE
-                    _RETURN_:
-                    - _NAME_: BREAKUP_ITEM_ITEM_TAGS_TAGS_QUOTE_TYPE
-                      attr: "$.message.order.quote.breakup[*].item.tags[?(@.code=='quote')].list[?(@.code=='type')].value"
-                      var_enum: ["fulfillment", "order", "item", "customization"]
-                      _RETURN_: attr all in var_enum
+                # - _NAME_: BREAKUP_ITEM_ITEM_TAGS
+                #   _RETURN_:
+                #   - _NAME_: BREAKUP_ITEM_ITEM_TAGS_TAGS_QUOTE
+                #     _RETURN_:
+                #     - _NAME_: BREAKUP_ITEM_ITEM_TAGS_TAGS_QUOTE_TYPE
+                #       attr: "$.message.order.quote.breakup[*].item.tags[?(@.code=='quote')].list[?(@.code=='type')].value"
+                #       var_enum: ["fulfillment", "order", "item", "customization"]
+                #       _RETURN_: attr all in var_enum
           - _NAME_: QUOTE_TTL
             attr: "$.message.order.quote.ttl"
             _RETURN_: attr are present
