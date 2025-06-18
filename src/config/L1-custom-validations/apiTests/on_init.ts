@@ -186,7 +186,7 @@ const onInit = async (data: any) => {
           result.push({
             valid: false,
             code: 20000,
-            description: `context/timestamp difference between /${constants.ON_INIT} and /${constants.INIT} should be less than 5 sec`,
+            description: `context/timestamp difference between /${constants.ON_INIT} and /${constants.INIT} should be less than 15 sec`,
           });
         }
       }

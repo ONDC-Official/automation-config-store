@@ -198,7 +198,7 @@ const onSelect = async (data: any) => {
                 result.push({
                     valid: false,
                     code: 20000,
-                    description: `context/timestamp difference between /${constants.ON_SELECT} and /${constants.SELECT} should be less than 5 sec`,
+                    description: `context/timestamp difference between /${constants.ON_SELECT} and /${constants.SELECT} should be less than 15 sec`,
                 });
             }
         }

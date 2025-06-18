@@ -163,7 +163,7 @@ async function validateTimestamp(
       if (timeDiff > 15000) {
         result.push(
           createError(
-            `context/timestamp difference between /${constants.ON_CONFIRM} and /${constants.CONFIRM} should be less than 5 sec`,
+            `context/timestamp difference between /${constants.ON_CONFIRM} and /${constants.CONFIRM} should be less than 15 sec`,
             ERROR_CODES.TIMEOUT
           )
         );
