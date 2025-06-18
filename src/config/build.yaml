@@ -104284,7 +104284,7 @@ x-validations:
         _RETURN_: attr are present
       - _NAME_: CANCELLATION_REASON_ID
         attr: "$.message.cancellation_reason_id"
-        var_enum: ["001", "002", "003", "004", "005", "006", "009", "010", "011", "013", "014", "016", "017", "018", "020", "998", "999"]
+        var_enum: ["002", "021", "022", "023", "024", "051", "011", "013", "014", "016", "018", "052", "053"]
         _RETURN_: attr are present && attr all in var_enum
       # - _NAME_: CANCEL_DESCRIPTOR
       #   _RETURN_:
