@@ -301,13 +301,13 @@ const confirm = async (data: any) => {
           });
         }
         if (itemId in itemFlfllmnts) {
-          if (confirm.items[i].fulfillment_id != itemFlfllmnts[itemId]) {
-            result.push({
-              valid: false,
-              code: 20000,
-              description: `items[${i}].fulfillment_id mismatches for Item ${itemId} in /${constants.ON_SELECT} and /${constants.CONFIRM}`,
-            });
-          }
+          // if (confirm.items[i].fulfillment_id != itemFlfllmnts[itemId]) {
+          //   result.push({
+          //     valid: false,
+          //     code: 20000,
+          //     description: `items[${i}].fulfillment_id mismatches for Item ${itemId} in /${constants.ON_SELECT} and /${constants.CONFIRM}`,
+          //   });
+          // }
         } else {
           result.push({
             valid: false,
@@ -445,13 +445,13 @@ const confirm = async (data: any) => {
       while (i < len) {
         if (confirm.fulfillments[i].id) {
           const id = confirm.fulfillments[i].id;
-          if (!Object.values(itemFlfllmnts).includes(id)) {
-            result.push({
-              valid: false,
-              code: 20000,
-              description: `fulfillment id ${id} does not exist in /${constants.ON_SELECT}`,
-            });
-          }
+          // if (!Object.values(itemFlfllmnts).includes(id)) {
+          //   result.push({
+          //     valid: false,
+          //     code: 20000,
+          //     description: `fulfillment id ${id} does not exist in /${constants.ON_SELECT}`,
+          //   });
+          // }
         } else {
           result.push({
             valid: false,

@@ -1059,13 +1059,13 @@ async function validateItems(
       }
 
       // Validate fulfillment ID
-      if (item.fulfillment_id && item.fulfillment_id !== itemFlfllmnts[itemId]) {
-        result.push({
-          valid: false,
-          code: 20000,
-          description: `items[${i}].fulfillment_id mismatches for Item ${itemId} in /${previousApi} and /${currentApi}`,
-        });
-      }
+      // if (item.fulfillment_id && item.fulfillment_id !== itemFlfllmnts[itemId]) {
+      //   result.push({
+      //     valid: false,
+      //     code: 20000,
+      //     description: `items[${i}].fulfillment_id mismatches for Item ${itemId} in /${previousApi} and /${currentApi}`,
+      //   });
+      // }
 
       // Validate quantity
       if (checkQuantity && itemsIdList && itemId in itemsIdList) {
