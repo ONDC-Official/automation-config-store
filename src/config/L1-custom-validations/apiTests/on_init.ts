@@ -505,29 +505,29 @@ const onInit = async (data: any) => {
       );
     }
 
-    try {
-      console.info(`Validating fulfillments`);
-      on_init?.fulfillments.forEach((fulfillment: any) => {
-        const { type } = fulfillment;
-        if (type == "Delivery") {
-          if (fulfillment.tags && fulfillment.tags.length > 0) {
-            result.push({
-              valid: false,
-              code: 20000,
-              description: `/message/order/fulfillment of type 'delivery' should not have tags`,
-            });
-          }
-        } else if (type !== "Delivery") {
-          result.push({
-            valid: false,
-            code: 20000,
-            description: `Fulfillment type should be 'Delivery' (case-sensitive)`,
-          });
-        }
-      });
-    } catch (error: any) {
-      console.error(`Error while validating fulfillments, ${error.stack}`);
-    }
+    // try {
+    //   console.info(`Validating fulfillments`);
+    //   on_init?.fulfillments.forEach((fulfillment: any) => {
+    //     const { type } = fulfillment;
+    //     if (type == "Delivery") {
+    //       if (fulfillment.tags && fulfillment.tags.length > 0) {
+    //         result.push({
+    //           valid: false,
+    //           code: 20000,
+    //           description: `/message/order/fulfillment of type 'delivery' should not have tags`,
+    //         });
+    //       }
+    //     } else if (type !== "Delivery") {
+    //       result.push({
+    //         valid: false,
+    //         code: 20000,
+    //         description: `Fulfillment type should be 'Delivery' (case-sensitive)`,
+    //       });
+    //     }
+    //   });
+    // } catch (error: any) {
+    //   console.error(`Error while validating fulfillments, ${error.stack}`);
+    // }
 
     try {
       console.info("Checking fulfillment.id, fulfillment.type and tracking");
