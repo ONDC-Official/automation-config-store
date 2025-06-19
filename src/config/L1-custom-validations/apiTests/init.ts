@@ -420,13 +420,13 @@ const init = async (data: any) => {
       while (i < len) {
         const id = init.fulfillments[i].id;
         if (id) {
-          if (!Object.values(itemFlfllmnts).includes(id)) {
-            result.push({
-              valid: false,
-              code: 20000,
-              description: `fulfillment id ${id} does not exist in /${constants.ON_SELECT}`,
-            });
-          }
+          // if (!Object.values(itemFlfllmnts).includes(id)) {
+          //   result.push({
+          //     valid: false,
+          //     code: 20000,
+          //     description: `fulfillment id ${id} does not exist in /${constants.ON_SELECT}`,
+          //   });
+          // }
           const buyerGpsRaw = await RedisService.getKey(
             `${transaction_id}_buyerGps`
           );
