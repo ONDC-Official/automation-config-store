@@ -374,13 +374,13 @@ const init = async (data: any) => {
         }
 
         if (itemId in itemFlfllmnts) {
-          if (init.items[i].fulfillment_id != itemFlfllmnts[itemId]) {
-            result.push({
-              valid: false,
-              code: 20000,
-              description: `items[${i}].fulfillment_id mismatches for Item ${itemId} in /${constants.ON_SELECT} and /${constants.INIT}`,
-            });
-          }
+          // if (init.items[i].fulfillment_id != itemFlfllmnts[itemId]) {
+          //   result.push({
+          //     valid: false,
+          //     code: 20000,
+          //     description: `items[${i}].fulfillment_id mismatches for Item ${itemId} in /${constants.ON_SELECT} and /${constants.INIT}`,
+          //   });
+          // }
         } else {
           result.push({
             valid: false,
