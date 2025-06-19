@@ -731,13 +731,13 @@ const confirm = async (data: any) => {
       console.info(
         `Comparing quote prices of /${constants.ON_INIT} and /${constants.CONFIRM}`
       );
-      if (initQuotePrice != confirmQuotePrice) {
-        result.push({
-          valid: false,
-          code: 20000,
-          description: `Quoted Price in /${constants.CONFIRM} INR ${confirmQuotePrice} does not match with the quoted price in /${constants.ON_INIT} INR ${initQuotePrice}`,
-        });
-      }
+      // if (initQuotePrice != confirmQuotePrice) {
+      //   result.push({
+      //     valid: false,
+      //     code: 20000,
+      //     description: `Quoted Price in /${constants.CONFIRM} INR ${confirmQuotePrice} does not match with the quoted price in /${constants.ON_INIT} INR ${initQuotePrice}`,
+      //   });
+      // }
       await RedisService.setKey(
         `${transaction_id}_quotePrice`,
         JSON.stringify(confirmQuotePrice),

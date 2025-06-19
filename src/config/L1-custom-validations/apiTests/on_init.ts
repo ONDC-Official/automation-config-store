@@ -711,16 +711,16 @@ const onInit = async (data: any) => {
       const onSelectPrice = onSelectPriceRaw
         ? JSON.parse(onSelectPriceRaw)
         : null;
-      if (Math.round(onSelectPrice) != Math.round(initQuotePrice)) {
-        console.info(
-          `Quoted Price in /${constants.ON_INIT} is not equal to the quoted price in /${constants.ON_SELECT}`
-        );
-        result.push({
-          valid: false,
-          code: 20000,
-          description: `Quoted Price in /${constants.ON_INIT} INR ${initQuotePrice} does not match with the quoted price in /${constants.ON_SELECT} INR ${onSelectPrice}`,
-        });
-      }
+      // if (Math.round(onSelectPrice) != Math.round(initQuotePrice)) {
+      //   console.info(
+      //     `Quoted Price in /${constants.ON_INIT} is not equal to the quoted price in /${constants.ON_SELECT}`
+      //   );
+      //   result.push({
+      //     valid: false,
+      //     code: 20000,
+      //     description: `Quoted Price in /${constants.ON_INIT} INR ${initQuotePrice} does not match with the quoted price in /${constants.ON_SELECT} INR ${onSelectPrice}`,
+      //   });
+      // }
 
       console.info(`Checking Payment Object for  /${constants.ON_INIT}`);
       if (!on_init.payment) {

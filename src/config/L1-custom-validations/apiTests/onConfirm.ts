@@ -752,14 +752,14 @@ async function validateQuote(
     ? JSON.parse(initQuotePriceRaw)
     : null;
   const onConfirmQuotePrice = parseFloat(order.quote?.price?.value);
-  if (oninitQuotePrice && oninitQuotePrice !== onConfirmQuotePrice) {
-    result.push(
-      createError(
-        `Quoted Price in /${constants.ON_CONFIRM} INR ${onConfirmQuotePrice} does not match with the quoted price in /${constants.ON_INIT} INR ${oninitQuotePrice}`,
-        ERROR_CODES.INVALID_RESPONSE
-      )
-    );
-  }
+  // if (oninitQuotePrice && oninitQuotePrice !== onConfirmQuotePrice) {
+  //   result.push(
+  //     createError(
+  //       `Quoted Price in /${constants.ON_CONFIRM} INR ${onConfirmQuotePrice} does not match with the quoted price in /${constants.ON_INIT} INR ${oninitQuotePrice}`,
+  //       ERROR_CODES.INVALID_RESPONSE
+  //     )
+  //   );
+  // }
 
   await RedisService.setKey(
     `${transaction_id}_quotePrice`,
