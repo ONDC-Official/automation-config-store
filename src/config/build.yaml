@@ -1894,7 +1894,13 @@ components:
           type: object
           properties:
             count:
-              type: string           
+              type: string
+        minimum:
+          additionalProperties: false
+          type: object
+          properties:
+            count:
+              type: string            
         unitized:
           description: This represents the quantity available in a single unit of the item
           additionalProperties: false
