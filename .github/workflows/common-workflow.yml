@@ -1,12 +1,12 @@
 name: common-deploy-api-service
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - "src/config/build.yaml"
-    branches-ignore:
-      - main
-      - dev
+  # push:
+  #   paths:
+  #     - "src/config/build.yaml"
+  #   branches-ignore:
+  #     - main
+  #     - dev
 
 jobs:
   deploy-draft:
