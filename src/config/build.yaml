@@ -22825,6 +22825,11 @@ x-validations:
         enumList:
         - IND
         useCasePath: "$.message.intent.fulfillment.vehicle.category"
+      - _NAME_: VALIDATE_CITY_CODE_FORMAT
+        _SCOPE_: "$.context.location.city"
+        subTags: "$.code"
+        match: ["^std:0\\d+$"]
+        _RETURN_: subTags follow regex match      
       - _NAME_: REQUIRED_CONTEXT_DOMAIN_3
         attr: "$.context.domain"
         _RETURN_: attr are present && attr all in enumList
@@ -22958,6 +22963,51 @@ x-validations:
         - PAGINATION_ID
         - REQUESTED_PAGE_NUMBER
         _RETURN_: subTags all in validValues
+      - _NAME_: VALID_CREDENTIAL_TYPE
+        _SCOPE_: "$.message.intent.fulfillment.customer.person.creds[?(@.type)]"
+        subTags: "$.type"
+        validValues:
+          - PAN
+          - ADHAR
+          - DL
+          - VOTER_ID
+        _RETURN_: subTags all in validValues
+
+
+        
+      - _NAME_: VALID_STATE_DESCRIPTOR_CODE
+        _SCOPE_: "$.message.intent.fulfillment.state"
+        subTags: "$.descriptor.code"
+        validValues:
+          - ACTIVE
+          - INACTIVE
+        _CONTINUE_: "!(subTags are present)"
+        _RETURN_: subTags all in validValues
+
+
+
+
+      - _NAME_: VALID_VEHICLE_VARIANT
+        _SCOPE_: "$.message.intent.fulfillment.vehicle"
+        subTags: "$.variant"
+        validValues:
+          - AC
+          - NON_AC
+        _CONTINUE_: "!(subTags are present)"
+        _RETURN_: subTags all in validValues
+
+
+      - _NAME_: VEHICLE_CATEGORY_REQUIRED
+        _SCOPE_: "$.message.intent.fulfillment"
+        category: "$.vehicle.category"
+        _RETURN_: category are present
+      - _NAME_: VALID_VEHICLE_CATEGORY
+        subTags: "$.message.intent.fulfillment.vehicle.category"
+        validValues:
+          - BUS
+          - METRO
+        _RETURN_: subTags all in validValues
+
     select:
       - _NAME_: REQUIRED_CONTEXT_CODE_1
         attr: "$.context.location.country.code"
@@ -23972,14 +24022,14 @@ x-validations:
         useCode:
         - METRO
         _CONTINUE_: "!(useCasePath all in useCode)"
-      # - _NAME_: REQUIRED_CREDS_TYPE
-      #   attr: "$.message.catalog.providers[*].fulfillments[*].customer.person.creds[*].type"
-      #   valid_enums: ["PAN","AADHAR","DL","VOTER_ID"]
-      #   _RETURN_: attr all in valid_enums
-      #   useCasePath: "$.message.catalog.providers[*].fulfillments[*].vehicle.category"
-      #   useCode:
-      #   - BUS
-      #   _CONTINUE_: "!(useCasePath all in useCode)"
+      - _NAME_: REQUIRED_CREDS_TYPE
+        attr: "$.message.catalog.providers[*].fulfillments[*].customer.person.creds[*].type"
+        valid_enums: ["PAN","AADHAR","DL","VOTER_ID"]
+        _RETURN_: attr all in valid_enums
+        useCasePath: "$.message.catalog.providers[*].fulfillments[*].vehicle.category"
+        useCode:
+        - BUS
+        _CONTINUE_: "!(useCasePath all in useCode)"
       - _NAME_: REQUIRED_MESSAGE_CATEGORY_24
         attr: "$.message.catalog.providers[*].fulfillments[*].vehicle.category"
         _RETURN_: attr are present && attr all in enumList
@@ -24194,6 +24244,59 @@ x-validations:
         - CURRENT_PAGE_NUMBER
         - MAX_PAGE_NUMBER
         _RETURN_: subTags all in validValues
+      - _NAME_: VALID_STOP_TYPE_VALUES
+        _SCOPE_: "$.message.catalog.providers[*].fulfillments[*].stops[?(@.type)]"
+        subTags: "$.type"
+        validValues:
+          - START
+          - END
+          - INTERMEDIATE_STOP
+          - TRANSIT_STOP
+        _RETURN_: subTags all in validValues
+      - _NAME_: VALID_FULFILLMENT_TYPE_VALUES
+        _SCOPE_: "$.message.catalog.providers[*].fulfillments[*]"
+        subTags: "$.type"
+        validValues:
+          - ROUTE
+          - TRIP
+          - TICKET
+          - PASS
+          - STOPS
+        _RETURN_: subTags all in validValues
+      - _NAME_: VALID_VEHICLE_CATEGORY
+        _SCOPE_: "$.message.catalog.providers[*].fulfillments[?(@.vehicle.category)]"
+        subTags: "$.vehicle.category"
+        validValues:
+          - BUS
+          - METRO
+        _RETURN_: subTags all in validValues
+      - _NAME_: VALID_VEHICLE_VARIANT
+        _SCOPE_: "$.message.catalog.providers[*].fulfillments[?(@.vehicle && @.vehicle.variant)]"
+        subTags: "$.vehicle.variant"
+        validValues:
+          - AC
+          - NON_AC
+        _RETURN_: subTags all in validValues
+      - _NAME_: VALID_ITEM_DESCRIPTOR_CODE
+        _SCOPE_: "$.message.catalog.providers[*].items[*]"
+        subTags: "$.descriptor.code"
+        validValues:
+          - SJT
+          - RJT
+          - PASS
+          - SFSJT
+        _RETURN_: subTags all in validValues
+      - _NAME_: VALID_CATEGORY_DESCRIPTOR_CODE
+        _SCOPE_: "$.message.catalog.providers[*].categories[*]"
+        subTags: "$.descriptor.code"
+        validValues:
+          - SEATER
+          - SLEEPER
+          - SEMI_SLEEPER
+          - TICKET
+          - PASS
+        _RETURN_: subTags all in validValues
+  
     on_select:
       - _NAME_: REQUIRED_CONTEXT_CODE_1
         attr: "$.context.location.country.code"
@@ -26656,6 +26759,42 @@ x-validations:
         - RESTRICTED_PERSON
         - RESTRICTION_PROOF
         _RETURN_: subTags all in validValues
+      - _NAME_: validate_tag_2_BUYER_FINDER_FEES
+        _SCOPE_: "$.message.order.payments[*].tags[?(@.descriptor.code=='BUYER_FINDER_FEES')]"
+        subTags: "$.list[*].descriptor.code"
+        validValues:
+        - BUYER_FINDER_FEES_PERCENTAGE
+        - BUYER_FINDER_FEES_AMOUNT
+        _RETURN_: subTags all in validValues  
+      - _NAME_: REQUIRED_PAYMENT_TAG_LIST_VALUE
+        _SCOPE_: "$.message.order.payments[*].tags[?(@.descriptor.code=='BUYER_FINDER_FEES')]"
+        subTags: "$.list[*].value"
+        _RETURN_: subTags are present
+      - _NAME_: VALIDATE_PAYMENT_TAG_CODES_PRESENT
+        _SCOPE_: "$.message.order.payments[*].tags[*]"
+        subTags: "$.descriptor.code"
+        _RETURN_: subTags are present
+      - _NAME_: VALIDATE_PAYMENT_TAG_CODES_ENUM
+        _SCOPE_: "$.message.order.payments[*].tags[*]"
+        subTags: "$.descriptor.code"
+        validValues:
+          - BUYER_FINDER_FEES
+          - SETTLEMENT_TERMS
+        _RETURN_: subTags all in validValues
+      - _NAME_: REQUIRED_CANCELLATION_DURATION
+        _SCOPE_: "$.message.order.cancellation_terms[*].cancel_by"
+        subTags: "$.duration"
+        _RETURN_: subTags are present
+      - _NAME_: REQUIRED_CANCELLATION_PERCENTAGE
+        _SCOPE_: "$.message.order.cancellation_terms[*].cancellation_fee"
+        subTags: "$.percentage"
+        _RETURN_: subTags are present
+      - _NAME_: VALIDATE_CANCELLATION_DURATION_FORMAT
+        _SCOPE_: "$.message.order.cancellation_terms[*].cancel_by"
+        subTags: "$.duration"
+        match: ["^P(\\d+D)?(T(\\d+H)?(\\d+M)?)?$"]
+        _RETURN_: subTags follow regex match
+
     on_status:
       - _NAME_: REQUIRED_PAYMENT_STATUS
         status: "$.message.order.payments[*].status"
