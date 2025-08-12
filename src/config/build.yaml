@@ -101085,14 +101085,6 @@ x-validations:
               attr: "$.message.catalog['bpp/providers'][*].locations[*].time.schedule.holidays[*]"
               _CONTINUE_: "!(attr are present)"
               _RETURN_: attr are present
-            - _NAME_: LOCATIONS_TIME_RANGE_START
-              attr: "$.message.catalog['bpp/providers'][*].locations[*].time.range.start"
-              _CONTINUE_: "!(attr are present)"
-              _RETURN_: attr are present
-            - _NAME_: LOCATIONS_TIME_RANGE_END
-              attr: "$.message.catalog['bpp/providers'][*].locations[*].time.range.end"
-              _CONTINUE_: "!(attr are present)"
-              _RETURN_: attr are present
             - _NAME_: LOCATIONS_GPS
               attr: "$.message.catalog['bpp/providers'][*].locations[*].gps"
               _CONTINUE_: "!(attr are present)"
@@ -101880,12 +101872,6 @@ x-validations:
               _RETURN_: attr are present
             - _NAME_: LOCATIONS_TIME_SCHEDULE_HOLIDAYS
               attr: "$.message.catalog['bpp/providers'][*].locations[*].time.schedule.holidays[*]"
-              _RETURN_: attr are present
-            - _NAME_: LOCATIONS_TIME_RANGE_START
-              attr: "$.message.catalog['bpp/providers'][*].locations[*].time.range.start"
-              _RETURN_: attr are present
-            - _NAME_: LOCATIONS_TIME_RANGE_END
-              attr: "$.message.catalog['bpp/providers'][*].locations[*].time.range.end"
               _RETURN_: attr are present
             - _NAME_: LOCATIONS_GPS
               attr: "$.message.catalog['bpp/providers'][*].locations[*].gps"
