@@ -683,46 +683,6 @@ export default async function onSearch(
               );
             }
           });
-
-          console.info("Checking fixed or split timings");
-          if (
-            loc.time.range &&
-            (loc.time.schedule?.frequency || loc.time.schedule?.times)
-          ) {
-            addError(
-              20006,
-              `Either one of fixed (range) or split (frequency and times) timings should be provided in /bpp/providers[${i}]/locations[${iter}]/time`
-            );
-          }
-
-          if (
-            !loc.time.range &&
-            (!loc.time.schedule.frequency || !loc.time.schedule.times)
-          ) {
-            addError(
-              20006,
-              `Either one of fixed timings (range) or split timings (both frequency and times) should be provided in /bpp/providers[${i}]/locations[${iter}]/time`
-            );
-          }
-
-          if ("range" in loc.time) {
-            console.info("checking range (fixed timings) start and end");
-            const startTime: any =
-              "start" in loc.time.range ? parseInt(loc.time.range.start) : "";
-            const endTime: any =
-              "end" in loc.time.range ? parseInt(loc.time.range.end) : "";
-            if (
-              isNaN(startTime) ||
-              isNaN(endTime) ||
-              startTime > endTime ||
-              endTime > 2359
-            ) {
-              addError(
-                20006,
-                `end time must be greater than start time in fixed timings /locations/time/range (fixed store timings)`
-              );
-            }
-          }
         });
 
         try {
