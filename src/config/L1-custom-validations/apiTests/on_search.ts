@@ -1185,7 +1185,7 @@ export default async function onSearch(
                             if (
                               isNaN(dayValue) ||
                               dayValue < 1 ||
-                              dayValue > 5 ||
+                              dayValue > 7 ||
                               !/^-?\d+(\.\d+)?$/.test(item.value)
                             ) {
                               addError(
