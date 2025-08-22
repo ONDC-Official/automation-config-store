@@ -102678,10 +102678,12 @@ x-validations:
                   attr: "$.message.order.quote.breakup[*].item.parent_item_id"
                   _RETURN_: attr are present
                 - _NAME_: BREAKUP_ITEM_ITEM_QUANTITY_AVAILABLE_COUNT
+                  _CONTINUE_: "!(attr are present)"
                   attr: "$.message.order.quote.breakup[*].item.quantity.available.count"
                   var_enum: ["99", "0"]
                   _RETURN_: attr all in var_enum
                 - _NAME_: BREAKUP_ITEM_ITEM_QUANTITY_MAXIMUM_COUNT
+                  _CONTINUE_: "!(attr are present)"
                   attr: "$.message.order.quote.breakup[*].item.quantity.maximum.count"
                   _RETURN_: attr are present
                 - _NAME_: BREAKUP_ITEM_ITEM_PRICE_CURRENCY
@@ -102721,7 +102723,7 @@ x-validations:
           - _NAME_: BREAKUP_ITEM_ITEM_TAGS_TAGS_NP_FEES_CHANNEL_MARGIN_TYPE
             _CONTINUE_: "!(attr are present)"
             attr: "$.message.order.quote.breakup[*].item.tags[?(@.code=='np_fees')].list[?(@.code=='channel_margin_type')].value"
-            var_enum: ["percent"]
+            var_enum: ["percent","amount"]
             _RETURN_: attr all in var_enum
           - _NAME_: BREAKUP_ITEM_ITEM_TAGS_TAGS_NP_FEES_CHANNEL_MARGIN_VALUE
             _CONTINUE_: "!(attr are present)"
@@ -103009,7 +103011,7 @@ x-validations:
             - _NAME_: BREAKUP_ITEM_ITEM_TAGS_TAGS_NP_FEES_CHANNEL_MARGIN_TYPE
               _CONTINUE_: "!(attr are present)"
               attr: "$.message.order.quote.breakup[*].item.tags[?(@.code=='np_fees')].list[?(@.code=='channel_margin_type')].value"
-              var_enum: ["percent"]
+              var_enum: ["percent","amount"]
               _RETURN_: attr all in var_enum
             - _NAME_: BREAKUP_ITEM_ITEM_TAGS_TAGS_NP_FEES_CHANNEL_MARGIN_VALUE
               _CONTINUE_: "!(attr are present)"
@@ -103258,7 +103260,7 @@ x-validations:
             - _NAME_: BREAKUP_ITEM_ITEM_TAGS_TAGS_NP_FEES_CHANNEL_MARGIN_TYPE
               _CONTINUE_: "!(attr are present)"
               attr: "$.message.order.quote.breakup[*].item.tags[?(@.code=='np_fees')].list[?(@.code=='channel_margin_type')].value"
-              var_enum: ["percent"]
+              var_enum: ["percent","amount"]
               _RETURN_: attr all in var_enum
             - _NAME_: BREAKUP_ITEM_ITEM_TAGS_TAGS_NP_FEES_CHANNEL_MARGIN_VALUE
               _CONTINUE_: "!(attr are present)"
