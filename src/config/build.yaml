@@ -101653,7 +101653,7 @@ x-validations:
 
               - _NAME_: TAGS_PROVIDERS_SERVICEABILITY_UNIT
                 attr: "$.message.catalog['bpp/providers'][*].tags[?(@.code=='serviceability')].list[?(@.code=='unit')].value"
-                var_enum: ["km", "geojson"]
+                var_enum: ["km","geojson","country", "pincode"]
                 _CONTINUE_: "!(attr are present)"
                 _RETURN_: attr all in var_enum
 
@@ -102396,7 +102396,7 @@ x-validations:
 
               - _NAME_: TAGS_PROVIDERS_SERVICEABILITY_UNIT
                 attr: "$.message.catalog['bpp/providers'][*].tags[?(@.code=='serviceability')].list[?(@.code=='unit')].value"
-                var_enum: ["km", "geojson"]
+                var_enum: ["km","geojson","country", "pincode"]
                 _RETURN_: attr all in var_enum
 
             - _NAME_: TAGS_PROVIDERS_ORDER_VALUE
