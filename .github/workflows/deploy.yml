@@ -81,6 +81,9 @@ jobs:
           echo "TRACE_URL=${{ vars.TRACE_URL }}" >> \$REPO_DIR/.env
           echo "API_SERVICE_KEY=${{ secrets.API_SERVICE_KEY_DEV }}" >> \$REPO_DIR/.env
           echo "LOKI_HOST=${{ vars.LOKI_HOST }}" >> \$REPO_DIR/.env
+          echo "HOSTED_ENV=${{ vars.HOSTED_ENV_DEV }}" >> \$REPO_DIR/.env
+          echo "NO_URL=${{ vars.NO_URL }}" >> \$REPO_DIR/.env
+          echo "NO_TOKEN=${{ secrets.NO_TOKEN }}" >> \$REPO_DIR/.env
           EOF
 
       - name: Verify .env and docker-compose.yml files
@@ -211,7 +214,10 @@ jobs:
           echo "API_SERVICE_KEY=${{ secrets.API_SERVICE_KEY_STAGING }}" >> \$REPO_DIR/.env
           echo "LOKI_HOST=${{ vars.LOKI_HOST }}" >> \$REPO_DIR/.env
           echo "WORKBENCH_SUBSCRIBER_ID=${{ vars.WORKBENCH_SUBSCRIBER_ID }}" >> \$REPO_DIR/.env
-          echo "IN_HOUSE_REGISTRY=${{ vars.IN_HOUSE_REGISTRY_STAGING }}" >> \$REPO_DIR/.env 
+          echo "IN_HOUSE_REGISTRY=${{ vars.IN_HOUSE_REGISTRY_STAGING }}" >> \$REPO_DIR/.env
+          echo "HOSTED_ENV=${{ vars.HOSTED_ENV_STAGING }}" >> \$REPO_DIR/.env
+          echo "NO_URL=${{ vars.NO_URL }}" >> \$REPO_DIR/.env
+          echo "NO_TOKEN=${{ secrets.NO_TOKEN }}" >> \$REPO_DIR/.env
           EOF
 
       - name: Verify .env and docker-compose.yml files
