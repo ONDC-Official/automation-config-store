@@ -1,0 +1,24 @@
+save-data:
+  message_id: "$.context.message_id"
+  transaction_id: "$.context.transaction_id"
+  
+  # Order details
+  order_id: "$.message.order.id"
+  order_status: "$.message.order.status"
+  
+  # Core order data
+  items: "$.message.order.items[*]"
+  fulfillments: "$.message.order.fulfillments[*]"
+  provider: "$.message.order.provider"
+  billing: "$.message.order.billing"
+  payments: "$.message.order.payments[*]"
+  quote: "$.message.order.quote"
+  
+  # Terms and policies
+  cancellation_terms: "$.message.order.cancellation_terms[*]"
+  replacement_terms: "$.message.order.replacement_terms[*]"
+  tags: "$.message.order.tags[*]"
+  
+  # Timestamps
+  created_at: "$.message.order.created_at"
+  updated_at: "$.message.order.updated_at"

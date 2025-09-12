@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API SERVICE VALIDATIONS</title>
+    <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div id="content">
+        <h2>List of validations of api</h2>
+        <ul>
+<li><p><strong>select</strong> : All the following sub conditions must pass as per the api requirement</p>
+<ul>
+<li><strong>condition all_item_ids_are_present_in_the_array</strong>: every element of $.message.order.items[<em>].id must be in $._EXTERNAL.item_ids[</em>]</li>
+</ul>
+</li>
+<li><p><strong>init</strong> : All the following sub conditions must pass as per the api requirement</p>
+<ul>
+<li><p><strong>condition buyer_finder_fees_needs_to_be_equal</strong>: $.message.order.payments[*].tags[?(@.descriptor.code == &#39;BUYER_FINDER_FEES&#39;)].list[?(@.descriptor.code == &#39;BUYER_FINDER_FEES_PERCENTAGE&#39;)].value must be equal to $._EXTERNAL.buyer_app_fee</p>
+</li>
+<li><p><strong>condition all_item_ids_are_there_which_were_present_in_select</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition all_item_ids_are_there_which_were_present_in_select.1</strong>: every element of $.message.order.items[<em>].id must be in $._EXTERNAL.selected_item_ids[</em>]</li>
+<li><strong>condition all_item_ids_are_there_which_were_present_in_select.2</strong>: every element of $._EXTERNAL.selected_item_ids[<em>] must be in $.message.order.items[</em>].id</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>confirm</strong> : All the following sub conditions must pass as per the api requirement</p>
+<ul>
+<li><p><strong>condition buyer_finder_fees_needs_to_be_equal</strong>: $.message.order.payments[*].tags[?(@.descriptor.code == &#39;BUYER_FINDER_FEES&#39;)].list[?(@.descriptor.code == &#39;BUYER_FINDER_FEES_PERCENTAGE&#39;)].value must be equal to $._EXTERNAL.buyer_app_fee</p>
+</li>
+<li><p><strong>condition all_item_ids_are_there_which_were_present_in_select</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition all_item_ids_are_there_which_were_present_in_select.1</strong>: every element of $.message.order.items[<em>].id must be in $._EXTERNAL.selected_item_ids[</em>]</li>
+<li><strong>condition all_item_ids_are_there_which_were_present_in_select.2</strong>: every element of $._EXTERNAL.selected_item_ids[<em>] must be in $.message.order.items[</em>].id</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>status</strong> : All the following sub conditions must pass as per the api requirement</p>
+<ul>
+<li><strong>condition order_id_needs_to_be_equal_that_sent_in_on_confirm</strong>: $.message.order_id must be equal to $._EXTERNAL.order_id</li>
+</ul>
+</li>
+<li><p><strong>cancel</strong> : All the following sub conditions must pass as per the api requirement</p>
+<ul>
+<li><strong>condition order_id_needs_to_be_equal_that_sent_in_on_confirm</strong>: $.message.order_id must be equal to $._EXTERNAL.order_id</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Select all list items that have a nested <ul> (collapsible items)
+        const collapsibleItems = document.querySelectorAll('li > ul');
+
+        collapsibleItems.forEach(function(nestedList) {
+            const parentLi = nestedList.parentElement;
+            parentLi.classList.add('collapsible', 'collapsed');
+
+            // Add click event listener to the <p> inside the list item
+            const clickableArea = parentLi.querySelector('p');
+            clickableArea.addEventListener('click', function(e) {
+                // Prevent click events on links inside the <p>
+                if (e.target.tagName !== 'A') {
+                    parentLi.classList.toggle('collapsed');
+                }
+            });
+        });
+    });
+</script>
+</html>

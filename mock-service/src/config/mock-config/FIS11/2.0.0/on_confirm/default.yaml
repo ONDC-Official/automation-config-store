@@ -1,0 +1,149 @@
+order:
+  id: O1
+  status: ACTIVE
+  created_at: "2024-11-23T05:42:20.651Z"
+  updated_at: "2024-11-23T05:42:20.651Z"
+
+  provider:
+    id: P1
+    descriptor:
+      name: Delhi Metro Rail Limited
+      images:
+        - url: https://delhimetrorail.com/logos/logo.icon
+
+  items:
+    - id: I1
+      category_ids:
+        - C1
+      descriptor:
+        name: Metro Card Recharge
+        code: RECHARGE
+        images:
+          - url: https://delhimetrorail.com/logos/logo.ico
+      price:
+        currency: INR
+        value: "100"
+      time:
+        label: Validity
+        duration: P1Y
+      fulfillment_ids:
+        - F1
+
+  fulfillments:
+    - id: F1
+      type: ONLINE
+      state:
+        descriptor:
+          code: COMPLETED
+          name: completed
+      customer:
+        contact:
+          email: joe.adam@abc.org
+          phone: "+91-9999999999"
+        person:
+          name: Joe Adam
+          creds:
+            - id: "00129812901"
+              type: CARD_IDENTIFIER
+      stops:
+        - instructions:
+            name: How to use?
+            short_desc: short description about how to use?
+            long_desc: Description about how to use?
+
+  quote:
+    id: Q1
+    price:
+      currency: INR
+      value: "100"
+    breakup:
+      - title: BASE_FARE
+        item:
+          id: I1
+          price:
+            currency: INR
+            value: "100"
+      - title: CONVENIENCE_FEE
+        price:
+          currency: INR
+          value: "10"
+      - title: TAX
+        price:
+          currency: INR
+          value: "0"
+      - title: OFFER
+        price:
+          currency: INR
+          value: "-10"
+
+  payments:
+    - id: PAYMENT_ID
+      type: PRE_ORDER
+      status: PAID
+      collected_by: BAP
+      params:
+        transaction_id: 0c1d39d2-f46f-41f8-a12b-2b0fa33a19d1
+        amount: "100"
+        currency: INR
+
+  tags:
+    - descriptor:
+        code: BAP_TERMS
+        name: BAP Terms of Engagement
+      display: false
+      list:
+        - descriptor:
+            code: BUYER_FINDER_FEES_PERCENTAGE
+          value: "1"
+        - descriptor:
+            code: BUYER_FINDER_FEES_TYPE
+          value: percent
+        - descriptor:
+            code: STATIC_TERMS
+          value: https://api.example-bap.com/booking/terms
+        - descriptor:
+            code: SETTLEMENT_BASIS
+          value: https://api.example-bap.com/booking/terms
+        - descriptor:
+            code: SETTLEMENT_WINDOW
+          value: P30D
+
+    - descriptor:
+        code: BPP_TERMS
+        name: BPP Terms of Engagement
+      display: false
+      list:
+        - descriptor:
+            code: BUYER_FINDER_FEES_PERCENTAGE
+          value: "1"
+        - descriptor:
+            code: BUYER_FINDER_FEES_TYPE
+          value: percent
+        - descriptor:
+            code: STATIC_TERMS
+          value: https://api.example-bap.com/booking/terms
+        - descriptor:
+            code: MANDATORY_ARBITRATION
+          value: "true"
+        - descriptor:
+            code: COURT_JURISDICTION
+          value: New Delhi
+        - descriptor:
+            code: DELAY_INTEREST
+          value: 2.5 %
+        - descriptor:
+            code: SETTLEMENT_AMOUNT
+          value: 7 INR
+        - descriptor:
+            code: SETTLEMENT_TYPE
+          value: upi
+        - descriptor:
+            code: SETTLEMENT_BANK_CODE
+          value: XXXXXXXX
+        - descriptor:
+            code: SETTLEMENT_BANK_ACCOUNT_NUMBER
+          value: xxxxxxxxxxxxxx
+  billing:
+    name: John Doe
+    email: john.doe@example.com
+    phone: "+91-9897867564"

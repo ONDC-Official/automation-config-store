@@ -1,0 +1,74 @@
+codes:
+  - code: 100
+    action_id: search
+    action: search
+    default: FIS11/2.0.0/search/default.yaml
+    message_id: true
+  - code: 101
+    action_id: on_search
+    action: on_search
+    default: FIS11/2.0.0/on_search/default.yaml
+    message_id: false
+
+
+  - code: 102
+    action_id: select
+    action: select
+    default: FIS11/2.0.0/select/default.yaml
+    message_id: true
+    
+  - code: 103
+    action_id: on_select
+    action: on_select
+    default: FIS11/2.0.0/on_select/default.yaml
+    message_id: false
+
+  - code: 104
+    action_id: init
+    action: init
+    default: FIS11/2.0.0/init/default.yaml
+    message_id: true
+
+  - code: 105
+    action_id: on_init
+    action: on_init
+    default: FIS11/2.0.0/on_init/default.yaml
+    message_id: false
+
+  - code: 106
+    action_id: confirm
+    action: confirm
+    default: FIS11/2.0.0/confirm/default.yaml
+    message_id: true
+
+  - code: 107
+    action_id: on_confirm
+    action: on_confirm
+    default: FIS11/2.0.0/on_confirm/default.yaml
+    message_id: false
+
+  - code: 108
+    action_id: confirm_card_balance_success
+    action: confirm
+    default: FIS11/2.0.0/confirm/confirm_card_balance_success/default.yaml
+    message_id: true
+
+  - code: 109
+    action_id: confirm_card_balance_faliure
+    action: confirm
+    default: FIS11/2.0.0/confirm/confirm_card_balance_faliure/default.yaml
+    message_id: true
+
+
+  - code: 110
+    action_id: on_confirm_card_balance_success
+    action: on_confirm
+    default: FIS11/2.0.0/on_confirm/on_confirm_card_balance_success/default.yaml
+    message_id: false
+
+  - code: 111
+    action_id: on_confirm_card_balance_faliure
+    action: on_confirm
+    default: FIS11/2.0.0/on_confirm/on_confirm_card_balance_faliure/default.yaml
+    message_id: false
+

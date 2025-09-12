@@ -1,0 +1,188 @@
+{
+	"_TESTS_": {
+	  "search": [
+		{
+		  "_NAME_": "search_request",
+		  "mockType": "$._EXTERNAL.mock_type",
+		  "forType": ["BAP"],
+		  "_RETURN_": "(mockType equal to forType)",
+		  "_SUCCESS_CODE_": 100
+		},
+		{
+		  "_NAME_": "onsearch_request",
+		  "mockType": "$._EXTERNAL.mock_type",
+		  "city_code": "$._EXTERNAL.city_code",
+		  "bap_uri": "$._EXTERNAL.bap_uri",
+		  "forType": ["BPP"],
+		  "_RETURN_": "(mockType equal to forType) && (bap_uri are present) && (city_code are present)",
+		  "_SUCCESS_CODE_": 101
+		},
+		{
+		  "_NAME_": "select_request",
+		  "lastAction": "$._EXTERNAL.last_action",
+		  "mockType": "$._EXTERNAL.mock_type",
+		  "forType": ["BAP"],
+          "lastaction": ["on_search"],
+		  "usecaseId": "$._EXTERNAL.usecaseId",
+		  "_RETURN_": "(mockType equal to forType) && (lastAction equal to lastaction)",
+		  "_SUCCESS_CODE_": 102
+		},
+		{
+		  "_NAME_": "on_select",
+		  "mockType": "$._EXTERNAL.mock_type",
+		  "selected_item_ids": "$._EXTERNAL.selected_item_ids[*]",
+		  "forType": ["BPP"],
+          "lastAction": "$._EXTERNAL.last_action",
+          "lastaction": ["select"],
+		  "_RETURN_": "(mockType equal to forType) && (selected_item_ids are present) && (lastAction equal to lastaction)",
+		  "_SUCCESS_CODE_": 103
+		},
+		{
+		  "_NAME_": "init_request",
+		  "mockType": "$._EXTERNAL.mock_type",
+          "lastAction": "$._EXTERNAL.last_action",
+		  "forType": ["BAP"],
+          "lastaction": ["on_select"],
+		  "_RETURN_": "(mockType equal to forType) && (lastAction equal to lastaction)",
+		  "_SUCCESS_CODE_": 104
+		},
+		{
+		  "_NAME_": "oninit_request",
+		  "mockType": "$._EXTERNAL.mock_type",
+		  "payments": "$._EXTERNAL.payments[*].collected_by",
+		  "forType": ["BPP"],
+		  "_RETURN_": "(mockType equal to forType)  && (payments are present)",
+		  "_SUCCESS_CODE_": 105
+		},
+		{
+		  "_NAME_": "confirm_request",
+		  "mockType": "$._EXTERNAL.mock_type",
+		  "forType": ["BAP"],
+          "lastaction": ["on_init"],
+          "lastAction": "$._EXTERNAL.last_action",
+		  "_RETURN_": "(mockType equal to forType) && (lastAction equal to lastaction)",
+		  "_SUCCESS_CODE_": 106
+		},
+		{
+		  "_NAME_": "onconfirm_request",
+		  "mockType": "$._EXTERNAL.mock_type",
+		  "updated_payments": "$._EXTERNAL.updated_payments[*].id",
+		  "forType": ["BPP"],
+          "lastaction": ["confirm"],
+          "lastAction": "$._EXTERNAL.last_action",
+		  "_RETURN_": "(mockType equal to forType)  && (updated_payments are present) && (lastAction equal to lastaction)",
+		  "_SUCCESS_CODE_": 107
+		},
+		{
+		  "_NAME_": "status_request_METRO",
+		  "mockType": "$._EXTERNAL.mock_type",
+		  "forType": ["BAP"],
+          "order_id": "$._EXTERNAL.order_id",
+		  "_RETURN_": "(mockType equal to forType) && (usecaseId equal to forUsecaseId) && (order_id are present)",
+		  "_SUCCESS_CODE_": 114
+		},
+		{
+		  "_NAME_": "onstatus_active_request",
+		  "mockType": "$._EXTERNAL.mock_type",
+		  "forType": ["BPP"],
+		  "order_id": "$._EXTERNAL.order_id",
+		  "_RETURN_": "(mockType equal to forType)  && (order_id are present)",
+		  "_SUCCESS_CODE_": 112
+		},
+		{
+		  "_NAME_": "onstatus_complete_request",
+		  "mockType": "$._EXTERNAL.mock_type",
+		  "forType": ["BPP"],
+		  "order_id": "$._EXTERNAL.order_id",
+		  "_RETURN_": "(mockType equal to forType)  && (order_id are present)",
+		  "_SUCCESS_CODE_": 115
+		},
+		{
+		  "_NAME_": "onstatus_complete_unsolicited_request",
+		  "mockType": "$._EXTERNAL.mock_type",
+		  "forType": ["BPP"],
+		  "order_id": "$._EXTERNAL.order_id",
+		  "_RETURN_": "(mockType equal to forType) && (order_id are present)",
+		  "_SUCCESS_CODE_": 108
+		},
+		{
+		  "_NAME_": "cancel_request_METRO",
+		  "mockType": "$._EXTERNAL.mock_type",
+		  "forType": ["BAP"],
+          "order_id": "$._EXTERNAL.order_id",
+		  "_RETURN_": "(mockType equal to forType) && (order_id are present)",
+		  "_SUCCESS_CODE_": 126
+		},
+		{
+		  "_NAME_": "oncancel_request",
+		  "mockType": "$._EXTERNAL.mock_type",
+		  "forType": ["BPP"],
+		  "order_id": "$._EXTERNAL.order_id",
+		  "_RETURN_": "(mockType equal to forType) && (order_id are present)",
+		  "_SUCCESS_CODE_": 127
+		},
+		{
+		  "_NAME_": "oncancel_soft_request",
+		  "mockType": "$._EXTERNAL.mock_type",
+		  "forType": ["BPP"],
+		  "order_id": "$._EXTERNAL.order_id",
+		  "_RETURN_": "(mockType equal to forType) && (order_id are present)",
+		  "_SUCCESS_CODE_": 119
+		},
+		{
+		  "_NAME_": "oncancel_hard_request_METRO",
+		  "mockType": "$._EXTERNAL.mock_type",
+		  "forType": ["BPP"],
+		  "order_id": "$._EXTERNAL.order_id",
+		  "_RETURN_": "(mockType equal to forType) && (order_id are present)",
+		  "_SUCCESS_CODE_": 120
+		},
+		{
+		  "_NAME_": "oncancel_init_request",
+		  "mockType": "$._EXTERNAL.mock_type",
+		  "forType": ["BPP"],
+		  "order_id": "$._EXTERNAL.order_id",
+		  "_RETURN_": "(mockType equal to forType) && (order_id are present)",
+		  "_SUCCESS_CODE_": 121
+		},
+		{
+		  "_NAME_": "onupdate_request_METRO",
+		  "mockType": "$._EXTERNAL.mock_type",
+		  "forType": ["BPP"],
+		  "order_id": "$._EXTERNAL.order_id",
+		  "_RETURN_": "(mockType equal to forType) && (order_id are present)",
+		  "_SUCCESS_CODE_": 113
+		},
+        {
+            "_NAME_": "track_request",
+            "mockType": "$._EXTERNAL.mock_type",
+            "forType": ["BAP"],
+            "order_id": "$._EXTERNAL.order_id",
+            "_RETURN_": "(mockType equal to forType) && (order_id are present)",
+            "_SUCCESS_CODE_": 109
+        },
+        {
+            "_NAME_": "on_track_request",
+            "mockType": "$._EXTERNAL.mock_type",
+            "forType": ["BAP"],
+            "order_id": "$._EXTERNAL.order_id",
+            "lastaction": ["confirm"],
+            "lastAction": "$._EXTERNAL.last_action",
+            "_RETURN_": "(mockType equal to forType) && (order_id are present) && (lastAction equal to lastaction)",
+            "_SUCCESS_CODE_": 110
+        },
+        {
+            "_NAME_": "update_request_METRO",
+            "mockType": "$._EXTERNAL.mock_type",
+            "forType": ["BAP"],
+            "order_id": "$._EXTERNAL.order_id",
+            "_RETURN_": "(mockType equal to forType) && (order_id are present)",
+            "_SUCCESS_CODE_": 116
+        }
+	  ]
+	},
+	"_SESSION_DATA_": {
+	  "search": {}
+	}
+  }
+  

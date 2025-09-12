@@ -1,0 +1,201 @@
+name: Deploy Mock Service
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "api-service/**"
+      - "mock-service/**"
+    branches:
+      - "draft-*"
+      - "release-*"
+
+      
+
+jobs:
+  build-and-verify:
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name }}  # environment exactly matches branch name
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Detect build type
+        run: |
+          if [[ "${GITHUB_REF_NAME}" == draft* ]]; then
+            echo "BUILD_TYPE=draft" >> $GITHUB_ENV
+          elif [[ "${GITHUB_REF_NAME}" == release* ]]; then
+            echo "BUILD_TYPE=release" >> $GITHUB_ENV
+          else
+            echo "BUILD_TYPE=default" >> $GITHUB_ENV
+          fi
+
+
+      - name: Prepare build repo
+        run: |
+          echo "Cloning generator repo..."
+          # ls -R $GITHUB_WORKSPACE
+          git clone --single-branch --branch main https://github.com/ONDC-Official/automation-mock-service-generator.git automation-mock-service-generator
+          # ls -R automation-mock-service-generator
+          echo "Initializing submodules..."
+          cd automation-mock-service-generator
+          GENERATOR_SHA=$(git rev-parse HEAD)
+          TAG="$GITHUB_SHA-$GENERATOR_SHA"
+          echo "TAG=$TAG" >> $GITHUB_ENV
+          echo "TAG in this step: $TAG"
+          GENERATOR_SHA=$(git rev-parse HEAD)
+          git submodule update --init --recursive
+          echo "Copying mock-config from current repo..."
+          cp -r $GITHUB_WORKSPACE/mock-service/src/config/mock-config ./src/config/
+
+          echo "Build repo ready at $(pwd)"
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GIT_PAT }}
+
+
+      - name: Build Docker image
+        run: |
+          cd automation-mock-service-generator
+          echo "TAG in this step: $TAG"
+          IMAGE_NAME=ghcr.io/ondc-official/automation-mock-service-${{vars.CONTAINER_NAME}}
+          docker build -t $IMAGE_NAME:$TAG .
+          echo "$TAG"
+        env:
+          DOCKER_BUILDKIT: 1
+
+      - name: Run container locally
+        run: |
+          IMAGE_NAME=ghcr.io/ondc-official/automation-mock-service-${{vars.CONTAINER_NAME}}
+          cat > ./.env <<EOF
+              REDIS_USERNAME=${{ vars.REDIS_USERNAME }}
+              REDIS_HOST=${{ vars.REDIS_HOST }}
+              REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}
+              REDIS_PORT=${{ vars.REDIS_PORT }}
+              PORT=${{ vars.MOCK_SERVICE_PORT }}
+              API_SERVICE_URL=${{  vars.API_SERVICE_URL }}
+              DOMAIN=${{ vars.DOMAIN }}
+              CONFIG_SERVICE_URL=${{ vars.CONFIG_SERVICE_URL }}
+              API_SERVICE_KEY=${{ secrets.API_SERVICE_KEY_DEV }}
+              FORM_SERVICE=${{ vars.FORM_SERVICE }}
+              NODE_ENV=${{ vars.NODE_ENV }}
+              LOKI_HOST=${{ vars.LOKI_HOST }}
+              TRACE_URL=${{ vars.TRACE_URL }}
+              SERVICE_NAME=automation-mock-service-${{ vars.CONTAINER_NAME }}
+
+          EOF
+            
+          # docker run -d --rm --name mock-test \
+          #   -p ${{ vars.MOCK_SERVICE_PORT }}:${{ vars.MOCK_SERVICE_PORT }} \
+          #   --env-file ./.env \
+          #   $IMAGE_NAME:$TAG
+          # sleep 5
+
+          docker run -d --name mock-test \
+            -p ${{ vars.MOCK_SERVICE_PORT }}:${{ vars.MOCK_SERVICE_PORT }} \
+            --env-file .env \
+            $IMAGE_NAME:$TAG
+      
+          # echo "⏳ Waiting for service..."
+          # sleep 5
+      
+          # echo "📋 Container status:"
+          # docker ps -a
+      
+          # echo "📜 Logs:"
+          # docker logs mock-test || true
+      
+          # echo "🔍 Health check:"
+          # curl -v http://localhost:${{ vars.MOCK_SERVICE_PORT }}/health || true
+
+      - name: Healthcheck
+        run: |
+          HEALTHCHECK_URL="http://localhost:${{ vars.MOCK_SERVICE_PORT }}/mock/${{ vars.DOMAIN }}/health"
+          echo "Checking $HEALTHCHECK_URL ..."
+          for i in {1..10}; do
+            if curl -sSf "$HEALTHCHECK_URL" > /dev/null; then
+              echo "✅ Container is healthy"
+              exit 0
+            fi
+            echo "Waiting... ($i)"
+            sleep 2
+          done
+          echo "❌ Healthcheck failed!"
+          docker logs mock-test
+          exit 1
+
+      - name: Stop test container
+        if: always()
+        run: docker stop mock-test || true
+
+      - name: Tag & Push Images
+        run: |
+          echo TAG in next step: $TAG
+          IMAGE_NAME=ghcr.io/ondc-official/automation-mock-service-${{vars.CONTAINER_NAME}}
+          docker tag $IMAGE_NAME:$TAG $IMAGE_NAME:latest
+          docker tag $IMAGE_NAME:$TAG $IMAGE_NAME:stable
+          docker push $IMAGE_NAME:$TAG
+          docker push $IMAGE_NAME:latest
+          docker push $IMAGE_NAME:stable
+
+  deploy:
+    needs: build-and-verify
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name }}  # environment exactly matches branch name
+    steps:
+      - name: Detect build type
+        run: |
+          if [[ "${GITHUB_REF_NAME}" == draft* ]]; then
+            echo "BUILD_TYPE=draft" >> $GITHUB_ENV
+          elif [[ "${GITHUB_REF_NAME}" == release* ]]; then
+            echo "BUILD_TYPE=release" >> $GITHUB_ENV
+          else
+            echo "BUILD_TYPE=default" >> $GITHUB_ENV
+          fi
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            REPO_DIR="~/ONDC-automation-framework/mock/automation-mock-service-${{ github.ref_name }}"
+            mkdir -p $REPO_DIR
+
+            echo "Writing .env file..."
+            cat > $REPO_DIR/.env <<EOF
+            REDIS_USERNAME=${{ vars.REDIS_USERNAME }}
+            REDIS_HOST=${{ vars.REDIS_HOST }}
+            REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}
+            REDIS_PORT=${{ vars.REDIS_PORT }}
+            PORT=${{ vars.MOCK_SERVICE_PORT }}
+            API_SERVICE_URL=${{  vars.API_SERVICE_URL }}
+            DOMAIN=${{ vars.DOMAIN }}
+            CONFIG_SERVICE_URL=${{ vars.CONFIG_SERVICE_URL }}
+            API_SERVICE_KEY=${{ secrets.API_SERVICE_KEY_DEV }}
+            FORM_SERVICE=${{ vars.FORM_SERVICE }}
+            NODE_ENV=${{ vars.NODE_ENV }}
+            LOKI_HOST=${{ vars.LOKI_HOST }}
+            TRACE_URL=${{ vars.TRACE_URL }}
+            SERVICE_NAME=automation-mock-service-${{ vars.CONTAINER_NAME }}
+            EOF
+
+            IMAGE_NAME=ghcr.io/ondc-official/automation-mock-service-${{vars.CONTAINER_NAME}}
+
+            echo "Pulling latest image..."
+            docker pull $IMAGE_NAME:stable || docker pull $IMAGE_NAME:stable
+
+            echo "Restarting container..."
+            docker stop automation-mock-service-${{ vars.CONTAINER_NAME }} || true
+            docker rm automation-mock-service-${{ vars.CONTAINER_NAME }} || true
+
+            docker run -d --name automation-mock-service-${{ vars.CONTAINER_NAME }} \
+              --env-file $REPO_DIR/.env \
+              -p ${{ vars.MOCK_SERVICE_PORT }}:${{ vars.MOCK_SERVICE_PORT }} \
+              $IMAGE_NAME:stable

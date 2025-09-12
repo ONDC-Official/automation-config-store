@@ -1,0 +1,27 @@
+intent:
+  category:
+    descriptor:
+      code: WALLET_MANAGEMENT
+  payment:
+    collected_by: BAP
+  tags:
+    - descriptor:
+        code: BAP_TERMS
+        name: BAP Terms of Engagement
+      display: false
+      list:
+        - descriptor:
+            code: BUYER_FINDER_FEES_PERCENTAGE
+          value: '1'
+        - descriptor:
+            code: BUYER_FINDER_FEES_TYPE
+          value: percent
+        - descriptor:
+            code: STATIC_TERMS
+          value: https://api.example-bap.com/booking/terms
+        - descriptor:
+            code: SETTLEMENT_BASIS
+          value: https://api.example-bap.com/booking/terms
+        - descriptor:
+            code: SETTLEMENT_WINDOW
+          value: P30D

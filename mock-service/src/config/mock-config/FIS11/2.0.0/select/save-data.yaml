@@ -1,0 +1,282 @@
+save-data:
+  message_id: "$.context.message_id"
+  transaction_id: "$.context.transaction_id"
+  selected_items: "$.message.order.items[*]"
+  selected_fulfillments: "$.message.order.fulfillments[*]"
+  # selected_fulfillment_id: "$.message.order.fulfillments[0].id"
+  selected_provider: "$.message.order.provider"
+
+
+
+
+# message:
+#   order:
+#     items:
+#     - id: I0
+#       descriptor:
+#         name: Parent Item for Culture & Heritage
+#         code: ABSTRACT
+#         short_desc: Ticket for Qutab Minar
+#         long_desc: This ticket grants entry to the Qutab Minar.
+#         images:
+#         - url: https://api.unreserved-entry-pass.com/sites/default/files/event/logo/event_logo_2.png
+#           size_type: xs
+#       location_ids:
+#       - L1
+#       category_ids:
+#       - C1
+#       - C2
+#       time:
+#         label: VALIDITY
+#         duration: P2D
+#       fulfillment_ids:
+#       - F1
+#       tags:
+#       - descriptor:
+#           code: INCLUSIONS
+#         list:
+#         - value: water
+#       - descriptor:
+#           code: EXCLUSIONS
+#         list:
+#         - value: out side food
+#         - value: photography
+#     - id: I1
+#       descriptor:
+#         name: Adult-Ticket Culture & Heritage Item
+#         code: ENTRY_PASS
+#         short_desc: Ticket for Qutab Minar
+#         long_desc: This ticket grants entry to the Qutab Minar.
+#         images:
+#         - url: https://api.unreserved-entry-pass.com/sites/default/files/event/logo/event_logo_2.png
+#           size_type: xs
+#       parent_item_id: I0
+#       location_ids:
+#       - L1
+#       category_ids:
+#       - C1
+#       price:
+#         currency: INR
+#         value: '350'
+#       quantity:
+#         selected:
+#           count: 1
+#       time:
+#         label: VALIDITY
+#         duration: P2D
+#       fulfillment_ids:
+#       - F1
+#       add_ons:
+#       - id: A1
+#         descriptor:
+#           name: Audio Assistance
+#         quantity:
+#           selected:
+#             count: 1
+#         price:
+#           value: '100'
+#           currency: INR
+#       tags:
+#       - descriptor:
+#           code: FARE_POLICY
+#         list:
+#         - descriptor:
+#             code: MIN_AGE
+#           value: '1'
+#         - descriptor:
+#             code: MAX_AGE
+#           value: '70'
+#         - descriptor:
+#             code: GENDER
+#           value: MALE
+#         - descriptor:
+#             code: NATIONALITY
+#           value: INDIAN
+#       - descriptor:
+#           code: INCLUSIONS
+#         list:
+#         - value: water
+#         - value: guide_tour
+#       - descriptor:
+#           code: EXCLUSIONS
+#         list:
+#         - value: out side food
+#         - value: photography
+#       xinput:
+#         head:
+#           descriptor:
+#             name: Additional Details
+#           index:
+#             min: 0
+#             cur: 0
+#             max: 0
+#           headings:
+#           - ADDITIONAL_DETAILS
+#         form:
+#           id: F01
+#           mime_type: text/html
+#           url: https://api.unreserved-entry-pass.com/xinput/additonal-details/F01
+#           resubmit: false
+#           multiple_sumbissions: false
+#         required: true
+#     - id: I2
+#       descriptor:
+#         name: Child-Ticket Culture & Heritage Item
+#         code: ENTRY_PASS
+#         short_desc: Ticket for Qutab Minar
+#         long_desc: This ticket grants entry to the Qutab Minar.
+#         images:
+#         - url: https://api.unreserved-entry-pass.com/sites/default/files/event/logo/event_logo_2.png
+#           size_type: xs
+#       parent_item_id: I0
+#       location_ids:
+#       - L1
+#       category_ids:
+#       - C1
+#       price:
+#         currency: INR
+#         value: '150'
+#       quantity:
+#         selected:
+#           count: 1
+#       time:
+#         label: VALIDITY
+#         duration: P2D
+#       fulfillment_ids:
+#       - F1
+#       add_ons:
+#       - id: A1
+#         descriptor:
+#           name: Audio Assistance
+#         quantity:
+#           selected:
+#             count: 1
+#         price:
+#           value: '100'
+#           currency: INR
+#       xinput:
+#         head:
+#           descriptor:
+#             name: Additional Details
+#           index:
+#             min: 0
+#             cur: 0
+#             max: 0
+#           headings:
+#           - ADDITIONAL_DETAILS
+#         form:
+#           id: F01
+#           mime_type: text/html
+#           url: https://api.unreserved-entry-pass.com/xinput/additonal-details/F01
+#           resubmit: false
+#           multiple_sumbissions: false
+#         required: true
+#       tags:
+#       - descriptor:
+#           code: FARE_POLICY
+#         list:
+#         - descriptor:
+#             code: MIN_AGE
+#           value: '1'
+#         - descriptor:
+#             code: MAX_AGE
+#           value: '70'
+#         - descriptor:
+#             code: GENDER
+#           value: MALE
+#         - descriptor:
+#             code: NATIONALITY
+#           value: INDIAN
+#       - descriptor:
+#           code: INCLUSIONS
+#         list:
+#         - value: water
+#         - value: guide_tour
+#       - descriptor:
+#           code: EXCLUSIONS
+#         list:
+#         - value: out side food
+#         - value: photography
+#     - id: I5
+#       descriptor:
+#         name: Add on item
+#         code: ADD_ON
+#         images:
+#         - url: https://api.unreserved-entry-pass.com/sites/default/files/event/logo/event_logo_2.png
+#           size_type: xs
+#       parent_item_id: I0
+#       price:
+#         currency: INR
+#         value: '100'
+#       quantity:
+#         selected:
+#           count: 1
+#     fulfillments:
+#     - id: F1
+#       type: VISIT
+#       stops:
+#       - type: START
+#         instructions:
+#           additional_desc:
+#             url: https://api.unreserved-entry-pass.com/sites/additional-info
+#             content_type: text/plain
+#         time:
+#           timestamp: '2024-06-28T05:00:16.000Z'
+
+#       vehicle:
+#         category: SITE
+#     quote:
+#       breakup:
+#       - title: BASE_FARE
+#         item:
+#           id: I1
+#           price:
+#             currency: INR
+#             value: '350'
+#           quantity:
+#             selected:
+#               count: 1
+#         price:
+#           currency: INR
+#           value: '350'
+#       - title: BASE_FARE
+#         item:
+#           id: I2
+#           price:
+#             currency: INR
+#             value: '150'
+#           quantity:
+#             selected:
+#               count: 1
+#         price:
+#           currency: INR
+#           value: '150'
+#       - title: TAX
+#         price:
+#           currency: INR
+#           value: '0'
+#       - title: ADD_ONS
+#         item:
+#           id: I1
+#           add_ons:
+#           - id: A1
+#         price:
+#           currency: INR
+#           value: '100'
+#       - title: ADD_ONS
+#         item:
+#           id: I2
+#           add_ons:
+#           - id: A1
+#         price:
+#           currency: INR
+#           value: '100'
+#       - title: ADD_ONS
+#         item:
+#           id: I5
+#         price:
+#           currency: INR
+#           value: '100'
+#       price:
+#         currency: INR
+#         value: '800'

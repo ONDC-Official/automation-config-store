@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API SERVICE VALIDATIONS</title>
+    <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div id="content">
+        <h2>List of validations of api</h2>
+        <ul>
+<li><p><strong>search</strong> : All the following sub conditions must pass as per the api requirement</p>
+<ul>
+<li><p><strong>condition first_search_request_METRO</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition first_search_request_METRO.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BAP&quot;]</li>
+<li><strong>condition first_search_request_METRO.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;METRO&quot;]</li>
+</ul>
+</li>
+<li><p><strong>condition second_search_request_METRO</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition second_search_request_METRO.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BAP&quot;]</li>
+<li><strong>condition second_search_request_METRO.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;METRO&quot;]</li>
+</ul>
+</li>
+<li><p><strong>condition first_onsearch_request_METRO</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition first_onsearch_request_METRO.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition first_onsearch_request_METRO.1.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition first_onsearch_request_METRO.1.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BPP&quot;]</li>
+<li><strong>condition first_onsearch_request_METRO.1.1.2</strong>: $._EXTERNAL.bap_uri must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition first_onsearch_request_METRO.1.2</strong>: $._EXTERNAL.city_code must be present in the payload</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition first_onsearch_request_METRO.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;METRO&quot;]</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition second_onsearch_request_METRO</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition second_onsearch_request_METRO.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition second_onsearch_request_METRO.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BPP&quot;]</li>
+<li><strong>condition second_onsearch_request_METRO.1.2</strong>: $._EXTERNAL.start_code must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition second_onsearch_request_METRO.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;METRO&quot;]</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition select_request_METRO</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition select_request_METRO.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BAP&quot;]</li>
+<li><strong>condition select_request_METRO.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;METRO&quot;]</li>
+</ul>
+</li>
+<li><p><strong>condition onselect_request_METRO</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition onselect_request_METRO.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition onselect_request_METRO.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BPP&quot;]</li>
+<li><strong>condition onselect_request_METRO.1.2</strong>: $._EXTERNAL.selected_item_ids[*] must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition onselect_request_METRO.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;METRO&quot;]</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition init_request_METRO</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition init_request_METRO.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BAP&quot;]</li>
+<li><strong>condition init_request_METRO.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;METRO&quot;]</li>
+</ul>
+</li>
+<li><p><strong>condition oninit_request_METRO</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition oninit_request_METRO.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition oninit_request_METRO.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BPP&quot;]</li>
+<li><strong>condition oninit_request_METRO.1.2</strong>: $._EXTERNAL.payments[*].collected_by must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition oninit_request_METRO.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;METRO&quot;]</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition confirm_request_METRO</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition confirm_request_METRO.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BAP&quot;]</li>
+<li><strong>condition confirm_request_METRO.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;METRO&quot;]</li>
+</ul>
+</li>
+<li><p><strong>condition onconfirm_request_METRO</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition onconfirm_request_METRO.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition onconfirm_request_METRO.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BPP&quot;]</li>
+<li><strong>condition onconfirm_request_METRO.1.2</strong>: $._EXTERNAL.updated_payments[*].id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition onconfirm_request_METRO.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;METRO&quot;]</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition onconfirm_delayed_request_METRO</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition onconfirm_delayed_request_METRO.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition onconfirm_delayed_request_METRO.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BPP&quot;]</li>
+<li><strong>condition onconfirm_delayed_request_METRO.1.2</strong>: $._EXTERNAL.updated_payments[*].id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition onconfirm_delayed_request_METRO.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;METRO&quot;]</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition status_request_METRO</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition status_request_METRO.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BAP&quot;]</li>
+<li><strong>condition status_request_METRO.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;METRO&quot;]</li>
+</ul>
+</li>
+<li><p><strong>condition onstatus_active_request_METRO</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition onstatus_active_request_METRO.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition onstatus_active_request_METRO.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BPP&quot;]</li>
+<li><strong>condition onstatus_active_request_METRO.1.2</strong>: $._EXTERNAL.order_id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition onstatus_active_request_METRO.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;METRO&quot;]</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition onstatus_complete_request_METRO</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition onstatus_complete_request_METRO.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition onstatus_complete_request_METRO.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BPP&quot;]</li>
+<li><strong>condition onstatus_complete_request_METRO.1.2</strong>: $._EXTERNAL.order_id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition onstatus_complete_request_METRO.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;METRO&quot;]</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition onstatus_complete_unsolicited_request_METRO</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition onstatus_complete_unsolicited_request_METRO.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition onstatus_complete_unsolicited_request_METRO.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BPP&quot;]</li>
+<li><strong>condition onstatus_complete_unsolicited_request_METRO.1.2</strong>: $._EXTERNAL.order_id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition onstatus_complete_unsolicited_request_METRO.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;METRO&quot;]</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition cancel_request_METRO</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition cancel_request_METRO.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BAP&quot;]</li>
+<li><strong>condition cancel_request_METRO.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;METRO&quot;]</li>
+</ul>
+</li>
+<li><p><strong>condition cancel_soft_request_METRO</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition cancel_soft_request_METRO.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition cancel_soft_request_METRO.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BAP&quot;]</li>
+<li><strong>condition cancel_soft_request_METRO.1.2</strong>: $._EXTERNAL.order_id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition cancel_soft_request_METRO.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;METRO&quot;]</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition cancel_hard_request_METRO</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition cancel_hard_request_METRO.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition cancel_hard_request_METRO.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BAP&quot;]</li>
+<li><strong>condition cancel_hard_request_METRO.1.2</strong>: $._EXTERNAL.order_id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition cancel_hard_request_METRO.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;METRO&quot;]</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition oncancel_request_METRO</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition oncancel_request_METRO.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition oncancel_request_METRO.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BPP&quot;]</li>
+<li><strong>condition oncancel_request_METRO.1.2</strong>: $._EXTERNAL.order_id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition oncancel_request_METRO.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;METRO&quot;]</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition oncancel_soft_request_METRO</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition oncancel_soft_request_METRO.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition oncancel_soft_request_METRO.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BPP&quot;]</li>
+<li><strong>condition oncancel_soft_request_METRO.1.2</strong>: $._EXTERNAL.order_id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition oncancel_soft_request_METRO.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;METRO&quot;]</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition oncancel_hard_request_METRO</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition oncancel_hard_request_METRO.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition oncancel_hard_request_METRO.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BPP&quot;]</li>
+<li><strong>condition oncancel_hard_request_METRO.1.2</strong>: $._EXTERNAL.order_id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition oncancel_hard_request_METRO.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;METRO&quot;]</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition oncancel_init_request_METRO</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition oncancel_init_request_METRO.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition oncancel_init_request_METRO.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BPP&quot;]</li>
+<li><strong>condition oncancel_init_request_METRO.1.2</strong>: $._EXTERNAL.order_id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition oncancel_init_request_METRO.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;METRO&quot;]</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition onupdate_request_METRO</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition onupdate_request_METRO.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition onupdate_request_METRO.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BPP&quot;]</li>
+<li><strong>condition onupdate_request_METRO.1.2</strong>: $._EXTERNAL.order_id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition onupdate_request_METRO.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;METRO&quot;]</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition first_search_request</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition first_search_request.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BAP&quot;]</li>
+<li><strong>condition first_search_request.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;BUS&quot;]</li>
+</ul>
+</li>
+<li><p><strong>condition second_search_request</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition second_search_request.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BAP&quot;]</li>
+<li><strong>condition second_search_request.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;BUS&quot;]</li>
+</ul>
+</li>
+<li><p><strong>condition first_onsearch_request</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition first_onsearch_request.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition first_onsearch_request.1.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition first_onsearch_request.1.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BPP&quot;]</li>
+<li><strong>condition first_onsearch_request.1.1.2</strong>: $._EXTERNAL.bap_uri must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition first_onsearch_request.1.2</strong>: $._EXTERNAL.city_code must be present in the payload</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition first_onsearch_request.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;BUS&quot;]</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition second_onsearch_request</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition second_onsearch_request.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition second_onsearch_request.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BPP&quot;]</li>
+<li><strong>condition second_onsearch_request.1.2</strong>: $._EXTERNAL.start_code must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition second_onsearch_request.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;BUS&quot;]</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition select_request</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition select_request.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BAP&quot;]</li>
+<li><strong>condition select_request.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;BUS&quot;]</li>
+</ul>
+</li>
+<li><p><strong>condition onselect_request</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition onselect_request.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition onselect_request.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BPP&quot;]</li>
+<li><strong>condition onselect_request.1.2</strong>: $._EXTERNAL.selected_item_ids[*] must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition onselect_request.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;BUS&quot;]</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition init_request</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition init_request.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BAP&quot;]</li>
+<li><strong>condition init_request.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;BUS&quot;]</li>
+</ul>
+</li>
+<li><p><strong>condition oninit_request</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition oninit_request.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition oninit_request.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BPP&quot;]</li>
+<li><strong>condition oninit_request.1.2</strong>: $._EXTERNAL.payments[*].collected_by must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition oninit_request.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;BUS&quot;]</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition confirm_request</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition confirm_request.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BAP&quot;]</li>
+<li><strong>condition confirm_request.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;BUS&quot;]</li>
+</ul>
+</li>
+<li><p><strong>condition onconfirm_request</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition onconfirm_request.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition onconfirm_request.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BPP&quot;]</li>
+<li><strong>condition onconfirm_request.1.2</strong>: $._EXTERNAL.updated_payments[*].id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition onconfirm_request.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;BUS&quot;]</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition onconfirm_delayed_request</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition onconfirm_delayed_request.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition onconfirm_delayed_request.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BPP&quot;]</li>
+<li><strong>condition onconfirm_delayed_request.1.2</strong>: $._EXTERNAL.updated_payments[*].id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition onconfirm_delayed_request.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;BUS&quot;]</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition status_request</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition status_request.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BAP&quot;]</li>
+<li><strong>condition status_request.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;BUS&quot;]</li>
+</ul>
+</li>
+<li><p><strong>condition onstatus_active_request</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition onstatus_active_request.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition onstatus_active_request.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BPP&quot;]</li>
+<li><strong>condition onstatus_active_request.1.2</strong>: $._EXTERNAL.order_id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition onstatus_active_request.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;BUS&quot;]</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition onstatus_complete_request</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition onstatus_complete_request.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition onstatus_complete_request.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BPP&quot;]</li>
+<li><strong>condition onstatus_complete_request.1.2</strong>: $._EXTERNAL.order_id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition onstatus_complete_request.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;BUS&quot;]</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition onstatus_complete_unsolicited_request</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition onstatus_complete_unsolicited_request.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition onstatus_complete_unsolicited_request.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BPP&quot;]</li>
+<li><strong>condition onstatus_complete_unsolicited_request.1.2</strong>: $._EXTERNAL.order_id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition onstatus_complete_unsolicited_request.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;BUS&quot;]</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition cancel_request</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition cancel_request.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BAP&quot;]</li>
+<li><strong>condition cancel_request.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;BUS&quot;]</li>
+</ul>
+</li>
+<li><p><strong>condition cancel_soft_request</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition cancel_soft_request.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition cancel_soft_request.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BAP&quot;]</li>
+<li><strong>condition cancel_soft_request.1.2</strong>: $._EXTERNAL.order_id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition cancel_soft_request.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;BUS&quot;]</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition cancel_hard_request</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition cancel_hard_request.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition cancel_hard_request.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BAP&quot;]</li>
+<li><strong>condition cancel_hard_request.1.2</strong>: $._EXTERNAL.order_id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition cancel_hard_request.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;BUS&quot;]</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition oncancel_request</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition oncancel_request.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition oncancel_request.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BPP&quot;]</li>
+<li><strong>condition oncancel_request.1.2</strong>: $._EXTERNAL.order_id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition oncancel_request.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;BUS&quot;]</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition oncancel_soft_request</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition oncancel_soft_request.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition oncancel_soft_request.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BPP&quot;]</li>
+<li><strong>condition oncancel_soft_request.1.2</strong>: $._EXTERNAL.order_id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition oncancel_soft_request.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;BUS&quot;]</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition oncancel_hard_request</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition oncancel_hard_request.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition oncancel_hard_request.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BPP&quot;]</li>
+<li><strong>condition oncancel_hard_request.1.2</strong>: $._EXTERNAL.order_id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition oncancel_hard_request.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;BUS&quot;]</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition oncancel_init_request</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition oncancel_init_request.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition oncancel_init_request.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BPP&quot;]</li>
+<li><strong>condition oncancel_init_request.1.2</strong>: $._EXTERNAL.order_id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition oncancel_init_request.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;BUS&quot;]</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition onupdate_request</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition onupdate_request.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition onupdate_request.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BPP&quot;]</li>
+<li><strong>condition onupdate_request.1.2</strong>: $._EXTERNAL.order_id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition onupdate_request.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;BUS&quot;]</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition status_tech_request</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition status_tech_request.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition status_tech_request.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BPP&quot;]</li>
+<li><strong>condition status_tech_request.1.2</strong>: $._EXTERNAL.order_id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition status_tech_request.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;BUS&quot;]</p>
+</li>
+</ul>
+</li>
+<li><p><strong>condition unsolicited_oncancel</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><p><strong>condition unsolicited_oncancel.1</strong>: all of the following sub conditions must be met:</p>
+<ul>
+<li><strong>condition unsolicited_oncancel.1.1</strong>: $._EXTERNAL.mock_type must be equal to [&quot;BPP&quot;]</li>
+<li><strong>condition unsolicited_oncancel.1.2</strong>: $._EXTERNAL.order_id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>condition unsolicited_oncancel.2</strong>: $._EXTERNAL.usecaseId must be equal to [&quot;BUS&quot;]</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Select all list items that have a nested <ul> (collapsible items)
+        const collapsibleItems = document.querySelectorAll('li > ul');
+
+        collapsibleItems.forEach(function(nestedList) {
+            const parentLi = nestedList.parentElement;
+            parentLi.classList.add('collapsible', 'collapsed');
+
+            // Add click event listener to the <p> inside the list item
+            const clickableArea = parentLi.querySelector('p');
+            clickableArea.addEventListener('click', function(e) {
+                // Prevent click events on links inside the <p>
+                if (e.target.tagName !== 'A') {
+                    parentLi.classList.toggle('collapsed');
+                }
+            });
+        });
+    });
+</script>
+</html>

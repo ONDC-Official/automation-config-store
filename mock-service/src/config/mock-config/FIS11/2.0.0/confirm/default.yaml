@@ -1,0 +1,92 @@
+order:
+  provider:
+    id: P1
+  items:
+    - id: I1
+      price:
+        value: "100"
+  fulfillments:
+    - id: F1
+      type: ONLINE
+      customer:
+        contact:
+          email: joe.adam@abc.org
+          phone: "+91-9999999999"
+        person:
+          name: Joe Adam
+          creds:
+            - id: "00129812901"
+              type: CARD_IDENTIFIER
+
+  payments:
+    - id: PAYMENT_ID
+      collected_by: BAP
+      type: PRE_ORDER
+      status: PAID
+      params:
+        transaction_id: 61b4be7e-d85c-456a-99e5-ce3d83be135d
+        currency: INR
+        amount: "100"
+
+  tags:
+    - descriptor:
+        code: BAP_TERMS
+        name: BAP Terms of Engagement
+      display: false
+      list:
+        - descriptor:
+            code: BUYER_FINDER_FEES_PERCENTAGE
+          value: "1"
+        - descriptor:
+            code: BUYER_FINDER_FEES_TYPE
+          value: percent
+        - descriptor:
+            code: STATIC_TERMS
+          value: https://api.example-bap.com/booking/terms
+        - descriptor:
+            code: SETTLEMENT_BASIS
+          value: https://api.example-bap.com/booking/terms
+        - descriptor:
+            code: SETTLEMENT_WINDOW
+          value: P30D
+
+    - descriptor:
+        code: BPP_TERMS
+        name: BPP Terms of Engagement
+      display: false
+      list:
+        - descriptor:
+            code: BUYER_FINDER_FEES_PERCENTAGE
+          value: "1"
+        - descriptor:
+            code: BUYER_FINDER_FEES_TYPE
+          value: percent
+        - descriptor:
+            code: STATIC_TERMS
+          value: https://api.example-bap.com/booking/terms
+        - descriptor:
+            code: MANDATORY_ARBITRATION
+          value: "true"
+        - descriptor:
+            code: COURT_JURISDICTION
+          value: New Delhi
+        - descriptor:
+            code: DELAY_INTEREST
+          value: 2.5 %
+        - descriptor:
+            code: SETTLEMENT_AMOUNT
+          value: 7 INR
+        - descriptor:
+            code: SETTLEMENT_TYPE
+          value: upi
+        - descriptor:
+            code: SETTLEMENT_BANK_CODE
+          value: XXXXXXXX
+        - descriptor:
+            code: SETTLEMENT_BANK_ACCOUNT_NUMBER
+          value: xxxxxxxxxxxxxx
+
+  billing:
+    name: John Doe
+    email: john.doe@example.com
+    phone: "+91-9897867564"

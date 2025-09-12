@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API SERVICE VALIDATIONS</title>
+    <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div id="content">
+        <h2>List of validations of api</h2>
+        <ul>
+<li><p><strong>search</strong> : All the following sub conditions must pass as per the api requirement</p>
+<ul>
+<li><p><strong>condition first_on_search</strong>: $.message.intent.fulfillment.stops[*].location.descriptor.code must <strong>not</strong> be present in the payload</p>
+</li>
+<li><p><strong>condition second_on_search</strong>: $.message.intent.fulfillment.stops[*].location.descriptor.code must be present in the payload</p>
+</li>
+</ul>
+</li>
+<li><p><strong>on_search</strong> : All the following sub conditions must pass as per the api requirement</p>
+<ul>
+<li><p><strong>condition second_search</strong>: $.message.catalog.providers[<em>].items[</em>].id must <strong>not</strong> be present in the payload</p>
+</li>
+<li><p><strong>condition select</strong>: $.message.catalog.providers[<em>].items[</em>].id must be present in the payload</p>
+</li>
+</ul>
+</li>
+<li><p><strong>select</strong> : All the following sub conditions must pass as per the api requirement</p>
+<ul>
+<li><strong>condition on_select</strong>: $.context.transaction_id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>on_select</strong> : All the following sub conditions must pass as per the api requirement</p>
+<ul>
+<li><strong>condition init</strong>: $.context.transaction_id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>init</strong> : All the following sub conditions must pass as per the api requirement</p>
+<ul>
+<li><strong>condition on_init</strong>: $.context.transaction_id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>on_init</strong> : All the following sub conditions must pass as per the api requirement</p>
+<ul>
+<li><strong>condition confirm</strong>: $.context.transaction_id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>confirm</strong> : All the following sub conditions must pass as per the api requirement</p>
+<ul>
+<li><strong>condition on_confirm</strong>: $.context.transaction_id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>on_confirm</strong> : All the following sub conditions must pass as per the api requirement</p>
+<ul>
+<li><strong>condition status</strong>: $.context.transaction_id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>status</strong> : All the following sub conditions must pass as per the api requirement</p>
+<ul>
+<li><strong>condition on_status</strong>: $.context.transaction_id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>cancel</strong> : All the following sub conditions must pass as per the api requirement</p>
+<ul>
+<li><strong>condition on_cancel</strong>: $.context.transaction_id must be present in the payload</li>
+</ul>
+</li>
+<li><p><strong>on_cancel</strong> : All the following sub conditions must pass as per the api requirement</p>
+<ul>
+<li><strong>condition on_update_accepted</strong>: $.context.transaction_id must be present in the payload</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Select all list items that have a nested <ul> (collapsible items)
+        const collapsibleItems = document.querySelectorAll('li > ul');
+
+        collapsibleItems.forEach(function(nestedList) {
+            const parentLi = nestedList.parentElement;
+            parentLi.classList.add('collapsible', 'collapsed');
+
+            // Add click event listener to the <p> inside the list item
+            const clickableArea = parentLi.querySelector('p');
+            clickableArea.addEventListener('click', function(e) {
+                // Prevent click events on links inside the <p>
+                if (e.target.tagName !== 'A') {
+                    parentLi.classList.toggle('collapsed');
+                }
+            });
+        });
+    });
+</script>
+</html>
