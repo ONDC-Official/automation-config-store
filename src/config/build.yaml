@@ -3235,6 +3235,47 @@ components:
         #   type: array
         #   items:
         #     $ref: '#/components/schemas/TagGroup'
+        tags:
+          type: array
+          description: List of tag objects
+          items:
+            type: object
+            properties:
+              descriptor:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: Descriptor code of the tag group
+                required:
+                  - code
+              list:
+                type: array
+                description: List of key_value tag entries
+                items:
+                  type: object
+                  properties:
+                    descriptor:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          description: Descriptor code of the individual tag
+                      required:
+                        - code
+
+                    value:
+                      type: string
+                      description: Value of the tag
+                      enum:
+                        - THUMBS_UP
+                        - THUMBS_DOWN
+                  required:
+                    - descriptor
+                    - value
+            required:
+              - descriptor
+              - list
       additionalProperties: false    
     AdditionalInfoRequired:
       type: object
