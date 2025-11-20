@@ -1,189 +1,6 @@
 flows:
-  - id: IntraCity_Delayed_Cancellation_FlowRejected
-    description: IntraCity - Delayed Cancellation Flow(Rejected)
-    sequence:
-      - key: search_BUS_201
-        type: search
-        unsolicited: false
-        pair: on_search_BUS_201
-        owner: BAP
-        expect: true
-        input:
-          - name: vehicle_category
-            label: Select vehicle category
-            type: select
-            values:
-              - BUS
-            payloadField: $.message.intent.fulfillment.vehicle.category
-          - name: city_code
-            label: Enter city code
-            type: text
-            payloadField: $.context.location.city.code
-          - name: start_code
-            label: Enter start station code
-            type: text
-            payloadField: $.message.intent.fulfillment.stops[?(@.type=='START')].location.descriptor.code
-          - name: end_code
-            label: Enter end station code
-            type: text
-            payloadField: $.message.intent.fulfillment.stops[?(@.type=='END')].location.descriptor.code
-          - name: bpp_id
-            label: enter your bpp_id
-            type: text
-            payloadField: $.context.bpp_id
-      - key: on_search_BUS_201
-        type: on_search
-        unsolicited: false
-        pair: null
-        owner: BPP
-        expect: false
-      - key: select_BUS_201
-        type: select
-        unsolicited: false
-        pair: on_select_BUS_201
-        owner: BAP
-        expect: false
-      - key: on_select_BUS_201
-        type: on_select
-        unsolicited: false
-        pair: null
-        owner: BPP
-        expect: false
-      - key: init_BUS_201
-        type: init
-        unsolicited: false
-        pair: on_init_BUS_201
-        owner: BAP
-        expect: false
-      - key: on_init_BUS_201
-        type: on_init
-        unsolicited: false
-        pair: null
-        owner: BPP
-        expect: false
-      - key: confirm_BUS_201
-        type: confirm
-        unsolicited: false
-        pair: on_confirm_BUS_201
-        owner: BAP
-        expect: false
-      - key: on_confirm_BUS_201
-        type: on_confirm
-        unsolicited: false
-        pair: null
-        owner: BPP
-        expect: false
-      - key: cancel_hard_BUS_201
-        type: cancel
-        unsolicited: false
-        pair: on_cancel_init_BUS_201
-        owner: BAP
-        expect: false
-      - key: on_cancel_init_BUS_201
-        type: on_cancel
-        unsolicited: false
-        pair: null
-        owner: BPP
-        expect: false
-      - key: on_status_cancellation_BUS_201
-        type: on_status
-        unsolicited: true
-        pair: null
-        owner: BPP
-        expect: false
-  - id: IntraCity_Delayed_Cancellation_FlowSuccessful
-    description: IntraCity - Delayed Cancellation Flow(Successful)
-    sequence:
-      - key: search_BUS_201
-        type: search
-        unsolicited: false
-        pair: on_search_BUS_201
-        owner: BAP
-        expect: true
-        input:
-          - name: vehicle_category
-            label: Select vehicle category
-            type: select
-            values:
-              - BUS
-            payloadField: $.message.intent.fulfillment.vehicle.category
-          - name: city_code
-            label: Enter city code
-            type: text
-            payloadField: $.context.location.city.code
-          - name: start_code
-            label: Enter start station code
-            type: text
-            payloadField: $.message.intent.fulfillment.stops[?(@.type=='START')].location.descriptor.code
-          - name: end_code
-            label: Enter end station code
-            type: text
-            payloadField: $.message.intent.fulfillment.stops[?(@.type=='END')].location.descriptor.code
-          - name: bpp_id
-            label: enter your bpp_id
-            type: text
-            payloadField: $.context.bpp_id
-      - key: on_search_BUS_201
-        type: on_search
-        unsolicited: false
-        pair: null
-        owner: BPP
-        expect: false
-      - key: select_BUS_201
-        type: select
-        unsolicited: false
-        pair: on_select_BUS_201
-        owner: BAP
-        expect: false
-      - key: on_select_BUS_201
-        type: on_select
-        unsolicited: false
-        pair: null
-        owner: BPP
-        expect: false
-      - key: init_BUS_201
-        type: init
-        unsolicited: false
-        pair: on_init_BUS_201
-        owner: BAP
-        expect: false
-      - key: on_init_BUS_201
-        type: on_init
-        unsolicited: false
-        pair: null
-        owner: BPP
-        expect: false
-      - key: confirm_BUS_201
-        type: confirm
-        unsolicited: false
-        pair: on_confirm_BUS_201
-        owner: BAP
-        expect: false
-      - key: on_confirm_BUS_201
-        type: on_confirm
-        unsolicited: false
-        pair: null
-        owner: BPP
-        expect: false
-      - key: cancel_hard_BUS_201
-        type: cancel
-        unsolicited: false
-        pair: on_cancel_init_BUS_201
-        owner: BAP
-        expect: false
-      - key: on_cancel_init_BUS_201
-        type: on_cancel
-        unsolicited: false
-        pair: null
-        owner: BPP
-        expect: false
-      - key: on_update_accepted_BUS_201
-        type: on_update
-        unsolicited: true
-        pair: null
-        owner: BPP
-        expect: false
   - id: IntraCity_Purchase_Journey_FlowCode_Based
+    tags: ["PRAMAAN", "MANDATORY", "REPORTABLE", "WORKBENCH"]
     description: IntraCity - Purchase Journey Flow(Code Based)
     sequence:
       - key: search_BUS_201
@@ -257,7 +74,20 @@ flows:
         pair: null
         owner: BPP
         expect: false
+      - key: status_purchase_flow_BUS_201
+        type: status
+        unsolicited: false
+        pair: on_status_complete_BUS_201
+        owner: BAP
+        expect: false
+      - key: on_status_complete_BUS_201
+        type: on_status
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
   - id: IntraCity_Search_Pagination_FlowCode_Based
+    tags: ["WORKBENCH", "MANDATORY"]
     description: IntraCity - Search Pagination Flow(Code Based)
     sequence:
       - key: search0_BUS_201
@@ -290,7 +120,93 @@ flows:
         pair: null
         owner: BPP
         expect: false
+  - id: IntraCity_Unlimited_Passes_Flow_Code_Based
+    tags: ["WORKBENCH", "MANDATORY"]
+    description: IntraCity - Unlimited Passes Flow (Code Based)
+    sequence:
+      - key: search_BUS_201
+        type: search
+        unsolicited: false
+        pair: on_search_BUS_201
+        owner: BAP
+        expect: true
+        input:
+          - name: vehicle_category
+            label: Select vehicle category
+            type: select
+            values:
+              - BUS
+            payloadField: $.message.intent.fulfillment.vehicle.category
+          - name: city_code
+            label: Enter city code
+            type: text
+            payloadField: $.context.location.city.code
+          - name: start_code
+            label: Enter start station code
+            type: text
+            payloadField: $.message.intent.fulfillment.stops[?(@.type=='START')].location.descriptor.code
+          - name: end_code
+            label: Enter end station code
+            type: text
+            payloadField: $.message.intent.fulfillment.stops[?(@.type=='END')].location.descriptor.code
+          - name: bpp_id
+            label: enter your bpp_id
+            type: text
+            payloadField: $.context.bpp_id
+      - key: on_search_BUS_201
+        type: on_search
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: select_unlimited_pass
+        type: select
+        unsolicited: false
+        pair: on_select_unlimited_pass
+        owner: BAP
+        expect: true
+        input:
+          - name: item_count
+            label: Enter ticket count
+            type: text
+            payloadField: $.message.order.items[*].quantity.selected.counts
+          - name: pan_id
+            label: Enter Pan Id
+            type: text
+            payloadField: $.message.order.fulfillments[*].person.creds.id
+      - key: on_select_unlimited_pass
+        type: on_select
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: init_BUS_201
+        type: init
+        unsolicited: false
+        pair: on_init_BUS_201
+        owner: BAP
+        expect: false
+      - key: on_init_BUS_201
+        type: on_init
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: confirm_BUS_201
+        type: confirm
+        unsolicited: false
+        pair: on_confirm_BUS_201
+        owner: BAP
+        expect: false
+      - key: on_confirm_BUS_201
+        type: on_confirm
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+
   - id: IntraCity_User_Cancellation_Flow
+    tags: ["PRAMAAN", "MANDATORY", "REPORTABLE", "WORKBENCH"]
     description: IntraCity - User Cancellation Flow
     sequence:
       - key: search_BUS_201
@@ -389,6 +305,7 @@ flows:
         owner: BPP
         expect: false
   - id: IntraCity_Vehicle_Based_Confirmation_flow(With Update Call)
+    tags: ["WORKBENCH", "MANDATORY"]
     description: IntraCity - Vehicle Based Confirmation flow
     sequence:
       - key: search_BUS_201
@@ -474,7 +391,170 @@ flows:
         pair: null
         owner: BPP
         expect: false
+  - id: IntraCity_User_Based_Confirmation_flow
+    tags: ["WORKBENCH", "MANDATORY"]
+    description: IntraCity - User Based Confirmation flow
+    sequence:
+      - key: search_BUS_201
+        type: search
+        unsolicited: false
+        pair: on_search_catalog5_BUS_201
+        owner: BAP
+        expect: true
+        input:
+          - name: vehicle_category
+            label: Select vehicle category
+            type: select
+            values:
+              - BUS
+            payloadField: $.message.intent.fulfillment.vehicle.category
+          - name: city_code
+            label: Enter city code
+            type: text
+            payloadField: $.context.location.city.code
+          - name: start_code
+            label: Enter start station code
+            type: text
+            payloadField: $.message.intent.fulfillment.stops[?(@.type=='START')].location.descriptor.code
+          - name: end_code
+            label: Enter end station code
+            type: text
+            payloadField: $.message.intent.fulfillment.stops[?(@.type=='END')].location.descriptor.code
+          - name: bpp_id
+            label: enter your bpp_id
+            type: text
+            payloadField: $.context.bpp_id
+      - key: on_search_catalog5_BUS_201
+        type: on_search
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: select_BUS_201
+        type: select
+        unsolicited: false
+        pair: on_select_BUS_201
+        owner: BAP
+        expect: false
+      - key: on_select_BUS_201
+        type: on_select
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: init_BUS_201
+        type: init
+        unsolicited: false
+        pair: on_init_BUS_201
+        owner: BAP
+        expect: false
+      - key: on_init_BUS_201
+        type: on_init
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: confirm_BUS_201
+        type: confirm
+        unsolicited: false
+        pair: on_confirm_BUS_QR_201
+        owner: BAP
+        expect: false
+      - key: on_confirm_BUS_QR_201
+        type: on_confirm
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: update_BUS_QR_201
+        type: update
+        unsolicited: false
+        pair: on_update_veh_QR_BUS_201
+        owner: BAP
+        expect: false
+      - key: on_update_veh_QR_BUS_201
+        type: on_update
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+  - id: IntraCity_Vehicle_Based_Confirmation_flow(Without Update Call)
+    tags: ["WORKBENCH", "MANDATORY"]
+    description: IntraCity - Vehicle Based Confirmation flow(Without Update Call)
+    sequence:
+      - key: search_BUS_201
+        type: search
+        unsolicited: false
+        pair: on_search_BUS_201
+        owner: BAP
+        expect: true
+        input:
+          - name: vehicle_category
+            label: Select vehicle category
+            type: select
+            values:
+              - BUS
+            payloadField: $.message.intent.fulfillment.vehicle.category
+          - name: city_code
+            label: Enter city code
+            type: text
+            payloadField: $.context.location.city.code
+          - name: start_code
+            label: Enter start station code
+            type: text
+            payloadField: $.message.intent.fulfillment.stops[?(@.type=='START')].location.descriptor.code
+          - name: end_code
+            label: Enter end station code
+            type: text
+            payloadField: $.message.intent.fulfillment.stops[?(@.type=='END')].location.descriptor.code
+          - name: bpp_id
+            label: enter your bpp_id
+            type: text
+            payloadField: $.context.bpp_id
+      - key: on_search_BUS_201
+        type: on_search
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: select_BUS_201
+        type: select
+        unsolicited: false
+        pair: on_select_BUS_201
+        owner: BAP
+        expect: false
+      - key: on_select_BUS_201
+        type: on_select
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: init_BUS_201
+        type: init
+        unsolicited: false
+        pair: on_init_BUS_201
+        owner: BAP
+        expect: false
+      - key: on_init_BUS_201
+        type: on_init
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: confirm_BUS_Without_Update
+        type: confirm
+        unsolicited: false
+        pair: on_confirm_BUS_Without_update
+        owner: BAP
+        expect: false
+      - key: on_confirm_BUS_Without_update
+        type: on_confirm
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
   - id: IntraCity_Vehicle_Based_Confirmation_flow(With Update & QR Call)
+    tags: ["WORKBENCH", "MANDATORY"]
     description: IntraCity - Vehicle Based Confirmation flow
     sequence:
       - key: search_BUS_201
@@ -561,6 +641,7 @@ flows:
         owner: BPP
         expect: false
   - id: IntraCity_Technical_Cancellation_Flow
+    tags: ["PRAMAAN", "MANDATORY", "REPORTABLE", "WORKBENCH"]
     description: IntraCity - Technical Cancellation Flow
     sequence:
       - key: search_BUS_201
@@ -658,185 +739,10 @@ flows:
         pair: null
         owner: BPP
         expect: false
-  # - id: IntraCity_Delayed_Cancellation_FlowSuccessful_IGM 
-    # description: IntraCity - Delayed Flow(Successful)
-    # sequence:
-    #   - key: search_BUS_201
-    #     type: search
-    #     unsolicited: false
-    #     pair: on_search_BUS_201
-    #     owner: BAP
-    #     expect: true
-    #     input:
-    #       - name: vehicle_category
-    #         label: Select vehicle category
-    #         type: select
-    #         values:
-    #           - BUS
-    #         payloadField: $.message.intent.fulfillment.vehicle.category
-    #       - name: city_code
-    #         label: Enter city code
-    #         type: text
-    #         payloadField: $.context.location.city.code
-    #       - name: start_code
-    #         label: Enter start station code
-    #         type: text
-    #         payloadField: $.message.intent.fulfillment.stops[?(@.type=='START')].location.descriptor.code
-    #       - name: end_code
-    #         label: Enter end station code
-    #         type: text
-    #         payloadField: $.message.intent.fulfillment.stops[?(@.type=='END')].location.descriptor.code
-    #       - name: bpp_id
-    #         label: enter your bpp_id
-    #         type: text
-    #         payloadField: $.context.bpp_id
-    #   - key: on_search_BUS_201
-    #     type: on_search
-    #     unsolicited: false
-    #     pair: null
-    #     owner: BPP
-    #     expect: false
-    #   - key: select_BUS_201
-    #     type: select
-    #     unsolicited: false
-    #     pair: on_select_BUS_201
-    #     owner: BAP
-    #     expect: false
-    #   - key: on_select_BUS_201
-    #     type: on_select
-    #     unsolicited: false
-    #     pair: null
-    #     owner: BPP
-    #     expect: false
-    #   - key: init_BUS_201
-    #     type: init
-    #     unsolicited: false
-    #     pair: on_init_BUS_201
-    #     owner: BAP
-    #     expect: false
-    #   - key: on_init_BUS_201
-    #     type: on_init
-    #     unsolicited: false
-    #     pair: null
-    #     owner: BPP
-    #     expect: false
-    #   - key: confirm_BUS_201
-    #     type: confirm
-    #     unsolicited: false
-    #     pair: on_confirm_BUS_201
-    #     owner: BAP
-    #     expect: false
-    #   - key: on_confirm_BUS_201
-    #     type: on_confirm
-    #     unsolicited: false
-    #     pair: null
-    #     owner: BPP
-    #     expect: false
-    #   # - key: cancel_hard_BUS_201
-    #   #   type: cancel
-    #   #   unsolicited: false
-    #   #   pair: on_cancel_init_BUS_201
-    #   #   owner: BAP
-    #   #   expect: false
-    #   # - key: on_cancel_init_BUS_201
-    #   #   type: on_cancel
-    #   #   unsolicited: false
-    #   #   pair: null
-    #   #   owner: BPP
-    #   #   expect: false
-    #   - key : issue_open
-    #     type: issue
-    #     label: Open Issue
-    #     unsolicited: false
-    #     pair: on_issue_open_BUS_201
-    #     owner: BAP
-    #     expect: false
-    #   - key : on_issue_processing
-    #     type: on_issue
-    #     label: Processing Issue
-    #     unsolicited: false
-    #     pair: null
-    #     owner: BPP
-    #     expect: false
-    #   - key: on_issue_need_more_info
-    #     type: on_issue
-    #     label: Need More Info
-    #     unsolicited: false
-    #     pair: null
-    #     owner: BPP
-    #     expect: false
-    #   - key : issue_info_provided
-    #     type: issue
-    #     label: Provide_Info
-    #     unsolicited: false
-    #     pair: on_issue_info_provided_BUS_201
-    #     owner: BAP
-    #     expect: false 
-    #   - key : on_issue_info_provided
-    #     type: on_issue
-    #     label: Info_Provided
-    #     unsolicited: false
-    #     pair: null
-    #     owner: BPP
-    #     expect: false 
-    #   - key: on_issue_potenial_resolution
-    #     type: on_issue
-    #     label: processing
-    #     unsolicited: false
-    #     pair: null
-    #     owner: BPP
-    #     expect: false  
-    #   - key : issue_resolution_rejected
-    #     type: issue
-    #     label: Resolution
-    #     unsolicited: false
-    #     pair: on_issue_resolution_BUS_201
-    #     owner: BAP
-    #     expect: false
-    #   - key : on_issue_processing
-    #     type: on_issue
-    #     label: Processing
-    #     unsolicited: false
-    #     pair: null
-    #     owner: BPP
-    #     expect: false
-    #   - key : on_issue_resolution
-    #     type: on_issue
-    #     label: Resolution_proposed
-    #     unsolicited: false
-    #     pair: null
-    #     owner: BPP
-    #     expect: false
-    #   - key: issue_resolution_accepted
-    #     type: issue
-    #     label: Processing
-    #     unsolicited: false
-    #     pair: on_issue_resolution_accepted_BUS_201
-    #     owner: BAP
-    #     expect: false 
-    #   - key: on_issue_resolution_accepted
-    #     type: on_issue
-    #     label: Resolution_Accepted
-    #     unsolicited: false
-    #     pair: null
-    #     owner: BPP
-    #     expect: false
 
-      
-
-
-
-
-
-    #   - key: on_update_accepted_BUS_201
-    #     type: on_update
-    #     unsolicited: true
-    #     pair: null
-    #     owner: BPP
-    #     expect: false   
-            
-  - id: IntraCity_Vehicle_Based_Confirmation_flow(Without Update Call)
-    description: IntraCity - Vehicle Based Confirmation flow
+  - id: IntraCity_Purchase_Journey_FlowCode_Based_Flow_With_IGM_1
+    tags: ["MANDATORY", "WORKBENCH"]
+    description: IntraCity - Purchase Journey Flow(Code Based)
     sequence:
       - key: search_BUS_201
         type: search
@@ -897,15 +803,467 @@ flows:
         pair: null
         owner: BPP
         expect: false
-      - key: confirm_veh_con_BUS_201
+      - key: confirm_BUS_201
         type: confirm
         unsolicited: false
-        pair: on_confirm_veh_con_BUS_201
+        pair: on_confirm_BUS_201
         owner: BAP
         expect: false
-      - key: on_confirm_veh_con_BUS_201
+      - key: on_confirm_BUS_201
         type: on_confirm
         unsolicited: false
         pair: null
         owner: BPP
         expect: false
+      - key: issue_open
+        type: issue
+        label: open
+        unsolicited: false
+        description: Open an issue for IGM
+        pair: on_issue_processing
+        owner: BAP
+        expect: false
+      - key: on_issue_processing
+        type: on_issue
+        label: processing
+        unsolicited: false
+        description: anything
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_issue_need_more_info
+        type: on_issue
+        label: need_more_info
+        unsolicited: true
+        description: LSP provides more information
+        pair: null
+        owner: BPP
+        expect: true
+      - key: issue_info_provided
+        type: issue
+        label: info_provided
+        unsolicited: false
+        description: Open an issue for IGM
+        pair: on_issue_provided
+        owner: BAP
+        expect: false
+      - key: on_issue_provided
+        type: on_issue
+        label: provided
+        unsolicited: false
+        description: LSP
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_issue_resolution
+        type: on_issue
+        label: resolution
+        unsolicited: true
+        description: LSSA
+        pair: null
+        owner: BPP
+        expect: false
+      - key: issue_resolution_accept
+        type: issue
+        label: resolution_accept
+        unsolicited: false
+        description: Open an issue for IGM
+        pair: on_issue_resolved
+        owner: BAP
+        expect: false
+        input:
+          # - name: resolution_accept
+          #   label: Select a resolution
+          #   type: select
+          #   values:
+          #     - "R1-Refund"
+          #     - "R2-Replacement"
+          #   default: "R2-Replacement"
+          - name: resolution_accept
+            label: Enter resolution ID
+            type: text
+      - key: on_issue_resolved
+        type: on_issue
+        label: resolved
+        unsolicited: false
+        description: LSSA
+        pair: null
+        owner: BPP
+        expect: false
+      - key: issue_close
+        type: issue
+        label: close
+        unsolicited: false
+        description: Open an issue for IGM
+        pair: null
+        owner: BAP
+        expect: false
+        input:
+          - name: rating
+            label: Select Rating
+            type: select
+            values:
+              - "THUMBS_UP"
+              - "THUMBS_DOWN"
+            default: "THUMBS_UP"
+      # - key: on_update_igm_return
+      #   type: on_update
+      #   label: on_update_igm
+      #   unsolicited: true
+      #   description: final on_update call after issue closed
+      #   pair: null
+      #   owner: BPP
+      #   expect: false
+
+  - id: IntraCity_Purchase_Journey_FlowCode_Based_Flow_With_IGM_2
+    tags: ["MANDATORY", "WORKBENCH"]
+    description: IntraCity - Purchase Journey Flow(Code Based)
+    sequence:
+      - key: search_BUS_201
+        type: search
+        unsolicited: false
+        pair: on_search_BUS_201
+        owner: BAP
+        expect: true
+        input:
+          - name: vehicle_category
+            label: Select vehicle category
+            type: select
+            values:
+              - BUS
+            payloadField: $.message.intent.fulfillment.vehicle.category
+          - name: city_code
+            label: Enter city code
+            type: text
+            payloadField: $.context.location.city.code
+          - name: start_code
+            label: Enter start station code
+            type: text
+            payloadField: $.message.intent.fulfillment.stops[?(@.type=='START')].location.descriptor.code
+          - name: end_code
+            label: Enter end station code
+            type: text
+            payloadField: $.message.intent.fulfillment.stops[?(@.type=='END')].location.descriptor.code
+          - name: bpp_id
+            label: enter your bpp_id
+            type: text
+            payloadField: $.context.bpp_id
+      - key: on_search_BUS_201
+        type: on_search
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: select_BUS_201
+        type: select
+        unsolicited: false
+        pair: on_select_BUS_201
+        owner: BAP
+        expect: false
+      - key: on_select_BUS_201
+        type: on_select
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: init_BUS_201
+        type: init
+        unsolicited: false
+        pair: on_init_BUS_201
+        owner: BAP
+        expect: false
+      - key: on_init_BUS_201
+        type: on_init
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: confirm_BUS_201
+        type: confirm
+        unsolicited: false
+        pair: on_confirm_BUS_201
+        owner: BAP
+        expect: false
+      - key: on_confirm_BUS_201
+        type: on_confirm
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: issue_open
+        type: issue
+        label: open
+        unsolicited: false
+        description: Open an issue for IGM
+        pair: on_issue_processing
+        owner: BAP
+        expect: false
+      - key: on_issue_processing
+        type: on_issue
+        label: processing
+        unsolicited: false
+        description: anything
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_issue_resolution
+        type: on_issue
+        label: resolution
+        unsolicited: true
+        description: LSSA
+        pair: null
+        owner: BPP
+        expect: false
+      - key: issue_resolution_reject
+        type: issue
+        label: resolution_reject
+        unsolicited: false
+        description: Open an issue for IGM
+        pair: on_issue_processing_1
+        owner: BAP
+        expect: false
+        input:
+          - name: resolution_accept
+            label: Enter resolution ID
+            type: text
+      - key: on_issue_processing_1
+        type: on_issue
+        label: processing
+        unsolicited: false
+        description: anything
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_issue_resolution_1
+        type: on_issue
+        label: resolution
+        unsolicited: true
+        description: LSSA
+        pair: null
+        owner: BPP
+        expect: false
+      - key: issue_escalate
+        type: issue
+        label: escalate
+        unsolicited: false
+        description: Open an issue for IGM
+        pair: on_issue_processing_2
+        owner: BAP
+        expect: false
+      - key: on_issue_processing_2
+        type: on_issue
+        label: processing
+        unsolicited: false
+        description: anything
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_issue_resolution_2
+        type: on_issue
+        label: resolution
+        unsolicited: true
+        description: LSSA
+        pair: null
+        owner: BPP
+        expect: false
+      - key: issue_resolution_accept
+        type: issue
+        label: resolution_accept
+        unsolicited: false
+        description: Open an issue for IGM
+        pair: on_issue_resolved
+        owner: BAP
+        expect: false
+        input:
+          # - name: resolution_accept
+          #   label: Select a resolution
+          #   type: select
+          #   values:
+          #     - "R1-Refund"
+          #     - "R2-Replacement"
+          #   default: "R2-Replacement"
+          - name: resolution_accept
+            label: Enter resolution ID
+            type: text
+      - key: on_issue_resolved
+        type: on_issue
+        label: resolved
+        unsolicited: false
+        description: LSSA
+        pair: null
+        owner: BPP
+        expect: false
+      - key: issue_close
+        type: issue
+        label: close
+        unsolicited: false
+        description: Open an issue for IGM
+        pair: null
+        owner: BAP
+        expect: false
+        input:
+          - name: rating
+            label: Select Rating
+            type: select
+            values:
+              - "THUMBS_UP"
+              - "THUMBS_DOWN"
+            default: "THUMBS_UP"
+      # - key: on_update_igm_replacement
+      #   type: on_update
+      #   label: on_update_igm
+      #   unsolicited: true
+      #   description: final on_update call after issue closed
+      #   pair: null
+      #   owner: BPP
+      #   expect: false
+
+  - id: IntraCity_Purchase_Journey_FlowCode_Based_Flow_With_IGM_3
+    tags: ["MANDATORY", "WORKBENCH"]
+    description: IntraCity - Purchase Journey Flow(Code Based)
+    sequence:
+      - key: search_BUS_201
+        type: search
+        unsolicited: false
+        pair: on_search_BUS_201
+        owner: BAP
+        expect: true
+        input:
+          - name: vehicle_category
+            label: Select vehicle category
+            type: select
+            values:
+              - BUS
+            payloadField: $.message.intent.fulfillment.vehicle.category
+          - name: city_code
+            label: Enter city code
+            type: text
+            payloadField: $.context.location.city.code
+          - name: start_code
+            label: Enter start station code
+            type: text
+            payloadField: $.message.intent.fulfillment.stops[?(@.type=='START')].location.descriptor.code
+          - name: end_code
+            label: Enter end station code
+            type: text
+            payloadField: $.message.intent.fulfillment.stops[?(@.type=='END')].location.descriptor.code
+          - name: bpp_id
+            label: enter your bpp_id
+            type: text
+            payloadField: $.context.bpp_id
+      - key: on_search_BUS_201
+        type: on_search
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: select_BUS_201
+        type: select
+        unsolicited: false
+        pair: on_select_BUS_201
+        owner: BAP
+        expect: false
+      - key: on_select_BUS_201
+        type: on_select
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: init_BUS_201
+        type: init
+        unsolicited: false
+        pair: on_init_BUS_201
+        owner: BAP
+        expect: false
+      - key: on_init_BUS_201
+        type: on_init
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: confirm_BUS_201
+        type: confirm
+        unsolicited: false
+        pair: on_confirm_BUS_201
+        owner: BAP
+        expect: false
+      - key: on_confirm_BUS_201
+        type: on_confirm
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: issue_open_2
+        type: issue
+        label: open
+        unsolicited: false
+        description: Open an issue for IGM
+        pair: on_issue_processing
+        owner: BAP
+        expect: false
+      - key: on_issue_processing
+        type: on_issue
+        label: processing
+        unsolicited: false
+        description: anything
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_issue_resolution_igm_3
+        type: on_issue
+        label: resolution
+        unsolicited: true
+        description: LSSA
+        pair: null
+        owner: BPP
+        expect: false
+      - key: issue_resolution_accept_igm_3
+        type: issue
+        label: resolution_accept
+        unsolicited: false
+        description: Open an issue for IGM
+        pair: on_issue_resolved_igm_3
+        owner: BAP
+        expect: false
+        input:
+          # - name: resolution_accept
+          #   label: Select a resolution
+          #   type: select
+          #   values:
+          #     - "R1-Refund"
+          #     - "R2-Replacement"
+          #   default: "R2-Replacement"
+          - name: resolution_accept
+            label: Enter resolution ID
+            type: text
+      - key: on_issue_resolved_igm_3
+        type: on_issue
+        label: resolved
+        unsolicited: false
+        description: LSSA
+        pair: null
+        owner: BPP
+        expect: false
+      - key: issue_close_igm_3
+        type: issue
+        label: close
+        unsolicited: false
+        description: Open an issue for IGM
+        pair: null
+        owner: BAP
+        expect: false
+        input:
+          - name: rating
+            label: Select Rating
+            type: select
+            values:
+              - "THUMBS_UP"
+              - "THUMBS_DOWN"
+            default: "THUMBS_UP"
+      # - key: on_status_igm_3
+      #   type: on_status
+      #   unsolicited: true
+      #   pair: null
+      #   owner: BPP
+      #   expect: false
+      #   description: Status updates - order delivered

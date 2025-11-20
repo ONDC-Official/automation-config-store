@@ -46,27 +46,62 @@ export interface SessionData {
 	buyer_side_fulfillment_ids: any[]
 	first_form_testing: any[]
 	user_inputs: any
-	cancellation_reason_id: string
+	cancellation_reason_id: string,
+  igm_action: any
+  issue_resolution: any
+  issue_action: any
+  latest_issue_payload: any
 }
 
 export type BecknContext = {
-	action: string;
-	bap_id: string;
-	bap_uri: string;
-	bpp_id?: string;
-	bpp_uri?: string;
-	domain: string;
-	location: {
-		city: {
-			code: string;
-		};
-		country: {
-			code: string;
-		};
-	};
-	message_id: string;
-	timestamp: string;
-	transaction_id: string;
-	ttl: string;
-	version: string;
+  action: string;
+  bap_id: string;
+  bap_uri: string;
+  bpp_id?: string;
+  bpp_uri?: string;
+  domain: string;
+  location: {
+    city: {
+      code: string;
+    };
+    country: {
+      code: string;
+    };
+  };
+  message_id: string;
+  timestamp: string;
+  transaction_id: string;
+  ttl: string;
+  version: string;
 };
+
+export interface Input {
+  category?: string;
+  paymentType?: string;
+  city_code?: string;
+  start_gps?: string;
+  end_gps?: string;
+  start_code?: string;
+  end_code?: string;
+  feature_discovery?: string[];
+  fulfillRequest?: string;
+  retailCategory?: string;
+  returnToOrigin?: string;
+  default_feature?: string[];
+  SelectInputType?: {
+    provider?: string;
+    provider_location?: any;
+    location_gps?: string;
+    location_pin_code?: string;
+    items?: {
+      itemId?: string;
+      quantity?: number;
+      location?: string;
+    }[];
+  };
+  CancelInputType: {
+    cancellation_reason_id?: string;
+  };
+  resolution_accept: any
+  rating: string
+}

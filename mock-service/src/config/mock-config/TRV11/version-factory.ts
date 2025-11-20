@@ -10,26 +10,33 @@ export async function createMockResponse(
   session_id: string,
   sessionData: SessionData,
   action_id: string,
-  input?: any
+  input?: Record<any, any>
 ) {
   RedisService.useDb(0);
   const api_session = (await RedisService.getKey(session_id)) ?? "";
   const data = JSON.parse(api_session) as SessionCache;
   const { version, usecaseId } = data;
-  sessionData.user_inputs = input;
+  sessionData.user_inputs = input as any;
   let payload: any = {};
   if (usecaseId === "Metro") {
     if (version === "2.0.0") {
       payload = await createMockResponseTRV11_METRO_201(action_id, sessionData);
     } else if (version === "2.0.1") {
-		
-      payload = await createMockResponseTRV11_METRO_201(action_id, sessionData);
+      payload = await createMockResponseTRV11_METRO_201(
+        action_id,
+        sessionData,
+        input
+      );
     }
   } else if (usecaseId === "Bus") {
     if (version === "2.0.0") {
       payload = await createMockResponseTRV11_BUS_200(action_id, sessionData);
     } else if (version === "2.0.1") {
-      payload = await createMockResponseTRV11_BUS_201(action_id, sessionData);
+      payload = await createMockResponseTRV11_BUS_201(
+        action_id,
+        sessionData,
+        input
+      );
     }
   }
   if (data.npType === "BAP") {

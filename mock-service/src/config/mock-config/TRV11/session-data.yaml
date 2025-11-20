@@ -37,6 +37,41 @@ session_data:
   created_at: null
   update_fulfillment: []
   buyer_side_fulfillment_ids: []
-  user_inputs: null
-  first_form_testing: []
+
+  # ___________Added For IGM___________
+
+  city: null
+  inc_mode: null
+  selected_fulfillments: []
+  provider: null
+  order_state: null
+  order_created_at: null
+  on_select_fulfillments: []
+  on_status_fulfillments: []
+  tags: []
+  bap_terms: null
+  bpp_terms: null
+  out_of_stock_item_ids: []
   cancellation_reason_id: null
+  on_select_items: []
+  selected_offers: []
+  last_updated_at: null
+  tat: null
+  update_payment: null
+  replacementId: null
+  domain: null
+  on_search_items: []
+  select_fulfillment: []
+  confirm_created_at_timestamp: null
+  on_confirm_updated_at_timestamp: null
+  on_status_updated_at: null
+  stateCode: null
+  cancellation: null
+  cancellation_return_reason_id: null
+  np_type: null
+  bap_features: []
+  latest_issue_payload: null
+  igm_action: null
+  issue_action: []
+  issue_resolution: []
+  issue_id: null
