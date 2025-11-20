@@ -37,6 +37,8 @@ session_data:
   created_at: null
   update_fulfillment: []
   buyer_side_fulfillment_ids: []
+  user_inputs: null
+  first_form_testing: []
 
   # ___________Added For IGM___________
 
