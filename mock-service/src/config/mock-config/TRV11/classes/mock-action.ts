@@ -19,7 +19,8 @@ export abstract class MockAction {
    */
   abstract generator(
     existingPayload: any,
-    sessionData: SessionData
+    sessionData: SessionData,
+    input?: any
   ): Promise<any>;
 
   /**

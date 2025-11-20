@@ -51,7 +51,8 @@ function yamlToJson(filePath: string): any {
 
 export async function createMockResponseTRV11_METRO_201(
   actionID: string,
-  sessionData: SessionData
+  sessionData: SessionData,
+  inputs?: Record<string, string>
 ) {
   const factoryData = loadFactoryYaml(
     path.resolve(__dirname, "../../factory.yaml")
@@ -110,5 +111,5 @@ export async function createMockResponseTRV11_METRO_201(
       },
     };
   }
-  return mockAction.generator(payload, sessionData);
+  return mockAction.generator(payload, sessionData, inputs);
 }
