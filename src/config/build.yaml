@@ -102922,12 +102922,15 @@ x-validations:
               _RETURN_: attr are present
             - _NAME_: CATEGORIES_DESCRIPTOR_SHORT_DESC
               attr: "$.message.catalog['bpp/providers'][*].categories[*].descriptor.short_desc"
+              _CONTINUE_: "!(attr are present)"
               _RETURN_: attr are present
             - _NAME_: CATEGORIES_DESCRIPTOR_LONG_DESC
               attr: "$.message.catalog['bpp/providers'][*].categories[*].descriptor.long_desc"
+              _CONTINUE_: "!(attr are present)"
               _RETURN_: attr are present
             - _NAME_: CATEGORIES_DESCRIPTOR_IMAGES
               attr: "$.message.catalog['bpp/providers'][*].categories[*].descriptor.images[*]"
+              _CONTINUE_: "!(attr are present)"
               _RETURN_: attr are present
             - _NAME_: BPP_PROVIDER_CATEGORIES_TAGS
               _RETURN_:
@@ -103033,15 +103036,19 @@ x-validations:
               _RETURN_: attr are present
             - _NAME_: ITEMS_DESCRIPTOR_SYMBOL
               attr: "$.message.catalog['bpp/providers'][*].items[*].descriptor.symbol"
+              _CONTINUE_: "!(attr are present)"
               _RETURN_: attr are present
             - _NAME_: ITEMS_DESCRIPTOR_SHORT_DESC
               attr: "$.message.catalog['bpp/providers'][*].items[*].descriptor.short_desc"
+              _CONTINUE_: "!(attr are present)"
               _RETURN_: attr are present
             - _NAME_: ITEMS_DESCRIPTOR_LONG_DESC
               attr: "$.message.catalog['bpp/providers'][*].items[*].descriptor.long_desc"
+              _CONTINUE_: "!(attr are present)"
               _RETURN_: attr are present
             - _NAME_: ITEMS_DESCRIPTOR_IMAGES
               attr: "$.message.catalog['bpp/providers'][*].items[*].descriptor.images[*]"
+              _CONTINUE_: "!(attr are present)"
               _RETURN_: attr are present
             - _NAME_: ITEMS_QUANTITY_UNITIZED_MEASURE_UNIT
               attr: "$.message.catalog['bpp/providers'][*].items[*].quantity.unitized.measure.unit"
