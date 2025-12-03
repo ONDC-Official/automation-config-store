@@ -104946,6 +104946,7 @@ x-validations:
             _RETURN_: attr are present
           - _NAME_: FULFILLMENTS_TYPE
             attr: "$.message.order.fulfillments[*].type"
+            _CONTINUE_: "!(attr are present)"
             _RETURN_: attr are present
           - _NAME_: FULFILLMENTS_END
             _RETURN_:
@@ -105307,12 +105308,15 @@ x-validations:
             _RETURN_:
             - _NAME_: PAYMENT_ONDC_ORG_SETTLEMENT_DETAILS_SETTLEMENT_COUNTERPARTY
               attr: "$.message.order.payment['@ondc/org/settlement_details'][*].settlement_counterparty"
+              _CONTINUE_: "!(attr are present)"
               _RETURN_: attr are present
             - _NAME_: PAYMENT_ONDC_ORG_SETTLEMENT_DETAILS_SETTLEMENT_PHASE
               attr: "$.message.order.payment['@ondc/org/settlement_details'][*].settlement_phase"
+              _CONTINUE_: "!(attr are present)"
               _RETURN_: attr are present
             - _NAME_: PAYMENT_ONDC_ORG_SETTLEMENT_DETAILS_SETTLEMENT_TYPE
               attr: "$.message.order.payment['@ondc/org/settlement_details'][*].settlement_type"
+              _CONTINUE_: "!(attr are present)"
               var_enum: ['upi', 'neft', 'rtgs', 'wallet', 'netbanking', 'paylater', 'card']
               _RETURN_: attr all in var_enum
             - _NAME_: PAYMENT_ONDC_ORG_SETTLEMENT_DETAILS_SETTLEMENT_AMOUNT
