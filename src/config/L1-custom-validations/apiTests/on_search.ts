@@ -1765,9 +1765,8 @@ export default async function onSearch(
               (item: any) => {
                 if (item?.category_ids) {
                   item?.category_ids?.forEach((category_id: any) => {
-                    const [category, sequence] = category_id
-                      .split(":")
-                      .map(Number);
+                    const [category, sequenceStr] = category_id.split(":");
+                    const sequence = Number(sequenceStr);
                     if (!categoryMap[category]) {
                       categoryMap[category] = [];
                     }
