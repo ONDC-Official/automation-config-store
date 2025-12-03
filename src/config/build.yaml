@@ -102883,6 +102883,7 @@ x-validations:
               _RETURN_: attr are present
             - _NAME_: LOCATIONS_TIME_SCHEDULE_HOLIDAYS
               attr: "$.message.catalog['bpp/providers'][*].locations[*].time.schedule.holidays[*]"
+              _CONTINUE_: "!(attr are present)"
               _RETURN_: attr are present
             - _NAME_: LOCATIONS_GPS
               attr: "$.message.catalog['bpp/providers'][*].locations[*].gps"
@@ -103398,18 +103399,22 @@ x-validations:
 
               - _NAME_: TAGS_PROVIDERS_SERVICEABILITY_DAY_FROM
                 attr: "$.message.catalog['bpp/providers'][*].tags[?(@.code=='serviceability')].list[?(@.code=='day_from')].value"
+                _CONTINUE_: "!(attr are present)"
                 _RETURN_: attr are present
 
               - _NAME_: TAGS_PROVIDERS_SERVICEABILITY_DAY_TO
                 attr: "$.message.catalog['bpp/providers'][*].tags[?(@.code=='serviceability')].list[?(@.code=='day_to')].value"
+                _CONTINUE_: "!(attr are present)"
                 _RETURN_: attr are present
 
               - _NAME_: TAGS_PROVIDERS_SERVICEABILITY_TIME_FROM
                 attr: "$.message.catalog['bpp/providers'][*].tags[?(@.code=='serviceability')].list[?(@.code=='time_from')].value"
+                _CONTINUE_: "!(attr are present)"
                 _RETURN_: attr are present
 
               - _NAME_: TAGS_PROVIDERS_SERVICEABILITY_TIME_TO
                 attr: "$.message.catalog['bpp/providers'][*].tags[?(@.code=='serviceability')].list[?(@.code=='time_to')].value"
+                _CONTINUE_: "!(attr are present)"
                 _RETURN_: attr are present
 
               - _NAME_: TAGS_PROVIDERS_SERVICEABILITY_UNIT
