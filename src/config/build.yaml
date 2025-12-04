@@ -1743,7 +1743,6 @@ components:
       pattern: '[+-]?([0-9]*[.])?[0-9]+'
     Descriptor:
       description: Describes the description of a real-world object.
-      additionalProperties: false
       type: object
       properties:
         name:
@@ -1765,7 +1764,6 @@ components:
           items:
             $ref: '#/components/schemas/TagGroup'
         additional_desc:
-          additionalProperties: false
           type: object
           description: >-
             Additional description of the object. This can be used to send
