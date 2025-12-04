@@ -105028,6 +105028,7 @@ x-validations:
           _RETURN_:
           - _NAME_: FULFILLMENTS_ID
             attr: "$.message.order.fulfillments[*].id"
+            _CONTINUE_: "!(attr are present)"
             _RETURN_: attr are present
           - _NAME_: FULFILLMENTS_TYPE
             attr: "$.message.order.fulfillments[*].type"
