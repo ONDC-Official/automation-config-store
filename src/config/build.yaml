@@ -103805,6 +103805,7 @@ x-validations:
                   _RETURN_:
                   - _NAME_: BREAKUP_ITEM_ITEM_TAGS_TYPE
                     attr: "$.message.order.quote.breakup[*].item.tags[?(@.code=='type')].list[?(@.code=='type')].value"
+                    _CONTINUE_: "!(attr are present)"
                     var_enum: ["item", "customization"]
                     _RETURN_: attr all in var_enum
                   - _NAME_: BREAKUP_ITEM_ITEM_TAGS_PARENT_ID
