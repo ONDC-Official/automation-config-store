@@ -2979,6 +2979,10 @@ components:
         updated_at:
           type: string
           format: date-time
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagGroup'
     Subscriber:
       additionalProperties: false
       type: object
@@ -105586,6 +105590,7 @@ x-validations:
               _RETURN_:
               - _NAME_: FULFILLMENTS_START_LOCATION_ID
                 attr: "$.message.order.fulfillments[*].start.location.id"
+                _CONTINUE_: "!(attr are present)"
                 _RETURN_: attr are present
               - _NAME_: FULFILLMENTS_START_LOCATION_DESCRIPTOR_NAME
                 _CONTINUE_: "!(attr are present)"
