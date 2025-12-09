@@ -327,21 +327,44 @@ const onSelect = async (data: any) => {
 
     try {
         console.info(`Item Id and Fulfillment Id Mapping in /on_select`);
-        let i = 0;
-        const len = on_select.items.length;
-        while (i < len) {
-            const found = on_select.fulfillments.some(
-                (fId: { id: any }) => fId.id === on_select.items[i].fulfillment_id
-            );
-            if (!found) {
-                result.push({
-                    valid: false,
-                    code: 20000,
-                    description: `fulfillment_id for item ${on_select.items[i].id} does not exist in order.fulfillments[]`,
-                });
+
+        const fulfillments = on_select.fulfillments.map((f: any) => f.id);
+
+        for (const item of on_select.items) {
+            const singleFid = item.fulfillment_id;
+            const multiFids = item.fulfillment_ids;
+
+            if (singleFid) {
+                const found = fulfillments.includes(singleFid);
+                if (!found) {
+                    result.push({
+                        valid: false,
+                        code: 20000,
+                        description: `fulfillment_id '${singleFid}' for item ${item.id} does not exist in order.fulfillments[]`,
+                    });
+                }
+                continue;
             }
-            i++;
+
+            if (Array.isArray(multiFids) && multiFids.length > 0) {
+                const invalidIds = multiFids.filter(fid => !fulfillments.includes(fid));
+
+                if (invalidIds.length > 0) {
+                    result.push({
+                        valid: false,
+                        code: 20000,
+                        description: `fulfillment_ids [${invalidIds.join(", ")}] for item ${item.id} do not exist in order.fulfillments[]`,
+                    });
+                }
+                continue;
+            }
+            result.push({
+                valid: false,
+                code: 20000,
+                description: `No fulfillment_id or fulfillment_ids found for item ${item.id}`,
+            });
         }
+
     } catch (error: any) {
         console.error(
             `!!Error while checking Item Id and Fulfillment Id Mapping in /${constants.ON_SELECT}, ${error.stack}`
@@ -349,22 +372,38 @@ const onSelect = async (data: any) => {
     }
 
     try {
-        console.info("Mapping and storing item Id and fulfillment Id");
+        console.info("Mapping and storing item Id and fulfillment Id(s)");
+
         let i = 0;
         const len = on_select.items.length;
+
         while (i < len) {
-            const id = on_select.items[i].id;
-            itemFlfllmnts[id] = on_select.items[i].fulfillment_id;
+            const item = on_select.items[i];
+            const id = item.id;
+
+            if (item.fulfillment_id) {
+                itemFlfllmnts[id] = item.fulfillment_id;
+
+            } else if (Array.isArray(item.fulfillment_ids) && item.fulfillment_ids.length > 0) {
+                itemFlfllmnts[id] = item.fulfillment_ids;
+
+            } else {
+                console.warn(`No fulfillment_id or fulfillment_ids found for item ${id} while saving.`);
+                itemFlfllmnts[id] = null;
+            }
+
             i++;
         }
+
         await RedisService.setKey(
             `${transaction_id}_itemFlfllmnts`,
             JSON.stringify(itemFlfllmnts),
             TTL_IN_SECONDS
         );
+
     } catch (error: any) {
         console.error(
-            `!!Error occurred while mapping and storing item Id and fulfillment Id, ${error.stack}`
+            `!!Error occurred while mapping and storing item Id and fulfillment Id(s), ${error.stack}`
         );
     }
 

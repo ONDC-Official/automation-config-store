@@ -1953,6 +1953,8 @@ components:
             - Pickup
             - Delivery and Pickup
             - Reverse QC
+        '@ondc/org/category':
+          type: string
         '@ondc/org/TAT':
           description: >-
             fulfillment turnaround time in ISO8601 durations format e.g. 'PT24H'
@@ -103687,8 +103689,9 @@ x-validations:
             attr: "$.message.order.items[*].id"
             _RETURN_: attr are present
           - _NAME_: ITEMS_FULFILLMENT_ID
-            attr: "$.message.order.items[*].fulfillment_id"
-            _RETURN_: attr are present
+            attr1: "$.message.order.items[*].fulfillment_ids[*]"
+            attr2: "$.message.order.items[*].fulfillment_id"
+            _RETURN_: (attr1 are present) || (attr2 are present)
           - _NAME_: ITEMS_PARENT_ITEM_ID
             attr: "$.message.order.items[*].parent_item_id"
             _RETURN_: attr are present
