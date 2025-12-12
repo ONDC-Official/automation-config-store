@@ -1,4 +1,0 @@
-save-data:
-  transaction_id: "$.context.transaction_id"
-  message_id: "$.context.message_id"
-  submission_id : "$.message.order.items[0].xinput.form_response.submission_id"

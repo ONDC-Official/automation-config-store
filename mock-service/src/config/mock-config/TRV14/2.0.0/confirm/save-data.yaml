@@ -1,7 +1,0 @@
-save-data:
-  message_id: "$.context.message_id"
-  transaction_id: "$.context.transaction_id"
-  payments: "$.message.order.payments[*]"
-  created_at: "$.context.timestamp"
-  updated_at: "$.context.timestamp"
-  last_call_ttl: "$.context.ttl"

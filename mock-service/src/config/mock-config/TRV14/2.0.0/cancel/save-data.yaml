@@ -1,4 +1,0 @@
-save-data:
-  message_id: "$.context.message_id"
-  transaction_id: "$.context.transaction_id"
-  cancellation_reason_id: "$.message.cancellation_reason_id"
