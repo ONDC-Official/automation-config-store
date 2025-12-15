@@ -23,9 +23,5 @@ export async function confirmDefaultGenerator(existingPayload: any, sessionData:
       return rest;
     });
   }
-  
-
- 
-  delete existingPayload.message.order.tags
   return existingPayload;
 } 
