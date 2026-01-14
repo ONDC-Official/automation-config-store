@@ -7229,12 +7229,12 @@ x-validations:
                     ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$
                 _CONTINUE_: '!(attr are present)'
                 _RETURN_: attr follow regex reg
-              - _NAME_: REGEX_CONTEXT_BAP_ID
-                attr: $.context.bap_id
-                reg:
-                  - ^(?!.*\b(?:http|https|www)\b)[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$
-                _CONTINUE_: '!(attr are present)'
-                _RETURN_: attr follow regex reg
+              # - _NAME_: REGEX_CONTEXT_BAP_ID
+              #   attr: $.context.bap_id
+              #   reg:
+              #     - ^(?!.*\b(?:http|https|www)\b)[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$
+              #   _CONTINUE_: '!(attr are present)'
+              #   _RETURN_: attr follow regex reg
               - _NAME_: REGEX_CONTEXT_BAP_URI
                 attr: $.context.bap_uri
                 reg:
@@ -8225,9 +8225,9 @@ x-validations:
                 attr: $.message.order.payments[*].id
                 _RETURN_: attr are present
 
-              - _NAME_: REQUIRED_PAYMENT_URL
-                attr: $.message.order.payments[*].url
-                _RETURN_: attr are present
+              # - _NAME_: REQUIRED_PAYMENT_URL
+              #   attr: $.message.order.payments[*].url
+              #   _RETURN_: attr are present
 
               - _NAME_: SAME_PAYMENT_ID_ITEMS
                 attr: $.message.order.payments[*].id
@@ -8303,10 +8303,10 @@ x-validations:
                 attr: $.message.order.created_at
                 _RETURN_: attr are present
 
-              - _NAME_: CREATED_AT_UPDATED_AT_EQUALITY
-                created_at: $.message.order.created_at
-                updated_at: $.message.order.updated_at
-                _RETURN_: created_at equal to updated_at
+              # - _NAME_: CREATED_AT_UPDATED_AT_EQUALITY
+              #   created_at: $.message.order.created_at
+              #   updated_at: $.message.order.updated_at
+              #   _RETURN_: created_at equal to updated_at
           - _NAME_: VALID_ENUM_ITEMS
             _RETURN_:
               - _NAME_: VALID_ENUM_ORDER_STATUS

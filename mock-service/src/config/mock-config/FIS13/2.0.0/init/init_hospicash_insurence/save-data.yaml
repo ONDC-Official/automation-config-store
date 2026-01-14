@@ -5,5 +5,4 @@ save-data:
   payments: "$.message.order.payments[*]"
   payment_collected_by: "$.message.intent.payment.collected_by"
   bap_terms_tags: "$.message.order.tags[*]"
-  person_name: "$.message.order.fulfillments[*].tags[*].list[*].value"
   fulfillments: "$.message.order.fulfillments[*]"
