@@ -17,10 +17,10 @@ export async function onInitGenerator(existingPayload: any, sessionData: any) {
       fulfillmentIds.push(fulfillment.id);
       fulfillment.customer = {
         "person": {
-          "name": buyerName.value,
+          "name": buyerName?.value,
         },
         "contact": {
-          "phone": buyerPhone.value,
+          "phone": buyerPhone?.value,
         }
       };
     });

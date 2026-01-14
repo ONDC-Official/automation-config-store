@@ -1,7 +1,4 @@
-function convertToISO(dateStr: any) {
-  const [dd, mm, yyyy] = dateStr.split("-");
-  return `${yyyy}-${mm}-${dd}`;
-}
+
 
 export async function onInitGenerator(existingPayload: any, sessionData: any) {
   let fulfillmentIds: string[] = [];
@@ -30,13 +27,13 @@ export async function onInitGenerator(existingPayload: any, sessionData: any) {
       fulfillmentIds.push(fulfillment.id);
       fulfillment.customer = {
         person: {
-          name: buyerName.value,
-          dob: convertToISO(buyerDob.value),
-          gender: buyerGender.value,
+          name: buyerName?.value,
+          dob: buyerDob?.value,
+          gender: buyerGender?.value || "M",
         },
         contact: {
-          phone: buyerPhone.value,
-          email: buyerEmail.value,
+          phone: buyerPhone?.value,
+          email: buyerEmail?.value,
         },
       };
     });
