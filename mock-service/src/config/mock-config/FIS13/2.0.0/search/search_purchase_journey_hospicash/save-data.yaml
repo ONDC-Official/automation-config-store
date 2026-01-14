@@ -6,3 +6,5 @@ save-data:
   tags: "$.message.intent.provider.tags[*]" 
   city_code: "$.context.location.city.code"
   user_tags: "$.message.intent.provider.items[*].tags[*]"
+
+

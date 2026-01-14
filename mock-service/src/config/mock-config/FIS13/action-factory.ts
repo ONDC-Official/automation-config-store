@@ -27,13 +27,13 @@ import { MockAction } from "./classes/mock-action";
 import { MockOnSearchDiscoverAccidentalClass } from "./2.0.0/on_search/on_search_discover_product/on_search_discover_product_accidental/class";
 import { MockSearchDiscoverProductAccidentalClass } from "./2.0.0/search/search_discover_products/search_discover_product_accidental/class";
 import { MockSearchPurchaseJourneyAccidentalClass } from "./2.0.0/search/search_purchase_journey_accidental/class";
-import { MockOnSelectAccidentalInsurencClass } from "./2.0.0/on_select/on_select_accidental_insurence /class";
 import { MockInitAccidentalClass } from "./2.0.0/init/init_accidental_insurence/class";
 import { MockOnInitAccidentalClass } from "./2.0.0/on_init/on_init_accidental_insurence/class";
 import { MockConfirmAccidentalClass } from "./2.0.0/confirm/confirm_accidental_insurence/class";
 import { MockOnConfirmAccidentalClass } from "./2.0.0/on_confirm/on_confirm_accidental_insurence/class";
 import { MockOnupdateAccidentalClass } from "./2.0.0/on_update/on_update_accidental/class";
 import { MockOnSearchPurchaseJourneyAccidentalClass } from "./2.0.0/on_search/on_search_purchase_journey_accidental/class";
+import { MockOnSelectAccidentalInsurencClass } from "./2.0.0/on_select/on_select_accidental_insurence/class";
 
 // Type helper for constructor
 type Ctor<T> = new () => T;
