@@ -178,7 +178,7 @@ codes:
   - code: 129
     action_id: on_select_accidental
     action: on_select
-    default: FIS13/2.0.0/on_select/on_select_accidental_insurence /default.yaml
+    default: FIS13/2.0.0/on_select/on_select_accidental_insurence/default.yaml
     message_id: false
 
   - code: 130

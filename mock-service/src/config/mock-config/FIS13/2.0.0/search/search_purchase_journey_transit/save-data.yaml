@@ -5,5 +5,6 @@ save-data:
   provider_id: "$.message.intent.provider.id"
   city_code: "$.context.location.city.code"
   policy_id: "$.message.intent.provider.tags[*].list[*].value" 
+  user_tags: "$.message.intent.provider.items[*].tags[*]"
 
  
