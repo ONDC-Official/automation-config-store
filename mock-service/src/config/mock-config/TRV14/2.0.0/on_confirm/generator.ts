@@ -16,11 +16,11 @@ export async function onConfirmGenerator(existingPayload: any, sessionData: any)
   if (sessionData.items) {
     existingPayload.message.order.items = sessionData.items;
   }
-  
+
   // Load fulfillments from session and add state + authorization
   if (sessionData.fulfillments) {
     existingPayload.message.order.fulfillments = sessionData.fulfillments;
-    
+
     // Add fulfillment state and authorization
     if (Array.isArray(existingPayload.message.order.fulfillments)) {
       existingPayload.message.order.fulfillments.forEach((fulfillment: any) => {
@@ -30,7 +30,7 @@ export async function onConfirmGenerator(existingPayload: any, sessionData: any)
             code: "CONFIRMED"
           }
         };
-        
+
         // Add authorization with QR token and +5 days validity
         if (Array.isArray(fulfillment.stops)) {
           fulfillment.stops.forEach((stop: any) => {
@@ -38,7 +38,7 @@ export async function onConfirmGenerator(existingPayload: any, sessionData: any)
               // Calculate +5 days from current timestamp
               const currentTime = new Date(stop.time?.timestamp || new Date());
               const validTo = new Date(currentTime.getTime() + (5 * 24 * 60 * 60 * 1000)); // +5 days
-              
+
               stop.authorization = {
                 type: "QR",
                 token: uuidv4().replace(/-/g, ''), // UUID without dashes for QR token
@@ -51,56 +51,56 @@ export async function onConfirmGenerator(existingPayload: any, sessionData: any)
       });
     }
   }
-  
+
   // Load provider from session
   if (sessionData.provider) {
     existingPayload.message.order.provider = sessionData.provider;
   }
-  
+
   // Load billing from session
   if (sessionData.billing) {
     existingPayload.message.order.billing = sessionData.billing;
   }
-  
+
   // Load payments from session
   if (sessionData.payments) {
     existingPayload.message.order.payments = sessionData.payments;
   }
-  
+
   // Load tags from session
   if (sessionData.tags) {
     existingPayload.message.order.tags = sessionData.tags;
   }
-  
+
   // Load cancellation_terms from session
   if (sessionData.cancellation_terms) {
-    existingPayload.message.order.cancellation_terms = [...sessionData.cancellation_terms[0]];
+    existingPayload.message.order.cancellation_terms = sessionData.cancellation_terms;
   }
-  
+
   // Load replacement_terms from session
   if (sessionData.replacement_terms) {
-    existingPayload.message.order.replacement_terms = [...sessionData.replacement_terms[0]];
+    existingPayload.message.order.replacement_terms = sessionData.replacement_terms;
   }
-  
+
   // Load quote from session
   if (sessionData.quote) {
     existingPayload.message.order.quote = sessionData.quote;
   }
-  
+
   // Add order ID (UUID)
   existingPayload.message.order.id = uuidv4().substring(0, 8); // Short UUID for order ID
-  
+
   // Add hardcoded order status
   existingPayload.message.order.status = "ACTIVE";
-  
+
   // Add created_at and updated_at from session
   if (sessionData.created_at) {
     existingPayload.message.order.created_at = existingPayload.context.timestamp;
   }
-  
+
   if (sessionData.updated_at) {
     existingPayload.message.order.updated_at = existingPayload.context.timestamp;
   }
-  
+
   return existingPayload;
 } 

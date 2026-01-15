@@ -26,11 +26,11 @@ export async function onInitGenerator(existingPayload: any, sessionData: any) {
   }
 
   if (sessionData.cancellation_terms) {
-    existingPayload.message.order.cancellation_terms = [...sessionData.cancellation_terms[0]];
+    existingPayload.message.order.cancellation_terms = sessionData.cancellation_terms;
   }
 
   if (sessionData.replacement_terms) {
-    existingPayload.message.order.replacement_terms = [...sessionData.replacement_terms[0]];
+    existingPayload.message.order.replacement_terms = sessionData.replacement_terms;
   }
 
   if (sessionData.payments) {
@@ -159,11 +159,6 @@ export async function onInitGenerator(existingPayload: any, sessionData: any) {
   };
 
   tags.push(bppTerms);
-
-  // Add BAP Terms from session if available
-  if (sessionData.bap_terms) {
-    tags.push(sessionData.bap_terms);
-  }
 
 
   // Set the combined tags array

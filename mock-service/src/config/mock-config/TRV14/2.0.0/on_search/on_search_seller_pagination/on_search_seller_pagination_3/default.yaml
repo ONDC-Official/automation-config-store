@@ -270,21 +270,7 @@ catalog:
         price:
           value: '100'
           currency: INR
-      cancellation_terms:
-      - external_ref:
-          mimetype: text/html
-          url: https://api.unreserved-entry-pass.com/beckn/tnc.html
-        cancellation_eligible: true
-      - cancellation_fee:
-          percentage: '10'
-        cancel_by:
-          label: TIMESTAMP
-          timestamp: '2024-07-26T04:43:16.000Z'
-        cancellation_eligible: true
-      replacement_terms:
-      - external_ref:
-          mimetype: text/html
-          url: https://api.unreserved-entry-pass/beckn/replacement.html
+      
       tags:
       - descriptor:
           code: FARE_POLICY
@@ -350,15 +336,7 @@ catalog:
         price:
           value: '100'
           currency: INR
-      cancellation_terms:
-      - external_ref:
-          mimetype: text/html
-          url: https://api.unreserved-entry-pass.com/beckn/tnc.html
-        cancellation_eligible: true
-      replacement_terms:
-      - external_ref:
-          mimetype: text/html
-          url: https://api.unreserved-entry-pass/beckn/replacement.html
+      
       tags:
       - descriptor:
           code: FARE_POLICY
