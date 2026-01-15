@@ -6,7 +6,7 @@ save-data:
   provider_id: "$.message.order.provider.id"
   quote: "$.message.order.quote"
 
-  cancellation_terms: "$.message.order.cancellation_terms[*]"
+  cancellation_terms: "$.message.order.cancellation_terms"
   provider: "$.message.order.provider"
-  replacement_terms: "$.message.order.replacement_terms[*]"
+  replacement_terms: "$.message.order.replacement_terms"
   first_form_testing: "$..form.url"

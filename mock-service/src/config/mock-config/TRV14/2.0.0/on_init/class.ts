@@ -34,8 +34,8 @@ export class MockOnInitClass extends MockAction {
     async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
         // Validate required session data for on_init generator
         if (!sessionData.items || !Array.isArray(sessionData.items)) {
-            return { 
-                valid: false, 
+            return {
+                valid: false,
                 message: "No items available in session data",
                 code: "MISSING_ITEMS"
             };
@@ -48,10 +48,10 @@ export class MockOnInitClass extends MockAction {
                 code: "EMPTY_ITEMS"
             };
         }
-        
+
         if (!sessionData.fulfillments || !Array.isArray(sessionData.fulfillments)) {
-            return { 
-                valid: false, 
+            return {
+                valid: false,
                 message: "No fulfillments available in session data",
                 code: "MISSING_FULFILLMENTS"
             };
@@ -64,18 +64,18 @@ export class MockOnInitClass extends MockAction {
                 code: "EMPTY_FULFILLMENTS"
             };
         }
-        
+
         if (!sessionData.provider) {
-            return { 
-                valid: false, 
+            return {
+                valid: false,
                 message: "No provider available in session data",
                 code: "MISSING_PROVIDER"
             };
         }
-        
+
         if (!sessionData.quote) {
-            return { 
-                valid: false, 
+            return {
+                valid: false,
                 message: "No quote available in session data",
                 code: "MISSING_QUOTE"
             };
@@ -112,7 +112,7 @@ export class MockOnInitClass extends MockAction {
                 code: "MISSING_REPLACEMENT_TERMS"
             };
         }
-        
+
         return { valid: true };
     }
 } 
