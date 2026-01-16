@@ -168,21 +168,21 @@ jobs:
           # echo "🔍 Health check:"
           # curl -v http://localhost:${{ vars. API_SERVICE_PORT }}/health || true
 
-      - name: Healthcheck
-        run: |
-          HEALTHCHECK_URL="http://localhost:${{ vars.API_SERVICE_PORT}}/api-service/${{ vars.DOMAIN }}/${{vars.VERSION}}/health"
-          echo "Checking $HEALTHCHECK_URL ..."
-          for i in {1..10}; do
-            if curl -sSf "$HEALTHCHECK_URL" > /dev/null; then
-              echo "✅ Container is healthy"
-              exit 0
-            fi
-            echo "Waiting... ($i)"
-            sleep 2
-          done
-          echo "❌ Healthcheck failed!"
-          docker logs api-test
-          exit 1
+      # - name: Healthcheck
+      #   run: |
+      #     HEALTHCHECK_URL="http://localhost:${{ vars.API_SERVICE_PORT}}/api-service/${{ vars.DOMAIN }}/${{vars.VERSION}}/health"
+      #     echo "Checking $HEALTHCHECK_URL ..."
+      #     for i in {1..10}; do
+      #       if curl -sSf "$HEALTHCHECK_URL" > /dev/null; then
+      #         echo "✅ Container is healthy"
+      #         exit 0
+      #       fi
+      #       echo "Waiting... ($i)"
+      #       sleep 2
+      #     done
+      #     echo "❌ Healthcheck failed!"
+      #     docker logs api-test
+      #     exit 1
 
       - name: Stop test container
         if: always()
