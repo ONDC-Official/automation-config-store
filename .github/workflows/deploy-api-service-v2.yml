@@ -50,7 +50,7 @@ jobs:
           # git submodule update --init --recursive
           echo "Copying api-config from current repo..."
           cp -rf $GITHUB_WORKSPACE/api-service/src/config/* ./src/config/
-          ls -R automation-api-service-generator
+          # ls -R automation-api-service-generator
           npm i 
           npm run build
           npm start
@@ -66,8 +66,8 @@ jobs:
 
       - name: Build Docker image
         run: |
-          cd automation-api-service-generator/build-output
           ls -R automation-api-service-generator/build-output
+          cd automation-api-service-generator/build-output
           echo "TAG in this step: $TAG"
           IMAGE_NAME=ghcr.io/ondc-official/automation-api-service-${{vars.CONTAINER_NAME}}
           docker build -t $IMAGE_NAME:$TAG .
