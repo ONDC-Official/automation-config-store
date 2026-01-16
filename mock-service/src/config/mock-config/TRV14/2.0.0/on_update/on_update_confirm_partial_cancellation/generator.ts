@@ -46,11 +46,11 @@ export async function onUpdateConfirmPartialCancellationGenerator(existingPayloa
 
   // Load cancellation_terms from session
   if (sessionData.cancellation_terms) {
-    existingPayload.message.order.cancellation_terms = sessionData.cancellation_terms;
+    existingPayload.message.order.cancellation_terms = sessionData.cancellation_terms?.flat();
   }
   // Load replacement_terms from session
   if (sessionData.replacement_terms) {
-    existingPayload.message.order.replacement_terms = sessionData.replacement_terms;
+    existingPayload.message.order.replacement_terms = sessionData.replacement_terms?.flat();
   }
 
   // Calculate updated quote with refund
