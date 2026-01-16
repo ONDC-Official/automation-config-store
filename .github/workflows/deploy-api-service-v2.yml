@@ -50,7 +50,7 @@ jobs:
           # git submodule update --init --recursive
           echo "Copying api-config from current repo..."
           cp -rf $GITHUB_WORKSPACE/api-service/src/config/* ./src/config/
-          ls -R automation-api-service-generator/src
+          ls -R automation-api-service-generator
           npm i 
           npm run build
           npm start
