@@ -1,3 +1,4 @@
+---
 catalog:
   descriptor:
     name: India tourism
@@ -27,6 +28,33 @@ catalog:
         name: Premium
       parent_category_id: C1
       id: C3
+    - descriptor:
+        name: Monument & Historical Site
+        code: MONUMENT_HISTORICAL_SITE
+      parent_category_id: C1
+      id: C4
+    - descriptor:
+        name: Museum
+        code: MUSEUM
+        short_desc: Represents type of category, possible values can be GALLERIES
+          also.
+      parent_category_id: C1
+      id: C5
+    - descriptor:
+        name: Memorial
+        code: MEMORIAL
+      parent_category_id: C1
+      id: C6
+    - descriptor:
+        name: Exhibition
+        code: EXHIBITION
+      parent_category_id: C1
+      id: C7
+    - descriptor:
+        name: Others
+        code: OTHERS
+      parent_category_id: C1
+      id: C8
     time:
       range:
         start: '2024-06-14T05:30:00.000Z'
@@ -36,9 +64,9 @@ catalog:
       gps: 28.524596, 77.185577
       descriptor:
         name: Qutab Minar
-        short_desc: Seth Sarai, Mehrauli, New Delhi, Delhi. The Qutb Minar, also
-          spelled Qutub Minar and Qutab Minar, is a minaret and "victory tower"
-          that forms part of the Qutb complex
+        short_desc: Seth Sarai, Mehrauli, New Delhi, Delhi. The Qutb Minar, also spelled
+          Qutub Minar and Qutab Minar, is a minaret and "victory tower" that forms
+          part of the Qutb complex
         additional_desc:
           url: https://api.unreserved-entry-pass.com/sites/additional-info
           content_type: text/plain
@@ -67,22 +95,21 @@ catalog:
       name: BAP Terms of Engagement
     display: false
     list:
-      - descriptor:
-          code: BUYER_FINDER_FEES_PERCENTAGE
-        value: "1"
-      - descriptor:
-          code: BUYER_FINDER_FEES_TYPE
-        value: percent
-      - descriptor:
-          code: STATIC_TERMS
-        value: https://api.example-bap.com/booking/terms
-      - descriptor:
-          code: SETTLEMENT_BASIS
-        value: INVOICE_RECEIPT
-      - descriptor:
-          code: SETTLEMENT_WINDOW
-        value: P30D
-
+    - descriptor:
+        code: BUYER_FINDER_FEES_PERCENTAGE
+      value: '1'
+    - descriptor:
+        code: BUYER_FINDER_FEES_TYPE
+      value: percent
+    - descriptor:
+        code: STATIC_TERMS
+      value: https://dev-automation.ondc.org/booking/terms
+    - descriptor:
+        code: SETTLEMENT_BASIS
+      value: INVOICE_RECEIPT
+    - descriptor:
+        code: SETTLEMENT_WINDOW
+      value: P30D
   - descriptor:
       code: BPP_TERMS
       name: BPP Terms of Engagement
@@ -96,13 +123,13 @@ catalog:
       value: percent
     - descriptor:
         code: STATIC_TERMS
-      value: https://api.example-bap.com/booking/terms
+      value: https://dev-automation.ondc.org/booking/terms
     - descriptor:
         code: MANDATORY_ARBITRATION
       value: 'true'
     - descriptor:
         code: COURT_JURISDICTION
-      value: std:011
+      value: New Delhi
     - descriptor:
         code: DELAY_INTEREST
       value: 2.5 %
