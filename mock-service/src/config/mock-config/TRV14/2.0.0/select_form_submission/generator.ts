@@ -4,6 +4,7 @@ export async function select2Generator(existingPayload: any, sessionData: any) {
   // let submission_id = sessionData?.user_inputs?.form_submission_id || "F01_SUBMISSION_ID"
   console.log("sessionData----", JSON.stringify(sessionData));
   logger.info(`sessionData---- ${JSON.stringify(sessionData)}`);
+  logger.info(`sessionData---first_form_testing ${JSON.stringify(sessionData?.first_form_testing)}`);
 
   let submission_id =
     sessionData?.first_form_testing ||
