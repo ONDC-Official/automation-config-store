@@ -150,10 +150,10 @@ jobs:
       - name: Run container locally
         run: |
           IMAGE_NAME=ghcr.io/ondc-official/automation-api-service-${{vars.CONTAINER_NAME}}
-
+          cd automation-api-service-generator
           docker run -d --name api-test \
             -p ${{ vars. API_SERVICE_PORT }}:${{ vars. API_SERVICE_PORT }} \
-            --env-file /automation-api-service-generator/.env \
+            --env-file .env \
             $IMAGE_NAME:$TAG
       
           echo "⏳ Waiting for service..."
