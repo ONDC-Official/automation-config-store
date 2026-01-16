@@ -26,11 +26,11 @@ export async function onInitGenerator(existingPayload: any, sessionData: any) {
   }
 
   if (sessionData.cancellation_terms) {
-    existingPayload.message.order.cancellation_terms = sessionData.cancellation_terms;
+    existingPayload.message.order.cancellation_terms = sessionData.cancellation_terms?.flat();
   }
 
   if (sessionData.replacement_terms) {
-    existingPayload.message.order.replacement_terms = sessionData.replacement_terms;
+    existingPayload.message.order.replacement_terms = sessionData.replacement_terms?.flat();
   }
 
   if (sessionData.payments) {
