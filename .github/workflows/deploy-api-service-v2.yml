@@ -52,6 +52,7 @@ jobs:
           cp -rf $GITHUB_WORKSPACE/api-service/src/config/* ./src/config/
           # ls -R automation-api-service-generator/src
           npm i 
+          npm run build
           npm start
           echo "Build repo ready at $(pwd)"
 
