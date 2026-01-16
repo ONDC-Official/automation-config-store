@@ -1,8 +1,8 @@
+---
 catalog:
   descriptor:
     name: India tourism
     long_desc: Online ticket booking service
-    short_desc: Online ticket booking service
     images:
     - url: https://api.unreserved-entry-pass.com/logos/logo.ico
       size_type: xs
@@ -36,9 +36,9 @@ catalog:
       gps: 28.524596, 77.185577
       descriptor:
         name: Qutab Minar
-        short_desc: Seth Sarai, Mehrauli, New Delhi, Delhi. The Qutb Minar, also
-          spelled Qutub Minar and Qutab Minar, is a minaret and "victory tower"
-          that forms part of the Qutb complex
+        short_desc: Seth Sarai, Mehrauli, New Delhi, Delhi. The Qutb Minar, also spelled
+          Qutub Minar and Qutab Minar, is a minaret and "victory tower" that forms
+          part of the Qutb complex
         additional_desc:
           url: https://api.unreserved-entry-pass.com/sites/additional-info
           content_type: text/plain
@@ -67,141 +67,187 @@ catalog:
         short_desc: Ticket for Qutab Minar
         long_desc: This ticket grants entry to the Qutab Minar.
         images:
-          - url: https://api.unreserved-entry-pass.com/sites/default/files/event/logo/event_logo_2.png
-            size_type: xs
-      location_ids: [L1]
-      category_ids: [C1, C2]
+        - url: https://api.unreserved-entry-pass.com/sites/default/files/event/logo/event_logo_2.png
+          size_type: xs
+      location_ids:
+      - L1
+      category_ids:
+      - C2
       time:
         label: VALIDITY
         duration: P2D
-      fulfillment_ids: [F1, F2]
+      fulfillment_ids:
+      - F1
+      - F2
       cancellation_terms:
-        - cancellation_fee:
-            percentage: "10"
-          fulfillment_state:
-            descriptor:
-              code: CONFIRMED
-          cancel_by:
-            label: DURATION
-            duration: PT1H30M
-          cancellation_eligible: true
-        - external_ref:
-            mimetype: text/html
-            url: https://api.unreserved-entry-pass.com/beckn/tnc.html
-          cancellation_eligible: true
+      - cancellation_fee:
+          percentage: '10'
+        fulfillment_state:
+          descriptor:
+            code: CONFIRMED
+        cancel_by:
+          label: DURATION
+          duration: PT1H30M
+        cancellation_eligible: true
+      - external_ref:
+          mimetype: text/html
+          url: https://api.unreserved-entry-pass.com/beckn/tnc.html
+        cancellation_eligible: true
       replacement_terms:
-        - external_ref:
-            mimetype: text/html
-            url: https://api.unreserved-entry-pass/beckn/replacement.html
+      - external_ref:
+          mimetype: text/html
+          url: https://api.unreserved-entry-pass/beckn/replacement.html
       tags:
+      - descriptor:
+          code: INCLUSIONS
+        list:
+        - value: water
+      - descriptor:
+          code: EXCLUSIONS
+        list:
+        - value: out side food
+        - value: photography
+      - descriptor:
+          code: INFO
+          name: Info
+        display: false
+        list:
         - descriptor:
-            code: INCLUSIONS
-          list:
-            - value: water
-        - descriptor:
-            code: EXCLUSIONS
-          list:
-            - value: out side food
-            - value: photography
-        - descriptor:
-            code: INFO
-            name: Info
-          display: false
-          list:
-            - descriptor:
-                code: TNC_LINK
-                name: Terms & Conditions
-              value: https://api.unreserved-entry-pass/beckn/tnc.html
+            code: TNC_LINK
+            name: Terms & Conditions
+          value: https://api.unreserved-entry-pass/beckn/tnc.html
     - id: I1
-      parent_item_id: I0
       descriptor:
         name: Adult-Ticket Culture & Heritage Item
         code: ENTRY_PASS
         short_desc: Ticket for Qutab Minar
         long_desc: This ticket grants entry to the Qutab Minar.
         images:
-          - url: https://api.unreserved-entry-pass.com/sites/default/files/event/logo/event_logo_2.png
-            size_type: xs
-      location_ids: [L1]
-      category_ids: [C1, C2]
+        - url: https://api.unreserved-entry-pass.com/sites/default/files/event/logo/event_logo_2.png
+          size_type: xs
+      parent_item_id: I0
+      location_ids:
+      - L1
+      category_ids:
+      - C2
       price:
         currency: INR
-        value: "350"
+        value: '350'
       quantity:
-        minimum: { count: 1 }
-        maximum: { count: 6 }
+        maximum:
+          count: 6
+        minimum:
+          count: 1
       time:
         label: VALIDITY
         duration: P2D
-      fulfillment_ids: [F1, F2]
+      fulfillment_ids:
+      - F1
+      - F2
       add_ons:
-        - id: A1
-          descriptor:
-            name: Audio Assistance
-          quantity:
-            available: { count: 1 }
-          price:
-            currency: INR
-            value: "100"
+      - id: A1
+        descriptor:
+          name: Audio Assistance
+        quantity:
+          available:
+            count: 1
+        price:
+          value: '100'
+          currency: INR
       tags:
+      - descriptor:
+          code: FARE_POLICY
+        list:
         - descriptor:
-            code: FARE_POLICY
-          list:
-            - descriptor: { code: MIN_AGE }
-              value: "18"
-            - descriptor: { code: MAX_AGE }
-              value: "70"
-            - descriptor: { code: GENDER }
-              value: MALE
-            - descriptor: { code: NATIONALITY }
-              value: INDIAN
-            - descriptor: { code: ADDITIONAL_DETAILS_REQUIRED }
-              value: "TRUE"
+            code: MIN_AGE
+          value: '18'
+        - descriptor:
+            code: MAX_AGE
+          value: '70'
+        - descriptor:
+            code: GENDER
+          value: MALE
+        - descriptor:
+            code: NATIONALITY
+          value: INDIAN
+        - descriptor:
+            code: ADDITIONAL_DETAILS_REQUIRED
+          value: 'TRUE'
+      - descriptor:
+          code: INFO
+          name: Info
+        display: false
+        list:
+        - descriptor:
+            code: TNC_LINK
+            name: Terms & Conditions
+          value: https://api.unreserved-entry-pass/beckn/tnc.html
     - id: I2
-      parent_item_id: I0
       descriptor:
         name: Child-Ticket Culture & Heritage Item
         code: ENTRY_PASS
         short_desc: Ticket for Qutab Minar
         long_desc: This ticket grants entry to the Qutab Minar.
         images:
-          - url: https://api.unreserved-entry-pass.com/sites/default/files/event/logo/event_logo_2.png
-            size_type: xs
-      location_ids: [L1]
-      category_ids: [C1, C2]
+        - url: https://api.unreserved-entry-pass.com/sites/default/files/event/logo/event_logo_2.png
+          size_type: xs
+      parent_item_id: I0
+      location_ids:
+      - L1
+      category_ids:
+      - C2
       price:
         currency: INR
-        value: "150"
+        value: '150'
       quantity:
-        minimum: { count: 1 }
-        maximum: { count: 4 }
+        maximum:
+          count: 4
+        minimum:
+          count: 1
       time:
         label: VALIDITY
         duration: P2D
-      fulfillment_ids: [F1, F2]
+      fulfillment_ids:
+      - F1
+      - F2
       add_ons:
-        - id: A1
-          descriptor:
-            name: Audio Assistance
-          quantity:
-            available: { count: 1 }
-          price:
-            currency: INR
-            value: "100"
+      - id: A1
+        descriptor:
+          name: Audio Assistance
+        quantity:
+          available:
+            count: 1
+        price:
+          value: '100'
+          currency: INR
       tags:
+      - descriptor:
+          code: FARE_POLICY
+        list:
         - descriptor:
-            code: FARE_POLICY
-          list:
-            - descriptor: { code: MIN_AGE }
-              value: "1"
-            - descriptor: { code: MAX_AGE }
-              value: "70"
-            - descriptor: { code: GENDER }
-              value: MALE
-            - descriptor: { code: NATIONALITY }
-              value: INDIAN
-            - descriptor: { code: ADDITIONAL_DETAILS_REQUIRED }
-              value: "TRUE"
+            code: MIN_AGE
+          value: '1'
+        - descriptor:
+            code: MAX_AGE
+          value: '70'
+        - descriptor:
+            code: GENDER
+          value: MALE
+        - descriptor:
+            code: NATIONALITY
+          value: INDIAN
+        - descriptor:
+            code: ADDITIONAL_DETAILS_REQUIRED
+          value: 'TRUE'
+      - descriptor:
+          code: INFO
+          name: Info
+        display: false
+        list:
+        - descriptor:
+            code: TNC_LINK
+            name: Terms & Conditions
+          value: https://api.unreserved-entry-pass/beckn/tnc.html
     - id: I0_1
       descriptor:
         name: Parent Item for Culture & Heritage
@@ -209,84 +255,214 @@ catalog:
         short_desc: Ticket for Qutab Minar
         long_desc: This ticket grants entry to the Qutab Minar.
         images:
-          - url: https://api.unreserved-entry-pass.com/sites/default/files/event/logo/event_logo_2.png
-            size_type: xs
-      location_ids: [L1]
-      category_ids: [C1, C2]
+        - url: https://api.unreserved-entry-pass.com/sites/default/files/event/logo/event_logo_2.png
+          size_type: xs
+      location_ids:
+      - L1
+      category_ids:
+      - C3
       time:
         label: VALIDITY
         duration: P2D
-      fulfillment_ids: [F1, F2]
+      fulfillment_ids:
+      - F1
+      - F2
       cancellation_terms:
-        - cancellation_fee:
-            percentage: "10"
-          fulfillment_state:
-            descriptor:
-              code: CONFIRMED
-          cancel_by:
-            label: DURATION
-            duration: PT1H30M
-          cancellation_eligible: true
+      - cancellation_fee:
+          percentage: '10'
+        fulfillment_state:
+          descriptor:
+            code: CONFIRMED
+        cancel_by:
+          label: DURATION
+          duration: PT1H30M
+        cancellation_eligible: true
+      - external_ref:
+          mimetype: text/html
+          url: https://api.unreserved-entry-pass.com/beckn/tnc.html
+        cancellation_eligible: true
+      replacement_terms:
+      - external_ref:
+          mimetype: text/html
+          url: https://api.unreserved-entry-pass/beckn/replacement.html
+      tags:
+      - descriptor:
+          code: INCLUSIONS
+        list:
+        - value: water
+      - descriptor:
+          code: EXCLUSIONS
+        list:
+        - value: out side food
+      - descriptor:
+          code: INFO
+          name: Info
+        display: false
+        list:
+        - descriptor:
+            code: TNC_LINK
+            name: Terms & Conditions
+          value: https://api.unreserved-entry-pass/beckn/tnc.html
     - id: I3
-      parent_item_id: I0_1
       descriptor:
         name: Adult-Ticket Culture & Heritage Item
         code: ENTRY_PASS
         short_desc: Ticket for Qutab Minar
         long_desc: This ticket grants entry to the Qutab Minar.
         images:
-          - url: https://api.unreserved-entry-pass.com/sites/default/files/event/logo/event_logo_2.png
-            size_type: xs
-      location_ids: [L1]
-      category_ids: [C1, C3]
+        - url: https://api.unreserved-entry-pass.com/sites/default/files/event/logo/event_logo_2.png
+          size_type: xs
+      parent_item_id: I0_1
+      location_ids:
+      - L1
+      category_ids:
+      - C3
       price:
         currency: INR
-        value: "400"
+        value: '400'
       quantity:
-        minimum: { count: 1 }
-        maximum: { count: 6 }
+        maximum:
+          count: 6
+        minimum:
+          count: 1
       time:
         label: VALIDITY
         duration: P2D
-      fulfillment_ids: [F1, F2]
+      fulfillment_ids:
+      - F1
+      - F2
+      add_ons:
+      - id: A1
+        descriptor:
+          name: Audio Assistance
+        quantity:
+          available:
+            count: 1
+        price:
+          value: '100'
+          currency: INR
+      tags:
+      - descriptor:
+          code: FARE_POLICY
+        list:
+        - descriptor:
+            code: MIN_AGE
+          value: '18'
+        - descriptor:
+            code: MAX_AGE
+          value: '70'
+        - descriptor:
+            code: GENDER
+          value: MALE
+        - descriptor:
+            code: NATIONALITY
+          value: INDIAN
+        - descriptor:
+            code: ADDITIONAL_DETAILS_REQUIRED
+          value: 'FALSE'
+      - descriptor:
+          code: INFO
+          name: Info
+        display: false
+        list:
+        - descriptor:
+            code: TNC_LINK
+            name: Terms & Conditions
+          value: https://api.unreserved-entry-pass/beckn/tnc.html
     - id: I4
-      parent_item_id: I0_1
       descriptor:
         name: Child-Ticket Culture & Heritage Item
         code: ENTRY_PASS
         short_desc: Ticket for Qutab Minar
         long_desc: This ticket grants entry to the Qutab Minar.
         images:
-          - url: https://api.unreserved-entry-pass.com/sites/default/files/event/logo/event_logo_2.png
-            size_type: xs
-      location_ids: [L1]
-      category_ids: [C1, C3]
+        - url: https://api.unreserved-entry-pass.com/sites/default/files/event/logo/event_logo_2.png
+          size_type: xs
+      parent_item_id: I0_1
+      location_ids:
+      - L1
+      category_ids:
+      - C3
       price:
         currency: INR
-        value: "250"
+        value: '250'
       quantity:
-        minimum: { count: 1 }
-        maximum: { count: 4 }
+        maximum:
+          count: 4
+        minimum:
+          count: 1
       time:
         label: VALIDITY
         duration: P2D
-      fulfillment_ids: [F1, F2]
+      fulfillment_ids:
+      - F1
+      - F2
+      add_ons:
+      - id: A1
+        descriptor:
+          name: Audio Assistance
+        quantity:
+          available:
+            count: 1
+        price:
+          value: '100'
+          currency: INR
+      tags:
+      - descriptor:
+          code: FARE_POLICY
+        list:
+        - descriptor:
+            code: MIN_AGE
+          value: '1'
+        - descriptor:
+            code: MAX_AGE
+          value: '70'
+        - descriptor:
+            code: GENDER
+          value: MALE
+        - descriptor:
+            code: NATIONALITY
+          value: INDIAN
+        - descriptor:
+            code: ADDITIONAL_DETAILS_REQUIRED
+          value: 'FALSE'
+      - descriptor:
+          code: INFO
+          name: Info
+        display: false
+        list:
+        - descriptor:
+            code: TNC_LINK
+            name: Terms & Conditions
+          value: https://api.unreserved-entry-pass/beckn/tnc.html
     - id: I5
-      parent_item_id: I0
+      location_ids:
+      - L1
       descriptor:
         name: Add on item
         code: ADD_ON
         images:
-          - url: https://api.unreserved-entry-pass.com/sites/default/files/event/logo/event_logo_2.png
-            size_type: xs
-      location_ids: [L1]
+        - url: https://api.unreserved-entry-pass.com/sites/default/files/event/logo/event_logo_2.png
+          size_type: xs
+      parent_item_id: I0
       price:
         currency: INR
-        value: "100"
+        value: '100'
       quantity:
-        minimum: { count: 1 }
-        maximum: { count: 3 }
-
+        maximum:
+          count: 3
+        minimum:
+          count: 1
+      tags:
+      - descriptor:
+          code: INFO
+          name: Info
+        display: false
+        list:
+        - descriptor:
+            code: TNC_LINK
+            name: Terms & Conditions
+          value: https://api.unreserved-entry-pass/beckn/tnc.html
     fulfillments:
     - id: F1
       type: VISIT
@@ -332,21 +508,21 @@ catalog:
       name: BAP Terms of Engagement
     display: false
     list:
-      - descriptor:
-          code: BUYER_FINDER_FEES_PERCENTAGE
-        value: "1"
-      - descriptor:
-          code: BUYER_FINDER_FEES_TYPE
-        value: percent
-      - descriptor:
-          code: STATIC_TERMS
-        value: https://dev-automation.ondc.org/booking/terms
-      - descriptor:
-          code: SETTLEMENT_BASIS
-        value: INVOICE_RECEIPT
-      - descriptor:
-          code: SETTLEMENT_WINDOW
-        value: P30D
+    - descriptor:
+        code: BUYER_FINDER_FEES_PERCENTAGE
+      value: '1'
+    - descriptor:
+        code: BUYER_FINDER_FEES_TYPE
+      value: percent
+    - descriptor:
+        code: STATIC_TERMS
+      value: https://dev-automation.ondc.org/booking/terms
+    - descriptor:
+        code: SETTLEMENT_BASIS
+      value: INVOICE_RECEIPT
+    - descriptor:
+        code: SETTLEMENT_WINDOW
+      value: P30D
   - descriptor:
       code: BPP_TERMS
       name: BPP Terms of Engagement

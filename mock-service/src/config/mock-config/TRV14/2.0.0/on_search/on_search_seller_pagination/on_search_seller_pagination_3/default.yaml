@@ -1,9 +1,7 @@
-
 catalog:
   descriptor:
     name: India tourism
     long_desc: Online ticket booking service
-    short_desc: Online ticket booking service
     images:
     - url: https://api.unreserved-entry-pass.com/logos/logo.ico
       size_type: xs
@@ -37,9 +35,9 @@ catalog:
       gps: 28.524596, 77.185577
       descriptor:
         name: Qutab Minar
-        short_desc: Seth Sarai, Mehrauli, New Delhi, Delhi. The Qutb Minar, also
-          spelled Qutub Minar and Qutab Minar, is a minaret and "victory tower"
-          that forms part of the Qutb complex
+        short_desc: Seth Sarai, Mehrauli, New Delhi, Delhi. The Qutb Minar, also spelled
+          Qutub Minar and Qutab Minar, is a minaret and "victory tower" that forms
+          part of the Qutb complex
         additional_desc:
           url: https://api.unreserved-entry-pass.com/sites/additional-info
           content_type: text/plain
@@ -73,7 +71,6 @@ catalog:
       location_ids:
       - L1
       category_ids:
-      - C1
       - C2
       time:
         label: VALIDITY
@@ -110,14 +107,14 @@ catalog:
         - value: out side food
         - value: photography
       - descriptor:
-            code: INFO
-            name: Info
+          code: INFO
+          name: Info
         display: false
         list:
-          - descriptor:
-              code: TNC_LINK
-              name: Terms & Conditions
-            value: https://api.unreserved-entry-pass/beckn/tnc.html  
+        - descriptor:
+            code: TNC_LINK
+            name: Terms & Conditions
+          value: https://api.unreserved-entry-pass/beckn/tnc.html
     - id: I1
       descriptor:
         name: Adult-Ticket Culture & Heritage Item
@@ -131,7 +128,6 @@ catalog:
       location_ids:
       - L1
       category_ids:
-      - C1
       - C2
       price:
         currency: INR
@@ -173,9 +169,18 @@ catalog:
         - descriptor:
             code: NATIONALITY
           value: INDIAN
-        - descriptor:  
-            code: ADDITIONAL_DETAILS_REQUIRED 
-          value: "TRUE"  
+        - descriptor:
+            code: ADDITIONAL_DETAILS_REQUIRED
+          value: 'TRUE'
+      - descriptor:
+          code: INFO
+          name: Info
+        display: false
+        list:
+        - descriptor:
+            code: TNC_LINK
+            name: Terms & Conditions
+          value: https://api.unreserved-entry-pass/beckn/tnc.html
     - id: I2
       descriptor:
         name: Child-Ticket Culture & Heritage Item
@@ -189,7 +194,6 @@ catalog:
       location_ids:
       - L1
       category_ids:
-      - C1
       - C2
       price:
         currency: INR
@@ -231,11 +235,22 @@ catalog:
         - descriptor:
             code: NATIONALITY
           value: INDIAN
-    - id: I3
-      parent_item_id: I0
+        - descriptor:
+            code: ADDITIONAL_DETAILS_REQUIRED
+          value: 'TRUE'
+      - descriptor:
+          code: INFO
+          name: Info
+        display: false
+        list:
+        - descriptor:
+            code: TNC_LINK
+            name: Terms & Conditions
+          value: https://api.unreserved-entry-pass/beckn/tnc.html
+    - id: I0_1
       descriptor:
-        name: Adult-Ticket Culture & Heritage Item
-        code: ENTRY_PASS
+        name: Parent Item for Culture & Heritage
+        code: ABSTRACT
         short_desc: Ticket for Qutab Minar
         long_desc: This ticket grants entry to the Qutab Minar.
         images:
@@ -244,7 +259,62 @@ catalog:
       location_ids:
       - L1
       category_ids:
-      - C1
+      - C3
+      time:
+        label: VALIDITY
+        duration: P2D
+      fulfillment_ids:
+      - F1
+      - F2
+      cancellation_terms:
+      - cancellation_fee:
+          percentage: '10'
+        fulfillment_state:
+          descriptor:
+            code: CONFIRMED
+        cancel_by:
+          label: DURATION
+          duration: PT1H30M
+        cancellation_eligible: true
+      - external_ref:
+          mimetype: text/html
+          url: https://api.unreserved-entry-pass.com/beckn/tnc.html
+        cancellation_eligible: true
+      replacement_terms:
+      - external_ref:
+          mimetype: text/html
+          url: https://api.unreserved-entry-pass/beckn/replacement.html
+      tags:
+      - descriptor:
+          code: INCLUSIONS
+        list:
+        - value: water
+      - descriptor:
+          code: EXCLUSIONS
+        list:
+        - value: out side food
+      - descriptor:
+          code: INFO
+          name: Info
+        display: false
+        list:
+        - descriptor:
+            code: TNC_LINK
+            name: Terms & Conditions
+          value: https://api.unreserved-entry-pass/beckn/tnc.html
+    - id: I3
+      descriptor:
+        name: Adult-Ticket Culture & Heritage Item
+        code: ENTRY_PASS
+        short_desc: Ticket for Qutab Minar
+        long_desc: This ticket grants entry to the Qutab Minar.
+        images:
+        - url: https://api.unreserved-entry-pass.com/sites/default/files/event/logo/event_logo_2.png
+          size_type: xs
+      parent_item_id: I0_1
+      location_ids:
+      - L1
+      category_ids:
       - C3
       price:
         currency: INR
@@ -270,7 +340,6 @@ catalog:
         price:
           value: '100'
           currency: INR
-      
       tags:
       - descriptor:
           code: FARE_POLICY
@@ -287,18 +356,19 @@ catalog:
         - descriptor:
             code: NATIONALITY
           value: INDIAN
+        - descriptor:
+            code: ADDITIONAL_DETAILS_REQUIRED
+          value: 'FALSE'
       - descriptor:
-          code: INCLUSIONS
+          code: INFO
+          name: Info
+        display: false
         list:
-        - value: water
-        - value: guide_tour
-      - descriptor:
-          code: EXCLUSIONS
-        list:
-        - value: out side food
-        - value: photography
+        - descriptor:
+            code: TNC_LINK
+            name: Terms & Conditions
+          value: https://api.unreserved-entry-pass/beckn/tnc.html
     - id: I4
-      parent_item_id: I0
       descriptor:
         name: Child-Ticket Culture & Heritage Item
         code: ENTRY_PASS
@@ -307,10 +377,10 @@ catalog:
         images:
         - url: https://api.unreserved-entry-pass.com/sites/default/files/event/logo/event_logo_2.png
           size_type: xs
+      parent_item_id: I0_1
       location_ids:
       - L1
       category_ids:
-      - C1
       - C3
       price:
         currency: INR
@@ -336,7 +406,6 @@ catalog:
         price:
           value: '100'
           currency: INR
-      
       tags:
       - descriptor:
           code: FARE_POLICY
@@ -353,24 +422,28 @@ catalog:
         - descriptor:
             code: NATIONALITY
           value: INDIAN
+        - descriptor:
+            code: ADDITIONAL_DETAILS_REQUIRED
+          value: 'FALSE'
       - descriptor:
-          code: INCLUSIONS
+          code: INFO
+          name: Info
+        display: false
         list:
-        - value: water
-        - value: guide_tour
-      - descriptor:
-          code: EXCLUSIONS
-        list:
-        - value: out side food
-        - value: photography
+        - descriptor:
+            code: TNC_LINK
+            name: Terms & Conditions
+          value: https://api.unreserved-entry-pass/beckn/tnc.html
     - id: I5
-      parent_item_id: I0
+      location_ids:
+      - L1
       descriptor:
         name: Add on item
         code: ADD_ON
         images:
         - url: https://api.unreserved-entry-pass.com/sites/default/files/event/logo/event_logo_2.png
           size_type: xs
+      parent_item_id: I0
       price:
         currency: INR
         value: '100'
@@ -379,6 +452,16 @@ catalog:
           count: 3
         minimum:
           count: 1
+      tags:
+      - descriptor:
+          code: INFO
+          name: Info
+        display: false
+        list:
+        - descriptor:
+            code: TNC_LINK
+            name: Terms & Conditions
+          value: https://api.unreserved-entry-pass/beckn/tnc.html
     fulfillments:
     - id: F1
       type: VISIT
@@ -424,21 +507,21 @@ catalog:
       name: BAP Terms of Engagement
     display: false
     list:
-      - descriptor:
-          code: BUYER_FINDER_FEES_PERCENTAGE
-        value: "1"
-      - descriptor:
-          code: BUYER_FINDER_FEES_TYPE
-        value: percent
-      - descriptor:
-          code: STATIC_TERMS
-        value: https://api.example-bap.com/booking/terms
-      - descriptor:
-          code: SETTLEMENT_BASIS
-        value: INVOICE_RECEIPT
-      - descriptor:
-          code: SETTLEMENT_WINDOW
-        value: P30D
+    - descriptor:
+        code: BUYER_FINDER_FEES_PERCENTAGE
+      value: '1'
+    - descriptor:
+        code: BUYER_FINDER_FEES_TYPE
+      value: percent
+    - descriptor:
+        code: STATIC_TERMS
+      value: hhttps://dev-automation.ondc.org/booking/terms
+    - descriptor:
+        code: SETTLEMENT_BASIS
+      value: INVOICE_RECEIPT
+    - descriptor:
+        code: SETTLEMENT_WINDOW
+      value: P30D
   - descriptor:
       code: BPP_TERMS
       name: BPP Terms of Engagement
@@ -452,7 +535,7 @@ catalog:
       value: percent
     - descriptor:
         code: STATIC_TERMS
-      value: https://api.example-bap.com/booking/terms
+      value: https://dev-automation.ondc.org/booking/terms
     - descriptor:
         code: MANDATORY_ARBITRATION
       value: 'true'
