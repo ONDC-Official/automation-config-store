@@ -1,5 +1,6 @@
 flows:
   - id: seller_app_pagination_journey
+    tags: ["WORKBENCH", "MANDATORY"]
     description: Seller App Pagination flow with repeated on_search steps
     sequence:
       - key: search_seller_pagination
@@ -32,6 +33,7 @@ flows:
         owner: BPP
         expect: false
   - id: incremental_pull_journey
+    tags: ["WORKBENCH", "MANDATORY"]
     description: Incremental Pull flow with repeated on_search steps
     sequence:
       - key: search_incremental_pull
@@ -64,8 +66,39 @@ flows:
         owner: BPP
         expect: false
   - id: purchase_journey_with_form
+    tags: ["PRAMAAN", "MANDATORY", "REPORTABLE","WORKBENCH"]
     description: Purchase flow with form (select - on_status)
     sequence:
+      - key: search_incremental_pull
+        type: search
+        unsolicited: false
+        pair: on_search_incremental_pull_1
+        owner: BAP
+        expect: true
+        input:
+          - name: city_code
+            label: Enter city code
+            type: text
+            payloadField: $.message.intent.fulfillment.stops[?(@.type=='START')].location.city.code
+      - key: on_search_incremental_pull_1
+        type: on_search
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_search_incremental_pull_2
+        type: on_search
+        unsolicited: true
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_search_incremental_pull_3
+        type: on_search
+        unsolicited: true
+        pair: null
+        owner: BPP
+        expect: false
+
       - key: select
         type: select
         unsolicited: false
@@ -144,8 +177,39 @@ flows:
         owner: BPP
         expect: false
   - id: purchase_journey_without_form
+    tags: ["PRAMAAN", "MANDATORY", "REPORTABLE","WORKBENCH"]
     description: purchase journey select to on_status without form
     sequence:
+      - key: search_incremental_pull
+        type: search
+        unsolicited: false
+        pair: on_search_incremental_pull_1
+        owner: BAP
+        expect: true
+        input:
+          - name: city_code
+            label: Enter city code
+            type: text
+            payloadField: $.message.intent.fulfillment.stops[?(@.type=='START')].location.city.code
+      - key: on_search_incremental_pull_1
+        type: on_search
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_search_incremental_pull_2
+        type: on_search
+        unsolicited: true
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_search_incremental_pull_3
+        type: on_search
+        unsolicited: true
+        pair: null
+        owner: BPP
+        expect: false
+
       - key: select
         type: select
         unsolicited: false
@@ -198,9 +262,351 @@ flows:
         pair: null
         owner: BPP
         expect: false
+  - id: purchase_journey_order_level_forms_culture_heritage
+    tags: ["PRAMAAN", "MANDATORY", "REPORTABLE","WORKBENCH"]
+    description: Purchase Journey:Order Level Forms (Additional Flow:Culture-Heritage)
+    sequence:
+      - key: search_incremental_pull
+        type: search
+        unsolicited: false
+        pair: on_search_incremental_pull_1
+        owner: BAP
+        expect: true
+        input:
+          - name: city_code
+            label: Enter city code
+            type: text
+            payloadField: $.message.intent.fulfillment.stops[?(@.type=='START')].location.city.code
+      - key: on_search_incremental_pull_1
+        type: on_search
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_search_incremental_pull_2
+        type: on_search
+        unsolicited: true
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_search_incremental_pull_3
+        type: on_search
+        unsolicited: true
+        pair: null
+        owner: BPP
+        expect: false
+
+      - key: select
+        type: select
+        unsolicited: false
+        pair: on_select
+        owner: BAP
+        expect: true
+        input:
+          - name: select_input
+            label: Enter
+            type: trv_select
+      - key: on_select
+        type: on_select
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: first_form_testing
+        label: form link provided in on_select
+        type: HTML_FORM
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+        input:
+          - name: form_submission_id
+            label: Enter Form Submission id
+            type: HTML_FORM
+            reference: $.reference_data.first_form_testing
+      - key: select_form_submission
+        type: select
+        unsolicited: false
+        pair: on_select_form_submission
+        owner: BAP
+        expect: false
+        force_proceed: true
+      - key: on_select_form_submission
+        type: on_select
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: init
+        type: init
+        unsolicited: false
+        pair: on_init
+        owner: BAP
+        expect: false
+      - key: on_init
+        type: on_init
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: confirm
+        type: confirm
+        unsolicited: false
+        pair: on_confirm
+        owner: BAP
+        expect: false
+      - key: on_confirm
+        type: on_confirm
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: status
+        type: status
+        unsolicited: false
+        pair: on_status
+        owner: BAP
+        expect: false
+      - key: on_status
+        type: on_status
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+  
+  - id: purchase_journey_with_form_Multiple_Tickets
+    tags: ["PRAMAAN", "MANDATORY", "REPORTABLE","WORKBENCH"]
+    description: Purchase flow with form (select - on_status)
+    sequence:
+      - key: search_incremental_pull
+        type: search
+        unsolicited: false
+        pair: on_search_incremental_pull_1
+        owner: BAP
+        expect: true
+        input:
+          - name: city_code
+            label: Enter city code
+            type: text
+            payloadField: $.message.intent.fulfillment.stops[?(@.type=='START')].location.city.code
+      - key: on_search_incremental_pull_1
+        type: on_search
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_search_incremental_pull_2
+        type: on_search
+        unsolicited: true
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_search_incremental_pull_3
+        type: on_search
+        unsolicited: true
+        pair: null
+        owner: BPP
+        expect: false
+
+      - key: select
+        type: select
+        unsolicited: false
+        pair: on_select
+        owner: BAP
+        expect: true
+        input:
+          - name: select_input
+            label: Enter
+            type: trv_select
+      - key: on_select
+        type: on_select
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: first_form_testing
+        label: form link provided in on_select
+        type: HTML_FORM
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+        input:
+          - name: form_submission_id
+            label: Enter Form Submission id
+            type: HTML_FORM
+            reference: $.reference_data.first_form_testing
+      - key: select_form_submission
+        type: select
+        unsolicited: false
+        pair: on_select_form_submission
+        owner: BAP
+        expect: false
+        force_proceed: true
+      - key: on_select_form_submission
+        type: on_select
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: init
+        type: init
+        unsolicited: false
+        pair: on_init
+        owner: BAP
+        expect: false
+      - key: on_init
+        type: on_init
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: confirm
+        type: confirm
+        unsolicited: false
+        pair: on_confirm
+        owner: BAP
+        expect: false
+      - key: on_confirm
+        type: on_confirm
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: status
+        type: status
+        unsolicited: false
+        pair: on_status
+        owner: BAP
+        expect: false
+      - key: on_status
+        type: on_status
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+  
+  - id: purchase_journey_without_form_Multiple_Tickets
+    tags: ["PRAMAAN", "MANDATORY", "REPORTABLE","WORKBENCH"]
+    description: purchase journey select to on_status without form
+    sequence:
+      - key: search_incremental_pull
+        type: search
+        unsolicited: false
+        pair: on_search_incremental_pull_1
+        owner: BAP
+        expect: true
+        input:
+          - name: city_code
+            label: Enter city code
+            type: text
+            payloadField: $.message.intent.fulfillment.stops[?(@.type=='START')].location.city.code
+      - key: on_search_incremental_pull_1
+        type: on_search
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_search_incremental_pull_2
+        type: on_search
+        unsolicited: true
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_search_incremental_pull_3
+        type: on_search
+        unsolicited: true
+        pair: null
+        owner: BPP
+        expect: false
+
+      - key: select
+        type: select
+        unsolicited: false
+        pair: on_select_without_form
+        owner: BAP
+        expect: true
+        input:
+          - name: select_input
+            label: Enter
+            type: trv_select
+      - key: on_select_without_form
+        type: on_select
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: init
+        type: init
+        unsolicited: false
+        pair: on_init
+        owner: BAP
+        expect: false
+      - key: on_init
+        type: on_init
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: confirm
+        type: confirm
+        unsolicited: false
+        pair: on_confirm
+        owner: BAP
+        expect: false
+      - key: on_confirm
+        type: on_confirm
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: status
+        type: status
+        unsolicited: false
+        pair: on_status
+        owner: BAP
+        expect: false
+      - key: on_status
+        type: on_status
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+
   - id: technical_cancellation
+    tags: ["PRAMAAN", "MANDATORY", "REPORTABLE","WORKBENCH"]
     description: Technical Cancellation flow (soft & confirm cancel)
     sequence:
+      - key: search_incremental_pull
+        type: search
+        unsolicited: false
+        pair: on_search_incremental_pull_1
+        owner: BAP
+        expect: true
+        input:
+          - name: city_code
+            label: Enter city code
+            type: text
+            payloadField: $.message.intent.fulfillment.stops[?(@.type=='START')].location.city.code
+      - key: on_search_incremental_pull_1
+        type: on_search
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_search_incremental_pull_2
+        type: on_search
+        unsolicited: true
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_search_incremental_pull_3
+        type: on_search
+        unsolicited: true
+        pair: null
+        owner: BPP
+        expect: false
+
       - key: select
         type: select
         unsolicited: false
@@ -254,6 +660,18 @@ flows:
         pair: null
         owner: BPP
         expect: false
+      - key: cancel_soft_technical_cancellation
+        type: cancel
+        unsolicited: false
+        pair: on_cancel_soft_technical_cancellation
+        owner: BAP
+        expect: false
+      - key: on_cancel_soft_technical_cancellation
+        type: on_cancel
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false  
       - key: cancel_confirm_technical_cancellation
         type: cancel
         unsolicited: false
@@ -266,9 +684,176 @@ flows:
         pair: null
         owner: BPP
         expect: false
+  - id: technical_cancellation_with_form
+    tags: ["PRAMAAN", "MANDATORY", "REPORTABLE","WORKBENCH"]
+    description: Technical Cancellation flow (soft & confirm cancel)
+    sequence:
+      - key: search_incremental_pull
+        type: search
+        unsolicited: false
+        pair: on_search_incremental_pull_1
+        owner: BAP
+        expect: true
+        input:
+          - name: city_code
+            label: Enter city code
+            type: text
+            payloadField: $.message.intent.fulfillment.stops[?(@.type=='START')].location.city.code
+      - key: on_search_incremental_pull_1
+        type: on_search
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_search_incremental_pull_2
+        type: on_search
+        unsolicited: true
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_search_incremental_pull_3
+        type: on_search
+        unsolicited: true
+        pair: null
+        owner: BPP
+        expect: false
+
+      - key: select
+        type: select
+        unsolicited: false
+        pair: on_select
+        owner: BAP
+        expect: true
+        input:
+          - name: select_input
+            label: Enter
+            type: trv_select
+      - key: on_select
+        type: on_select
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: first_form_testing
+        label: form link provided in on_select
+        type: HTML_FORM
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+        input:
+          - name: form_submission_id
+            label: Enter Form Submission id
+            type: HTML_FORM
+            reference: $.reference_data.first_form_testing
+      - key: select_form_submission
+        type: select
+        unsolicited: false
+        pair: on_select_form_submission
+        owner: BAP
+        expect: false
+        force_proceed: true
+      - key: on_select_form_submission
+        type: on_select
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: init
+        type: init
+        unsolicited: false
+        pair: on_init
+        owner: BAP
+        expect: false
+      - key: on_init
+        type: on_init
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: confirm
+        type: confirm
+        unsolicited: false
+        pair: on_confirm_technical_cancellation
+        owner: BAP
+        expect: false
+      - key: on_confirm_technical_cancellation
+        type: on_confirm
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: status
+        type: status
+        unsolicited: false
+        pair: on_status_technical_cancellation
+        owner: BAP
+        expect: false
+      - key: on_status_technical_cancellation
+        type: on_status
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: cancel_soft_technical_cancellation
+        type: cancel
+        unsolicited: false
+        pair: on_cancel_soft_technical_cancellation
+        owner: BAP
+        expect: false
+      - key: on_cancel_soft_technical_cancellation
+        type: on_cancel
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false  
+      - key: cancel_confirm_technical_cancellation
+        type: cancel
+        unsolicited: false
+        pair: on_cancel_confirm_technical_cancellation
+        owner: BAP
+        expect: false
+      - key: on_cancel_confirm_technical_cancellation
+        type: on_cancel
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+ 
   - id: User Cancellation (Full)
+    tags: ["PRAMAAN", "MANDATORY", "REPORTABLE","WORKBENCH"]
     description: User Cancellation flow (soft & confirm cancel)
     sequence:
+      - key: search_incremental_pull
+        type: search
+        unsolicited: false
+        pair: on_search_incremental_pull_1
+        owner: BAP
+        expect: true
+        input:
+          - name: city_code
+            label: Enter city code
+            type: text
+            payloadField: $.message.intent.fulfillment.stops[?(@.type=='START')].location.city.code
+      - key: on_search_incremental_pull_1
+        type: on_search
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_search_incremental_pull_2
+        type: on_search
+        unsolicited: true
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_search_incremental_pull_3
+        type: on_search
+        unsolicited: true
+        pair: null
+        owner: BPP
+        expect: false
+
       - key: select
         type: select
         unsolicited: false
@@ -345,10 +930,176 @@ flows:
         pair: null
         owner: BPP
         expect: false
+  - id: User_Cancellation_FULL_With_Form
+    tags: ["PRAMAAN", "MANDATORY", "REPORTABLE","WORKBENCH"]
+    description: User Cancellation flow (soft & confirm cancel)
+    sequence:
+      - key: search_incremental_pull
+        type: search
+        unsolicited: false
+        pair: on_search_incremental_pull_1
+        owner: BAP
+        expect: true
+        input:
+          - name: city_code
+            label: Enter city code
+            type: text
+            payloadField: $.message.intent.fulfillment.stops[?(@.type=='START')].location.city.code
+      - key: on_search_incremental_pull_1
+        type: on_search
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_search_incremental_pull_2
+        type: on_search
+        unsolicited: true
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_search_incremental_pull_3
+        type: on_search
+        unsolicited: true
+        pair: null
+        owner: BPP
+        expect: false
 
-  - id: User Cancellation (Partial)
+      - key: select
+        type: select
+        unsolicited: false
+        pair: on_select
+        owner: BAP
+        expect: true
+        input:
+          - name: select_input
+            label: Enter
+            type: trv_select
+      - key: on_select
+        type: on_select
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: first_form_testing
+        label: form link provided in on_select
+        type: HTML_FORM
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+        input:
+          - name: form_submission_id
+            label: Enter Form Submission id
+            type: HTML_FORM
+            reference: $.reference_data.first_form_testing
+      - key: select_form_submission
+        type: select
+        unsolicited: false
+        pair: on_select_form_submission
+        owner: BAP
+        expect: false
+        force_proceed: true
+      - key: on_select_form_submission
+        type: on_select
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: init
+        type: init
+        unsolicited: false
+        pair: on_init
+        owner: BAP
+        expect: false
+      - key: on_init
+        type: on_init
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: confirm
+        type: confirm
+        unsolicited: false
+        pair: on_confirm
+        owner: BAP
+        expect: false
+      - key: on_confirm
+        type: on_confirm
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: status
+        type: status
+        unsolicited: false
+        pair: on_status_technical_cancellation
+        owner: BAP
+        expect: false
+      - key: on_status_technical_cancellation
+        type: on_status
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: cancel_soft_user_cancellation
+        type: cancel
+        unsolicited: false
+        pair: on_cancel_soft_user_cancellation
+        owner: BAP
+        expect: false
+      - key: on_cancel_soft_user_cancellation
+        type: on_cancel
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: cancel_confirm_user_cancellation
+        type: cancel
+        unsolicited: false
+        pair: on_cancel_confirm_user_cancellation
+        owner: BAP
+        expect: false
+      - key: on_cancel_confirm_user_cancellation
+        type: on_cancel
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+
+  - id: user_cancellation_partial
+    tags: ["WORKBENCH", "MANDATORY"]
     description: Partial Cancellation flow (cancel 1 quantity of item)
     sequence:
+      - key: search_incremental_pull
+        type: search
+        unsolicited: false
+        pair: on_search_incremental_pull_1
+        owner: BAP
+        expect: true
+        input:
+          - name: city_code
+            label: Enter city code
+            type: text
+            payloadField: $.message.intent.fulfillment.stops[?(@.type=='START')].location.city.code
+      - key: on_search_incremental_pull_1
+        type: on_search
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_search_incremental_pull_2
+        type: on_search
+        unsolicited: true
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_search_incremental_pull_3
+        type: on_search
+        unsolicited: true
+        pair: null
+        owner: BPP
+        expect: false
+
       - key: select_for_partial_cancellation
         type: select
         unsolicited: false
@@ -395,6 +1146,14 @@ flows:
         pair: on_update_soft_partial_cancellation
         owner: BAP
         expect: false
+        input:
+          - name: select_item
+            label: Select Item
+            type: text
+          - name: select_quantity
+            label: Select Quantity
+            type: text
+
       - key: on_update_soft_partial_cancellation
         type: on_update
         unsolicited: false
@@ -414,8 +1173,39 @@ flows:
         owner: BPP
         expect: false
   - id: Cancellation Rejected
+    tags: ["WORKBENCH", "MANDATORY"]
     description: cancellation_rejected flow (soft cancel rejected)
     sequence:
+      - key: search_incremental_pull
+        type: search
+        unsolicited: false
+        pair: on_search_incremental_pull_1
+        owner: BAP
+        expect: true
+        input:
+          - name: city_code
+            label: Enter city code
+            type: text
+            payloadField: $.message.intent.fulfillment.stops[?(@.type=='START')].location.city.code
+      - key: on_search_incremental_pull_1
+        type: on_search
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_search_incremental_pull_2
+        type: on_search
+        unsolicited: true
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_search_incremental_pull_3
+        type: on_search
+        unsolicited: true
+        pair: null
+        owner: BPP
+        expect: false
+
       - key: select
         type: select
         unsolicited: false
@@ -457,18 +1247,6 @@ flows:
         pair: null
         owner: BPP
         expect: false
-      - key: status
-        type: status
-        unsolicited: false
-        pair: on_status_technical_cancellation
-        owner: BAP
-        expect: false
-      - key: on_status_technical_cancellation
-        type: on_status
-        unsolicited: false
-        pair: null
-        owner: BPP
-        expect: false
       - key: cancel_soft_technical_cancellation
         type: cancel
         unsolicited: false
@@ -481,3 +1259,567 @@ flows:
         pair: null
         owner: BPP
         expect: false
+
+  - id: purchase_journey_without_form_with_IGM(v-2.0.0)
+    tags: ["PRAMAAN", "MANDATORY", "REPORTABLE","WORKBENCH"]
+    description: purchase journey select to on_status without form
+    sequence:
+      - key: search_incremental_pull
+        type: search
+        unsolicited: false
+        pair: on_search_incremental_pull_1
+        owner: BAP
+        expect: true
+        input:
+          - name: city_code
+            label: Enter city code
+            type: text
+            payloadField: $.message.intent.fulfillment.stops[?(@.type=='START')].location.city.code
+      - key: on_search_incremental_pull_1
+        type: on_search
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_search_incremental_pull_2
+        type: on_search
+        unsolicited: true
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_search_incremental_pull_3
+        type: on_search
+        unsolicited: true
+        pair: null
+        owner: BPP
+        expect: false
+
+      - key: select
+        type: select
+        unsolicited: false
+        pair: on_select_without_form
+        owner: BAP
+        expect: true
+        input:
+          - name: select_input
+            label: Enter
+            type: trv_select
+      - key: on_select_without_form
+        type: on_select
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: init
+        type: init
+        unsolicited: false
+        pair: on_init
+        owner: BAP
+        expect: false
+      - key: on_init
+        type: on_init
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: confirm
+        type: confirm
+        unsolicited: false
+        pair: on_confirm
+        owner: BAP
+        expect: false
+      - key: on_confirm
+        type: on_confirm
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: status
+        type: status
+        unsolicited: false
+        pair: on_status
+        owner: BAP
+        expect: false
+      - key: on_status
+        type: on_status
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: issue_open
+        type: issue
+        label: open
+        unsolicited: false
+        description: Create a complaint for the order
+        pair: on_issue_processing
+        owner: BAP
+        expect: false
+      - key: on_issue_processing
+        type: on_issue
+        label: processing
+        unsolicited: false
+        description: Respondent starts PROCESSING the complaint
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_issue_need_more_info
+        type: on_issue
+        label: need_more_info
+        unsolicited: true
+        description: Respondent requests for more information
+        pair: null
+        owner: BPP
+        expect: true
+      - key: issue_info_provided
+        type: issue
+        label: info_provided
+        unsolicited: false
+        description: Complainant provides required information
+        pair: on_issue_provided
+        owner: BAP
+        expect: false
+      - key: on_issue_provided
+        type: on_issue
+        label: processing
+        unsolicited: false
+        description: Respondent marks the action as PROCESSING
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_issue_resolution
+        type: on_issue
+        label: resolution
+        unsolicited: true
+        description: Respondent proposes resolution for the complaint
+        pair: null
+        owner: BPP
+        expect: false
+      - key: issue_resolution_accept
+        type: issue
+        label: resolution_accept
+        unsolicited: false
+        description: A resolution is accepted by the complainant
+        pair: on_issue_resolved
+        owner: BAP
+        expect: false
+        input:
+          # - name: resolution_accept
+          #   label: Select a resolution
+          #   type: select
+          #   values:
+          #     - "R1-Refund"
+          #     - "R2-Replacement"
+          #   default: "R2-Replacement"
+          - name: resolution_accept
+            label: Enter resolution ID
+            type: text
+      - key: on_issue_resolved
+        type: on_issue
+        label: resolved
+        unsolicited: false
+        description: The complaint is marked as resolved
+        pair: null
+        owner: BPP
+        expect: false
+      - key: issue_close
+        type: issue
+        label: close
+        unsolicited: false
+        description: Once resolved, the complaint is marked as closed
+        pair: null
+        owner: BAP
+        expect: false
+        input:
+          - name: rating
+            label: Select Rating
+            type: select
+            values:
+              - "THUMBS_UP"
+              - "THUMBS_DOWN"
+            default: "THUMBS_UP"
+      # - key: on_update_igm_return
+      #   type: on_update
+      #   label: on_update_igm
+      #   unsolicited: true
+      #   description: final on_update call after issue closed
+      #   pair: null
+      #   owner: BPP
+      #   expect: false  
+
+  - id: purchase_journey_without_form_with_IGM_Rejection(v-2.0.0)
+    tags: ["PRAMAAN", "MANDATORY", "REPORTABLE","WORKBENCH"]
+    description: purchase journey select to on_status without form
+    sequence:
+      - key: search_incremental_pull
+        type: search
+        unsolicited: false
+        pair: on_search_incremental_pull_1
+        owner: BAP
+        expect: true
+        input:
+          - name: city_code
+            label: Enter city code
+            type: text
+            payloadField: $.message.intent.fulfillment.stops[?(@.type=='START')].location.city.code
+      - key: on_search_incremental_pull_1
+        type: on_search
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_search_incremental_pull_2
+        type: on_search
+        unsolicited: true
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_search_incremental_pull_3
+        type: on_search
+        unsolicited: true
+        pair: null
+        owner: BPP
+        expect: false
+
+      - key: select
+        type: select
+        unsolicited: false
+        pair: on_select_without_form
+        owner: BAP
+        expect: true
+        input:
+          - name: select_input
+            label: Enter
+            type: trv_select
+      - key: on_select_without_form
+        type: on_select
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: init
+        type: init
+        unsolicited: false
+        pair: on_init
+        owner: BAP
+        expect: false
+      - key: on_init
+        type: on_init
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: confirm
+        type: confirm
+        unsolicited: false
+        pair: on_confirm
+        owner: BAP
+        expect: false
+      - key: on_confirm
+        type: on_confirm
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: status
+        type: status
+        unsolicited: false
+        pair: on_status
+        owner: BAP
+        expect: false
+      - key: on_status
+        type: on_status
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: issue_open
+        type: issue
+        label: open
+        unsolicited: false
+        description: Create a complaint for the order
+        pair: on_issue_processing
+        owner: BAP
+        expect: false
+      - key: on_issue_processing
+        type: on_issue
+        label: processing
+        unsolicited: false
+        description: Respondent starts PROCESSING the complaint
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_issue_resolution
+        type: on_issue
+        label: resolution
+        unsolicited: true
+        description: Respondent proposes resolution for the complaint
+        pair: null
+        owner: BPP
+        expect: false
+      - key: issue_resolution_reject
+        type: issue
+        label: resolution_reject
+        unsolicited: false
+        description: The resolution is rejected by the complainant
+        pair: on_issue_processing_1
+        owner: BAP
+        expect: false
+        input:
+          - name: resolution_accept
+            label: Enter resolution ID
+            type: text
+      - key: on_issue_processing_1
+        type: on_issue
+        label: processing
+        unsolicited: false
+        description: Respondent marks the action as PROCESSING
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_issue_resolution_1
+        type: on_issue
+        label: resolution
+        unsolicited: true
+        description: Respondent proposes updated resolution for the complaint
+        pair: null
+        owner: BPP
+        expect: false
+      - key: issue_escalate
+        type: issue
+        label: escalate
+        unsolicited: false
+        description: Complainant escalates the complaint not being satisfied with the resolution
+        pair: on_issue_processing_2
+        owner: BAP
+        expect: false
+      - key: on_issue_processing_2
+        type: on_issue
+        label: processing
+        unsolicited: false
+        description: Respondent marks the action as PROCESSING
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_issue_resolution_2
+        type: on_issue
+        label: resolution
+        unsolicited: true
+        description: Respondent proposes updated resolution again for the complaint
+        pair: null
+        owner: BPP
+        expect: false
+      - key: issue_resolution_accept
+        type: issue
+        label: resolution_accept
+        unsolicited: false
+        description: A resolution is accepted by the complainant
+        pair: on_issue_resolved
+        owner: BAP
+        expect: false
+        input:
+          # - name: resolution_accept
+          #   label: Select a resolution
+          #   type: select
+          #   values:
+          #     - "R1-Refund"
+          #     - "R2-Replacement"
+          #   default: "R2-Replacement"
+          - name: resolution_accept
+            label: Enter resolution ID
+            type: text
+      - key: on_issue_resolved
+        type: on_issue
+        label: resolved
+        unsolicited: false
+        description: The complaint is marked as resolved
+        pair: null
+        owner: BPP
+        expect: false
+      - key: issue_close
+        type: issue
+        label: close
+        unsolicited: false
+        description: Once resolved, the complaint is marked as closed
+        pair: null
+        owner: BAP
+        expect: false
+        input:
+          - name: rating
+            label: Select Rating
+            type: select
+            values:
+              - "THUMBS_UP"
+              - "THUMBS_DOWN"
+            default: "THUMBS_UP"
+      # - key: on_update_igm_replacement
+      #   type: on_update
+      #   label: on_update_igm
+      #   unsolicited: true
+      #   description: final on_update call after issue closed
+      #   pair: null
+      #   owner: BPP
+      #   expect: false  
+
+  - id: purchase_journey_without_form_with_IGM_No_Action(v-2.0.0)
+    tags: ["PRAMAAN", "MANDATORY", "REPORTABLE","WORKBENCH"]
+    description: purchase journey select to on_status without form
+    sequence:
+      - key: search_incremental_pull
+        type: search
+        unsolicited: false
+        pair: on_search_incremental_pull_1
+        owner: BAP
+        expect: true
+        input:
+          - name: city_code
+            label: Enter city code
+            type: text
+            payloadField: $.message.intent.fulfillment.stops[?(@.type=='START')].location.city.code
+      - key: on_search_incremental_pull_1
+        type: on_search
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_search_incremental_pull_2
+        type: on_search
+        unsolicited: true
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_search_incremental_pull_3
+        type: on_search
+        unsolicited: true
+        pair: null
+        owner: BPP
+        expect: false
+
+      - key: select
+        type: select
+        unsolicited: false
+        pair: on_select_without_form
+        owner: BAP
+        expect: true
+        input:
+          - name: select_input
+            label: Enter
+            type: trv_select
+      - key: on_select_without_form
+        type: on_select
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: init
+        type: init
+        unsolicited: false
+        pair: on_init
+        owner: BAP
+        expect: false
+      - key: on_init
+        type: on_init
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: confirm
+        type: confirm
+        unsolicited: false
+        pair: on_confirm
+        owner: BAP
+        expect: false
+      - key: on_confirm
+        type: on_confirm
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: status
+        type: status
+        unsolicited: false
+        pair: on_status
+        owner: BAP
+        expect: false
+      - key: on_status
+        type: on_status
+        unsolicited: false
+        pair: null
+        owner: BPP
+        expect: false
+      - key: issue_open_2
+        type: issue
+        label: open
+        unsolicited: false
+        description: Create a complaint for the order
+        pair: on_issue_processing
+        owner: BAP
+        expect: false
+      - key: on_issue_processing
+        type: on_issue
+        label: processing
+        unsolicited: false
+        description: Respondent starts PROCESSING the complaint
+        pair: null
+        owner: BPP
+        expect: false
+      - key: on_issue_resolution_igm_3
+        type: on_issue
+        label: resolution
+        unsolicited: true
+        description: Respondent proposes resolution for the complaint
+        pair: null
+        owner: BPP
+        expect: false
+      - key: issue_resolution_accept_igm_3
+        type: issue
+        label: resolution_accept
+        unsolicited: false
+        description: A resolution is accepted by the complainant
+        pair: on_issue_resolved_igm_3
+        owner: BAP
+        expect: false
+        input:
+          # - name: resolution_accept
+          #   label: Select a resolution
+          #   type: select
+          #   values:
+          #     - "R1-Refund"
+          #     - "R2-Replacement"
+          #   default: "R2-Replacement"
+          - name: resolution_accept
+            label: Enter resolution ID
+            type: text
+      - key: on_issue_resolved_igm_3
+        type: on_issue
+        label: resolved
+        unsolicited: false
+        description: The complaint is marked as resolved
+        pair: null
+        owner: BPP
+        expect: false
+      - key: issue_close_igm_3
+        type: issue
+        label: close
+        unsolicited: false
+        description: Once resolved, the complaint is marked as closed
+        pair: null
+        owner: BAP
+        expect: false
+        input:
+          - name: rating
+            label: Select Rating
+            type: select
+            values:
+              - "THUMBS_UP"
+              - "THUMBS_DOWN"
+            default: "THUMBS_UP"
+      # - key: on_status_igm_3
+      #   type: on_status
+      #   unsolicited: true
+      #   pair: null
+      #   owner: BPP
+      #   expect: false
+      #   description: Status updates - order delivered  
+    
+        
+
