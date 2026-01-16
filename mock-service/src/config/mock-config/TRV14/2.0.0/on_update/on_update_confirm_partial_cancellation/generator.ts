@@ -19,7 +19,7 @@ export async function onUpdateConfirmPartialCancellationGenerator(existingPayloa
 
   // Load items from session with updated quantities
   if (sessionData.items) {
-    existingPayload.message.order.items = sessionData.items_partial_cancel;
+    existingPayload.message.order.items = sessionData.items_partial_cancel?.flat();
   }
 
   // Load fulfillments from session
