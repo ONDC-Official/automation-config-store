@@ -47,10 +47,12 @@ jobs:
           echo "TAG=$TAG" >> $GITHUB_ENV
           echo "TAG in this step: $TAG"
           GENERATOR_SHA=$(git rev-parse HEAD)
-          git submodule update --init --recursive
+          # git submodule update --init --recursive
           echo "Copying api-config from current repo..."
           cp -rf $GITHUB_WORKSPACE/api-service/src/config/* ./src/config/
           # ls -R automation-api-service-generator/src
+          npm i 
+          npm start
           echo "Build repo ready at $(pwd)"
 
       - name: Log in to GHCR
@@ -63,7 +65,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          cd automation-api-service-generator
+          cd automation-api-service-generator/build-output
           echo "TAG in this step: $TAG"
           IMAGE_NAME=ghcr.io/ondc-official/automation-api-service-${{vars.CONTAINER_NAME}}
           docker build -t $IMAGE_NAME:$TAG .
@@ -106,6 +108,12 @@ jobs:
           HOSTED_ENV=${{ vars.HOSTED_ENV_DEV }}
           NO_URL=${{ vars.NO_URL }}
           NO_TOKEN=${{ secrets.NO_TOKEN }}
+
+
+          IS_ONIX_ENABLED=${{ vars.IS_ONIX_ENABLED }}
+          RECORDER_SERVICE_GRPC_URL=${{ vars.RECORDER_SERVICE_GRPC_URL }}
+          RECORDER_SERVICE_HTTP_URL=${{ vars.RECORDER_SERVICE_HTTP_URL }}
+          
           EOF
           
           elif [[ "$BUILD_TYPE" == "release" ]]; then
