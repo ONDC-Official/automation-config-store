@@ -1,0 +1,6 @@
+save-data:
+  message_id: "$.context.message_id"
+  transaction_id: "$.context.transaction_id"
+  collected_by: "$.message.intent.payment.collected_by"
+  city_code: "$.context.location.city.code"
+ 

@@ -1,0 +1,44 @@
+catalog:
+  descriptor:
+    name: "ABC Insurance Ltd"
+  providers:
+    - categories:
+        - descriptor:
+            name: "Micro Insurance"
+            code: "MICRO_INSURANCE"
+          id: "C1"
+        - descriptor:
+            name: "Micro Transit Insurance"
+            code: "MICRO_TRANSIT_INSURANCE"
+          parent_category_id: "C1"
+          id: "C2"
+      descriptor:
+        long_desc: "ABC Insurance Ltd. Deals in multiple Insurance Services like Health, Motor, Marine etc"
+        name: "ABC Insurance Ltd."
+        short_desc: "ABC Insurance Ltd. India "
+        images:
+          - url: "https://www.abcinsurance.com/content/dam/abc/india/assets/images/header/logo.png"
+            size_type: "xs"
+      id: "P1"
+      tags:
+        - descriptor:
+            code: "MASTER_POLICY"
+          list:
+            - descriptor:
+                code: "POLICY_ID"
+              value: "e103b4a5-10f8-42c7-b888-dbf0e2edd696"
+      payments:
+        - collected_by: "BPP"
+  tags:
+    - descriptor:
+        code: BPP_TERMS
+        name: BPP Terms of Engagement
+      display: false
+      list:
+        - descriptor:
+            code: STATIC_TERMS
+          value: 'https://api.example-bap.com/booking/terms'
+        - descriptor: 
+            code: OFFLINE_CONTRACT
+          value: 'true'  
+           
