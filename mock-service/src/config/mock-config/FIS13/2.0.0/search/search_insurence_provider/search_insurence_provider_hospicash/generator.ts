@@ -1,6 +1,6 @@
-import { SessionData } from "../../../session-types";
+import { SessionData } from "../../../../session-types";
 
-export async function search_seller_pagination_generator(
+export async function search_insurence_hospicash_generator(
 	existingPayload: any,
 	sessionData: SessionData
 ) {

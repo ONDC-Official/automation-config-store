@@ -5,8 +5,6 @@ import { MockOnSelectHospicashInsurencClass } from "./2.0.0/on_select/on_select_
 import { MockInitTransitInsurenceClass } from "./2.0.0/init/init_transit_insurence/class";
 import { MockOnInitTransitClass } from "./2.0.0/on_init/on_init_transit_insurence/class";
 import { MockConfirmTransitClass } from "./2.0.0/confirm/confirm_transit_insurence/class";
-import { MockSearchInsurenceProviderClass } from "./2.0.0/search/search_insurence_provider/class";
-import { MockOnSearchInsurenceProvidersClass } from "./2.0.0/on_search/on_search_insurence_providers/class";
 import { MockSearchPurchaseJourneyTransitClass } from "./2.0.0/search/search_purchase_journey_transit/class";
 import { MockOnSearchPurchaseJourneyTransitClass } from "./2.0.0/on_search/on_search_purchase_journey_transit/class";
 import { MockOnSelectTransitInsurenceClass } from "./2.0.0/on_select/on_select_transit_insurence/class";
@@ -34,6 +32,11 @@ import { MockOnConfirmAccidentalClass } from "./2.0.0/on_confirm/on_confirm_acci
 import { MockOnupdateAccidentalClass } from "./2.0.0/on_update/on_update_accidental/class";
 import { MockOnSearchPurchaseJourneyAccidentalClass } from "./2.0.0/on_search/on_search_purchase_journey_accidental/class";
 import { MockOnSelectAccidentalInsurencClass } from "./2.0.0/on_select/on_select_accidental_insurence/class";
+import { MockSearchInsurenceTransitProviderClass } from "./2.0.0/search/search_insurence_provider/search_insurence_provider_transit/class";
+import { MockSearchInsurenceHospicashProviderClass } from "./2.0.0/search/search_insurence_provider/search_insurence_provider_hospicash/class";
+import { MockOnSearchInsurenceProvidersTransitClass } from "./2.0.0/on_search/on_search_insurence_providers/on_search_insurence_providers_transit/class";
+import { MockOnSearchInsurenceProvidersHospicashClass } from "./2.0.0/on_search/on_search_insurence_providers/on_search_insurence_providers_hospicash/class";
+import { MockOnSearchInsurenceProvidersAccidentalClass } from "./2.0.0/on_search/on_search_insurence_providers/on_search_insurence_providers_accidental/class";
 
 // Type helper for constructor
 type Ctor<T> = new () => T;
@@ -44,7 +47,9 @@ const registry = {
 	search: MockSearchClass,
 	search_purchase_journey_transit: MockSearchPurchaseJourneyTransitClass,
 	search_purchase_journey_hospicash: MockSearchPurchaseJourneyHospicashClass,
-	search_insurence_provider: MockSearchInsurenceProviderClass,
+	search_insurence_transit_provider: MockSearchInsurenceTransitProviderClass,
+	search_insurence_hospicash_provider: MockSearchInsurenceHospicashProviderClass,
+	search_insurence_accidental_provider: MockSearchInsurenceTransitProviderClass,
 	search_discover_product_hospicash: MockSearchDiscoverProductHospicashClass,
 	search_discover_product_transit: MockSearchDiscoverProductTransitClass,
 	search_discover_product_accidental: MockSearchDiscoverProductAccidentalClass,
@@ -55,7 +60,9 @@ const registry = {
 	on_search_purchase_journey_transit: MockOnSearchPurchaseJourneyTransitClass,
 	on_search_purchase_journey_accidental: MockOnSearchPurchaseJourneyAccidentalClass,
 	on_search: MockOnSearchClass,
-	on_search_insurence_provider: MockOnSearchInsurenceProvidersClass,
+	on_search_insurence_provider_transit: MockOnSearchInsurenceProvidersTransitClass,
+	on_search_insurence_provider_hospicash: MockOnSearchInsurenceProvidersHospicashClass,
+	on_search_insurence_provider_accidental: MockOnSearchInsurenceProvidersAccidentalClass,
 	on_search_discover_product_tranist: MockOnSearchDiscoverTransitClass,
 	on_search_discover_product_hospicash: MockOnSearchDiscoverHospicashClass,
 	on_search_discover_product_accidental: MockOnSearchDiscoverAccidentalClass,
