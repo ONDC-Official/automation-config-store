@@ -38,7 +38,7 @@ jobs:
 
 
       - name: Prepare build repo
-        id: generate
+        id: somerandomid
         run: |
           echo "Cloning generator repo..."
           # ls -R $GITHUB_WORKSPACE
