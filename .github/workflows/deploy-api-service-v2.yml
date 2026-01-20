@@ -18,7 +18,7 @@ jobs:
 
 
     outputs:
-      IMAGE_NAME_OUTPUT: ${{ steps.generate.outputs.IMAGE }}
+      IMAGE_NAME_OUTPUT: ${{ steps.generate.outputs.BUILD_TAG }}
 
     steps:
       - name: Checkout
@@ -125,17 +125,18 @@ jobs:
           npm i 
           npm run build
           npm start
-          GENERATOR_SHA=$(git rev-parse HEAD)
-          PLUGIN_SHA=$(git -C ./build-output/temp/automation-beckn-plugins rev-parse HEAD)
+          GENERATOR_SHA=$(git rev-parse --short HEAD)
+          PLUGIN_SHA=$(git -C ./build-output/temp/automation-beckn-plugins rev-parse --short HEAD)
           # PLUGIN_SHA = $(git rev-parse HEAD)
           git clone --single-branch --branch main https://github.com/ONDC-Official/automation-beckn-onix automation-beckn-onix
-          BECKN_ONIX_SHA=$(git -C ./automation-beckn-onix rev-parse HEAD)
+          BECKN_ONIX_SHA=$(git -C ./automation-beckn-onix rev-parse --short HEAD)
 
           #build the hash
           
 
           TAG="$GITHUB_SHA-$GENERATOR_SHA-$PLUGIN_SHA-$BECKN_ONIX_SHA" #config-store sha + generator
           HASH=$(echo -n "$TAG" | sha256sum | awk '{print $1}')
+
           echo "$HASH is my hash"
           echo "$TAG is my tag"
 
@@ -183,9 +184,9 @@ jobs:
       #   if: always()
       #   run: docker stop api-test || true
 
-      - name: Tag & Push Images
-        id: generate
-        run: |
+      # - name: Tag & Push Images
+      #   id: generate
+      #   run: |
       #     echo TAG in next step: $TAG
       #     IMAGE_NAME=ghcr.io/ondc-official/automation-api-service-${{vars.CONTAINER_NAME}}
       #     docker tag $IMAGE_NAME:$TAG $IMAGE_NAME:latest
@@ -193,7 +194,7 @@ jobs:
       #     docker push $IMAGE_NAME:$TAG
       #     docker push $IMAGE_NAME:latest
       #     docker push $IMAGE_NAME:stable
-          echo "IMAGE=$IMAGE_NAME" >> $GITHUB_OUTPUT
+      #     echo "BUILD_TAG=$TAG" >> $GITHUB_OUTPUT
 
   deploy:
     needs: build-and-verify
