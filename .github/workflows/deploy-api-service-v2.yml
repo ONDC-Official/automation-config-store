@@ -18,7 +18,7 @@ jobs:
 
 
     outputs:
-      build_version: ${{ steps.generate.outputs.BUILD_TAG }}
+      BUILD_TAG: ${{ steps.generate.outputs.BUILD_TAG }}
 
     steps:
       - name: Checkout
