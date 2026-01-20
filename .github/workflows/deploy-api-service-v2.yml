@@ -207,7 +207,6 @@ jobs:
     needs: build-and-verify
     runs-on: ubuntu-latest
     environment: ${{ github.ref_name }}  # environment exactly matches branch name
-    needs: build-and-verify
     steps:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
