@@ -2,19 +2,23 @@ name: Deploy Api Service
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - "api-service/**"
-      - "mock-service/**"
-    branches:
-      - "draft-*"
-      - "release-*"
+  # push:
+  #   paths:
+  #     - "api-service/**"
+  #     - "mock-service/**"
+  #   branches:
+  #     - "draft-*"
+  #     - "release-*"
 
       
 jobs:
   build-and-verify:
     runs-on: ubuntu-latest
     environment: ${{ github.ref_name }}  # environment exactly matches branch name
+
+
+    outputs:
+      build_version: ${{ steps.generate.outputs.BUILD_TAG }}
 
     steps:
       - name: Checkout
@@ -197,11 +201,13 @@ jobs:
           docker push $IMAGE_NAME:$TAG
           docker push $IMAGE_NAME:latest
           docker push $IMAGE_NAME:stable
+          echo "BUILD_TAG=$TAG" >> $GITHUB_OUTPUT
 
   deploy:
     needs: build-and-verify
     runs-on: ubuntu-latest
     environment: ${{ github.ref_name }}  # environment exactly matches branch name
+    needs: build-and-verify
     steps:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
@@ -219,7 +225,10 @@ jobs:
               BUILD_TYPE=default
             fi
 
-  
+            echo "printing BUILD_TAG on next line"
+            echo "Received build version: ${{ needs.build.outputs.BUILD_TAG }}"
+            echo "printing BUILD_TAG on next line ENDED HERE"
+
             REPO_DIR="$HOME/ONDC-automation-framework/api-service/automation-api-service-${{ github.ref_name }}"
             rm -rf $REPO_DIR
             mkdir -p $REPO_DIR
@@ -306,16 +315,16 @@ jobs:
             
 
 
-            IMAGE_NAME=ghcr.io/ondc-official/automation-api-service-${{vars.CONTAINER_NAME}}
+            # IMAGE_NAME=ghcr.io/ondc-official/automation-api-service-${{vars.CONTAINER_NAME}}
 
-            echo "Pulling latest image..."
-            docker pull $IMAGE_NAME:stable || docker pull $IMAGE_NAME:stable
+            # echo "Pulling latest image..."
+            # docker pull $IMAGE_NAME:stable || docker pull $IMAGE_NAME:stable
 
-            echo "Restarting container..."
-            docker stop automation-api-service-${{ vars.CONTAINER_NAME }} || true
-            docker rm automation-api-service-${{ vars.CONTAINER_NAME }} || true
+            # echo "Restarting container..."
+            # docker stop automation-api-service-${{ vars.CONTAINER_NAME }} || true
+            # docker rm automation-api-service-${{ vars.CONTAINER_NAME }} || true
 
-            docker run -d --name automation-api-service-${{ vars.CONTAINER_NAME }} \
-              --env-file $REPO_DIR/.env \
-              -p ${{ vars. API_SERVICE_PORT }}:${{ vars. API_SERVICE_PORT }} \
-              $IMAGE_NAME:stable
+            # docker run -d --name automation-api-service-${{ vars.CONTAINER_NAME }} \
+            #   --env-file $REPO_DIR/.env \
+            #   -p ${{ vars. API_SERVICE_PORT }}:${{ vars. API_SERVICE_PORT }} \
+            #   $IMAGE_NAME:stable
