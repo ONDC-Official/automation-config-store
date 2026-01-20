@@ -18,7 +18,7 @@ jobs:
 
 
     outputs:
-      IMAGE_NAME_OUTPUT: ${{ steps.generate.outputs.BUILD_TAG }}
+      BUILD_TAG_OUTPUT: ${{ steps.generate.outputs.BUILD_TAG }}
 
     steps:
       - name: Checkout
@@ -125,18 +125,17 @@ jobs:
           npm i 
           npm run build
           npm start
-          GENERATOR_SHA=$(git rev-parse --short HEAD)
-          PLUGIN_SHA=$(git -C ./build-output/temp/automation-beckn-plugins rev-parse --short HEAD)
+          GENERATOR_SHA=$(git rev-parse HEAD)
+          PLUGIN_SHA=$(git -C ./build-output/temp/automation-beckn-plugins rev-parse HEAD)
           # PLUGIN_SHA = $(git rev-parse HEAD)
           git clone --single-branch --branch main https://github.com/ONDC-Official/automation-beckn-onix automation-beckn-onix
-          BECKN_ONIX_SHA=$(git -C ./automation-beckn-onix rev-parse --short HEAD)
+          BECKN_ONIX_SHA=$(git -C ./automation-beckn-onix rev-parse HEAD)
 
           #build the hash
           
 
           TAG="$GITHUB_SHA-$GENERATOR_SHA-$PLUGIN_SHA-$BECKN_ONIX_SHA" #config-store sha + generator
           HASH=$(echo -n "$TAG" | sha256sum | awk '{print $1}')
-
           echo "$HASH is my hash"
           echo "$TAG is my tag"
 
@@ -218,7 +217,7 @@ jobs:
             fi
 
             echo "printing BUILD_TAG on next line"
-            echo "Received build version: ${{ needs.build-and-verify.outputs.IMAGE_NAME_OUTPUT }}"
+            echo "Received build version: ${{ needs.build-and-verify.outputs.BUILD_TAG_OUTPUT }}"
             echo "printing BUILD_TAG on next line ENDED HERE"
 
             REPO_DIR="$HOME/ONDC-automation-framework/api-service/automation-api-service-${{ github.ref_name }}"
