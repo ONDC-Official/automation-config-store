@@ -24,7 +24,7 @@ export async function selectDefaultGenerator(
   if (sessionData.created_at) {
     existingPayload.message.order.created_at = sessionData.created_at;
   }
-  existingPayload.message.order.updated_at = sessionData.created_at;
+  existingPayload.message.order.updated_at = existingPayload.context.timestamp;
 
   return existingPayload;
 }
