@@ -193,6 +193,7 @@ jobs:
         run: docker stop api-test || true
 
       - name: Tag & Push Images
+        id: generate
         run: |
           echo TAG in next step: $TAG
           IMAGE_NAME=ghcr.io/ondc-official/automation-api-service-${{vars.CONTAINER_NAME}}
