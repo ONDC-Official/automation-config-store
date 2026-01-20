@@ -139,12 +139,12 @@ jobs:
           echo "$HASH is my hash"
           echo "$TAG is my tag"
 
-      - name: Log in to GHCR
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GIT_PAT }}
+      # - name: Log in to GHCR
+      #   uses: docker/login-action@v3
+      #   with:
+      #     registry: ghcr.io
+      #     username: ${{ github.actor }}
+      #     password: ${{ secrets.GIT_PAT }}
 
 
       # - name: Build Docker image
