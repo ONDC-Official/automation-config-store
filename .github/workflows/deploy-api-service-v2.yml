@@ -138,6 +138,7 @@ jobs:
           HASH=$(echo -n "$TAG" | sha256sum | awk '{print $1}')
           echo "$HASH is my hash"
           echo "$TAG is my tag"
+          echo "BUILD_TAG=$TAG" >> $GITHUB_OUTPUT
 
       # - name: Log in to GHCR
       #   uses: docker/login-action@v3
