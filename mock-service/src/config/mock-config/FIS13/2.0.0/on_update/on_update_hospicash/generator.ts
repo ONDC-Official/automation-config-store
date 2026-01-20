@@ -22,7 +22,9 @@ export async function selectDefaultGenerator(existingPayload: any, sessionData: 
   if (sessionData.created_at) {
     existingPayload.message.order.created_at = sessionData.created_at;
   }
-  existingPayload.message.order.updated_at = existingPayload.context.timestamp;
+  const newData = new Date().toISOString()
+  existingPayload.context.timestamp = newData;
+  existingPayload.message.order.updated_at = newData
 
   return existingPayload;
 }
