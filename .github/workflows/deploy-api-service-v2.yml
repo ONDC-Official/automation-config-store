@@ -131,9 +131,12 @@ jobs:
           git clone --single-branch --branch main https://github.com/ONDC-Official/automation-beckn-onix automation-beckn-onix
           BECKN_ONIX_SHA=$(git -C ./automation-beckn-onix rev-parse HEAD)
 
+          #build the hash
           
 
           TAG="$GITHUB_SHA-$GENERATOR_SHA-$PLUGIN_SHA-$BECKN_ONIX_SHA" #config-store sha + generator
+          HASH=$(echo -n "$TAG" | sha256sum | awk '{print $1}')
+          echo $HASH
           echo $TAG
 
       # - name: Log in to GHCR
