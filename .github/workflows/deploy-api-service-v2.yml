@@ -18,7 +18,7 @@ jobs:
 
 
     outputs:
-      BUILD_TAG: ${{ steps.generate.outputs.BUILD_TAG }}
+      BUILD_TAG_OUTPUT: ${{ steps.generate.outputs.BUILD_TAG }}
 
     steps:
       - name: Checkout
@@ -225,7 +225,7 @@ jobs:
             fi
 
             echo "printing BUILD_TAG on next line"
-            echo "Received build version: ${{ needs.build.outputs.BUILD_TAG }}"
+            echo "Received build version: ${{ needs.build-and-verify.outputs.BUILD_TAG_OUTPUT }}"
             echo "printing BUILD_TAG on next line ENDED HERE"
 
             REPO_DIR="$HOME/ONDC-automation-framework/api-service/automation-api-service-${{ github.ref_name }}"
