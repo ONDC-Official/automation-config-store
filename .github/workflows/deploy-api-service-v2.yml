@@ -187,13 +187,14 @@ jobs:
         id: generate
         run: |
           echo TAG in next step: $TAG
+          echo "BUILD_TAG=$TAG" >> $GITHUB_OUTPUT
       #     IMAGE_NAME=ghcr.io/ondc-official/automation-api-service-${{vars.CONTAINER_NAME}}
       #     docker tag $IMAGE_NAME:$TAG $IMAGE_NAME:latest
       #     docker tag $IMAGE_NAME:$TAG $IMAGE_NAME:stable
       #     docker push $IMAGE_NAME:$TAG
       #     docker push $IMAGE_NAME:latest
       #     docker push $IMAGE_NAME:stable
-          echo "BUILD_TAG=$TAG" >> $GITHUB_OUTPUT
+
 
   deploy:
     needs: build-and-verify
