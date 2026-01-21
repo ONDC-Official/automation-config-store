@@ -18,7 +18,7 @@ jobs:
 
 
     outputs:
-      BUILD_TAG_OUTPUT: ${{ steps.generate.outputs.BUILD_TAG }}
+      IMAGE_NAME_OUTPUT: ${{ steps.generate.outputs.BUILD_TAG }}
 
     steps:
       - name: Checkout
@@ -205,8 +205,8 @@ jobs:
         id: generate
         run: |
           echo TAG in next step: $TAG
-          IMAGE_NAME=ghcr.io/ondc-official/IMAGE_TAG
-          # IMAGE_NAME=ghcr.io/ondc-official/ondc-onix-ret10-125
+          # IMAGE_NAME=ghcr.io/ondc-official/IMAGE_TAG
+          # # IMAGE_NAME=ghcr.io/ondc-official/ondc-onix-ret10-125
 
           # docker tag $IMAGE_NAME:$TAG $IMAGE_NAME:latest
           # docker tag $IMAGE_NAME:$TAG $IMAGE_NAME:stable
@@ -214,7 +214,7 @@ jobs:
           # docker push $IMAGE_NAME:latest
           # docker push $IMAGE_NAME:stable
           echo "Version is $VERSION_NUM and service is $SERVICE"
-          echo "BUILD_TAG=$IMAGE_NAME" >> $GITHUB_OUTPUT
+          echo "IMAGE_NAME_OUTPUT=$IMAGE_NAME" >> $GITHUB_OUTPUT
 
   deploy:
     needs: build-and-verify
@@ -238,7 +238,7 @@ jobs:
             fi
 
             echo "printing BUILD_TAG on next line"
-            echo "Received build version: ${{ needs.build-and-verify.outputs.BUILD_TAG_OUTPUT }}"
+            echo "Received build version: ${{ needs.build-and-verify.outputs.IMAGE_NAME_OUTPUT }}"
             echo "printing BUILD_TAG on next line ENDED HERE"
 
             REPO_DIR="$HOME/ONDC-automation-framework/api-service/automation-api-service-${{ github.ref_name }}"
