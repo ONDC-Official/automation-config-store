@@ -158,7 +158,15 @@ jobs:
           ls -R automation-api-service-generator/build-output
           cd automation-api-service-generator/build-output
           echo "TAG in this step: $TAG"
-          IMAGE_NAME=ghcr.io/ondc-official/automation-api-service-${{vars.CONTAINER_NAME}}
+          VERSION=${{ vars.VERSION }}
+          DOMAIN=${{ vars.DOMAIN }}
+          VERSION_NUM="${VERSION//./}"
+          SERVICE="${DOMAIN#*:}"
+          echo "IMAGE_TAG=ondc-onix-$SERVICE-$VERSION_NUM" >> $GITHUB_ENV
+          IMAGE_NAME=ghcr.io/ondc-official/IMAGE_TAG
+          echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
+
+          echo "$IMAGE_NAME is the image name"
           # docker build -t $IMAGE_NAME:$TAG .
           echo "$TAG"
         env:
@@ -168,6 +176,7 @@ jobs:
         run: |
           IMAGE_NAME=ghcr.io/ondc-official/automation-api-service-${{vars.CONTAINER_NAME}}
           cd automation-api-service-generator
+          echo "${{ steps.gen.outputs.IMAGE_NAME }} is the image name in next step"
           # docker run -d --name api-test \
           #   -p ${{ vars. API_SERVICE_PORT }}:${{ vars. API_SERVICE_PORT }} \
           #   --env-file .env \
@@ -193,18 +202,14 @@ jobs:
         id: generate
         run: |
           echo TAG in next step: $TAG
-          # IMAGE_NAME=ghcr.io/ondc-official/automation-api-service-${{vars.CONTAINER_NAME}}
-          IMAGE_NAME=ghcr.io/ondc-official/ondc-onix-ret10-125
+          IMAGE_NAME=ghcr.io/ondc-official/IMAGE_TAG
+          # IMAGE_NAME=ghcr.io/ondc-official/ondc-onix-ret10-125
 
           # docker tag $IMAGE_NAME:$TAG $IMAGE_NAME:latest
           # docker tag $IMAGE_NAME:$TAG $IMAGE_NAME:stable
           # docker push $IMAGE_NAME:$TAG
           # docker push $IMAGE_NAME:latest
           # docker push $IMAGE_NAME:stable
-          VERSION=${{ vars.VERSION }}
-          DOMAIN=${{ vars.DOMAIN }}
-          VERSION_NUM="${VERSION//./}"
-          SERVICE="${DOMAIN#*:}"
           echo "Version is $VERSION_NUM and service is $SERVICE"
           echo "BUILD_TAG=$IMAGE_NAME" >> $GITHUB_OUTPUT
 
