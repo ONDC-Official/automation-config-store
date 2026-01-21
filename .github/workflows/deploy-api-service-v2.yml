@@ -38,7 +38,6 @@ jobs:
 
 
       - name: Prepare build repo
-        id: somerandomid
         run: |
           echo "Cloning generator repo..."
           # ls -R $GITHUB_WORKSPACE
@@ -47,9 +46,14 @@ jobs:
           # ls -R automation-api-service-generator
           echo "Initializing submodules..."
           cd automation-api-service-generator
-
+          GENERATOR_SHA=$(git rev-parse HEAD)
+          TAG="$GITHUB_SHA-$GENERATOR_SHA"
+          echo "TAG=$TAG" >> $GITHUB_ENV
+          echo "TAG in this step: $TAG"
+          GENERATOR_SHA=$(git rev-parse HEAD)
           echo "Copying api-config from current repo..."
           cp -rf $GITHUB_WORKSPACE/api-service/src/config/* ./src/config/
+          # ls -R automation-api-service-generator
           echo "Build repo ready at $(pwd)"
 
           if [[ "$BUILD_TYPE" == "draft" ]]; then
@@ -141,62 +145,61 @@ jobs:
           echo "$TAG is my tag"
           echo "BUILD_TAG=$TAG" >> $GITHUB_OUTPUT
 
-      # - name: Log in to GHCR
-      #   uses: docker/login-action@v3
-      #   with:
-      #     registry: ghcr.io
-      #     username: ${{ github.actor }}
-      #     password: ${{ secrets.GIT_PAT }}
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GIT_PAT }}
 
 
-      # - name: Build Docker image
-      #   run: |
-      #     ls -R automation-api-service-generator/build-output
-      #     cd automation-api-service-generator/build-output
-      #     echo "TAG in this step: $TAG"
-      #     IMAGE_NAME=ghcr.io/ondc-official/automation-api-service-${{vars.CONTAINER_NAME}}
-      #     docker build -t $IMAGE_NAME:$TAG .
-      #     echo "$TAG"
-      #   env:
-      #     DOCKER_BUILDKIT: 1
+      - name: Build Docker image
+        run: |
+          ls -R automation-api-service-generator/build-output
+          cd automation-api-service-generator/build-output
+          echo "TAG in this step: $TAG"
+          IMAGE_NAME=ghcr.io/ondc-official/automation-api-service-${{vars.CONTAINER_NAME}}
+          docker build -t $IMAGE_NAME:$TAG .
+          echo "$TAG"
+        env:
+          DOCKER_BUILDKIT: 1
 
-      # - name: Run container locally
-      #   run: |
-      #     IMAGE_NAME=ghcr.io/ondc-official/automation-api-service-${{vars.CONTAINER_NAME}}
-      #     cd automation-api-service-generator
-      #     docker run -d --name api-test \
-      #       -p ${{ vars. API_SERVICE_PORT }}:${{ vars. API_SERVICE_PORT }} \
-      #       --env-file .env \
-      #       $IMAGE_NAME:$TAG
+      - name: Run container locally
+        run: |
+          IMAGE_NAME=ghcr.io/ondc-official/automation-api-service-${{vars.CONTAINER_NAME}}
+          cd automation-api-service-generator
+          docker run -d --name api-test \
+            -p ${{ vars. API_SERVICE_PORT }}:${{ vars. API_SERVICE_PORT }} \
+            --env-file .env \
+            $IMAGE_NAME:$TAG
       
-      #     echo "⏳ Waiting for service..."
-      #     sleep 5
+          echo "⏳ Waiting for service..."
+          sleep 5
       
-      #     echo "📋 Container status:"
-      #     docker ps -a
+          echo "📋 Container status:"
+          docker ps -a
       
-      #     echo "📜 Logs:"
-      #     docker logs api-test || true
+          echo "📜 Logs:"
+          docker logs api-test || true
       
-      #     # echo "🔍 Health check:"
-      #     # curl -v http://localhost:${{ vars. API_SERVICE_PORT }}/health || true
+          # echo "🔍 Health check:"
+          # curl -v http://localhost:${{ vars. API_SERVICE_PORT }}/health || true
 
-      # - name: Stop test container
-      #   if: always()
-      #   run: docker stop api-test || true
+      - name: Stop test container
+        if: always()
+        run: docker stop api-test || true
 
       - name: Tag & Push Images
         id: generate
         run: |
           echo TAG in next step: $TAG
+          IMAGE_NAME=ghcr.io/ondc-official/automation-api-service-${{vars.CONTAINER_NAME}}
+          docker tag $IMAGE_NAME:$TAG $IMAGE_NAME:latest
+          docker tag $IMAGE_NAME:$TAG $IMAGE_NAME:stable
+          docker push $IMAGE_NAME:$TAG
+          docker push $IMAGE_NAME:latest
+          docker push $IMAGE_NAME:stable
           echo "BUILD_TAG=$TAG" >> $GITHUB_OUTPUT
-      #     IMAGE_NAME=ghcr.io/ondc-official/automation-api-service-${{vars.CONTAINER_NAME}}
-      #     docker tag $IMAGE_NAME:$TAG $IMAGE_NAME:latest
-      #     docker tag $IMAGE_NAME:$TAG $IMAGE_NAME:stable
-      #     docker push $IMAGE_NAME:$TAG
-      #     docker push $IMAGE_NAME:latest
-      #     docker push $IMAGE_NAME:stable
-
 
   deploy:
     needs: build-and-verify
