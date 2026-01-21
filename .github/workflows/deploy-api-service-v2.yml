@@ -162,7 +162,6 @@ jobs:
           DOMAIN=${{ vars.DOMAIN }}
           VERSION_NUM="${VERSION//./}"
           SERVICE="${DOMAIN#*:}"
-          echo "$IMAGE_TAG"
           IMAGE_TAG = "ondc-onix-$SERVICE-$VERSION_NUM"
           echo "$IMAGE_TAG"
 
