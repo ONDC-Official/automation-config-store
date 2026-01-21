@@ -193,12 +193,19 @@ jobs:
         id: generate
         run: |
           echo TAG in next step: $TAG
-          IMAGE_NAME=ghcr.io/ondc-official/automation-api-service-${{vars.CONTAINER_NAME}}
+          # IMAGE_NAME=ghcr.io/ondc-official/automation-api-service-${{vars.CONTAINER_NAME}}
+          IMAGE_NAME=ghcr.io/ondc-official/ondc-onix-ret10-125
+
           # docker tag $IMAGE_NAME:$TAG $IMAGE_NAME:latest
           # docker tag $IMAGE_NAME:$TAG $IMAGE_NAME:stable
           # docker push $IMAGE_NAME:$TAG
           # docker push $IMAGE_NAME:latest
           # docker push $IMAGE_NAME:stable
+          VERSION=${{ vars.VERSION }}
+          DOMAIN=${{ vars.DOMAIN }}
+          VERSION_NUM="${VERSION//./}"
+          SERVICE="${DOMAIN#*:}"
+          echo "Version is $VERSION_NUM and service is $SERVICE"
           echo "BUILD_TAG=$IMAGE_NAME" >> $GITHUB_OUTPUT
 
   deploy:
