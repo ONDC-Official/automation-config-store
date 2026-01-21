@@ -162,9 +162,8 @@ jobs:
           DOMAIN=${{ vars.DOMAIN }}
           VERSION_NUM="${VERSION//./}"
           SERVICE="${DOMAIN#*:}"
-          echo $VERSION_NUM
           IMAGE_TAG = "ondc-onix-$SERVICE-$VERSION_NUM"
-          IMAGE_NAME=ghcr.io/ondc-official/IMAGE_TAG
+          IMAGE_NAME="ghcr.io/ondc-official/IMAGE_TAG"
           echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
 
           echo "$IMAGE_NAME is the image name"
