@@ -163,7 +163,10 @@ jobs:
           VERSION_NUM="${VERSION//./}"
           SERVICE="${DOMAIN#*:}"
           IMAGE_TAG = "ondc-onix-$SERVICE-$VERSION_NUM"
+          echo $IMAGE_TAG
+
           IMAGE_NAME="ghcr.io/ondc-official/IMAGE_TAG"
+          echo $IMAGE_NAME
           echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
 
           echo "$IMAGE_NAME is the image name"
