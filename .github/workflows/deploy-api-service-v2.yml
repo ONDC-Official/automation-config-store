@@ -162,7 +162,7 @@ jobs:
           DOMAIN=${{ vars.DOMAIN }}
           VERSION_NUM="${VERSION//./}"
           SERVICE="${DOMAIN#*:}"
-          echo "IMAGE_TAG=ondc-onix-$SERVICE-$VERSION_NUM" >> $GITHUB_ENV
+          IMAGE_TAG = "ondc-onix-$SERVICE-$VERSION_NUM"
           IMAGE_NAME=ghcr.io/ondc-official/IMAGE_TAG
           echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
 
@@ -176,7 +176,7 @@ jobs:
         run: |
           IMAGE_NAME=ghcr.io/ondc-official/automation-api-service-${{vars.CONTAINER_NAME}}
           cd automation-api-service-generator
-          echo "${{ steps.gen.outputs.IMAGE_NAME }} is the image name in next step"
+          echo "$IMAGE_NAME is the image name in next step"
           # docker run -d --name api-test \
           #   -p ${{ vars. API_SERVICE_PORT }}:${{ vars. API_SERVICE_PORT }} \
           #   --env-file .env \
