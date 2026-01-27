@@ -13,12 +13,12 @@ export async function search_seller_pagination_generator(
 	const today = new Date();
 	const tomorrow = new Date();
 	tomorrow.setDate(today.getDate() + 1);
-	
-	const formattedToday = today.toISOString().split("T")[0];  
-	const formattedTomorrow = tomorrow.toISOString().split("T")[0]; 
-	
+
+	const formattedToday = today.toISOString().split("T")[0];
+	const formattedTomorrow = tomorrow.toISOString().split("T")[0];
+
 	if (sessionData.user_inputs) {
-		const buyerInputs = sessionData.user_inputs;
+		existingPayload.message.intent.provider = sessionData.user_inputs.provider;
 		const items = existingPayload.message?.intent?.provider?.items || [];
 
 		if (items.length > 0) {
@@ -30,32 +30,14 @@ export async function search_seller_pagination_generator(
 				tags.list.forEach((entry: any) => {
 					switch (entry.descriptor?.code) {
 						case "BUYER_NAME":
-							if (buyerInputs.buyer_name)
-								entry.value = formatName(buyerInputs.buyer_name)
+							if (entry.value && entry.value !== "-") {
+								entry.value = formatName(entry.value)
+							}
 							break;
 						case "BUYER_PHONE_NUMBER":
-							if (buyerInputs.phone_number) 
-								entry.value = ensureCountryCode(buyerInputs.phone_number)
-							break;
-						case "BUYER_PAN_NUMBER":
-							if (buyerInputs.pan_number)
-								entry.value = buyerInputs.pan_number;
-							break;
-						case "START_ADDRESS":
-							if (buyerInputs.start_address)
-								entry.value = buyerInputs.start_address;
-							break;
-						case "END_ADDRESS":
-							if (buyerInputs.end_address)
-								entry.value = buyerInputs.end_address;
-							break;
-						case "TRANSIT_START_DATE":
-							if (buyerInputs.end_address)
-								entry.value = formattedToday
-							break;
-						case "TRANSIT_END_DATE":
-							if (buyerInputs.end_address)
-								entry.value = formattedTomorrow
+							if (entry.value && entry.value !== "-") {
+								entry.value = ensureCountryCode(entry.value)
+							}
 							break;
 					}
 				});
@@ -63,7 +45,7 @@ export async function search_seller_pagination_generator(
 		}
 	}
 
-	
+
 	if (
 		existingPayload.message?.intent?.fulfillment?.stops?.[0]?.time?.range
 	) {
@@ -82,10 +64,10 @@ export async function search_seller_pagination_generator(
 }
 
 function formatName(input: string): string {
-  return input.trim().split(/\s+/).join(' | ');
+	return input.trim().split(/\s+/).join(' | ');
 }
 
 function ensureCountryCode(phoneNumber: string): string {
-  const trimmed = phoneNumber.trim();
-  return trimmed.startsWith('+91') ? trimmed : '+91-' + trimmed;
+	const trimmed = phoneNumber.trim();
+	return trimmed.startsWith('+91') ? trimmed : '+91-' + trimmed;
 }
