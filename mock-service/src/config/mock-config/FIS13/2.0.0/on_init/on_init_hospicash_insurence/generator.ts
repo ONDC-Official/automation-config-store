@@ -1,5 +1,5 @@
 function convertToISO(dateStr: any) {
-  const [dd, mm, yyyy] = dateStr.split("-");
+  const [dd, mm, yyyy] = dateStr.split("/");
   return `${yyyy}-${mm}-${dd}`;
 }
 

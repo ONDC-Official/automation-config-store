@@ -1,8 +1,8 @@
 export async function onSearchSellerPagination1Generator(existingPayload: any, sessionData: any) {
-  existingPayload.context.location.city.code= sessionData?.city_code
+  existingPayload.context.location.city.code = sessionData?.city_code
 
-  existingPayload.message.catalog.providers  =  existingPayload.message.catalog.providers.filter((provider: { id: any; })=>provider.id === sessionData.provider_id) 
-  existingPayload.message.catalog.providers.forEach((provider: { tags: any[]; }) => {
+  existingPayload.message.catalog.providers.forEach((provider: { tags: any[], id: string }) => {
+    provider.id = sessionData.provider_id;
     provider.tags.forEach((tag: { descriptor: { code: string; }; list: any[]; }) => {
       if (tag.descriptor.code === "MASTER_POLICY") {
         tag.list.forEach((item: { descriptor: { code: string; }; value: any; }) => {
@@ -13,6 +13,6 @@ export async function onSearchSellerPagination1Generator(existingPayload: any, s
       }
     });
   });
- 
- return existingPayload;
+
+  return existingPayload;
 } 

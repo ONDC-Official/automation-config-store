@@ -30,7 +30,7 @@ export interface SessionData {
 	error_message: string | undefined;
 	ref_id: string | undefined;
 	ttl: string | undefined;
-	usecaseId : string | undefined;
+	usecaseId: string | undefined;
 	stops: any[] | undefined;
 	update_stop: any[] | undefined;
 	update_quote: any[] | undefined;
@@ -62,7 +62,7 @@ export interface SessionData {
 	updated_at: string | undefined;
 	order_status: string | undefined;
 	person_name: string | undefined;
-	
+
 }
 
 export type BecknContext = {
@@ -111,4 +111,6 @@ export interface Input {
 	email?: string;
 	sum_insured?: string;
 	policy_name?: string;
+	provider_id?: string;
+	provider?: any;
 }
