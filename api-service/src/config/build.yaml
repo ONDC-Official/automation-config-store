@@ -24460,6 +24460,7 @@ x-validations:
           - ROUTE
           - TRIP
           - TICKET
+          - PASS
         enumPath: "$.message.order.fulfillments[*].type"
         _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
@@ -24705,6 +24706,8 @@ x-validations:
         enumList:
           - ROUTE
           - TRIP
+          - TICKET
+          - PASS
         enumPath: "$.message.order.fulfillments[*].type"
         _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
@@ -24950,6 +24953,8 @@ x-validations:
         enumList:
           - ROUTE
           - TRIP
+          - TICKET
+          - PASS
         enumPath: "$.message.order.fulfillments[*].type"
         _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
