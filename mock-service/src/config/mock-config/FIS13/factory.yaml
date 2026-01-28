@@ -20,7 +20,7 @@ codes:
   - code: 103
     action_id: search_insurence_transit_provider
     action: search
-    default: FIS13\2.0.0\search\search_insurence_provider\search_insurence_provider_transit\default.yaml
+    default: FIS13/2.0.0/search/search_insurence_provider/search_insurence_provider_transit/default.yaml
     message_id: true
 
   - code: 201
@@ -57,19 +57,19 @@ codes:
   - code: 107
     action_id: on_search_insurence_provider_transit
     action: on_search
-    default: FIS13\2.0.0\on_search\on_search_insurence_providers\on_search_insurence_providers_transit\default.yaml
+    default: FIS13/2.0.0/on_search/on_search_insurence_providers/on_search_insurence_providers_transit/default.yaml
     message_id: false
  
   - code: 210
     action_id: on_search_insurence_provider_hospicash
     action: on_search
-    default: FIS13\2.0.0\on_search\on_search_insurence_providers\on_search_insurence_providers_hospicash\default.yaml
+    default: FIS13/2.0.0/on_search/on_search_insurence_providers/on_search_insurence_providers_hospicash/default.yaml
     message_id: false
  
   - code: 211
     action_id: on_search_insurence_provider_accidental
     action: on_search
-    default: FIS13\2.0.0\on_search\on_search_insurence_providers\on_search_insurence_providers_accidental\default.yaml
+    default: FIS13/2.0.0/on_search/on_search_insurence_providers/on_search_insurence_providers_accidental/default.yaml
     message_id: false
  
 
