@@ -197,7 +197,7 @@ codes:
   - code: 190
     action_id: on_select_form_submission_culture
     action: on_select
-    default: TRV14\2.0.0\on_select_form_submission_culture\default.yaml
+    default: TRV14/2.0.0/on_select_form_submission_culture/default.yaml
     message_id: false
   - code: 138
     action_id: on_cancel_rejected
