@@ -5,6 +5,7 @@ save-data:
   fulfillments: "$.message.order.fulfillments[*]"
   provider_id: "$.message.order.provider.id"
   quote: "$.message.order.quote"
+
   cancellation_terms: "$.message.order.cancellation_terms"
   provider: "$.message.order.provider"
   replacement_terms: "$.message.order.replacement_terms"
