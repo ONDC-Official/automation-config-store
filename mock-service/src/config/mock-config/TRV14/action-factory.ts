@@ -65,6 +65,7 @@ import { MockOnIssueResolvedClass, MockOnIssueResolvedIGM3Class } from "./2.0.0/
 import { MockIssueCloseClass, MockIssueCloseIGM3Class } from "./2.0.0/issue/issue_close/class";
 import { MockSelectPurchaseCultureClass } from "./2.0.0/select_form_submission_cultural/class";
 import { MockOnSelectPurchaseCultureClass } from "./2.0.0/on_select_form_submission_culture/class";
+import { MockOnSelectPurchaseCultFormClass } from "./2.0.0/on_select_cultural/class";
 // types/helpers
 type Ctor<T> = new () => T;
 
@@ -91,6 +92,7 @@ const registry = {
 	on_select: MockOnSelectClass,
 	on_select_without_form: MockOnSelectWithoutFormClass,
 	on_select_form_submission_culture: MockOnSelectPurchaseCultureClass,
+	on_select_submission_cultural: MockOnSelectPurchaseCultFormClass,
 	select_form_submission: MockSelect2Class,
 	select_form_submission_cultural: MockSelectPurchaseCultureClass,
 	on_select_form_submission: MockOnSelect2Class,
