@@ -138,7 +138,6 @@ function calculateQuote(items: any[]): any {
 export async function onSelectDefaultGenerator(existingPayload: any, sessionData: any) {
   // Note: Validation is handled in meetRequirements method of the class
   // inject default data 
-  sessionData.items = data.items
   sessionData.fulfillments = data.fulfillments
 
 

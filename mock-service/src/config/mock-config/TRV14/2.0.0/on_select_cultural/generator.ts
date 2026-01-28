@@ -102,7 +102,6 @@ function calculateQuote(items: any[]): any {
 }
 
 export async function onSelectDefaultGenerator(existingPayload: any, sessionData: any) {
-  sessionData.items = data.items
   sessionData.fulfillments = data.fulfillments
 
   const responseItems: any[] = [];
