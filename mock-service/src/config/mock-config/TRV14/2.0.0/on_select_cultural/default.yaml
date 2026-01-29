@@ -256,7 +256,10 @@ order:
         gps: "28.524596, 77.185577"
         descriptor:
           name: Qutab Minar
-          short_desc: Seth Sarai, Mehrauli, New Delhi, Delhi. The Qutb Minar, also spelled Qutub Minar and Qutab Minar, is a minaret and "victory tower" that forms part of the Qutb complex
+          short_desc: >-
+            Seth Sarai, Mehrauli, New Delhi, Delhi. The Qutb Minar, also spelled
+            Qutub Minar and Qutab Minar, is a minaret and "victory tower" that
+            forms part of the Qutb complex
           additional_desc:
             url: https://api.unreserved-entry-pass.com/sites/additional-info
             content_type: text/plain
