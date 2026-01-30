@@ -1,0 +1,10 @@
+save-data:
+  transaction_id: "$.context.transaction_id"
+  message_id: "$.context.message_id"
+  items: "$.message.catalog.providers[*].items[*]"
+  on_search_tags: "$.message.catalog.providers[*].tags[*]"
+  on_search_provider: "$.message.catalog.providers[*]"
+  item: "$.message.catalog.providers[*].items[*]"
+  fulfillments: "$.message.catalog.providers[*].fulfillments[*]"
+  convience_fee: "$.message.catalog.providers[*].items[*].tags[?(@.descriptor.code=='GENERAL_INFO')].list[?(@.descriptor.code=='CONVIENCE_FEE')].value"
+  processing_fee: "$.message.catalog.providers[*].items[*].tags[?(@.descriptor.code=='GENERAL_INFO')].list[?(@.descriptor.code=='PROCESSING_FEE')].value"

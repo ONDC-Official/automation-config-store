@@ -7326,6 +7326,11 @@ x-validations:
                         - BUYER_NAME
                         - BUYER_PHONE_NUMBER
                         - BUYER_PAN_NUMBER
+                        - BUYER_DOB
+                        - BUYER_GENDER
+                        - BUYER_EMAIL
+                        - TENURE
+                        - SUM_INSURED
                         - DERIVED_DATA
                         - PRODUCT_CATEGORY
                         - ORDER_ID

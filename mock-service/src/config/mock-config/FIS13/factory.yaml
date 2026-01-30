@@ -235,3 +235,64 @@ codes:
     action: on_update
     default: FIS13/2.0.0/on_update/on_update_accidental/default.yaml
     message_id: false  
+
+ 
+  - code: 138
+    action_id: select_cd_balance_error
+    action: select
+    default: FIS13/2.0.0/select/select_cd_balance_error/default.yaml
+    message_id: true
+
+  - code: 139
+    action_id: on_select_cd_balance_error
+    action: on_select
+    default: FIS13/2.0.0/on_select/on_select_cd_balance_error/default.yaml
+    message_id: false
+
+  - code: 140
+    action_id: init_cd_balance_error
+    action: init
+    default: FIS13/2.0.0/init/init_cd_balance_error/default.yaml
+    message_id: true
+
+  - code: 141
+    action_id: on_init_cd_balance_error
+    action: on_init
+    default: FIS13/2.0.0/on_init/on_init_cd_balance_error/default.yaml
+    message_id: false
+
+  - code: 142
+    action_id: search_cd_balance_error_accidental
+    action: search
+    default: FIS13/2.0.0/search/search_cd_balance_error/defaultaccident.yaml
+    message_id: true
+
+  - code: 143
+    action_id: search_cd_balance_error_hospicash
+    action: search
+    default: FIS13/2.0.0/search/search_cd_balance_error/defaulthospich.yaml
+    message_id: true
+
+  - code: 144
+    action_id: search_cd_balance_error_transit
+    action: search
+    default: FIS13/2.0.0/search/search_cd_balance_error/defaulttransit.yaml
+    message_id: true
+
+  - code: 145
+    action_id: on_search_cd_balance_error_accidental
+    action: on_search
+    default: FIS13/2.0.0/on_search/on_search_cd_balance_error/defaultaccident.yaml
+    message_id: false
+
+  - code: 146
+    action_id: on_search_cd_balance_error_hospicash
+    action: on_search
+    default: FIS13/2.0.0/on_search/on_search_cd_balance_error/defaulthospich.yaml
+    message_id: false
+
+  - code: 147
+    action_id: on_search_cd_balance_error_transit
+    action: on_search
+    default: FIS13/2.0.0/on_search/on_search_cd_balance_error/defaulttransit.yaml
+    message_id: false

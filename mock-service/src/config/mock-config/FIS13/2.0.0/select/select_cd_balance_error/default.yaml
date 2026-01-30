@@ -1,0 +1,6 @@
+order:
+  items:
+    - id: "CHILD_ITEM_ID_I1"
+      parent_item_id: "I1"
+  provider:
+    id: "P1"

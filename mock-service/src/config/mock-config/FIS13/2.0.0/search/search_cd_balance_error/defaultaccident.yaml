@@ -1,0 +1,57 @@
+intent:
+  category:
+    descriptor:
+      code: "MICRO_ACCIDENTAL_INSURANCE"
+  provider:
+    id: "P1"
+    items:
+      - id: "I1"
+        tags:
+          - descriptor:
+              code: "BAP_INPUTS"
+            list:
+              - descriptor:
+                  code: "BUYER_NAME"
+                value: "Mr. | Joe | Wick | Adams"
+              - descriptor:
+                  code: "BUYER_PHONE_NUMBER"
+                value: "+91-9988776655"
+              - descriptor:
+                  code: "BUYER_PAN_NUMBER"
+                value: "RLPIS315T"
+              - descriptor:
+                  code: "BUYER_DOB"
+                value: "17/12/2001"
+              - descriptor:
+                  code: "BUYER_GENDER"
+                value: "M"
+              - descriptor:
+                  code: "SUM_INSURED"
+                value: "100000"
+              - descriptor:
+                  code: "BUYER_EMAIL"
+                value: "john.doe@example.com"
+              - descriptor:
+                  code: "TENURE"
+                value: "P1M"
+    tags:
+      - descriptor:
+          code: "MASTER_POLICY"
+        list:
+          - descriptor:
+              code: "POLICY_ID"
+            value: "e103b4a5-10f8-42c7-b888-dbf0e2edd696"
+  payment:
+    collected_by: "BPP"
+  tags:
+    - descriptor:
+        code: "BAP_TERMS"
+        name: "BAP Terms of Engagement"
+      display: false
+      list:
+        - descriptor:
+            code: "STATIC_TERMS"
+          value: "https://api.example-bap.com/booking/terms"
+        - descriptor:
+            code: "OFFLINE_CONTRACT"
+          value: "true"

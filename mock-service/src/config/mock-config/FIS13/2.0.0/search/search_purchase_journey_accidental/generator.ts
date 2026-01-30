@@ -46,9 +46,6 @@ export async function search_purchase_journey_accidental_generator(
 		existingPayload.message.intent.fulfillment.stops[0].time.range.end = end.toISOString();
 	}
 
-	if (sessionData.user_inputs?.city_code) {
-		existingPayload.context.location.city.code = sessionData.user_inputs.city_code;
-	}
 
 	return existingPayload;
 }

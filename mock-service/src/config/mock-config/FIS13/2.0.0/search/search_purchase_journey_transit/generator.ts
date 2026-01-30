@@ -55,10 +55,7 @@ export async function search_seller_pagination_generator(
 			end.toISOString();
 	}
 
-	if (sessionData.user_inputs?.city_code) {
-		existingPayload.context.location.city.code =
-			sessionData.user_inputs.city_code;
-	}
+
 
 	return existingPayload;
 }

@@ -37,6 +37,12 @@ import { MockSearchInsurenceHospicashProviderClass } from "./2.0.0/search/search
 import { MockOnSearchInsurenceProvidersTransitClass } from "./2.0.0/on_search/on_search_insurence_providers/on_search_insurence_providers_transit/class";
 import { MockOnSearchInsurenceProvidersHospicashClass } from "./2.0.0/on_search/on_search_insurence_providers/on_search_insurence_providers_hospicash/class";
 import { MockOnSearchInsurenceProvidersAccidentalClass } from "./2.0.0/on_search/on_search_insurence_providers/on_search_insurence_providers_accidental/class";
+import { MockSearchCDBalanceErrorClass } from "./2.0.0/search/search_cd_balance_error/class";
+import { MockOnSearchCDBalanceErrorClass } from "./2.0.0/on_search/on_search_cd_balance_error/class";
+import { MockSelectCDBalanceErrorClass } from "./2.0.0/select/select_cd_balance_error/class";
+import { MockOnSelectCDBalanceErrorClass } from "./2.0.0/on_select/on_select_cd_balance_error/class";
+import { MockInitCDBalanceErrorClass } from "./2.0.0/init/init_cd_balance_error/class";
+import { MockOnInitCDBalanceErrorClass } from "./2.0.0/on_init/on_init_cd_balance_error/class";
 
 // Type helper for constructor
 type Ctor<T> = new () => T;
@@ -54,6 +60,9 @@ const registry = {
 	search_discover_product_transit: MockSearchDiscoverProductTransitClass,
 	search_discover_product_accidental: MockSearchDiscoverProductAccidentalClass,
 	search_purchase_journey_accidental: MockSearchPurchaseJourneyAccidentalClass,
+	search_cd_balance_error_accidental: MockSearchCDBalanceErrorClass,
+	search_cd_balance_error_hospicash: MockSearchCDBalanceErrorClass,
+	search_cd_balance_error_transit: MockSearchCDBalanceErrorClass,
 
 	// on_search
 	on_search_purchase_journey_hospicash: MockOnSearchPurchaseJourneyHospicashClass,
@@ -66,21 +75,28 @@ const registry = {
 	on_search_discover_product_tranist: MockOnSearchDiscoverTransitClass,
 	on_search_discover_product_hospicash: MockOnSearchDiscoverHospicashClass,
 	on_search_discover_product_accidental: MockOnSearchDiscoverAccidentalClass,
+	on_search_cd_balance_error_accidental: MockOnSearchCDBalanceErrorClass,
+	on_search_cd_balance_error_hospicash: MockOnSearchCDBalanceErrorClass,
+	on_search_cd_balance_error_transit: MockOnSearchCDBalanceErrorClass,
 
 	// select / on_select
 	select: MockSelectClass,
 	on_select: MockOnSelectTransitInsurenceClass,
 	on_select_hospicash: MockOnSelectHospicashInsurencClass,
 	on_select_accidental: MockOnSelectAccidentalInsurencClass,
+	select_cd_balance_error: MockSelectCDBalanceErrorClass,
+	on_select_cd_balance_error: MockOnSelectCDBalanceErrorClass,
 
 	// init / on_init
 	init: MockInitTransitInsurenceClass,
 	init_hospicash: MockInitHospicashClass,
 	init_accidental: MockInitAccidentalClass,
+	init_cd_balance_error: MockInitCDBalanceErrorClass,
 
 	on_init: MockOnInitTransitClass,
 	on_init_hospicash: MockOnInitHospicashClass,
 	on_init_accidental: MockOnInitAccidentalClass,
+	on_init_cd_balance_error: MockOnInitCDBalanceErrorClass,
 
 	// confirm / on_confirm
 	confirm: MockConfirmTransitClass,

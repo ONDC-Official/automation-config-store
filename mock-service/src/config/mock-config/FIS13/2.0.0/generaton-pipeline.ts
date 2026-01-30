@@ -23,7 +23,7 @@ function getDetailsByActionId(
 	const entry = factoryData.codes.find(
 		(item: any) => item.action_id === actionId
 	);
-	
+
 	if (entry) {
 		return {
 			default: entry.default,
@@ -57,7 +57,7 @@ export async function createMockResponseFIS13_200(
 		path.resolve(__dirname, "../factory.yaml")
 	);
 	let api_details: any = {};
-	
+
 	api_details = getDetailsByActionId(actionID, factoryData);
 	const context_object = {
 		action: api_details?.action,
@@ -68,7 +68,7 @@ export async function createMockResponseFIS13_200(
 		bpp_uri: sessionData?.bpp_uri,
 		location: {
 			city: {
-				code: sessionData.city_code ?? "std:011",
+				code: "*",
 			},
 			country: {
 				code: "IND",

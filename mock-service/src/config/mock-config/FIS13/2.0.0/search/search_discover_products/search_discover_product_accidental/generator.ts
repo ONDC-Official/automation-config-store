@@ -6,7 +6,6 @@ export async function search_accidental_generator(
 ) {
 	delete existingPayload.context.bpp_uri;
 	delete existingPayload.context.bpp_id;
-	existingPayload.context.location.city.code = sessionData.user_inputs?.city_code
 	if (
 		existingPayload?.message?.intent?.provider?.tags &&
 		Array.isArray(existingPayload.message.intent.provider.tags)
