@@ -207,7 +207,7 @@ export async function onSelectDefaultGenerator(existingPayload: any, sessionData
             "mime_type": "text/html",
             "url": `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/additional_details_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`,
             "resubmit": false,
-            "multiple_sumbissions": false
+            "multiple_submissions": false
           },
           "required": true
         }
