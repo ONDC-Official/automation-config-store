@@ -59,6 +59,7 @@ export interface SessionData {
 	updated_at: string | undefined;
 	order_status: string | undefined;
 	first_form_testing: string | undefined;
+	first_form_id: string | string[] | undefined;
 	latest_issue_payload: any
 	igm_action: any
 	issue_resolution: any
@@ -102,19 +103,19 @@ export interface Input {
 	returnToOrigin?: string;
 	default_feature?: string[];
 	SelectInputType?: {
-	provider?: string;
-	provider_location?: any;
-	location_gps?: string;
-	location_pin_code?: string;
-	items?: {
-	  itemId?: string;
-	  quantity?: number;
-	  location?: string;
-	}[];
-  };
-  CancelInputType: {
-	cancellation_reason_id?: string;
-  };
-  resolution_accept: any
-  rating: string
+		provider?: string;
+		provider_location?: any;
+		location_gps?: string;
+		location_pin_code?: string;
+		items?: {
+			itemId?: string;
+			quantity?: number;
+			location?: string;
+		}[];
+	};
+	CancelInputType: {
+		cancellation_reason_id?: string;
+	};
+	resolution_accept: any
+	rating: string
 }

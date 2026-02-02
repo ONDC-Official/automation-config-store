@@ -10,3 +10,4 @@ save-data:
   provider: "$.message.order.provider"
   replacement_terms: "$.message.order.replacement_terms"
   first_form_testing: "$..form.url"
+  first_form_id: "$.message.order.items[*].xinput.form.id"
