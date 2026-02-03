@@ -13,7 +13,7 @@
             count: 1
       xinput:
         form:
-          id: F01
+          id: first_form_testing
         form_response:
           status: SUCCESS
           submission_id: F01_SUBMISSION_ID
@@ -29,7 +29,7 @@
             count: 1
       xinput:
         form:
-          id: F01
+          id: first_form_testing
         form_response:
           status: SUCCESS
           submission_id: F01_SUBMISSION_ID
