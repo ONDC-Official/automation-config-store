@@ -123,7 +123,7 @@ export async function onInitGenerator(existingPayload: any, sessionData: any) {
         "descriptor": {
           "code": "COURT_JURISDICTION"
         },
-        "value": "std:011"
+        "value": "New Delhi"
       },
       {
         "descriptor": {
