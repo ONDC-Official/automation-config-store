@@ -1,7 +1,7 @@
 {
     "items": [
         {
-            "id": "I0",
+            "id": "I0_1",
             "descriptor": {
                 "name": "Parent Item for Culture & Heritage",
                 "code": "ABSTRACT",
@@ -18,52 +18,14 @@
                 "L1"
             ],
             "category_ids": [
-                "C1",
-                "C2"
+                "C3"
             ],
             "time": {
                 "label": "VALIDITY",
-                "duration": "P2D",
-                "range": {
-                    "start": "2025-08-24T08:28:35.843Z",
-                    "end": "2025-08-26T08:28:35.843Z"
-                }
+                "duration": "P2D"
             },
             "fulfillment_ids": [
-                "F1",
-                "F2"
-            ],
-            "cancellation_terms": [
-                {
-                    "cancellation_fee": {
-                        "percentage": "10"
-                    },
-                    "fulfillment_state": {
-                        "descriptor": {
-                            "code": "CONFIRMED"
-                        }
-                    },
-                    "cancel_by": {
-                        "label": "DURATION",
-                        "duration": "PT1H30M"
-                    },
-                    "cancellation_eligible": true
-                },
-                {
-                    "external_ref": {
-                        "mimetype": "text/html",
-                        "url": "https://api.unreserved-entry-pass.com/beckn/tnc.html"
-                    },
-                    "cancellation_eligible": true
-                }
-            ],
-            "replacement_terms": [
-                {
-                    "external_ref": {
-                        "mimetype": "text/html",
-                        "url": "https://api.unreserved-entry-pass/beckn/replacement.html"
-                    }
-                }
+                "F1"
             ],
             "tags": [
                 {
@@ -105,7 +67,7 @@
             ]
         },
         {
-            "id": "I1",
+            "id": "I3",
             "descriptor": {
                 "name": "Adult-Ticket Culture & Heritage Item",
                 "code": "ENTRY_PASS",
@@ -118,37 +80,28 @@
                     }
                 ]
             },
-            "parent_item_id": "I0",
+            "parent_item_id": "I0_1",
             "location_ids": [
                 "L1"
             ],
             "category_ids": [
-                "C1",
-                "C2"
+                "C3"
             ],
             "price": {
                 "currency": "INR",
-                "value": "350"
+                "value": "400"
             },
             "quantity": {
-                "maximum": {
-                    "count": 6
-                },
-                "minimum": {
+                "selected": {
                     "count": 1
                 }
             },
             "time": {
                 "label": "VALIDITY",
-                "duration": "P2D",
-                "range": {
-                    "start": "2025-08-24T08:28:35.843Z",
-                    "end": "2025-08-26T08:28:35.843Z"
-                }
+                "duration": "P2D"
             },
             "fulfillment_ids": [
-                "F1",
-                "F2"
+                "F1"
             ],
             "add_ons": [
                 {
@@ -157,7 +110,7 @@
                         "name": "Audio Assistance"
                     },
                     "quantity": {
-                        "available": {
+                        "selected": {
                             "count": 1
                         }
                     },
@@ -224,7 +177,7 @@
             ]
         },
         {
-            "id": "I2",
+            "id": "I4",
             "descriptor": {
                 "name": "Child-Ticket Culture & Heritage Item",
                 "code": "ENTRY_PASS",
@@ -237,23 +190,19 @@
                     }
                 ]
             },
-            "parent_item_id": "I0",
+            "parent_item_id": "I0_1",
             "location_ids": [
                 "L1"
             ],
             "category_ids": [
-                "C1",
-                "C2"
+                "C3"
             ],
             "price": {
                 "currency": "INR",
-                "value": "150"
+                "value": "250"
             },
             "quantity": {
-                "maximum": {
-                    "count": 4
-                },
-                "minimum": {
+                "selected": {
                     "count": 1
                 }
             },
@@ -262,8 +211,7 @@
                 "duration": "P2D"
             },
             "fulfillment_ids": [
-                "F1",
-                "F2"
+                "F1"
             ],
             "add_ons": [
                 {
@@ -272,7 +220,7 @@
                         "name": "Audio Assistance"
                     },
                     "quantity": {
-                        "available": {
+                        "selected": {
                             "count": 1
                         }
                     },
@@ -293,136 +241,6 @@
                                 "code": "MIN_AGE"
                             },
                             "value": "1"
-                        },
-                        {
-                            "descriptor": {
-                                "code": "MAX_AGE"
-                            },
-                            "value": "70"
-                        },
-                        {
-                            "descriptor": {
-                                "code": "GENDER"
-                            },
-                            "value": "MALE"
-                        },
-                        {
-                            "descriptor": {
-                                "code": "NATIONALITY"
-                            },
-                            "value": "INDIAN"
-                        },
-                        {
-                            "descriptor": {
-                                "code": "ADDITIONAL_DETAILS_REQUIRED"
-                            },
-                            "value": "FALSE"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "id": "I3",
-            "parent_item_id": "I0",
-            "descriptor": {
-                "name": "Adult-Ticket Culture & Heritage Item",
-                "code": "ENTRY_PASS",
-                "short_desc": "Ticket for Qutab Minar",
-                "long_desc": "This ticket grants entry to the Qutab Minar.",
-                "images": [
-                    {
-                        "url": "https://api.unreserved-entry-pass.com/sites/default/files/event/logo/event_logo_2.png",
-                        "size_type": "xs"
-                    }
-                ]
-            },
-            "location_ids": [
-                "L1"
-            ],
-            "category_ids": [
-                "C1",
-                "C3"
-            ],
-            "price": {
-                "currency": "INR",
-                "value": "400"
-            },
-            "quantity": {
-                "maximum": {
-                    "count": 6
-                },
-                "minimum": {
-                    "count": 1
-                }
-            },
-            "time": {
-                "label": "VALIDITY",
-                "duration": "P2D",
-                "range": {
-                    "start": "2025-08-24T08:28:35.843Z",
-                    "end": "2025-08-26T08:28:35.843Z"
-                }
-            },
-            "fulfillment_ids": [
-                "F1",
-                "F2"
-            ],
-            "add_ons": [
-                {
-                    "id": "A1",
-                    "descriptor": {
-                        "name": "Audio Assistance"
-                    },
-                    "quantity": {
-                        "available": {
-                            "count": 1
-                        }
-                    },
-                    "price": {
-                        "value": "100",
-                        "currency": "INR"
-                    }
-                }
-            ],
-            "cancellation_terms": [
-                {
-                    "external_ref": {
-                        "mimetype": "text/html",
-                        "url": "https://api.unreserved-entry-pass.com/beckn/tnc.html"
-                    },
-                    "cancellation_eligible": true
-                },
-                {
-                    "cancellation_fee": {
-                        "percentage": "10"
-                    },
-                    "cancel_by": {
-                        "label": "TIMESTAMP",
-                        "timestamp": "2024-07-26T04:43:16.000Z"
-                    },
-                    "cancellation_eligible": true
-                }
-            ],
-            "replacement_terms": [
-                {
-                    "external_ref": {
-                        "mimetype": "text/html",
-                        "url": "https://api.unreserved-entry-pass/beckn/replacement.html"
-                    }
-                }
-            ],
-            "tags": [
-                {
-                    "descriptor": {
-                        "code": "FARE_POLICY"
-                    },
-                    "list": [
-                        {
-                            "descriptor": {
-                                "code": "MIN_AGE"
-                            },
-                            "value": "18"
                         },
                         {
                             "descriptor": {
@@ -483,7 +301,7 @@
                     }
                 ]
             },
-            "parent_item_id": "I0",
+            "parent_item_id": "I0_1",
             "price": {
                 "currency": "INR",
                 "value": "100"
