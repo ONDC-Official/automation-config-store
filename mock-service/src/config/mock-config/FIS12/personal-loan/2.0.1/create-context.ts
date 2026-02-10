@@ -19,7 +19,7 @@ export function createContext(partialContext: Partial<BecknContext>) {
         timestamp: new Date().toISOString(),
         transaction_id: generateUuid(),
         ttl: "PT30S",
-        version: "2.0.2",
+        version: "2.0.1",
     };
 
     return { ...newContext, ...partialContext };
