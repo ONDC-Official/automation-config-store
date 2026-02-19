@@ -1172,11 +1172,11 @@ components:
                     type: string
                     description: Descriptor code of the tag group
                 required:
-                  - code
+                - code
 
               list:
                 type: array
-                description: List of key-value tag entries
+                description: List of key–value tag entries
                 items:
                   type: object
                   properties:
@@ -1187,20 +1187,20 @@ components:
                           type: string
                           description: Descriptor code of the individual tag
                       required:
-                        - code
+                      - code
 
                     value:
                       type: string
                       description: Value of the tag
                       enum:
-                        - THUMBS_UP
-                        - THUMBS_DOWN
+                      - THUMBS_UP
+                      - THUMBS_DOWN
                   required:
-                    - descriptor
-                    - value
+                  - descriptor
+                  - value
             required:
-              - descriptor
-              - list
+            - descriptor
+            - list
       additionalProperties: false
     Billing:
       description: Describes a billing event
@@ -1339,10 +1339,10 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Fulfillment"
-        bpp/payments:
+        payments:
           type: array
           items:
-            $ref: "#/components/schemas/Payment"
+            $ref: "#/components/schemas/OnSearchPayment"
         bpp/offers:
           type: array
           items:
@@ -1461,6 +1461,10 @@ components:
           description: >-
             details of the remarks when the issue status is changed, can be captured when the complainant triggers an action
           type: string
+        tags:
+          description: >-
+            details of the remarks when the issue status is changed, can be captured when the complainant triggers an action
+          type: object
     Contact:
       type: object
       properties:
@@ -1857,8 +1861,13 @@ components:
           $ref: "#/components/schemas/Provider/properties/id"
         rating:
           $ref: "#/components/schemas/Rating/properties/value"
+        # state:
+        #   $ref: "#/components/schemas/State"
         state:
-          $ref: "#/components/schemas/State"
+          anyOf:
+            - $ref: "#/components/schemas/State"
+            - type: string
+              description: Fulfillment state of an order
         tracking:
           type: boolean
           description: Indicates whether the fulfillment allows tracking
@@ -1915,6 +1924,9 @@ components:
           additionalProperties: false
         rateable:
           $ref: "#/components/schemas/Rateable"
+        stops:
+          type: array
+          description: Indicates stops during the order fulfillment
         tags:
           type: array
           items:
@@ -2119,6 +2131,8 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/TagGroup"
+        quantity:
+          type: integer    
       additionalProperties: false
     Issue:
       description: >
@@ -2283,6 +2297,67 @@ components:
           - id
           - created_at
           - updated_at
+        resolution:
+          type: object
+          description: Resolution for the issue
+          properties:
+            short_desc:
+              description: short description of the issue action
+              type: string
+            long_desc:
+              description: detailed description of the issue action
+              type: string
+            action_triggered:
+              description: action triggered for the complaint
+              type: string
+              enum:
+                - REFUND
+                - REPLACEMENT
+                - CANCEL
+                - NO-ACTION
+                - RECONCILED
+                - NOT-RECONCILED
+            refund_amount:
+              description: refund amount to be initiated
+              type: string
+          required:
+            - short_desc
+            - action_triggered
+        description:
+          type: object
+          description: Issue description payload
+          properties:
+            short_desc:
+              type: string
+              description: short description of the issue
+            long_desc:
+              type: string
+              description: detailed description of the issue
+            additional_desc:
+              type: object
+              description: Additional description file
+              properties:
+                url:
+                  type: string
+                  format: uri
+                  description: URL to additional description
+                content_type:
+                  type: string
+                  description: MIME type of the file
+              required:
+                - url
+                - content_type
+            images:
+              type: array
+              description: array of image URLs
+              items:
+                type: string
+                format: uri
+              required:
+                - short_desc
+                - long_desc
+                - additional_desc
+                - images    
       additionalProperties: false
     IssueResolution:
       description: Describes the issue resolution for the issue raised by a Complainant
@@ -2653,6 +2728,159 @@ components:
           $ref: "#/components/schemas/Quotation"
         payment:
           $ref: "#/components/schemas/Payment"
+        payments:
+          type: array
+          items:
+            $ref: "#/components/schemas/Payment"
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        "@ondc/org/created_by":
+          description: order created by
+          type: string
+          enum:
+          - buyer-app
+          - seller-app
+        "@ondc/org/cancellation":
+          $ref: "#/components/schemas/Cancellation"
+        "@ondc/org/linked_order":
+          type: object
+          description: >-
+            payload for linked order e.g. retail order that cascaded into this logistics order
+          properties:
+            items:
+              type: array
+              items:
+                type: object
+                properties:
+                  category_id:
+                    type: string
+                  descriptor:
+                    $ref: "#/components/schemas/Descriptor"
+                  quantity:
+                    $ref: "#/components/schemas/ItemQuantity/properties/selected"
+                  price:
+                    $ref: "#/components/schemas/Price"
+                additionalProperties: false
+            provider:
+              type: object
+              properties:
+                id:
+                  $ref: "#/components/schemas/Provider/properties/id"
+                descriptor:
+                  $ref: "#/components/schemas/Descriptor"
+                address:
+                  $ref: "#/components/schemas/Address"
+              additionalProperties: false
+            order:
+              description: use same units for weight and dimensions as defined for Intent
+              type: object
+              properties:
+                id:
+                  $ref: "#/components/schemas/Order/properties/id"
+                weight:
+                  $ref: "#/components/schemas/Scalar"
+                dimensions:
+                  $ref: "#/components/schemas/Dimensions"
+                declared_value:
+                  $ref: "#/components/schemas/Price"
+                taxable_value:
+                  $ref: "#/components/schemas/Price"
+                hsn_code:
+                  type: string
+                sgst_amount:
+                  $ref: "#/components/schemas/DecimalValue"
+                cgst_amount:
+                  $ref: "#/components/schemas/DecimalValue"
+                igst_amount:
+                  $ref: "#/components/schemas/DecimalValue"
+              additionalProperties: false
+            tags:
+              type: array
+              items:
+                $ref: "#/components/schemas/TagGroup"
+          additionalProperties: false
+        tags:
+          type: array
+          items:
+            $ref: "#/components/schemas/TagGroup"
+      additionalProperties: false
+    OrderFTLPTL:
+      description: Describes the details of an order -
+      type: object
+      properties:
+        id:
+          type: string
+          description: >-
+            Unique identifier for Order across network, will be created by buyer app in confirm API
+        cancellation:
+          $ref: "#/components/schemas/Cancellation"
+        state:
+          type: string
+        provider:
+          type: object
+          properties:
+            id:
+              $ref: "#/components/schemas/Provider/properties/id"
+            locations:
+              type: array
+              maxItems: 1
+              items:
+                type: object
+                properties:
+                  id:
+                    $ref: "#/components/schemas/Location/properties/id"
+                required:
+                - id
+                additionalProperties: false
+          additionalProperties: false
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Item"
+        add_ons:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                $ref: "#/components/schemas/AddOn/properties/id"
+            required:
+            - id
+            additionalProperties: false
+        offers:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                $ref: "#/components/schemas/Offer/properties/id"
+            required:
+            - id
+            additionalProperties: false
+        documents:
+          type: array
+          items:
+            $ref: "#/components/schemas/Document"
+        billing:
+          $ref: "#/components/schemas/Billing"
+        cancellation_terms:
+          description: >-
+            The cancellation terms of this order. This can be overriden at the item level cancellation terms.
+          type: array
+          items:
+            $ref: "#/components/schemas/CancellationTerm"
+        fulfillments:
+          type: array
+          items:
+            $ref: "#/components/schemas/Fulfillment"
+        quote:
+          $ref: "#/components/schemas/Quotation"
+        payments:
+          $ref: "#/components/schemas/Payments"
         created_at:
           type: string
           format: date-time
@@ -2737,6 +2965,27 @@ components:
           type: string
         cred:
           type: string
+        org:
+          type: object
+          additionalProperties: false
+          properties:
+            name:
+              type: string
+        contact:
+          type: object
+          additionalProperties: false
+          properties:
+            phone:
+              type: string
+            email:
+              type: string
+              format: email
+        person:
+          type: object
+          additionalProperties: false
+          properties:
+            name:
+              type: string  
       additionalProperties: false
     OrderDetails:
       type: object
@@ -2773,6 +3022,200 @@ components:
       description: Describes a payment
       type: object
       properties:
+        id:
+          type: string
+          description: Payment identifier (used when multiple payments exist)
+        uri:
+          type: string
+          description: >-
+            A payment uri to be called by the Buyer App. If empty, then the payment is to be done offline. The details of payment should be present in the params object. If ```tl_method``` = http/get, then the payment details will be sent as url params. Two url param values, ```$transaction_id``` and ```$amount``` are mandatory. And example url would be : https://www.example.com/pay?txid=$transaction_id&amount=$amount&vpa=upiid&payee=shopez&billno=1234
+          format: uri
+        tl_method:
+          type: string
+          enum:
+          - http/get
+          - http/post
+          - payto
+          - upi
+        params:
+          type: object
+          properties:
+            transaction_id:
+              type: string
+              description: >-
+                This value will be placed in the the $transaction_id url param in case of http/get and in the requestBody http/post requests
+            transaction_status:
+              type: string
+            amount:
+              $ref: "#/components/schemas/DecimalValue"
+            currency:
+              $ref: "#/components/schemas/Price/properties/currency"
+          additionalProperties:
+            type: string
+          required:
+          - currency
+        type:
+          type: string
+          enum:
+          - ON-ORDER
+          - PRE-FULFILLMENT
+          - ON-FULFILLMENT
+          - POST-FULFILLMENT
+        status:
+          type: string
+          enum:
+          - PAID
+          - NOT-PAID
+          - PENDING
+        time:
+          $ref: "#/components/schemas/Time"
+        collected_by:
+          type: string
+          enum:
+          - BAP
+          - BPP
+        tags:
+          type: array
+          items:
+            $ref: "#/components/schemas/TagGroup"
+        "@ondc/org/collection_amount":
+          description: CoD collection amount
+          type: string
+        "@ondc/org/settlement_basis":
+          description: >-
+            whether settlement between counterparties should be on the basis of invoicing, etc
+          type: string
+          enum:
+          - invoicing
+        "@ondc/org/settlement_window":
+          description: >-
+            settlement window in ISO8601 durations format e.g. 'PT48H' indicates T+2 settlement
+          type: string
+        "@ondc/org/settlement_window_status":
+          type: string
+          enum:
+          - Assert
+          - Agree
+          - Disagree
+          - Terminate
+        "@ondc/org/settlement_details":
+          type: array
+          items:
+            type: object
+            properties:
+              settlement_counterparty:
+                type: string
+                enum:
+                - buyer-app
+                - seller-app
+                - lbnp
+                - lsp
+              settlement_type:
+                type: string
+                enum:
+                - neft
+                - rtgs
+                - upi
+              settlement_bank_account_no:
+                type: string
+              settlement_ifsc_code:
+                type: string
+              upi_address:
+                description: UPI payment address e.g. VPA
+                type: string
+              bank_name:
+                description: Bank name
+                type: string
+              branch_name:
+                description: Branch name
+                type: string
+              beneficiary_name:
+                description: Beneficiary Name
+                type: string
+              beneficiary_address:
+                description: Beneficiary Address
+                type: string
+              settlement_status:
+                type: string
+                enum:
+                - PAID
+                - NOT-PAID
+              settlement_reference:
+                description: Settlement transaction reference number
+                type: string
+              settlement_timestamp:
+                description: Settlement transaction timestamp
+                type: string
+                format: date-time
+            additionalProperties: false
+      additionalProperties: false
+    Payments:
+      type: array
+      required: true
+      items:
+        type: object
+        required:
+        - id
+        - type
+        - tags
+        properties:
+          id:
+            type: string
+            description: Unique payment identifier
+
+          type:
+            type: string
+            description: Payment trigger type
+            enum:
+            - ON-ORDER
+            - POST-FULFILLMENT
+            - ON-FULFILLMENT
+
+          tags:
+            type: array
+            required: true
+            items:
+              type: object
+              required:
+              - code
+              - list
+              properties:
+                code:
+                  type: string
+                  description: Tag category
+                  enum:
+                  - part-payment
+
+                list:
+                  type: array
+                  required: true
+                  items:
+                    type: object
+                    required:
+                    - code
+                    - value
+                    properties:
+                      code:
+                        type: string
+                        description: Tag attribute
+                        enum:
+                        - purpose
+                        - allowed
+
+                      value:
+                        type: string
+                        description: Tag value
+                        enum:
+                        - advance
+                        - balance
+                        - yes
+                        - no
+    OnSearchPayment:
+      description: Describes a payment
+      type: object
+      properties:
+        id:
+          type: string
         uri:
           type: string
           description: >-
@@ -2985,7 +3428,7 @@ components:
         payments:
           type: array
           items:
-            $ref: "#/components/schemas/Payment"
+            $ref: "#/components/schemas/OnSearchPayment"
         locations:
           type: array
           items:
@@ -3043,6 +3486,8 @@ components:
                 type: string
               price:
                 $ref: "#/components/schemas/Price"
+              item:
+                type: object
             additionalProperties: false
         ttl:
           $ref: "#/components/schemas/Duration"
@@ -22560,7 +23005,9 @@ x-validations:
       - nic2004:60232
     - _NAME_: REQUIRED_CONTEXT_COUNTRY
       attr: $.context.country
-      _RETURN_: attr are present
+      enumList:
+      - IND
+      _RETURN_: attr are present && attr all in enumList
     - _NAME_: REQUIRED_CONTEXT_CITY
       attr: $.context.city
       _RETURN_: attr are present
@@ -22610,6 +23057,7 @@ x-validations:
       attr: $.message.intent.provider.time.duration
       reg: [ '^(P\\d+D|PT\\d+H|PT\\d+M)$' ]
       _RETURN_: attr follow regex reg
+      _CONTINUE_: "!(attr are present)"
     - _NAME_: REQUIRED_MESSAGE_START
       attr: $.message.intent.provider.time.range.start
       _RETURN_: attr are present
@@ -22624,6 +23072,9 @@ x-validations:
       - Return
       - Batch
       - RTO
+      - PTL
+      - FTL
+      - FIFO
     - _NAME_: REQUIRED_MESSAGE_GPS
       attr: $.message.intent.fulfillment.start.location.gps
       reg: [ '^-?\\d+\\.\\d{4,},-?\\d+\\.\\d{4,}$' ]
@@ -22636,8 +23087,8 @@ x-validations:
       fulType: [ "Delivery" ]
       attr: $.message.intent.fulfillment.end.location.gps
       reg: [ '^-?\\d+\\.\\d{4,},-?\\d+\\.\\d{4,}$' ]
-      _RETURN_: attr follow regex reg
       _CONTINUE_: "!(fulfillmentType all in fulType)"
+      _RETURN_: attr follow regex reg
     - _NAME_: REQUIRED_MESSAGE_AREA_CODE_22
       fulfillmentType: $.message.intent.fulfillment.type
       fulType: [ "Delivery" ]
@@ -22646,6 +23097,7 @@ x-validations:
       _RETURN_: attr are present
     - _NAME_: REQUIRED_MESSAGE_TYPE_23
       attr: $.message.intent.payment.type
+      _CONTINUE_: "!(attr are present)"
       _RETURN_: attr are present && attr all in enumList
       enumList:
       - ON-ORDER
@@ -22737,6 +23189,9 @@ x-validations:
       - Return
       - Batch
       - RTO
+      - FTL
+      - PTL
+      - FIFO
       enumPath: $.message.intent.fulfillment.type
       _CONTINUE_: "!(enumPath are present)"
       _RETURN_: enumPath all in enumList
@@ -22794,6 +23249,8 @@ x-validations:
       - linked_provider
       - linked_order
       - fulfill_request
+      - special_req
+      - linked_package
       tagPath: $.message.intent.fulfillment.tags[*].code
       _CONTINUE_: "!(tagPath are present)"
       _RETURN_: tagPath all in validTags
@@ -22958,6 +23415,9 @@ x-validations:
       - Return
       - Batch
       - RTO
+      - FTL
+      - PTL
+      - FIFO
     - _NAME_: REQUIRED_MESSAGE_GPS
       attr: $.message.order.fulfillments[*].start.location.gps
       _RETURN_: attr are present
@@ -23083,10 +23543,12 @@ x-validations:
       _RETURN_: attr are present
     - _NAME_: REQUIRED_MESSAGE_COLLECTED_BY
       attr: $.message.order.payment.collected_by
+      _CONTINUE_: "!(attr are present)"
       _RETURN_: attr are present
     - _NAME_: REQUIRED_MESSAGE_TYPE_52
       attr: $.message.order.payment.type
       _RETURN_: attr are present && attr all in enumList
+      _CONTINUE_: "!(attr are present)"
       enumList:
       - ON-ORDER
       - ON-FULFILLMENT
@@ -23105,6 +23567,9 @@ x-validations:
       - Return
       - Batch
       - RTO
+      - FTL
+      - PTL
+      - FIFO
       enumPath: $.message.order.fulfillments[*].type
       _CONTINUE_: "!(enumPath are present)"
       _RETURN_: enumPath all in enumList
@@ -23160,6 +23625,9 @@ x-validations:
       - fulfill_request
       - fulfill_response
       - linked_order
+      - special_req
+      - linked_package
+      - motorable_distance
       tagPath: $.message.order.fulfillments[*].tags[*].code
       _CONTINUE_: "!(tagPath are present)"
       _RETURN_: tagPath all in validTags
@@ -23344,6 +23812,7 @@ x-validations:
       - discount
       - cod
       - surge
+      - insurance
     - _NAME_: REQUIRED_MESSAGE_CURRENCY_25
       attr: $.message.order.quote.breakup[*].price.currency
       _RETURN_: attr are present
@@ -23361,6 +23830,9 @@ x-validations:
       - Return
       - Batch
       - RTO
+      - FTL
+      - PTL
+      - FIFO
     - _NAME_: REQUIRED_MESSAGE_DURATION_29
       attr: $.message.order.fulfillments[*].start.time.duration
       _RETURN_: attr are present
@@ -23370,6 +23842,7 @@ x-validations:
     - _NAME_: REQUIRED_MESSAGE_ID_31
       attr: $.message.order.fulfillments[*].start.location.id
       _RETURN_: attr are present
+      _CONTINUE_: "!(attr are present)"
     - _NAME_: REQUIRED_MESSAGE_GPS
       attr: $.message.order.fulfillments[*].start.location.gps
       _RETURN_: attr are present
@@ -23526,9 +23999,11 @@ x-validations:
     - _NAME_: REQUIRED_MESSAGE_COLLECTED_BY
       attr: $.message.order.payment.collected_by
       _RETURN_: attr are present
+      _CONTINUE_: "!(attr are present)"
     - _NAME_: REQUIRED_MESSAGE_TYPE_67
       attr: $.message.order.payment.type
       _RETURN_: attr are present && attr all in enumList
+      _CONTINUE_: "!(attr are present)"
       enumList:
       - ON-ORDER
       - ON-FULFILLMENT
@@ -23701,6 +24176,7 @@ x-validations:
       - discount
       - cod
       - surge
+      - insurance
       enumPath: $.message.order.quote.breakup[*]['@ondc/org/title_type']
       _CONTINUE_: "!(enumPath are present)"
       _RETURN_: enumPath all in enumList
@@ -23710,6 +24186,9 @@ x-validations:
       - Return
       - Batch
       - RTO
+      - FTL
+      - PTL
+      - FIFO
       enumPath: $.message.order.fulfillments[*].type
       _CONTINUE_: "!(enumPath are present)"
       _RETURN_: enumPath all in enumList
@@ -23841,6 +24320,9 @@ x-validations:
       - rto_verification
       - items
       - reverseqc_input
+      - special_req
+      - linked_package
+      - motorable_distance
       tagPath: $.message.order.fulfillments[*].tags[*].code
       _CONTINUE_: "!(tagPath are present)"
       _RETURN_: tagPath all in validTags
@@ -24324,6 +24806,9 @@ x-validations:
       - Return
       - Batch
       - RTO
+      - FTL
+      - PTL
+      - FIFO
     - _NAME_: REQUIRED_MESSAGE_UPDATED_AT
       attr: $.message.order.updated_at
       _RETURN_: attr are present
@@ -24362,6 +24847,9 @@ x-validations:
       - Return
       - Batch
       - RTO
+      - FTL 
+      - PTL
+      - FIFO
       enumPath: $.message.order.fulfillments[*].type
       _CONTINUE_: "!(enumPath are present)"
       _RETURN_: enumPath all in enumList
@@ -24446,6 +24934,7 @@ x-validations:
       - discount
       - cod
       - surge
+      - insurance
       enumPath: $.message.order.quote.breakup[*]['@ondc/org/title_type']
       _CONTINUE_: "!(enumPath are present)"
       _RETURN_: enumPath all in enumList
@@ -24459,6 +24948,9 @@ x-validations:
       - fulfill_request
       - rto_verification
       - fulfill_response
+      - special_req
+      - linked_package
+      - motorable_distance
       tagPath: $.message.order.fulfillments[*].tags[*].code
       _CONTINUE_: "!(tagPath are present)"
       _RETURN_: tagPath all in validTags
@@ -24468,6 +24960,13 @@ x-validations:
     #   validValues:
     #     - ready_to_ship
     #     - order_ready
+    #   _RETURN_: subTags all in validValues
+    # - _NAME_: validate_tag_0_value
+    #   _SCOPE_: $.message.order.fulfillments[*].tags[?(@.code=='state')]
+    #   subTags: $.list[*].value
+    #   validValues:
+    #     - yes
+    #     - no
     #   _RETURN_: subTags all in validValues
     - _NAME_: VALIDATE_TAG_STATE_FOR_IMMEDIATE_DELIVERY
       categoryPath: "$.message.order.items[*].category_id"
@@ -24591,7 +25090,9 @@ x-validations:
       - nic2004:60232
     - _NAME_: REQUIRED_CONTEXT_COUNTRY
       attr: $.context.country
-      _RETURN_: attr are present
+      enumList:
+      - IND
+      _RETURN_: attr are present && attr all in enumList
     - _NAME_: REQUIRED_CONTEXT_CITY
       attr: $.context.city
       _RETURN_: attr are present
@@ -24667,6 +25168,9 @@ x-validations:
       - Return
       - Batch
       - RTO
+      - FTL
+      - PTL
+      - FIFO
     - _NAME_: REQUIRED_MESSAGE_ID_24
       attr: $.message.catalog['bpp/providers'][*].items[*].id
       _RETURN_: attr are present
@@ -24737,6 +25241,9 @@ x-validations:
       - Return
       - Batch
       - RTO
+      - FTL
+      - PTL
+      - FIFO
       enumPath: $.message.catalog['bpp/providers'][*].fulfillments[*].type
       _CONTINUE_: "!(enumPath are present)"
       _RETURN_: enumPath all in enumList
@@ -24765,8 +25272,11 @@ x-validations:
       - distance
       - fulfill_request
       - linked_provider
+      - linked_order
       - fulfill_response
       - motorable_distance
+      - special_req
+      - linked_package
       tagPath: $.message.catalog['bpp/providers'][*].fulfillments[*].tags[*].code
       _CONTINUE_: "!(tagPath are present)"
       _RETURN_: tagPath all in validTags
@@ -24821,6 +25331,7 @@ x-validations:
     - _NAME_: validate_tag_2
       validTags:
       - type
+      - weight_slab
       tagPath: $.message.catalog['bpp/providers'][*].items[*].tags[*].code
       _CONTINUE_: "!(tagPath are present)"
       _RETURN_: tagPath all in validTags
@@ -24950,9 +25461,13 @@ x-validations:
       - Return
       - Batch
       - RTO
+      - FTL
+      - PTL
+      - FIFO
     - _NAME_: REQUIRED_MESSAGE_ID_16
       attr: $.message.order.fulfillments[*].start.location.id
       _RETURN_: attr are present
+      _CONTINUE_: "!(attr are present)"
     - _NAME_: REQUIRED_MESSAGE_GPS
       attr: $.message.order.fulfillments[*].start.location.gps
       _RETURN_: attr are present
@@ -25050,14 +25565,15 @@ x-validations:
       attr: $.message.order.quote.breakup[*]['@ondc/org/title_type']
       _RETURN_: attr are present && attr all in enumList
       enumList:
-      - delivery
-      - rto
-      - tax
-      - diff
-      - tax_diff
-      - discount
-      - cod
-      - surge
+        - delivery
+        - rto
+        - tax
+        - diff
+        - tax_diff
+        - discount
+        - cod
+        - surge
+        - insurance
     - _NAME_: REQUIRED_MESSAGE_CURRENCY_40
       attr: $.message.order.quote.breakup[*].price.currency
       _RETURN_: attr are present
@@ -25070,6 +25586,7 @@ x-validations:
     - _NAME_: REQUIRED_MESSAGE_TYPE_43
       attr: $.message.order.payment.type
       _RETURN_: attr are present && attr all in enumList
+      _CONTINUE_: "!(attr are present)"
       enumList:
       - ON-ORDER
       - ON-FULFILLMENT
@@ -25077,6 +25594,7 @@ x-validations:
     - _NAME_: REQUIRED_MESSAGE_COLLECTED_BY
       attr: $.message.order.payment.collected_by
       _RETURN_: attr are present
+      _CONTINUE_: "!(attr are present)"
     - _NAME_: VALID_ENUM_CONTEXT_DOMAIN
       enumList:
       - ONDC:LOG10
@@ -25091,6 +25609,9 @@ x-validations:
       - Return
       - Batch
       - RTO
+      - FTL
+      - PTL
+      - FIFO
       enumPath: $.message.order.fulfillments[*].type
       _CONTINUE_: "!(enumPath are present)"
       _RETURN_: enumPath all in enumList
@@ -25120,6 +25641,7 @@ x-validations:
       - discount
       - cod
       - surge
+      - insurance
       enumPath: $.message.order.quote.breakup[*]['@ondc/org/title_type']
       _CONTINUE_: "!(enumPath are present)"
       _RETURN_: enumPath all in enumList
@@ -25161,6 +25683,9 @@ x-validations:
       - fulfill_response
       - linked_order
       - linked_order_item
+      - special_req
+      - linked_package
+      - motorable_distance
       tagPath: $.message.order.fulfillments[*].tags[*].code
       _CONTINUE_: "!(tagPath are present)"
       _RETURN_: tagPath all in validTags
@@ -25217,6 +25742,7 @@ x-validations:
       - length
       - breadth
       - height
+      - category
       _RETURN_: subTags all in validValues
     - _NAME_: validate_tag_2_linked_order_item
       _SCOPE_: $.message.order.fulfillments[*].tags[?(@.code=='linked_order_item')]
@@ -25358,6 +25884,7 @@ x-validations:
       - discount
       - cod
       - surge
+      - insurance
     - _NAME_: REQUIRED_MESSAGE_CURRENCY_25
       attr: $.message.order.quote.breakup[*].price.currency
       _RETURN_: attr are present
@@ -25375,6 +25902,9 @@ x-validations:
       - Return
       - Batch
       - RTO
+      - FTL
+      - PTL
+      - FIFO
     - _NAME_: REQUIRED_MESSAGE_CODE
       attr: $.message.order.fulfillments[*].state.descriptor.code
       _RETURN_: attr are present && attr all in enumList
@@ -25408,6 +25938,7 @@ x-validations:
     - _NAME_: REQUIRED_MESSAGE_ID_32
       attr: $.message.order.fulfillments[*].start.location.id
       _RETURN_: attr are present
+      _CONTINUE_: "!(attr are present)"
     - _NAME_: REQUIRED_MESSAGE_GPS
       attr: $.message.order.fulfillments[*].start.location.gps
       _RETURN_: attr are present
@@ -25543,9 +26074,11 @@ x-validations:
     - _NAME_: REQUIRED_MESSAGE_COLLECTED_BY
       attr: $.message.order.payment.collected_by
       _RETURN_: attr are present
+      _CONTINUE_: "!(attr are present)"
     - _NAME_: REQUIRED_MESSAGE_TYPE_68
       attr: $.message.order.payment.type
       _RETURN_: attr are present && attr all in enumList
+      _CONTINUE_: "!(attr are present)"
       enumList:
       - ON-ORDER
       - ON-FULFILLMENT
@@ -25730,6 +26263,9 @@ x-validations:
       - Return
       - Batch
       - RTO
+      - FTL
+      - PTL
+      - FIFO
       enumPath: $.message.order.fulfillments[*].type
       _CONTINUE_: "!(enumPath are present)"
       _RETURN_: enumPath all in enumList
@@ -25814,6 +26350,7 @@ x-validations:
       - discount
       - cod
       - surge
+      - insurance
       enumPath: $.message.order.quote.breakup[*]['@ondc/org/title_type']
       _CONTINUE_: "!(enumPath are present)"
       _RETURN_: enumPath all in enumList
@@ -25872,6 +26409,10 @@ x-validations:
       - rto_verification
       - shipping_label
       - weather_check
+      - reverseqc_input
+      - special_req
+      - linked_package
+      - motorable_distance
       tagPath: $.message.order.fulfillments[*].tags[*].code
       _CONTINUE_: "!(tagPath are present)"
       _RETURN_: tagPath all in validTags
@@ -26011,7 +26552,6 @@ x-validations:
       subTags: $.list[*].code
       validValues:
       - accept_bpp_terms
-      - phone
       _RETURN_: subTags all in validValues
     - _NAME_: validate_tag_4_lbnp_sla_terms
       _SCOPE_: $.message.order.tags[?(@.code=='lbnp_sla_terms')]
@@ -26239,6 +26779,7 @@ x-validations:
       - discount
       - cod
       - surge
+      - insurance
     - _NAME_: REQUIRED_MESSAGE_CURRENCY_27
       attr: $.message.order.quote.breakup[*].price.currency
       _RETURN_: attr are present
@@ -26256,6 +26797,9 @@ x-validations:
       - Return
       - Batch
       - RTO
+      - FTL
+      - PTL
+      - FIFO
     - _NAME_: REQUIRED_MESSAGE_CODE
       attr: $.message.order.fulfillments[*].state.descriptor.code
       _RETURN_: attr are present && attr all in enumList
@@ -26283,6 +26827,7 @@ x-validations:
     - _NAME_: REQUIRED_MESSAGE_TYPE_32
       attr: $.message.order.payment.type
       _RETURN_: attr are present && attr all in enumList
+      _CONTINUE_: "!(attr are present)"
       enumList:
       - ON-ORDER
       - ON-FULFILLMENT
@@ -26290,6 +26835,7 @@ x-validations:
     - _NAME_: REQUIRED_MESSAGE_COLLECTED_BY
       attr: $.message.order.payment.collected_by
       _RETURN_: attr are present
+      _CONTINUE_: "!(attr are present)"
     - _NAME_: REQUIRED_MESSAGE_STATUS
       attr: $.message.order.payment.status
       _RETURN_: attr are present
@@ -26450,6 +26996,9 @@ x-validations:
       - Return
       - Batch
       - RTO
+      - FTL
+      - PTL
+      - FIFO
       enumPath: $.message.order.fulfillments[*].type
       _CONTINUE_: "!(enumPath are present)"
       _RETURN_: enumPath all in enumList
@@ -26534,6 +27083,7 @@ x-validations:
       - discount
       - cod
       - surge
+      - insurance
       enumPath: $.message.order.quote.breakup[*]['@ondc/org/title_type']
       _CONTINUE_: "!(enumPath are present)"
       _RETURN_: enumPath all in enumList
@@ -26584,6 +27134,8 @@ x-validations:
       - linked_order_diff_proof
       - fulfill_request
       - fulfill_response
+      - special_req
+      - linked_package
       tagPath: $.message.order.fulfillments[*].tags[*].code
       _CONTINUE_: "!(tagPath are present)"
       _RETURN_: tagPath all in validTags
@@ -26763,12 +27315,12 @@ x-validations:
     - _NAME_: start_address_validations
       _DESCRIPTION_: Valid address should be sent in fulfillments/start/location
       startLocation: >-
-        $.message.order.fulfillments[?(@.type=='Delivery')].start.location.address.city
+        $.message.order.fulfillments[?(@.type=='Delivery' || @.type=='FTL' || @.type=='PTL')].start.location.address.city
       _RETURN_: startLocation are present
     - _NAME_: end_address_validations
       _DESCRIPTION_: Valid address should be sent in fulfillments/end/location
       endLocation: >-
-        $.message.order.fulfillments[?(@.type=='Delivery')].end.location.address.city
+        $.message.order.fulfillments[?(@.type=='Delivery' || @.type=='FTL' || @.type=='PTL')].end.location.address.city
       fulfillmentType: $.message.order.fulfillments[*].type
       fulfillmentState: $.message.order.fulfillments[*].state.descriptor.code
       fulType: [ "Batch" ]
@@ -26874,6 +27426,7 @@ x-validations:
       - discount
       - cod
       - surge
+      - insurance
     - _NAME_: REQUIRED_MESSAGE_CURRENCY_25
       attr: $.message.order.quote.breakup[*].price.currency
       _RETURN_: attr are present
@@ -26891,6 +27444,9 @@ x-validations:
       - Return
       - Batch
       - RTO
+      - FTL
+      - PTL
+      - FIFO
     - _NAME_: REQUIRED_MESSAGE_CODE
       attr: $.message.order.fulfillments[*].state.descriptor.code
       _RETURN_: attr are present && attr all in enumList
@@ -27077,9 +27633,11 @@ x-validations:
     - _NAME_: REQUIRED_MESSAGE_COLLECTED_BY
       attr: $.message.order.payment.collected_by
       _RETURN_: attr are present
+      _CONTINUE_: "!(attr are present)"
     - _NAME_: REQUIRED_MESSAGE_TYPE_72
       attr: $.message.order.payment.type
       _RETURN_: attr are present && attr all in enumList
+      _CONTINUE_: "!(attr are present)"
       enumList:
       - ON-ORDER
       - ON-FULFILLMENT
@@ -27261,6 +27819,9 @@ x-validations:
       - Return
       - Batch
       - RTO
+      - FTL
+      - PTL
+      - FIFO
       enumPath: $.message.order.fulfillments[*].type
       _CONTINUE_: "!(enumPath are present)"
       _RETURN_: enumPath all in enumList
@@ -27345,6 +27906,7 @@ x-validations:
       - discount
       - cod
       - surge
+      - insurance
       enumPath: $.message.order.quote.breakup[*]['@ondc/org/title_type']
       _CONTINUE_: "!(enumPath are present)"
       _RETURN_: enumPath all in enumList
@@ -27395,6 +27957,9 @@ x-validations:
       - linked_order_diff
       - linked_order_diff_proof
       - tracking
+      - special_req
+      - linked_package
+      - motorable distance
       tagPath: $.message.order.fulfillments[*].tags[*].code
       _CONTINUE_: "!(tagPath are present)"
       _RETURN_: tagPath all in validTags
@@ -27641,6 +28206,7 @@ x-validations:
       - discount
       - cod
       - surge
+      - insurance
     - _NAME_: REQUIRED_MESSAGE_CURRENCY_25
       attr: $.message.order.quote.breakup[*].price.currency
       _RETURN_: attr are present
@@ -27658,6 +28224,9 @@ x-validations:
       - Return
       - Batch
       - RTO
+      - FTL
+      - PTL
+      - FIFO
     - _NAME_: REQUIRED_MESSAGE_CODE
       attr: $.message.order.fulfillments[*].state.descriptor.code
       _RETURN_: attr are present && attr all in enumList
@@ -27685,6 +28254,7 @@ x-validations:
     - _NAME_: REQUIRED_MESSAGE_TYPE_30
       attr: $.message.order.payment.type
       _RETURN_: attr are present && attr all in enumList
+      _CONTINUE_: "!(attr are present)" 
       enumList:
       - ON-ORDER
       - ON-FULFILLMENT
@@ -27692,9 +28262,11 @@ x-validations:
     - _NAME_: REQUIRED_MESSAGE_COLLECTED_BY
       attr: $.message.order.payment.collected_by
       _RETURN_: attr are present
+      _CONTINUE_: "!(attr are present)"
     - _NAME_: REQUIRED_MESSAGE_STATUS
       attr: $.message.order.payment.status
       _RETURN_: attr are present
+      _CONTINUE_: "!(attr are present)"
     - _NAME_: REQUIRED_MESSAGE_NAME
       attr: $.message.order.billing.name
       _RETURN_: attr are present
@@ -27911,6 +28483,9 @@ x-validations:
       - Return
       - Batch
       - RTO
+      - FTL
+      - PTL
+      - FIFO
       enumPath: $.message.order.fulfillments[*].type
       _CONTINUE_: "!(enumPath are present)"
       _RETURN_: enumPath all in enumList
@@ -27995,6 +28570,7 @@ x-validations:
       - discount
       - cod
       - surge
+      - insurance
       enumPath: $.message.order.quote.breakup[*]['@ondc/org/title_type']
       _CONTINUE_: "!(enumPath are present)"
       _RETURN_: enumPath all in enumList
@@ -28042,6 +28618,7 @@ x-validations:
       - fulfill_response
       - rider_details
       - rto_event
+      - reverseqc_input
       - reverseqc_output
       - ebn
       - linked_order_diff
@@ -28049,6 +28626,9 @@ x-validations:
       - precancel_state
       - fulfillment_delay
       - fulfillment_proof
+      - special_req
+      - linked_package
+      - motorable distance
       tagPath: $.message.order.fulfillments[*].tags[*].code
       _CONTINUE_: "!(tagPath are present)"
       _RETURN_: tagPath all in validTags
@@ -28382,12 +28962,12 @@ x-validations:
     - _NAME_: start_address_validations
       _DESCRIPTION_: Valid address should be sent in fulfillments/start/location
       startLocation: >-
-        $.message.order.fulfillments[?(@.type=='Delivery')].start.location.address.city
+        $.message.order.fulfillments[?(@.type=='Delivery' || @.type=='Return' || @.type=='FTL' || @.type=='PTL' || @.type=='FIFO')].start.location.address.city
       _RETURN_: startLocation are present
     - _NAME_: end_address_validations
       _DESCRIPTION_: Valid address should be sent in fulfillments/end/location
       endLocation: >-
-        $.message.order.fulfillments[?(@.type=='Delivery')].end.location.address.city
+        $.message.order.fulfillments[?(@.type=='Delivery' || @.type=='Return' || @.type=='FTL' || @.type=='PTL' || @.type=='FIFO')].end.location.address.city
       fulfillmentType: $.message.order.fulfillments[*].type
       fulfillmentState: $.message.order.fulfillments[*].state.descriptor.code
       fulType: [ "Batch" ]
@@ -28395,343 +28975,677 @@ x-validations:
       _CONTINUE_: "(fulfillmentType any in fulType) && (fulfillmentState all in fulState)"
       _RETURN_: endLocation are present
     issue:
-    - _NAME_: REQUIRED_MESSAGE_ID
-      attr: $.message.issue.id
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_STATUS
-      attr: $.message.issue.status
-      _RETURN_: attr are present && attr all in enumList && attr are unique
-      enumList:
-      - OPEN
-      - CLOSED
-      - PROCESSING
-      - RESOLVED
-      - NEED_MORE_INFO
-      - INFO_PROVIDED
-    - _NAME_: REQUIRED_MESSAGE_LEVEL
-      attr: $.message.issue.level
-      _RETURN_: attr are present && attr all in enumList
-      enumList:
-      - ISSUE
-      - GREVIENCE
-      - DISPUTE
-    - _NAME_: REQUIRED_MESSAGE_CREATED_AT
-      attr: $.message.issue.created_at
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_UPDATED_AT
-      attr: $.message.issue.updated_at
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_DURATION
-      attr: $.message.issue.expected_response_time.duration
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_DURATION_7
-      attr: $.message.issue.expected_resolution_time.duration
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_REF_ID
-      attr: $.message.issue.refs[*].ref_id
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_REF_TYPE
-      attr: $.message.issue.refs[*].ref_type
-      _RETURN_: attr are present && attr all in enumList
-      enumList:
-      - ORDER
-      - ITEM
-      - FULFILLMENT
-      - TRANSACTION_ID
-      - MESSAGE_ID
-      - PROVIDER
-      - COMPLAINT
-      - ACTION
-      - PAYMENT
-      - CUSTOMER
-      - AGENT
-    - _NAME_: REQUIRED_MESSAGE_ID_10
-      attr: $.message.issue.actors[*].id
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_TYPE
-      attr: $.message.issue.actors[*].type
-      _RETURN_: attr are present && attr all in enumList
-      enumList:
-      - INTERFACING_NP
-      - COUNTERPARTY_NP
-      - CASCADED_NP
-      - PROVIDER
-      - AGENT
-      - CUSTOMER
-      - INTERFACING_NP_GRO
-      - COUNTERPARTY_NP_GRO
-      - CASCADED_NP_GRO
-      - CONSUMER
-    - _NAME_: REQUIRED_MESSAGE_NAME
-      attr: $.message.issue.actors[*].info.person.name
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_NAME_13
-      attr: $.message.issue.actors[*].info.person.name
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_PHONE
-      attr: $.message.issue.actors[*].info.contact.phone
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_EMAIL
-      attr: $.message.issue.actors[*].info.contact.email
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_SOURCE_ID
-      attr: $.message.issue.source_id
-      _RETURN_: attr are present
-    # - _NAME_: REQUIRED_MESSAGE_COMPLAINANT_ID
-    #   attr: $.message.issue.complainant_id
-    #   _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_CODE
-      attr: $.message.issue.descriptor.code
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_SHORT_DESC
-      attr: $.message.issue.descriptor.short_desc
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_LONG_DESC
-      attr: $.message.issue.descriptor.long_desc
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_URL
-      attr: $.message.issue.descriptor.additional_desc.url
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_CONTENT_TYPE
-      attr: $.message.issue.descriptor.additional_desc.content_type
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_LAST_ACTION_ID
-      attr: $.message.issue.last_action_id
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_ID_25
-      attr: $.message.issue.actions[*].id
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_CODE_26
-      attr: $.message.issue.actions[*].descriptor.code
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_SHORT_DESC_27
-      attr: $.message.issue.actions[*].descriptor.short_desc
-      _CONTINUE_: "!(attr are present)"
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_UPDATED_AT_28
-      attr: $.message.issue.actions[*].updated_at
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_ACTION_BY
-      attr: $.message.issue.actions[*].action_by
-      _RETURN_: attr are present
-    - _NAME_: VALID_ENUM_MESSAGE_STATUS
-      enumList:
-      - OPEN
-      - CLOSED
-      - PROCESSING
-      - RESOLVED
-      enumPath: $.message.issue.status
-      _CONTINUE_: "!(enumPath are present)"
-      _RETURN_: enumPath all in enumList
-    - _NAME_: VALID_ENUM_MESSAGE_LEVEL
-      enumList:
-      - ISSUE
-      - GREVIENCE
-      - DISPUTE
-      enumPath: $.message.issue.level
-      _CONTINUE_: "!(enumPath are present)"
-      _RETURN_: enumPath all in enumList
-    - _NAME_: VALID_ENUM_MESSAGE_REF_TYPE
-      enumList:
-      - ORDER
-      - ITEM
-      - FULFILLMENT
-      - TRANSACTION_ID
-      - MESSAGE_ID
-      - PROVIDER
-      - COMPLAINT
-      - ACTION
-      - PAYMENT
-      - CUSTOMER
-      - AGENT
-      enumPath: $.message.issue.refs[*].ref_type
-      _CONTINUE_: "!(enumPath are present)"
-      _RETURN_: enumPath all in enumList
-    - _NAME_: VALID_ENUM_MESSAGE_TYPE
-      enumList:
-      - INTERFACING_NP
-      - COUNTERPARTY_NP
-      - CASCADED_NP
-      - PROVIDER
-      - AGENT
-      - CUSTOMER
-      - INTERFACING_NP_GRO
-      - COUNTERPARTY_NP_GRO
-      - CASCADED_NP_GRO
-      - CONSUMER
-      enumPath: $.message.issue.actors[*].type
-      _CONTINUE_: "!(enumPath are present)"
-      _RETURN_: enumPath all in enumList
-    # - _NAME_: VALID_ENUM_MESSAGE_NAME
-    #   enumList:
-    #     - OPEN
-    #     - CLOSED
-    #     - PROCESSING
-    #     - RESOLVED
-    #     - INFO_REQUESTED
-    #     - INFO_PROVIDED
-    #     - INFO_NOT_AVAILABLE
-    #     - RESOLUTION_PROPOSED
-    #     - RESOLUTION_CASCADED
-    #     - RESOLUTION_ACCEPTED
-    #     - RESOLUTION_REJECTED
-    #   enumPath: $.message.issue.actions[*].descriptor.name
-    # _CONTINUE_: "!(enumPath are present)"
-    # _RETURN_: enumPath all in enumList
-    on_issue:
-    - _NAME_: REQUIRED_MESSAGE_ID
-      attr: $.message.issue.id
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_STATUS
-      attr: $.message.issue.status
-      _RETURN_: attr are present && attr all in enumList
-      enumList:
-      - OPEN
-      - CLOSED
-      - PROCESSING
-      - NEED_MORE_INFO
-      - RESOLVED
-      - INFO_PROVIDED
-    - _NAME_: REQUIRED_MESSAGE_LEVEL
-      attr: $.message.issue.level
-      _RETURN_: attr are present && attr all in enumList
-      enumList:
-      - ISSUE
-      - GREVIENCE
-      - DISPUTE
-    - _NAME_: REQUIRED_MESSAGE_CREATED_AT
-      attr: $.message.issue.created_at
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_UPDATED_AT
-      attr: $.message.issue.updated_at
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_DURATION
-      attr: $.message.issue.expected_response_time.duration
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_DURATION_7
-      attr: $.message.issue.expected_resolution_time.duration
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_REF_ID
-      attr: $.message.issue.refs[*].ref_id
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_REF_TYPE
-      attr: $.message.issue.refs[*].ref_type
-      _RETURN_: attr are present && attr all in enumList
-      enumList:
-      - ORDER
-      - ITEM
-      - FULFILLMENT
-      - TRANSACTION_ID
-      - MESSAGE_ID
-      - PROVIDER
-      - COMPLAINT
-      - ACTION
-      - PAYMENT
-      - CUSTOMER
-      - AGENT
-    - _NAME_: REQUIRED_MESSAGE_ID_10
-      attr: $.message.issue.actors[*].id
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_TYPE
-      attr: $.message.issue.actors[*].type
-      _RETURN_: attr are present && attr all in enumList
-      enumList:
-      - INTERFACING_NP
-      - COUNTERPARTY_NP
-      - CASCADED_NP
-      - PROVIDER
-      - AGENT
-      - CUSTOMER
-      - INTERFACING_NP_GRO
-      - COUNTERPARTY_NP_GRO
-      - CASCADED_NP_GRO
-      - CONSUMER
-    - _NAME_: REQUIRED_MESSAGE_NAME
-      attr: $.message.issue.actors[*].info.person.name
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_NAME_13
-      attr: $.message.issue.actors[*].info.person.name
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_PHONE
-      attr: $.message.issue.actors[*].info.contact.phone
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_EMAIL
-      attr: $.message.issue.actors[*].info.contact.email
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_SOURCE_ID
-      attr: $.message.issue.source_id
-      _RETURN_: attr are present
-    # - _NAME_: REQUIRED_MESSAGE_COMPLAINANT_ID
-    #   attr: $.message.issue.complainant_id
-    #   _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_CODE
-      attr: $.message.issue.descriptor.code
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_SHORT_DESC
-      attr: $.message.issue.descriptor.short_desc
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_LONG_DESC
-      attr: $.message.issue.descriptor.long_desc
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_URL
-      attr: $.message.issue.descriptor.additional_desc.url
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_CONTENT_TYPE
-      attr: $.message.issue.descriptor.additional_desc.content_type
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_LAST_ACTION_ID
-      attr: $.message.issue.last_action_id
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_ID_25
-      attr: $.message.issue.actions[*].id
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_CODE_26
-      attr: $.message.issue.actions[*].descriptor.code
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_SHORT_DESC_27
-      attr: $.message.issue.actions[*].descriptor.short_desc
-      _CONTINUE_: "!(attr are present)"
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_UPDATED_AT_28
-      attr: $.message.issue.actions[*].updated_at
-      _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_ACTION_BY
-      attr: $.message.issue.actions[*].action_by
-      _RETURN_: attr are present
+      - _NAME_: REQUIRED_CONTEXT_FIELDS
+        _RETURN_:
+          - _NAME_: REQUIRED_CONTEXT_DOMAIN
+            attr: $.context.domain
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_COUNTRY
+            attr: [$.context.location.country.code]
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_CITY
+            attr: [$.context.location.city.code]
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID
+            attr: $.context.transaction_id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID
+            attr: $.context.message_id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_ACTION
+            attr: $.context.action
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_TIMESTAMP
+            attr: $.context.timestamp
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_VERSION
+            attr: [$.context.version]
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_BAP_URI
+            attr: $.context.bap_uri
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_BAP_ID
+            attr: $.context.bap_id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_BPP_URI
+            attr: $.context.bpp_uri
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_BPP_ID
+            attr: $.context.bpp_id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_TTL
+            attr: $.context.ttl
+            _RETURN_: attr are present
+          # - _NAME_: VALID_CONTEXT_COUNTRY_CODE
+          #   attr: [$.context.location.country.code]
+          #   enumList:
+          #     - IND
+          #   _RETURN_: attr any in enumList
+          - _NAME_: VALID_CONTEXT_COUNTRY_CODE
+            attr: $.context.country
+            _RETURN_: attr are present
+      - _NAME_: ISSUE_VALIDATION_VERSION_200
+        action:
+          - issue
+        _SCOPE_: $.message.issue.actions
+        _RETURN_:
+          - _NAME_: REQUIRED_MESSAGE_ID
+            attr: $.message.issue.id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_STATUS
+            attr: $.message.issue.status
+            _RETURN_: attr are present && attr all in enumList && attr are unique
+            enumList:
+              - OPEN
+              - CLOSED
+              - PROCESSING
+              - RESOLVED
+              - NEED_MORE_INFO
+              - INFO_PROVIDED
+          - _NAME_: REQUIRED_MESSAGE_LEVEL
+            attr: $.message.issue.level
+            _RETURN_: attr are present && attr all in enumList
+            enumList:
+              - ISSUE
+              - GREVIENCE
+              - DISPUTE
+          - _NAME_: REQUIRED_MESSAGE_CREATED_AT
+            attr: $.message.issue.created_at
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_UPDATED_AT
+            attr: $.message.issue.updated_at
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_REF_ID
+            attr: $.message.issue.refs[*].ref_id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_REF_TYPE
+            attr: $.message.issue.refs[*].ref_type
+            _RETURN_: attr are present && attr all in enumList
+            enumList:
+              - ORDER
+              - ITEM
+              - FULFILLMENT
+              - TRANSACTION_ID
+              - MESSAGE_ID
+              - PROVIDER
+              - COMPLAINT
+              - ACTION
+              - PAYMENT
+              - CUSTOMER
+              - AGENT
+          - _NAME_: REQUIRED_MESSAGE_ID_10
+            attr: $.message.issue.actors[*].id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_TYPE
+            attr: $.message.issue.actors[*].type
+            _RETURN_: attr are present && attr all in enumList
+            enumList:
+              - INTERFACING_NP
+              - COUNTERPARTY_NP
+              - CASCADED_NP
+              - PROVIDER
+              - AGENT
+              - CUSTOMER
+              - INTERFACING_NP_GRO
+              - COUNTERPARTY_NP_GRO
+              - CASCADED_NP_GRO
+              - CONSUMER
+          - _NAME_: REQUIRED_MESSAGE_NAME
+            attr: $.message.issue.actors[*].info.person.name
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_NAME_13
+            attr: $.message.issue.actors[*].info.person.name
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_PHONE
+            attr: $.message.issue.actors[*].info.contact.phone
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_EMAIL
+            attr: $.message.issue.actors[*].info.contact.email
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_SOURCE_ID
+            attr: $.message.issue.source_id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_CODE
+            attr: $.message.issue.descriptor.code
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_SHORT_DESC
+            attr: $.message.issue.descriptor.short_desc
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_LONG_DESC
+            attr: $.message.issue.descriptor.long_desc
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_URL
+            attr: $.message.issue.descriptor.additional_desc.url
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_CONTENT_TYPE
+            attr: $.message.issue.descriptor.additional_desc.content_type
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_LAST_ACTION_ID
+            attr: $.message.issue.last_action_id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_ID_25
+            attr: $.message.issue.actions[*].id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_CODE_26
+            attr: $.message.issue.actions[*].descriptor.code
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_SHORT_DESC_27
+            attr: $.message.issue.actions[*].descriptor.short_desc
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_UPDATED_AT_28
+            attr: $.message.issue.actions[*].updated_at
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_ACTION_BY
+            attr: $.message.issue.actions[*].action_by
+            _RETURN_: attr are present
+          - _NAME_: VALID_ENUM_MESSAGE_STATUS
+            enumList:
+              - OPEN
+              - CLOSED
+              - PROCESSING
+              - RESOLVED
+              - INFO_PROVIDED
+            enumPath: $.message.issue.status
+            _CONTINUE_: "!(enumPath are present)"
+            _RETURN_: enumPath all in enumList
+          - _NAME_: VALID_ENUM_MESSAGE_LEVEL
+            enumList:
+              - ISSUE
+              - GREVIENCE
+              - DISPUTE
+            enumPath: $.message.issue.level
+            _CONTINUE_: "!(enumPath are present)"
+            _RETURN_: enumPath all in enumList
+          - _NAME_: VALID_ENUM_MESSAGE_REF_TYPE
+            enumList:
+              - ORDER
+              - ITEM
+              - FULFILLMENT
+              - TRANSACTION_ID
+              - MESSAGE_ID
+              - PROVIDER
+              - COMPLAINT
+              - ACTION
+              - PAYMENT
+              - CUSTOMER
+              - AGENT
+            enumPath: $.message.issue.refs[*].ref_type
+            _CONTINUE_: "!(enumPath are present)"
+            _RETURN_: enumPath all in enumList
+          - _NAME_: VALID_ENUM_MESSAGE_TYPE
+            enumList:
+              - INTERFACING_NP
+              - COUNTERPARTY_NP
+              - CASCADED_NP
+              - PROVIDER
+              - AGENT
+              - CUSTOMER
+              - INTERFACING_NP_GRO
+              - COUNTERPARTY_NP_GRO
+              - CASCADED_NP_GRO
+              - CONSUMER
+            enumPath: $.message.issue.actors[*].type
+            _CONTINUE_: "!(enumPath are present)"
+            _RETURN_: enumPath all in enumList
+            
+      - _NAME_: ISSUE_VALIDATION_VERSION_100
+        action:
+          - issue
+        _SCOPE_: $.message.issue.issue_actions  
+        _RETURN_:
+          - _NAME_: ISSUE_VALIDATION_OPEN
+            action:
+              - issue
+            _SCOPE_: $.message.issue[?(@.status=='OPEN')]
+            _RETURN_:
+              # Mandatory fields ONLY for OPEN
+              - _NAME_: REQUIRED_ISSUE_ID
+                attr: $.message.issue.id
+                _RETURN_: attr are present
 
-    - _NAME_: VALID_ENUM_MESSAGE_STATUS
-      enumList:
-      - OPEN
-      - CLOSED
-      - PROCESSING
-      - RESOLVED
-      - NEED_MORE_INFO
-      - INFO_PROVIDED
-      enumPath: $.message.issue.status
-      _CONTINUE_: "!(enumPath are present)"
-      _RETURN_: enumPath all in enumList
-    - _NAME_: VALID_ENUM_MESSAGE_LEVEL
-      enumList:
-      - ISSUE
-      - GREVIENCE
-      - DISPUTE
-      enumPath: $.message.issue.level
-      _CONTINUE_: "!(enumPath are present)"
-      _RETURN_: enumPath all in enumList
-    - _NAME_: VALID_ENUM_MESSAGE_REF_TYPE
-      enumList:
-      - ORDER
-      - ITEM
-      - FULFILLMENT
-      - TRANSACTION_ID
-      - MESSAGE_ID
-      - PROVIDER
-      - COMPLAINT
-      - ACTION
-      - PAYMENT
-      - CUSTOMER
-      - AGENT
-      enumPath: $.message.issue.refs[*].ref_type
-      _CONTINUE_: "!(enumPath are present)"
-      _RETURN_: enumPath all in enumList
+              - _NAME_: REQUIRED_ISSUE_STATUS
+                attr: $.message.issue.status
+                validValues:
+                  - OPEN
+                  - CLOSED
+                _RETURN_: attr all in validValues    
+
+              - _NAME_: REQUIRED_ISSUE_CATEGORY
+                attr: $.message.issue.category
+                _RETURN_: attr are present
+
+              - _NAME_: REQUIRED_ISSUE_SUB_CATEGORY
+                attr: $.message.issue.sub_category
+                _RETURN_: attr are present
+
+              - _NAME_: REQUIRED_COMPLAINANT_PERSON_NAME
+                attr: $.message.issue.complainant_info.person.name
+                _RETURN_: attr are present
+
+              - _NAME_: REQUIRED_COMPLAINANT_CONTACT_PHONE
+                attr: $.message.issue.complainant_info.contact.phone
+                _RETURN_: attr are present
+
+              - _NAME_: REQUIRED_ORDER_ID
+                attr: $.message.issue.order_details.id
+                _RETURN_: attr are present
+
+              - _NAME_: REQUIRED_ORDER_ITEMS
+                attr: $.message.issue.order_details.items[*].id
+                _RETURN_: attr are present
+
+              - _NAME_: REQUIRED_ORDER_ITEMS_QUANTITY
+                attr: $.message.issue.order_details.items[*].quantity
+                _RETURN_: attr are present  
+
+              - _NAME_: REQUIRED_FULFILLMENT_ID
+                attr: $.message.issue.order_details.fulfillments[*].id
+                _RETURN_: attr are present
+
+              - _NAME_: REQUIRED_PROVIDER_ID
+                attr: $.message.issue.order_details.provider_id
+                _RETURN_: attr are present  
+
+              - _NAME_: REQUIRED_DESCRIPTION
+                attr: [$.message.issue.description]
+                _RETURN_: attr are present
+
+              - _NAME_: REQUIRED_DESCRIPTION_SHORT
+                attr: [$.message.issue.description.short_desc]
+                _RETURN_: attr are present
+
+              - _NAME_: REQUIRED_DESCRIPTION_LONG
+                attr: [$.message.issue.description.long_desc]
+                _RETURN_: attr are present
+
+              - _NAME_: REQUIRED_DESCRIPTION_ADDITIONAL_URL
+                attr: [$.message.issue.description.additional_desc.url]
+                _RETURN_: attr are present
+
+              - _NAME_: REQUIRED_DESCRIPTION_ADDITIONAL_CONTENT_TYPE
+                attr: [$.message.issue.description.additional_desc.content_type]
+                _RETURN_: attr are present
+
+              - _NAME_: REQUIRED_DESCRIPTION_IMAGES
+                attr: [$.message.issue.description.images]
+                _RETURN_: attr are present  
+
+              - _NAME_: REQUIRED_EXPECTED_RESPONSE_TIME
+                attr: [$.message.issue.expected_response_time.duration]
+                _RETURN_: attr are present
+
+              - _NAME_: REQUIRED_EXPECTED_RESOLUTION_TIME
+                attr: [$.message.issue.expected_resolution_time.duration]
+                _RETURN_: attr are present
+
+              - _NAME_: REQUIRED_ISSUE_ACTIONS_OPEN
+                attr: $.message.issue.issue_actions.complainant_actions[*].complainant_action
+                validValues:
+                  - OPEN
+                  - CLOSE
+                  - ESCALATE
+                _RETURN_: attr all in validValues
+
+              - _NAME_: REQUIRED_CREATED_AT
+                attr: $.message.issue.created_at
+                _RETURN_: attr are present
+
+              - _NAME_: REQUIRED_UPDATED_AT
+                attr: $.message.issue.updated_at
+                _RETURN_: attr are present
+          - _NAME_: ISSUE_VALIDATION_CLOSED
+            action:
+                - issue
+            _SCOPE_: $.message.issue[?(@.status=='CLOSED')]
+            _RETURN_:
+              - _NAME_: REQUIRED_ISSUE_ID_CLOSED
+                attr: $.message.issue.id
+                _RETURN_: attr are present
+
+              - _NAME_: REQUIRED_ISSUE_STATUS
+                attr: $.message.issue.status
+                validValues:
+                  - OPEN
+                  - CLOSED
+                _RETURN_: attr all in validValues    
+
+              - _NAME_: REQUIRED_ISSUE_ACTIONS_CLOSED
+                attr: $.message.issue.issue_actions.complainant_actions[*].complainant_action
+                validValues:
+                  - OPEN
+                  - CLOSE
+                  - ESCALATE
+                _RETURN_: attr all in validValues
+              - _NAME_: REQUIRED_CREATED_AT_CLOSED
+                attr: $.message.issue.created_at
+                _RETURN_: attr are present
+
+              - _NAME_: REQUIRED_UPDATED_AT_CLOSED
+                attr: $.message.issue.updated_at
+                _RETURN_: attr are present
+    
+    on_issue:
+      - _NAME_: REQUIRED_CONTEXT_FIELDS
+        _RETURN_:
+          - _NAME_: REQUIRED_CONTEXT_DOMAIN
+            attr: $.context.domain
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_COUNTRY
+            attr: [$.context.location.country.code]
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_CITY
+            attr: [$.context.location.city.code]
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID
+            attr: $.context.transaction_id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID
+            attr: $.context.message_id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_ACTION
+            attr: $.context.action
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_TIMESTAMP
+            attr: $.context.timestamp
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_VERSION
+            attr: [$.context.version]
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_BAP_URI
+            attr: $.context.bap_uri
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_BAP_ID
+            attr: $.context.bap_id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_BPP_URI
+            attr: $.context.bpp_uri
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_BPP_ID
+            attr: $.context.bpp_id
+            _RETURN_: attr are present
+          # - _NAME_: REQUIRED_CONTEXT_TTL
+          #   attr: $.context.ttl
+          #   _RETURN_: attr are present
+          # - _NAME_: VALID_CONTEXT_COUNTRY_CODE
+          #   attr: [$.context.location.country.code]
+          #   enumList:
+          #     - IND
+          #   _RETURN_: attr any in enumList
+          - _NAME_: VALID_CONTEXT_COUNTRY_CODE
+            attr: $.context.country
+            _RETURN_: attr are present  
+      - _NAME_: ON_ISSUE_VALIDATION_VERSION_200
+        action:
+          - on_issue
+        _SCOPE_: $.message.issue.actions
+        _RETURN_:  
+          - _NAME_: REQUIRED_MESSAGE_ID
+            attr: $.message.issue.id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_STATUS
+            attr: $.message.issue.status
+            _RETURN_: attr are present && attr all in enumList && attr are unique
+            enumList:
+              - OPEN
+              - CLOSED
+              - PROCESSING
+              - RESOLVED
+              - NEED_MORE_INFO
+              - INFO_PROVIDED
+          - _NAME_: REQUIRED_MESSAGE_LEVEL
+            attr: $.message.issue.level
+            _RETURN_: attr are present && attr all in enumList
+            enumList:
+              - ISSUE
+              - GREVIENCE
+              - DISPUTE
+          - _NAME_: REQUIRED_MESSAGE_CREATED_AT
+            attr: $.message.issue.created_at
+            _RETURN_: attr are present 
+          - _NAME_: REQUIRED_MESSAGE_UPDATED_AT
+            attr: $.message.issue.updated_at
+            _RETURN_: attr are present 
+          - _NAME_: REQUIRED_MESSAGE_REF_ID
+            attr: $.message.issue.refs[*].ref_id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_REF_TYPE
+            attr: $.message.issue.refs[*].ref_type
+            _RETURN_: attr are present && attr all in enumList
+            enumList:
+              - ORDER
+              - ITEM
+              - FULFILLMENT
+              - TRANSACTION_ID
+              - MESSAGE_ID
+              - PROVIDER
+              - COMPLAINT
+              - ACTION
+              - PAYMENT
+              - CUSTOMER
+              - AGENT
+          - _NAME_: REQUIRED_EXPECTED_RESPONSE_TIME
+            attr: [$.message.issue.expected_response_time.duration]
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_EXPECTED_RESOLUTION_TIME
+            attr: [$.message.issue.expected_resolution_time.duration]
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_ID_10
+            attr: $.message.issue.actors[*].id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_TYPE
+            attr: $.message.issue.actors[*].type
+            _RETURN_: attr are present && attr all in enumList
+            enumList:
+              - INTERFACING_NP
+              - COUNTERPARTY_NP
+              - CASCADED_NP
+              - PROVIDER
+              - AGENT
+              - CUSTOMER
+              - INTERFACING_NP_GRO
+              - COUNTERPARTY_NP_GRO
+              - CASCADED_NP_GRO
+              - CONSUMER  
+          - _NAME_: REQUIRED_MESSAGE_NAME_13
+            attr: $.message.issue.actors[*].info.person.name
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_PHONE
+            attr: $.message.issue.actors[*].info.contact.phone
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_EMAIL
+            attr: $.message.issue.actors[*].info.contact.email
+            _RETURN_: attr are present
+          # - _NAME_: REQUIRED_MESSAGE_SOURCE_ID
+          #   attr: $.message.issue.source_id
+          #   _RETURN_: attr are present 
+          # - _NAME_: REQUIRED_MESSAGE_CODE
+          #   attr: $.message.issue.descriptor.code
+          #   _RETURN_: attr are present
+          # - _NAME_: REQUIRED_MESSAGE_SHORT_DESC
+          #   attr: $.message.issue.descriptor.short_desc
+          #   _RETURN_: attr are present
+          # - _NAME_: REQUIRED_MESSAGE_LONG_DESC
+          #   attr: $.message.issue.descriptor.long_desc
+          #   _RETURN_: attr are present
+          # - _NAME_: REQUIRED_MESSAGE_URL
+          #   attr: $.message.issue.descriptor.additional_desc.url
+          #   _RETURN_: attr are present
+          # - _NAME_: REQUIRED_MESSAGE_CONTENT_TYPE
+          #   attr: $.message.issue.descriptor.additional_desc.content_type
+          #   _RETURN_: attr are present 
+          - _NAME_: REQUIRED_MESSAGE_ID_25
+            attr: $.message.issue.actions[*].id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_CODE_26
+            attr: $.message.issue.actions[*].descriptor.code
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_SHORT_DESC_27
+            attr: $.message.issue.actions[*].descriptor.short_desc
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_UPDATED_AT_28
+            attr: $.message.issue.actions[*].updated_at
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_ACTION_BY
+            attr: $.message.issue.actions[*].action_by
+            _RETURN_: attr are present              
+      - _NAME_: ON_ISSUE_VALIDATION_VERSION_100
+        action:
+          - on_issue
+        _SCOPE_: $.message.issue.issue_actions
+        _RETURN_: 
+          - _NAME_: REQUIRED_ISSUE_ID
+            attr: $.message.issue.id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_RESPONDENT_ACTION
+            attr: $.message.issue.issue_actions.respondent_actions[*].respondent_action
+            _RETURN_: attr are present && attr all in enumList
+            enumList:
+              - OPEN
+              - PROCESSING
+              - RESOLVED
+              - CLOSED
+              - INFO_PROVIDED
+              - NEED_MORE_INFO
+
+          - _NAME_: REQUIRED_RESPONDENT_SHORT_DESC
+            attr: $.message.issue.issue_actions.respondent_actions[*].short_desc
+            _RETURN_: attr are present
+
+          - _NAME_: REQUIRED_RESPONDENT_UPDATED_AT
+            attr: $.message.issue.issue_actions.respondent_actions[*].updated_at
+            _RETURN_: attr are present
+
+          - _NAME_: REQUIRED_RESPONDENT_UPDATED_BY_PERSON
+            attr: $.message.issue.issue_actions.respondent_actions[*].updated_by.person.name
+            _RETURN_: attr are present
+
+          - _NAME_: REQUIRED_RESPONDENT_UPDATED_BY_ORG
+            attr: $.message.issue.issue_actions.respondent_actions[*].updated_by.org.name
+            _RETURN_: attr are present
+
+          - _NAME_: REQUIRED_ISSUE_CREATED_AT
+            attr: $.message.issue.created_at
+            _RETURN_: attr are present
+
+          - _NAME_: REQUIRED_ISSUE_UPDATED_AT
+            attr: $.message.issue.updated_at
+            _RETURN_: attr are present
+
+    on_issue_status:
+      - _NAME_: REQUIRED_CONTEXT_FIELDS
+        _RETURN_:
+          - _NAME_: REQUIRED_CONTEXT_DOMAIN
+            attr: $.context.domain
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_COUNTRY
+            attr: [$.context.location.country.code]
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_CITY
+            attr: [$.context.location.city.code]
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID
+            attr: $.context.transaction_id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID
+            attr: $.context.message_id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_ACTION
+            attr: $.context.action
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_TIMESTAMP
+            attr: $.context.timestamp
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_VERSION
+            attr: [$.context.version]
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_BAP_URI
+            attr: $.context.bap_uri
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_BAP_ID
+            attr: $.context.bap_id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_BPP_URI
+            attr: $.context.bpp_uri
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_BPP_ID
+            attr: $.context.bpp_id
+            _RETURN_: attr are present
+          # - _NAME_: REQUIRED_CONTEXT_TTL
+          #   attr: $.context.ttl
+          #   _RETURN_: attr are present
+          # - _NAME_: VALID_CONTEXT_COUNTRY_CODE
+          #   attr: [$.context.location.country.code]
+          #   enumList:
+          #     - IND
+          #   _RETURN_: attr any in enumList
+          - _NAME_: VALID_CONTEXT_COUNTRY_CODE
+            attr: $.context.country
+            _RETURN_: attr are present
+      - _NAME_: ISSUE_ON_ISSUE_STATUS_VALIDATION
+        action:
+          - on_issue_status
+        _RETURN_:
+          - _NAME_: REQUIRED_ISSUE_ID
+            attr: $.message.issue.id
+            _RETURN_: attr are present
+
+          - _NAME_: REQUIRED_RESPONDENT_ACTION
+            attr: $.message.issue.issue_actions.respondent_actions[*].respondent_action
+            _RETURN_: attr are present && attr all in enumList
+            enumList:
+              - OPEN
+              - PROCESSING
+              - RESOLVED
+              - CLOSED
+              - INFO_PROVIDED
+              - NEED_MORE_INFO
+
+          - _NAME_: REQUIRED_RESPONDENT_SHORT_DESC
+            attr: $.message.issue.issue_actions.respondent_actions[*].short_desc
+            _RETURN_: attr are present
+
+          - _NAME_: REQUIRED_RESPONDENT_UPDATED_AT
+            attr: $.message.issue.issue_actions.respondent_actions[*].updated_at
+            _RETURN_: attr are present
+
+          - _NAME_: REQUIRED_RESPONDENT_UPDATED_BY_PERSON
+            attr: $.message.issue.issue_actions.respondent_actions[*].updated_by.person.name
+            _RETURN_: attr are present
+
+          - _NAME_: REQUIRED_RESPONDENT_UPDATED_BY_ORG
+            attr: $.message.issue.issue_actions.respondent_actions[*].updated_by.org.name
+            _RETURN_: attr are present
+
+          - _NAME_: REQUIRED_ISSUE_CREATED_AT
+            attr: $.message.issue.created_at
+            _RETURN_: attr are present
+
+          - _NAME_: REQUIRED_ISSUE_UPDATED_AT
+            attr: $.message.issue.updated_at
+            _RETURN_: attr are present
+
+          - _NAME_: REQUIRED_RESOLUTION_SHORT_DESC
+            attr: [$.message.issue.resolution.short_desc]
+            _RETURN_: attr are present
+
+          - _NAME_: REQUIRED_RESOLUTION_LONG_DESC
+            attr: [$.message.issue.resolution.long_desc]
+            _RETURN_: attr are present
+
+          - _NAME_: REQUIRED_RESOLUTION_ACTION_TRIGGERED
+            attr: [$.message.issue.resolution.action_triggered]
+            _RETURN_: attr are present
+
+          - _NAME_: REQUIRED_RESOLUTION_PROVIDER_TYPE
+            attr: $.message.issue.resolution_provider.respondent_info.type
+            _RETURN_: attr are present
+
+          - _NAME_: REQUIRED_RESOLUTION_PROVIDER_ORG_NAME
+            attr: $.message.issue.resolution_provider.respondent_info.organization.org.name
+            _RETURN_: attr are present
+
+          - _NAME_: REQUIRED_RESOLUTION_PROVIDER_PERSON_NAME
+            attr: $.message.issue.resolution_provider.respondent_info.organization.person.name
+            _RETURN_: attr are present
+    
   _SESSION_DATA_: {}
