@@ -48,7 +48,7 @@ export async function initDefaultGenerator(
     }
 
 
-    const submission_id = sessionData?.form_data?.E_sign_verification_status?.form_submission_id || sessionData?.E_sign_verification_status
+    const submission_id = sessionData.flow_id === "Lumpsum_New_Folio" ? sessionData?.investor_details_form : sessionData?.form_data?.E_sign_verification_status?.form_submission_id || sessionData?.E_sign_verification_status
 
     if (existingPayload.message?.order?.xinput?.form_response) {
         if (submission_id) {
@@ -62,10 +62,14 @@ export async function initDefaultGenerator(
     }
 
     // Ensure form ID matches from on_select
-    const formId = sessionData?.form_id || "E_sign_verification_status";
+    const formId = sessionData.flow_id === "Lumpsum_New_Folio" ? "investor_details_form" : sessionData?.form_id || "E_sign_verification_status";
     if (existingPayload.message?.order?.xinput?.form) {
         existingPayload.message.order.xinput.form.id = formId
     }
     console.log("=== init Generator End ===");
+
+    if (sessionData.flow_id === "Lumpsum_Existing_Folio") {
+        delete existingPayload.message?.order?.xinput;
+    }
     return existingPayload;
 }

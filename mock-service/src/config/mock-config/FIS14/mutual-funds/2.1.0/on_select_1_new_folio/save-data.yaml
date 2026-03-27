@@ -1,0 +1,12 @@
+save-data:
+  investor_details_form: "$..form.url"
+  form_id: $.message.order.xinput.form.id
+  transaction_id: "$.context.transaction_id"
+  message_id: "$.context.message_id"
+  selected_provider: "$.message.order.provider"
+  selected_items: "$.message.order.items[*]"
+  item: "$.message.order.items[1]"
+  order: "$.message.order"
+  selected_fulfillments: "$.message.order.fulfillments[*]"
+  quote: "$.message.quote" 
+  quote_price: "$.message.order.quote.price.value"

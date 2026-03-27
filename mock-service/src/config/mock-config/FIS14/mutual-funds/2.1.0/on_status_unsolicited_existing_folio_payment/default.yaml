@@ -1,6 +1,6 @@
 order:
-  id: mfp_3454dfadssf435345
-  status: COMPLETED
+  id: mfpp_213adf123af
+  status: ACCEPTED
   provider:
     id: sellerapp_id
     descriptor:
@@ -19,12 +19,8 @@ order:
           measure:
             value: '3000'
             unit: INR
-        allocated:
-          measure:
-            value: '149.9925'
-            unit: MF_UNITS
       fulfillment_ids:
-        - ff_008
+        - ff_789
       payment_ids:
         - pmt_123
       tags:
@@ -71,37 +67,19 @@ order:
                 name: IDCW Option
                 code: IDCW_OPTION
               value: PAYOUT
-        - display: true
-          descriptor:
-            name: Checklists
-            code: CHECKLISTS
-          list:
-            - descriptor:
-                name: Application Form
-                code: APPLICATION_FORM
-              value: 6547-7456-7235-4386
-            - descriptor:
-                name: KYC
-                code: KYC
-              value: 1978-5697-3478-6547
-            - descriptor:
-                name: ESIGN
-                code: ESIGN
-              value: 8745-1247-6587-8647
-      price:
-        currency: INR
-        value: '20.0000'
-        listed_value: '20.0000'
-      time:
-        label: NAV Date
-        timestamp: '2024-07-23T00:00:00+05:30'
   fulfillments:
     - id: ff_789
       type: LUMPSUM
+      state:
+        descriptor:
+          name: Initiated
+          code: INITIATED
       customer:
         person:
           id: 'pan:arrpp7771n'
           creds:
+            - id: 78953432/32
+              type: FOLIO
             - id: 115.245.207.90
               type: IP_ADDRESS
         contact:
@@ -115,10 +93,6 @@ order:
               type: ARN
             - id: ARN-123456
               type: SUB_BROKER_ARN
-      state:
-        descriptor:
-          name: Successful
-          code: SUCCESSFUL
       tags:
         - display: true
           descriptor:
@@ -128,7 +102,7 @@ order:
             - descriptor:
                 name: Folio Number
                 code: FOLIO_NUMBER
-              value: 1562162434/45
+              value: 123213432/32
             - descriptor:
                 name: Holding Pattern
                 code: HOLDING_PATTERN
@@ -175,12 +149,6 @@ order:
                 name: RTA Source Ref
                 code: RTA_SOURCE_REF
               value: '21432432'
-  xinput:
-    form:
-      id: form_3
-    form_response:
-      status: SUCCESS
-      submission_id: 8745-1247-6587-8647
   payments:
     - id: pmt_123
       collected_by: BPP
@@ -191,7 +159,7 @@ order:
         source_bank_code: icic0000047
         source_bank_account_number: '004701563111'
         source_bank_account_name: harish gupta
-        transaction_id: 'abcdj49887866566889'
+        transaction_id: '243423324'
       type: PRE_FULFILLMENT
       tags:
         - descriptor:
@@ -218,7 +186,7 @@ order:
       - item:
           id: '12391'
           fulfillment_ids:
-            - ff_008
+            - ff_789
         title: INVESTMENT
         price:
           currency: INR
@@ -226,7 +194,7 @@ order:
       - item:
           id: '12391'
           fulfillment_ids:
-            - ff_008
+            - ff_789
         title: STAMP_DUTY
         price:
           currency: INR

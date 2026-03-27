@@ -152,3 +152,66 @@ codes:
     action: on_update
     default: FIS14/mutual-funds/2.1.0/on_update_unsolicited_success/default.yaml
     message_id: true
+
+  # /***EXISTING FOLIO CALLS START*/
+  - code: 520
+    action_id: on_confirm_existing_folio
+    action: on_confirm
+    default: FIS14/mutual-funds/2.1.0/on_confirm_existing_folio/default.yaml
+    message_id: false
+
+  - code: 521
+    action_id: on_init_existing_folio
+    action: on_init
+    default: FIS14/mutual-funds/2.1.0/on_init_existing_folio/default.yaml
+    message_id: false
+
+  - code: 522
+    action_id: on_status_unsolicited_existing_folio_payment
+    action: on_status
+    default: FIS14/mutual-funds/2.1.0/on_status_unsolicited_existing_folio_payment/default.yaml
+    message_id: true
+
+  - code: 523
+    action_id: on_update_unsolicited_existing_folio
+    action: on_update
+    default: FIS14/mutual-funds/2.1.0/on_update_unsolicited_existing_folio/default.yaml
+    message_id: true
+
+    # /***EXISTING FOLIO CALLS END*/
+
+  - code: 524
+    action_id: on_select_1_new_folio
+    action: on_select
+    default: FIS14/mutual-funds/2.1.0/on_select_1_new_folio/default.yaml
+    message_id: false
+
+  - code: 525
+    action_id: on_select_2_new_folio
+    action: on_select
+    default: FIS14/mutual-funds/2.1.0/on_select_2_new_folio/default.yaml
+    message_id: false
+
+  - code: 526
+    action_id: on_init_new_folio
+    action: on_init
+    default: FIS14/mutual-funds/2.1.0/on_init_new_folio/default.yaml
+    message_id: false
+
+  - code: 527
+    action_id: on_confirm_new_folio
+    action: on_confirm
+    default: FIS14/mutual-funds/2.1.0/on_confirm_new_folio/default.yaml
+    message_id: false
+
+  - code: 528
+    action_id: on_status_unsolicited_new_folio_payment
+    action: on_status
+    default: FIS14/mutual-funds/2.1.0/on_status_unsolicited_new_folio_payment/default.yaml
+    message_id: true
+
+  - code: 529
+    action_id: on_update_unsolicited_new_folio
+    action: on_update
+    default: FIS14/mutual-funds/2.1.0/on_update_unsolicited_new_folio/default.yaml
+    message_id: true

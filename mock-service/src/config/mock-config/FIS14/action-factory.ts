@@ -36,6 +36,16 @@ import { MockOnConfirmRedemptionClass } from "./mutual-funds/2.1.0/on_confirm_re
 import { MockOnUpdateRedemptionClass } from "./mutual-funds/2.1.0/on_update_redemption/class";
 import { MockRetryPaymentFormClass } from "./mutual-funds/2.1.0/retry_payment_url_form/retry_payment_url_form";
 import { MockOnStatusUnsolicitedPaymentSuccessClass } from "./mutual-funds/2.1.0/on_status_unsolicited_payment_success/class";
+import { MockOnConfirmExistingFolioClass } from "./mutual-funds/2.1.0/on_confirm_existing_folio/class";
+import { MockOnInitExistingFolioClass } from "./mutual-funds/2.1.0/on_init_existing_folio/class";
+import { MockOnStatusUnsolicitedPaymentExistingFolioClass } from "./mutual-funds/2.1.0/on_status_unsolicited_existing_folio_payment/class";
+import { MockOnUpdateUnsolicitedExistingFolioClass } from "./mutual-funds/2.1.0/on_update_unsolicited_existing_folio/class";
+import { MockOnSelect1NewFolioClass } from "./mutual-funds/2.1.0/on_select_1_new_folio/class";
+import { MockOnSelect2NewFolioClass } from "./mutual-funds/2.1.0/on_select_2_new_folio/class";
+import { MockOnInitNewFolioClass } from "./mutual-funds/2.1.0/on_init_new_folio/class";
+import { MockOnConfirmNewFolioClass } from "./mutual-funds/2.1.0/on_confirm_new_folio/class";
+import { MockOnStatusUnsolicitedPaymentNewFolioClass } from "./mutual-funds/2.1.0/on_status_unsolicited_new_folio_payment/class";
+import { MockOnUpdateUnsolicitedNewFolioClass } from "./mutual-funds/2.1.0/on_update_unsolicited_new_folio/class";
 
 type Ctor<T> = new () => T;
 
@@ -86,6 +96,23 @@ const registry = {
     on_update_unsolicited_failed: MockOnUpdateUnsolicitedClass,
     // forms
     investor_details_form: MockInvestorDetailsFormClass,
+
+    /***LUMPSUM EXISTING FOLIO CALLS START*/
+    on_confirm_existing_folio: MockOnConfirmExistingFolioClass,
+    on_init_existing_folio: MockOnInitExistingFolioClass,
+    on_status_unsolicited_existing_folio_payment: MockOnStatusUnsolicitedPaymentExistingFolioClass,
+    on_update_unsolicited_existing_folio: MockOnUpdateUnsolicitedExistingFolioClass,
+    /***EXISTING FOLIO CALLS END*/
+
+    /**LUMPSUM NEW FOLIO START */
+    on_select_1_new_folio: MockOnSelect1NewFolioClass,
+    on_select_2_new_folio: MockOnSelect2NewFolioClass,
+    on_init_new_folio: MockOnInitNewFolioClass,
+    on_confirm_new_folio: MockOnConfirmNewFolioClass,
+    on_status_unsolicited_new_folio_payment: MockOnStatusUnsolicitedPaymentNewFolioClass,
+    on_update_unsolicited_new_folio: MockOnUpdateUnsolicitedNewFolioClass,
+
+    /**LUMPSUM NEW FOLIO END */
 
     // Redemption flows
     on_select_redemption: MockOnSelectRedemptionClass,

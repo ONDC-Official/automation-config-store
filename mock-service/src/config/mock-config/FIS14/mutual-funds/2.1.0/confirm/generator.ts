@@ -52,7 +52,7 @@ export async function confirmDefaultGenerator(
         existingPayload.message.order.quote.id = sessionData.quote_id;
     }
 
-    const submission_id = sessionData?.form_data?.E_sign_verification_status?.form_submission_id || sessionData?.E_sign_verification_status
+    const submission_id = sessionData?.flow_id === "Lumpsum_New_Folio" ? sessionData?.investor_details_form : sessionData?.form_data?.E_sign_verification_status?.form_submission_id || sessionData?.E_sign_verification_status
 
     if (existingPayload.message?.order?.xinput?.form_response) {
         if (submission_id) {
@@ -66,10 +66,25 @@ export async function confirmDefaultGenerator(
     }
 
     // Ensure form ID matches from on_select
-    const formId = sessionData?.form_id || "E_sign_verification_status";
+    const formId = sessionData.flow_id === "Lumpsum_New_Folio" ? "investor_details_form" : sessionData?.form_id || "E_sign_verification_status";
     if (existingPayload.message?.order?.xinput?.form) {
         existingPayload.message.order.xinput.form.id = formId
     }
     console.log("=== confirm Generator End ===");
+
+    if (sessionData.flow_id === "Lumpsum_Existing_Folio") {
+        existingPayload.message.order.fulfillments[0].customer.person.creds = [
+            {
+                "id": "1562162434/45",
+                "type": "FOLIO"
+            },
+            {
+                "id": "115.245.207.90",
+                "type": "IP_ADDRESS"
+            }
+        ]
+
+        delete existingPayload.message?.order?.xinput;
+    }
     return existingPayload;
 }

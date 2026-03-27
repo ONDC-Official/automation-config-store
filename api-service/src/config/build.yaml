@@ -79591,9 +79591,9 @@ x-validations:
           - _NAME_: REQUIRED_FULFILLMENT_AGENT
             attr: $.message.order.fulfillments[*].agent.person.id
             _RETURN_: attr are present
-          - _NAME_: REQUIRED_FULFILLMENT_STOPS
-            attr: $.message.order.fulfillments[*].stops[*].time.schedule.frequency
-            _RETURN_: attr are present
+          # - _NAME_: REQUIRED_FULFILLMENT_STOPS
+          #   attr: $.message.order.fulfillments[*].stops[*].time.schedule.frequency
+          #   _RETURN_: attr are present
           - _NAME_: REQUIRED_THRESHOLDS_TAG_GROUP
             validTags: *THRESHOLDS_TAG
             tagPath: $.message.order.fulfillments[*].tags[*].descriptor.code
