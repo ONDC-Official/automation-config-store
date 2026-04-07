@@ -1,12 +1,12 @@
 name: Deploy api service
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - "src/config/build.yaml"
-    branches-ignore:
-      - main
-      - dev
+  # push:
+  #   paths:
+  #     - "src/config/build.yaml"
+  #   branches-ignore:
+  #     - main
+  #     - dev
 
 jobs:
   deploy-draft:
@@ -117,7 +117,7 @@ jobs:
           REPO_DIR=~/ONDC-automation-framework/api-service/api-service-generator-${{ github.ref_name }}
           git clone --single-branch --branch ${{ github.ref_name }} https://github.com/ONDC-Official/automation-config-store.git \$REPO_DIR/automation-config-store
            rm -rf \$REPO_DIR/src/config
-           mv -f \$REPO_DIR/automation-config-store/src/config  \$REPO_DIR/src/config
+           mv -f \$REPO_DIR/automation-config-store/api-service/src/config  \$REPO_DIR/src/config
           EOF
 
       - name: Automation Api Server Deployment
@@ -251,7 +251,7 @@ jobs:
           REPO_DIR=~/ONDC-automation-framework/api-service/api-service-generator-${{ github.ref_name }}
           git clone --single-branch --branch ${{ github.ref_name }} https://github.com/ONDC-Official/automation-config-store.git \$REPO_DIR/automation-config-store
            rm -rf \$REPO_DIR/src/config
-           mv -f \$REPO_DIR/automation-config-store/src/config  \$REPO_DIR/src/config
+           mv -f \$REPO_DIR/automation-config-store/api-service/src/config  \$REPO_DIR/src/config
           EOF
 
       - name: Automation Api Server Deployment
