@@ -104339,7 +104339,7 @@ x-validations:
             - _NAME_: FULFILLMENTS_TAGS_VALID_TAGS
               _CONTINUE_: "!(attr are present)"
               attr: "$.message.order.fulfillments[*].tags[*].code"
-              valid: ["state","routing","tracking","fulfillment_delay","order_details","cancel_request","quote_trail","precancel_state"]
+              valid: ["state","routing","tracking","fulfillment_delay","order_details","cancel_request","quote_trail","precancel_state","replace_request","return_request"]
               _RETURN_: attr all in valid
             - _NAME_: TAGS_STATE
               _RETURN_:
@@ -104585,7 +104585,7 @@ x-validations:
                 - _NAME_: TAGS_RETURN_REQUEST_VALID_TAGS
                   _CONTINUE_: "!(attr are present)"
                   attr: "$.message.order.fulfillments[*].tags[?(@.code=='return_request')].list[*].code"
-                  valid: ["id","item_id","parent_item_id","item_quantity","reason_id","reason_desc","images","ttl_approval","ttl_reverseqc"]
+                  valid: ["id","item_id","parent_item_id","item_quantity","reason_id","reason_desc","images","ttl_approval","ttl_reverseqc","replace"]
                   _RETURN_: attr all in valid
                 - _NAME_: RETURN_REQUEST_ID
                   _CONTINUE_: "!(attr are present)"
