@@ -141,7 +141,7 @@ export class MockOnStatusDefaultClass extends MockAction {
     }
 } 
 
-export class MockUnsoliciatedOnStatusDefaultClass extends MockAction {
+export class MockUnsolicatedOnStatusDefaultClass extends MockAction {
     get saveData(): saveType {
         return yaml.load(
             readFileSync(path.resolve(__dirname, "./save-data.yaml"), "utf8")
