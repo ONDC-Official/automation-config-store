@@ -756,6 +756,182 @@ paths:
       responses:
         default:
           $ref: '#/paths/~1init/post/responses/default'
+  /issue:
+    post:
+      tags:
+        - Complaint lifecycle management
+      description: |
+        ###  Operation Description
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                context:
+                  $ref: "#/components/schemas/Context"
+                message:
+                  type: object
+                  properties:
+                    issue:
+                      $ref: "#/components/schemas/Issue"
+              required:
+                - context
+                - message
+      responses:
+        "200":
+          description: Acknowledgement of message received
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: object
+                    properties:
+                      ack:
+                        $ref: "#/components/schemas/Ack"
+                    required:
+                      - ack
+                  error:
+                    $ref: "#/components/schemas/Error"
+                required:
+                  - message
+  /on_issue:
+    post:
+      tags:
+        - Complaint lifecycle management
+      description: Send the issue resolution details object
+      requestBody:
+        description: Seller confirms order
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                context:
+                  $ref: "#/components/schemas/Context"
+                message:
+                  type: object
+                  properties:
+                    issue:
+                      $ref: "#/components/schemas/Issue"
+                  required:
+                    - issue
+                error:
+                  $ref: "#/components/schemas/Error"
+              required:
+                - context
+                - message
+      responses:
+        "200":
+          description: Acknowledgement of message received
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: object
+                    properties:
+                      ack:
+                        $ref: "#/components/schemas/Ack"
+                    required:
+                      - ack
+                  error:
+                    $ref: "#/components/schemas/Error"
+                required:
+                  - message
+  /issue_status:
+    post:
+      tags:
+        - Complaint lifecycle management
+      description: Request for latest status of the complaint
+      requestBody:
+        description: Seller confirms order
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                context:
+                  $ref: "#/components/schemas/Context"
+                message:
+                  type: object
+                  properties:
+                    issue_id:
+                      description: Network issue identifier is a unique number assigned to a complaint by the interfacing application
+                      type: string
+                  required:
+                    - issue_id
+              required:
+                - context
+                - message
+      responses:
+        "200":
+          description: Acknowledgement of message received
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: object
+                    properties:
+                      ack:
+                        $ref: "#/components/schemas/Ack"
+                    required:
+                      - ack
+                  error:
+                    $ref: "#/components/schemas/Error"
+                required:
+                  - message
+  /on_issue_status:
+    post:
+      tags:
+        - Complaint lifecycle management
+      description: Send the issue resolution details object
+      requestBody:
+        description: Seller confirms order
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                context:
+                  $ref: "#/components/schemas/Context"
+                message:
+                  type: object
+                  properties:
+                    issue:
+                      $ref: "#/components/schemas/Issue"
+                  required:
+                    - issue
+                error:
+                  $ref: "#/components/schemas/Error"
+              required:
+                - context
+                - message
+      responses:
+        "200":
+          description: Acknowledgement of message received
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: object
+                    properties:
+                      ack:
+                        $ref: "#/components/schemas/Ack"
+                    required:
+                      - ack
+                  error:
+                    $ref: "#/components/schemas/Error"
+                required:
+                  - message
+
 components:
   securitySchemes:
     SubscriberAuth:
@@ -1658,8 +1834,12 @@ components:
             - $ref: '#/components/schemas/Price'
         quantity:
           description: The selling quantity of the item
-          allOf:
-            - $ref: '#/components/schemas/ItemQuantity'
+          # allOf:
+          #   - $ref: '#/components/schemas/ItemQuantity'
+          anyOf:
+            - allOf:
+                - $ref: "#/components/schemas/ItemQuantity"
+            - type: integer  
         category_ids:
           description: Categories this item can be listed under
           type: array
@@ -2047,7 +2227,29 @@ components:
           allOf:
             - $ref: '#/components/schemas/City'
         contact:
-          $ref: '#/components/schemas/Contact'
+          # $ref: '#/components/schemas/Contact'
+          anyOf:
+            - $ref: "#/components/schemas/Contact"
+            - type: object
+              additionalProperties: false
+              properties:
+                phone:
+                  type: string
+                email:
+                  type: string
+                  format: email 
+        org:
+          type: object
+          additionalProperties: false
+          properties:
+            name:
+              type: string
+        person:
+          type: object
+          additionalProperties: false
+          properties:
+            name:
+              type: string 
         creds:
           type: array
           items:
@@ -2790,6 +2992,800 @@ components:
             Indicates whether the form data is mandatorily required by the BPP
             to confirm the order.
           type: boolean
+    Issue:
+      description: |
+        *  Describes the Issue/complaint raised for a particular order, transaction or fulfillment or item for which an issue is faced by the buyer.
+        * It also describes the Issue/complaint raised by the network participants to its conuter party or casacaded counterparty apps as and when applicable
+        * Describes the issue when it is escalated as a Grievance or a Dispute
+        *  supplementary Information  Describes and details evidence of the information about the issue . When the complainant or respondent seeks an issue update the addtional information about the update are populated as part of the supplementary information. 
+          the supplementary information section , details information including but not limited to any of the following or more: 
+            * comments from the complaintant/ respondent for seeking more information about the issue
+            * comments from the complaintant/ respondent providing the update on the issue with more information on the issue 
+            * Picutres providing further information about the issue
+            * documents attachment/links providing further information about the issue etc
+      type: object
+      properties:
+        id:
+          description: |
+            * Network issue identifier is an unique number assigned to any complaint by the interfacing application at the source.
+
+            * **During the life cycle of a complaint, this number will not change and will be communicated to counterparty application.**
+
+            * Any subsequent issues created with the interfacing,counterpary or casacaded counter party apps are responsible for providing the correalted and relevant network-issue-id which helps all this inteacting systems to traverse back to the main issue.
+          type: string
+        complainant_info:
+          $ref: "#/components/schemas/Complainant"
+        order_details:
+          $ref: "#/components/schemas/OrderDetails"
+        category:
+          $ref: "#/components/schemas/IssueCategory"
+        sub_category:
+          $ref: "#/components/schemas/IssueSubCategory"
+        level:
+          $ref: "#/components/schemas/Level"
+        issue_type:
+          description: |
+            identifies the type of the issue raised
+            * the complainant being raised can be a regular ```Issue```, 
+            * which then subsequently can be escalated to be a ```Grievance``` 
+            * which may be further escalated to be a ```Dispute```
+          type: string
+          enum:
+            - ISSUE
+            - GRIEVANCE
+            - DISPUTE
+        source:
+          $ref: "#/components/schemas/IssueSource"
+        expected_response_time:
+          $ref: "#/components/schemas/Time"
+        expected_resolution_time:
+          $ref: "#/components/schemas/Time"
+        status:
+          description: |
+            ### Statues
+              1. Open : indicating that the issue is opened and further action is yet to be taken on the issue
+              2. CLOSED : indicating that the issue is closed and no further action/update/info/resolution action/status change are expected/accepted on this issue.
+          type: string
+          enum:
+            - OPEN
+            - CLOSED
+            - INFO_PROVIDED
+        issue_actions:
+          $ref: "#/components/schemas/IssueActions"
+        selected_odrs_info:
+          description: |
+            details of the ODRs selected by the resolution provider .
+            one of this would be subsequently finalized to be the ODR resposbile to resolve the issue . 
+            This is a required object if and when the issue type is "Dispute"
+          type: array
+          items:
+            $ref: "#/components/schemas/SelectedODRs"
+        finalized_odr:
+          $ref: "#/components/schemas/ODR"
+        refs:
+          description: will give bref about refs
+          type: array
+          items:
+            type: object
+            properties:
+              ref_id:
+                type: string
+              ref_type:
+                type: string
+        actors:
+          description: Describes the actors involved in the transaction
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                description: Describes id of the actors that are their
+                type: string
+              type:
+                description: Describes the type of actor
+                type: string
+              info:
+                description: Describes the information about actor
+                type: object
+                properties:
+                  person:
+                    $ref: "#/components/schemas/Person"
+                  contact:
+                    $ref: "#/components/schemas/Contact"
+                  org:
+                    type: object
+        source_id:
+          description: Describes the source of the issue
+          type: string
+        complainant_id:
+          description: Describes the complainant id
+          type: string
+        respondent_ids:
+          description: Describes the respondent id
+          type: array
+          items:
+            type: string
+        resolver_ids:
+          description: Describes the resolver id
+          type: array
+          items:
+            type: string
+        descriptor:
+          $ref: "#/components/schemas/DescriptorIgm"
+        last_action_id:
+          description: Describes the last action id
+          type: string
+        actions:
+          description: Describes the actions taken on the issue
+          type: array
+          items:
+            $ref: "#/components/schemas/Action"
+        rating:
+          description: rating by the complainant for issue resolution
+          type: string
+          enum:
+            - THUMBS-UP
+            - THUMBS-DOWN
+        resolution_provider:
+          $ref: "#/components/schemas/ResolutionProvider"
+        resolutions:
+          description: Describes the actions taken on the issue
+          type: array
+          items:
+            $ref: "#/components/schemas/IssueResolution"
+        additional_info_required:
+          type: array
+          items:
+            $ref: "#/components/schemas/AdditionalInfoRequired"
+        created_at:
+          description: timestamp for the creation of the issue
+          type: string
+          format: date-time
+        updated_at:
+          description: timestamp for the capturing the time an issue was last updated
+          type: string
+          format: date-time
+          required:
+            - id
+            - created_at
+            - updated_at
+        resolution:
+          type: object
+          description: Resolution for the issue
+          properties:
+            short_desc:
+              description: short description of the issue action
+              type: string
+            long_desc:
+              description: detailed description of the issue action
+              type: string
+            action_triggered:
+              description: action triggered for the complaint
+              type: string
+              enum:
+                - REFUND
+                - REPLACEMENT
+                - CANCEL
+                - NO-ACTION
+                - RECONCILED
+                - NOT-RECONCILED
+            refund_amount:
+              description: refund amount to be initiated
+              type: string
+          required:
+            - short_desc
+            - action_triggered
+        description:
+          type: object
+          description: Issue description payload
+          properties:
+            short_desc:
+              type: string
+              description: short description of the issue
+            long_desc:
+              type: string
+              description: detailed description of the issue
+            additional_desc:
+              type: object
+              description: Additional description file
+              properties:
+                url:
+                  type: string
+                  format: uri
+                  description: URL to additional description
+                content_type:
+                  type: string
+                  description: MIME type of the file
+              required:
+                - url
+                - content_type
+            images:
+              type: array
+              description: array of image URLs
+              items:
+                type: string
+                format: uri
+              required:
+                - short_desc
+                - long_desc
+                - additional_desc
+                - images
+      additionalProperties: false
+    IssueSubCategory:
+      description: Identifies what is the sub-category of this issue
+      type: string
+      enum:
+        - ORD01
+        - ORD02
+        - ORD03
+        - ITM01
+        - ITM02
+        - ITM03
+        - ITM04
+        - FLM01
+        - FLM02
+        - FLM03
+        - FLM04
+        - FLM05
+        - FLM06
+        - FLM07
+        - AGT01
+        - AGT02
+        - PMT01
+        - PMT02
+        - PMT03
+        - PMT04
+        - FLM201
+    IssueCategory:
+      description: |
+        Identifies what is the category of this issue
+        ### CATEGORIES:
+        1. Order : Indicactes that the issue is related to  Order.
+        2. Transaction : Indicactes that the issue is related to  Transaction.
+        3. Fulfillment : Indicactes that the issue is related to  Fulfillment.
+        4. Product : Indicactes that the issue is related to  Product.
+        5. Product Service : Indicactes that the issue is related to  Product Service.
+        6. Service : Indicactes that the issue is related to  Service.
+        7. Payment : Indicactes that the issue is related to  Payments.
+      type: string
+    IssueSource:
+      description: source of the issue
+      type: object
+      properties:
+        network_participant_id:
+          type: string
+          description: unique identifier of the network participant of the source of this issue. It can be one of buyer-id in the buyer- interfacing app , or any of the relevant network provider id based on what causes the issue
+        type:
+          description: |
+            Indicates the source from where the issue is raised. 
+            ### TYPES
+                1. Consumer : indicating that the Consumer(Buyer) of a product or a service has raised the issue
+                2. Seller : indicating that the Seller of a product or a service has raised the issue
+                3. Intefacing NP : indicating that the Interfacing NP has identified and raised the issue
+          type: string
+          enum:
+            - CONSUMER
+            - SELLER
+            - INTERFACING-NP
+      additionalProperties: false
+    IssueActions:
+      description: |
+        Status of the issue updated by respondent or the complainant
+        The issue may attain different status based on its lifecycle. TODO add info of enums in here and in issue-source
+      type: object
+      properties:
+        complainant_actions:
+          type: array
+          items:
+            $ref: "#/components/schemas/ComplainantAction"
+        respondent_actions:
+          type: array
+          items:
+            $ref: "#/components/schemas/RespondentAction"
+      additionalProperties: false
+    OrderDetails:
+      type: object
+      properties:
+        id:
+          description: the value of this field will be the combination of context.transaction_id and order.id.
+          type: string
+        state:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Item"
+        fulfillments:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required:
+              - id
+              - state
+            properties:
+              id:
+                description: the value of this field will be the combination of context.transaction_id and order.id.
+                type: string
+              state:
+                type: string
+                description: Fulfillment state of the order
+        provider_id:
+          type: string
+        merchant_order_id:
+          type: string
+      additionalProperties: false
+    Complainant:
+      description: |
+        - Describes an entity that raises a complaint with an interfacing app. 
+        - The complainant may be an end user (buyer or seller) or a network participant (buyer app/ seller app/ logistic services  provider app)
+      type: object
+      properties:
+        person:
+          $ref: "#/components/schemas/Person"
+        contact:
+          allOf:
+            - $ref: "#/components/schemas/Contact"
+            - type: object
+              required:
+                - phone
+      required:
+        - contact
+      additionalProperties: false
+    ComplainantAction:
+      type: object
+      properties:
+        complainant_action:
+          description: |
+            Describes the action taken by the complainant who has raised the issue. 
+            the value should be populated when the complainant has taken any of the below actions to anotate the action taken. the actions can be, 
+            ### Actions
+            1. Complainant can ```open``` the issue if he isn't satisfied with the products or services he has purchased or used 
+            2. Complainant can ```escalate``` the issue if he isn't satisfied with the issue resolution
+            3. Complainant can ```close``` the issue if he doesn't expect any more additonal action on the issue and he is satisfied with the resolution/actions taken on the issue till the time of closure of the issue.
+          type: string
+          enum:
+            - OPEN
+            - ESCALATE
+            - CLOSE
+        updated_at:
+          description: timestamp for the capturing the time an issue status was last updated
+          type: string
+          format: date-time
+        updated_by:
+          $ref: "#/components/schemas/Organization"
+        short_desc:
+          description: details of the remarks when the issue status is changed, can be captured when the complainant triggers an action
+          type: string
+    Level:
+      description: Describes the level of a issue
+      type: string
+    ODR:
+      description: |
+        * Describes the details of the Online Dispute Resolution Provider.
+        ODR Service Providers (ODR SP) via dispute resolution methods such as mediation/ conciliation and/or arbitration, will attempt to resolve disputes
+        NOTE : ```ODR``` stands for Online Dispute Resolution.
+        * May also describe the details of the ODR finalized or identified by the intefacing app, to whom the issue will be assigned for resolution.
+      type: object
+      properties:
+        name:
+          description: Name of the ODR provider
+          type: string
+        short_desc:
+          description: Information about the ODR provider
+          type: string
+        long_desc:
+          description: Detailed information about the ODR provider
+          type: string
+        url:
+          description: URL link to the ODR provider
+          type: string
+        organization:
+          $ref: "#/components/schemas/Organization"
+        pricing_model:
+          description: Details of the pricing modle of the ODR
+          type: object
+          properties:
+            price:
+              $ref: "#/components/schemas/Price"
+            pricing_info:
+              description: addtional information about the pricing model
+              type: string
+        resolution_ratings:
+          $ref: "#/components/schemas/Rating"
+      required:
+        - name
+        - short_desc
+        - url
+        - pricing_model
+        - resolution_ratings
+      additionalProperties: false
+    SelectedODRs:
+      type: object
+      properties:
+        respondent_info:
+          type: object
+          $ref: "#/components/schemas/Organization"
+        odrs:
+          type: array
+          items:
+            $ref: "#/components/schemas/ODR"
+      additionalProperties: false
+    RespondentAction:
+      type: object
+      properties:
+        respondent_action:
+          type: string
+          enum:
+            - PROCESSING
+            - CASCADED
+            - RESOLVED
+            - NEED-MORE-INFO
+        updated_at:
+          description: timestamp for the capturing the time an issue status was last updated
+          type: string
+          format: date-time
+        updated_by:
+          $ref: "#/components/schemas/Organization"
+        short_desc:
+          description: details of the remarks when the issue status is changed, can be captured when the respondent triggers an action
+          type: string
+        cascaded_level:
+          description: the default value will be 1, whenever the issue will be cascaded to the next level the value of this field should be incremented by 1 it will upgrade it indicates to the next sub-level.
+          type: integer
+      additionalProperties: false
+    GRO:
+      description: |
+        Grievance Redressal Officer is appointed by each network participant (buyer app, seller app, logistic provider app) for consumer grievance redressal
+        Details of the GRO appointed by the resolution provider to support in issue resolution .
+        This is a required object if and when the issue type is "Grievance"
+      type: object
+      properties:
+        person:
+          $ref: "#/components/schemas/Person"
+        contact:
+          $ref: "#/components/schemas/Contact"
+          required:
+            - phone
+            - email
+        gro_type:
+          type: string
+          description: |
+            Indicates the system through which the GRO is assigned to this issue. 
+            ### TYPES
+                1. Intefacing NP GRO : indicating the GRO is assigned by the NP where or through which the issue is raised
+                2. Transaction Counterparty NP GRO : indicating the GRO is assigned by the first level of counterparty network provider with which the interfacing NP is interacting with to get an issue resolution.
+                3. Cascaded Counterparty NP GRO : indicating the GRO is assigned by the second or any further downstream levels of counterparty network provider, with which the NP is interacting with, to get an issue resolution.
+          enum:
+            - INTEFACING-NP-GRO
+            - TRANSACTION-COUNTERPARTY-NP-GRO
+            - CASCADED-COUNTERPARTY-NP-GRO
+      required:
+        - contact
+        - gro_type
+      additionalProperties: false
+    IssueResolution:
+      description: Describes the issue resolution for the issue raised by a Complainant
+      type: object
+      properties:
+        short_desc:
+          description: resolution
+          type: string
+        long_desc:
+          description: remarks of the resolution of the issue by the respondent
+          type: string
+        gro_remarks:
+          description: resolution remarks provided by the gro
+          type: string
+        odr_remarks:
+          description: remarks of the result of the dispute, if applicable
+          type: string
+        action_triggered:
+          type: string
+          enum:
+            - REFUND
+            - REPLACEMENT
+            - RETURN
+            - CANCEL
+            - NO-ACTION
+        action:
+          description: |
+            Indicactes the action taken while addressing the issue.
+             ### Actions
+              1. resolve : indicating the issue being resolved. 
+              2. reject : indicating that the issue is rejected by the respondent or the resolution provider.
+          type: string
+          enum:
+            - RESOLVE
+            - REJECT
+        refund_amount:
+          type: string
+        id:
+          description: unique identifier of the issue resolution
+          type: string
+        proposed_by:
+          type: string
+        updated_at:
+          description: timestamp for the capturing the time an issue resolution was last updated
+          type: string
+          format: date-time
+        descriptor:
+          $ref: "#/components/schemas/Descriptor"
+        tags:
+          $ref: "#/components/schemas/Tag1"
+        ref_id:
+          description: Describes the reference id
+          type: string
+        ref_type:
+          description: Describes the type of reference
+          type: string
+      required:
+        - short_desc
+        - action_triggered
+      additionalProperties: false
+    SupplementaryInformation:
+      type: object
+      properties:
+        updated_at:
+          description: timestamp for the capturing the time an issue was last updated
+          type: string
+          format: date-time
+        message_id:
+          type: string
+      additionalProperties: false
+    DescriptorIgm:
+      description: Describes the description of a real-world object.
+      type: object
+      properties:
+        name:
+          type: string
+        code:
+          type: string
+        symbol:
+          type: string
+        short_desc:
+          type: string
+        long_desc:
+          type: string
+        additional_desc:
+          type: object
+          properties:
+            url:
+              type: string
+            content_type:
+              type: string
+              enum:
+                - text/plain
+                - text/html
+                - application/json
+          additionalProperties: false
+        images:
+          type: array
+          items:
+            $ref: "#/components/schemas/ImageIgm"
+        media:
+          type: array
+          items:
+            $ref: "#/components/schemas/MediaFile"
+        audio:
+          type: string
+          format: uri
+        3d_render:
+          type: string
+          format: uri
+        tags:
+          description: A list of tags containing any additional information sent along with the Acknowledgement.
+          type: array
+          items:
+            $ref: "#/components/schemas/TagGroup"
+      additionalProperties: false
+    ImageIgm:
+      description: "Image of an object. <br/><br/> A url based image will look like <br/><br/>```uri:http://path/to/image``` <br/><br/> An image can also be sent as a data string. For example : <br/><br/> ```data:js87y34ilhriuho84r3i4```"
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+        size_type:
+          type: string
+      additionalProperties: false
+    ResolutionProvider:
+      description: Describes the details of the entity that provides the resolution for the issue
+      type: object
+      properties:
+        respondent_info:
+          description: the respondent represents the details of the entity identfied by the resolution provider or the complainant himself (when he has to select the ODRs)
+          type: object
+          properties:
+            type:
+              description: |
+                Indicates the type of the resolution provider NP type.
+                ### TYPES
+                1. Interfacing NP : indicating the NP where or through which the issue is raised
+                2. Transaction Counterparty NP : indicating the first level of transaction counterparty network provider with which the interfacing NP is interacting with to get an issue resolution.
+                3. Cascaded Counterparty NP : indicating the second or any further downstream levels of counterparty network provider with which the NP is interacting with to get an issue resolution.
+              type: string
+              enum:
+                - INTERFACING-NP
+                - TRANSACTION-COUNTERPARTY-NP
+                - CASCADED-COUNTERPARTY-NP
+            organization:
+              $ref: "#/components/schemas/Organization"
+            resolution_support:
+              $ref: "#/components/schemas/ResolutionSupport"
+      required:
+        - respondent_info
+    ResolutionSupport:
+      description: |
+        Any one of these resolution support deatils are mandatory to be speficed whenever an issue resolution is proposed.
+        In case of Issue, Either a respondent ChatLink, email or faq deatils should be provided or any of the additional sources of support should be provided
+        In case of Grievance : the GRO details are manadatory to be provided 
+        In case of Dispute : the selected ODR details are mandatory to be provided 
+        Porvides details of the resolution support for the respondent / complainant to interact with the respondent
+      type: object
+      properties:
+        chat_link:
+          description: chatbot link for the respondent for complainant to interact with the respondent
+          type: string
+        contact:
+          $ref: "#/components/schemas/Contact"
+        faqs:
+          description: frequently asked questions for the respondent for complainant to get information as required
+          type: array
+          items:
+            $ref: "#/components/schemas/Faq"
+        additional_sources:
+          type: array
+          items:
+            $ref: "#/components/schemas/ResolutionSource"
+        gros:
+          description: |
+            Details of the GRO appointed by the resolution provider to support in issue resolution .
+            This is a required object if and when the issue type is "Grievance"
+          type: array
+          items:
+            $ref: "#/components/schemas/GRO"
+    Action:
+      type: object
+      properties:
+        id:
+          description: Describes id of the action
+          type: string
+        ref_id:
+          description: Describes the reference id
+          type: string
+        ref_type:
+          description: Describes the refence type
+          type: string
+        descriptor:
+          allOf:
+            - $ref: "#/components/schemas/DescriptorIgm"
+            - type: object
+              properties:
+                code:
+                  type: string
+                  enum:
+                    - OPEN
+                    - PROCESSING
+                    - CLOSED
+                    - CASCADED
+                    - INFO_REQUESTED
+                    - INFO_PROCESSING
+                    - INFO_PROVIDED
+                    - INFO_NOT_AVAILABLE
+                    - RESOLUTION_PROPOSED
+                    - RESOLUTION_FORWARDED
+                    - RESOLUTION_PROCESSING
+                    - RESOLUTION_ACCEPTED
+                    - RESOLUTION_REJECTED
+                    - RESOLVED
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp in RFC3339 format when the action was updated
+        action_by:
+          type: string
+          description: Describes the actor who performed the action
+        actor_details:
+          type: object
+          properties:
+            name:
+              description: Describes id of the actor
+              type: string
+        tags:
+          type: array
+          description: List of tag objects
+          items:
+            type: object
+            properties:
+              descriptor:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: Descriptor code of the tag group
+                required:
+                  - code
+              list:
+                type: array
+                description: List of key_value tag entries
+                items:
+                  type: object
+                  properties:
+                    descriptor:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          description: Descriptor code of the individual tag
+                      required:
+                        - code
+                    value:
+                      type: string
+                      description: Value of the tag
+                      enum:
+                        - THUMBS_UP
+                        - THUMBS_DOWN
+                  required:
+                    - descriptor
+                    - value
+            required:
+              - descriptor
+              - list
+      additionalProperties: false
+    Faq:
+      type: object
+      description: |
+        faqs
+      properties:
+        question:
+          type: string
+        answer:
+          type: string
+      additionalProperties: false
+    ResolutionSource:
+      description: |
+        the resolution source provide details of any addtional resolution resources thier types and a link eg : AI enabled chatbot, support/contact webpage link , lnik to IVR detials etc
+      type: object
+      properties:
+        type:
+          type: string
+        link:
+          type: string
+      additionalProperties: false
+    Tag1:
+      type: array
+      items:
+        type: object
+        properties:
+          descriptor:
+            type: object
+          list:
+            type: array
+            items:
+              type: object
+              properties:
+                descriptor:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                  additionalProperties: false
+                value:
+                  type: string
+              additionalProperties: false
+        additionalProperties: false
+    AdditionalInfoRequired:
+      type: object
+      properties:
+        info_required:
+          type: object
+          $ref: "#/components/schemas/SupplementaryInformation"
+        info_provided:
+          type: object
+          $ref: "#/components/schemas/SupplementaryInformation"
+
+
 x-enum:
   search:
     context: &ref_0
@@ -51739,6 +52735,656 @@ x-validations:
         enumList: *QUOTE_BREAKUP_TITLES_ON_UPDATE
         _CONTINUE_: '!(attr are present)'
         _RETURN_: attr any in enumList
-    
+    issue:
+      - _NAME_: REQUIRED_CONTEXT_FIELDS
+        _RETURN_:
+          - _NAME_: REQUIRED_CONTEXT_DOMAIN
+            attr: $.context.domain
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_COUNTRY
+            attr:
+              - $.context.location.country.code
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_CITY
+            attr:
+              - $.context.location.city.code
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID
+            attr: $.context.transaction_id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID
+            attr: $.context.message_id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_ACTION
+            attr: $.context.action
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_TIMESTAMP
+            attr: $.context.timestamp
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_VERSION
+            attr:
+              - $.context.version
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_BAP_URI
+            attr: $.context.bap_uri
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_BAP_ID
+            attr: $.context.bap_id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_BPP_URI
+            attr: $.context.bpp_uri
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_BPP_ID
+            attr: $.context.bpp_id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_TTL
+            attr: $.context.ttl
+            _RETURN_: attr are present
+          - _NAME_: VALID_CONTEXT_COUNTRY_CODE
+            attr: $.context.location.country.code
+            _RETURN_: attr are present
+      - _NAME_: ISSUE_VALIDATION_VERSION_200
+        action:
+          - issue
+        _SCOPE_: $.message.issue.actions
+        _RETURN_:
+          - _NAME_: REQUIRED_MESSAGE_ID
+            attr: $.message.issue.id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_STATUS
+            attr: $.message.issue.status
+            _RETURN_: attr are present && attr all in enumList && attr are unique
+            enumList:
+              - OPEN
+              - CLOSED
+              - PROCESSING
+              - RESOLVED
+              - NEED_MORE_INFO
+              - INFO_PROVIDED
+          - _NAME_: REQUIRED_MESSAGE_LEVEL
+            attr: $.message.issue.level
+            _RETURN_: attr are present && attr all in enumList
+            enumList:
+              - ISSUE
+              - GREVIENCE
+              - DISPUTE
+          - _NAME_: REQUIRED_MESSAGE_CREATED_AT
+            attr: $.message.issue.created_at
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_UPDATED_AT
+            attr: $.message.issue.updated_at
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_REF_ID
+            attr: $.message.issue.refs[*].ref_id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_REF_TYPE
+            attr: $.message.issue.refs[*].ref_type
+            _RETURN_: attr are present && attr all in enumList
+            enumList:
+              - ORDER
+              - ITEM
+              - FULFILLMENT
+              - TRANSACTION_ID
+              - MESSAGE_ID
+              - PROVIDER
+              - COMPLAINT
+              - ACTION
+              - PAYMENT
+              - CUSTOMER
+              - AGENT
+          - _NAME_: REQUIRED_MESSAGE_ID_10
+            attr: $.message.issue.actors[*].id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_TYPE
+            attr: $.message.issue.actors[*].type
+            _RETURN_: attr are present && attr all in enumList
+            enumList:
+              - INTERFACING_NP
+              - COUNTERPARTY_NP
+              - CASCADED_NP
+              - PROVIDER
+              - AGENT
+              - CUSTOMER
+              - INTERFACING_NP_GRO
+              - COUNTERPARTY_NP_GRO
+              - CASCADED_NP_GRO
+              - CONSUMER
+          - _NAME_: REQUIRED_MESSAGE_NAME
+            attr: $.message.issue.actors[*].info.person.name
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_NAME_13
+            attr: $.message.issue.actors[*].info.person.name
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_PHONE
+            attr: $.message.issue.actors[*].info.contact.phone
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_EMAIL
+            attr: $.message.issue.actors[*].info.contact.email
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_SOURCE_ID
+            attr: $.message.issue.source_id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_CODE
+            attr: $.message.issue.descriptor.code
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_SHORT_DESC
+            attr: $.message.issue.descriptor.short_desc
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_LONG_DESC
+            attr: $.message.issue.descriptor.long_desc
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_URL
+            attr: $.message.issue.descriptor.additional_desc.url
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_CONTENT_TYPE
+            attr: $.message.issue.descriptor.additional_desc.content_type
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_LAST_ACTION_ID
+            attr: $.message.issue.last_action_id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_ID_25
+            attr: $.message.issue.actions[*].id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_CODE_26
+            attr: $.message.issue.actions[*].descriptor.code
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_SHORT_DESC_27
+            attr: $.message.issue.actions[*].descriptor.short_desc
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_UPDATED_AT_28
+            attr: $.message.issue.actions[*].updated_at
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_ACTION_BY
+            attr: $.message.issue.actions[*].action_by
+            _RETURN_: attr are present
+          - _NAME_: VALID_ENUM_MESSAGE_STATUS
+            enumList:
+              - OPEN
+              - CLOSED
+              - PROCESSING
+              - RESOLVED
+              - INFO_PROVIDED
+            enumPath: $.message.issue.status
+            _CONTINUE_: "!(enumPath are present)"
+            _RETURN_: enumPath all in enumList
+          - _NAME_: VALID_ENUM_MESSAGE_LEVEL
+            enumList:
+              - ISSUE
+              - GREVIENCE
+              - DISPUTE
+            enumPath: $.message.issue.level
+            _CONTINUE_: "!(enumPath are present)"
+            _RETURN_: enumPath all in enumList
+          - _NAME_: VALID_ENUM_MESSAGE_REF_TYPE
+            enumList:
+              - ORDER
+              - ITEM
+              - FULFILLMENT
+              - TRANSACTION_ID
+              - MESSAGE_ID
+              - PROVIDER
+              - COMPLAINT
+              - ACTION
+              - PAYMENT
+              - CUSTOMER
+              - AGENT
+            enumPath: $.message.issue.refs[*].ref_type
+            _CONTINUE_: "!(enumPath are present)"
+            _RETURN_: enumPath all in enumList
+          - _NAME_: VALID_ENUM_MESSAGE_TYPE
+            enumList:
+              - INTERFACING_NP
+              - COUNTERPARTY_NP
+              - CASCADED_NP
+              - PROVIDER
+              - AGENT
+              - CUSTOMER
+              - INTERFACING_NP_GRO
+              - COUNTERPARTY_NP_GRO
+              - CASCADED_NP_GRO
+              - CONSUMER
+            enumPath: $.message.issue.actors[*].type
+            _CONTINUE_: "!(enumPath are present)"
+            _RETURN_: enumPath all in enumList
+      - _NAME_: ISSUE_VALIDATION_VERSION_100
+        action:
+          - issue
+        _SCOPE_: $.message.issue.issue_actions
+        _RETURN_:
+          - _NAME_: ISSUE_VALIDATION_OPEN
+            action:
+              - issue
+            _SCOPE_: $.message.issue[?(@.status=='OPEN')]
+            _RETURN_:
+              - _NAME_: REQUIRED_ISSUE_ID
+                attr: $.message.issue.id
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_ISSUE_STATUS
+                attr: $.message.issue.status
+                validValues:
+                  - OPEN
+                  - CLOSED
+                _RETURN_: attr all in validValues
+              - _NAME_: REQUIRED_ISSUE_CATEGORY
+                attr: $.message.issue.category
+                validValues:
+                  - FULFILLMENT
+                  - PAYMENT
+                  - ORDER
+                _RETURN_: attr all in validValues
+              - _NAME_: REQUIRED_ISSUE_SUB_CATEGORY
+                attr: $.message.issue.sub_category
+                validValues:
+                  - FLM01
+                  - FLM02
+                  - FLM202
+                  - FLM203
+                  - FLM204
+                  - FLM205
+                  - FLM206
+                  - FLM207
+                  - FLM208
+                  - FLM209
+                  - FLM210
+                  - FLM211
+                  - FLM212
+                  - PMT01
+                  - PMT02
+                  - PMT03
+                  - PMT04
+                  - PMT05
+                  - PMT06
+                  - PMT07
+                  - PMT08
+                  - PMT09
+                  - PTM09
+                  - PTM10
+                  - ORD01
+                  - ORD02
+                  - ORD03
+                  - ORD04
+                _RETURN_: attr all in validValues
+              - _NAME_: REQUIRED_COMPLAINANT_PERSON_NAME
+                attr: $.message.issue.complainant_info.person.name
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_COMPLAINANT_CONTACT_PHONE
+                attr: $.message.issue.complainant_info.contact.phone
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_ORDER_ID
+                attr: $.message.issue.order_details.id
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_ORDER_ITEMS
+                attr: $.message.issue.order_details.items[*].id
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_ORDER_ITEMS_QUANTITY
+                attr: $.message.issue.order_details.items[*].quantity
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_FULFILLMENT_ID
+                attr: $.message.issue.order_details.fulfillments[*].id
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_PROVIDER_ID
+                attr: $.message.issue.order_details.provider_id
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_DESCRIPTION
+                attr:
+                  - $.message.issue.description
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_DESCRIPTION_SHORT
+                attr:
+                  - $.message.issue.description.short_desc
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_DESCRIPTION_LONG
+                attr:
+                  - $.message.issue.description.long_desc
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_DESCRIPTION_ADDITIONAL_URL
+                attr:
+                  - $.message.issue.description.additional_desc.url
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_DESCRIPTION_ADDITIONAL_CONTENT_TYPE
+                attr:
+                  - $.message.issue.description.additional_desc.content_type
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_DESCRIPTION_IMAGES
+                attr:
+                  - $.message.issue.description.images
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_EXPECTED_RESPONSE_TIME
+                attr:
+                  - $.message.issue.expected_response_time.duration
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_EXPECTED_RESOLUTION_TIME
+                attr:
+                  - $.message.issue.expected_resolution_time.duration
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_ISSUE_ACTIONS_OPEN
+                attr: $.message.issue.issue_actions.complainant_actions[*].complainant_action
+                validValues:
+                  - OPEN
+                  - CLOSE
+                  - ESCALATE
+                _RETURN_: attr all in validValues
+              - _NAME_: REQUIRED_CREATED_AT
+                attr: $.message.issue.created_at
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_UPDATED_AT
+                attr: $.message.issue.updated_at
+                _RETURN_: attr are present
+          - _NAME_: ISSUE_VALIDATION_CLOSED
+            action:
+              - issue
+            _SCOPE_: $.message.issue[?(@.status=='CLOSED')]
+            _RETURN_:
+              - _NAME_: REQUIRED_ISSUE_ID_CLOSED
+                attr: $.message.issue.id
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_ISSUE_STATUS
+                attr: $.message.issue.status
+                validValues:
+                  - OPEN
+                  - CLOSED
+                _RETURN_: attr all in validValues
+              - _NAME_: REQUIRED_ISSUE_ACTIONS_CLOSED
+                attr: $.message.issue.issue_actions.complainant_actions[*].complainant_action
+                validValues:
+                  - OPEN
+                  - CLOSE
+                  - ESCALATE
+                _RETURN_: attr all in validValues
+              - _NAME_: REQUIRED_CREATED_AT_CLOSED
+                attr: $.message.issue.created_at
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_UPDATED_AT_CLOSED
+                attr: $.message.issue.updated_at
+                _RETURN_: attr are present
+    on_issue:
+      - _NAME_: REQUIRED_CONTEXT_FIELDS
+        _RETURN_:
+          - _NAME_: REQUIRED_CONTEXT_DOMAIN
+            attr: $.context.domain
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_COUNTRY
+            attr:
+              - $.context.location.country.code
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_CITY
+            attr:
+              - $.context.location.city.code
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID
+            attr: $.context.transaction_id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID
+            attr: $.context.message_id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_ACTION
+            attr: $.context.action
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_TIMESTAMP
+            attr: $.context.timestamp
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_VERSION
+            attr:
+              - $.context.version
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_BAP_URI
+            attr: $.context.bap_uri
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_BAP_ID
+            attr: $.context.bap_id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_BPP_URI
+            attr: $.context.bpp_uri
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_BPP_ID
+            attr: $.context.bpp_id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_TTL
+            attr: $.context.ttl
+            _RETURN_: attr are present
+          - _NAME_: VALID_CONTEXT_COUNTRY_CODE
+            attr:
+              - $.context.location.country.code
+            _RETURN_: attr are present
+      - _NAME_: ON_ISSUE_VALIDATION_VERSION_200
+        action:
+          - on_issue
+        _SCOPE_: $.message.issue.actions
+        _RETURN_:
+          - _NAME_: REQUIRED_MESSAGE_ID
+            attr: $.message.issue.id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_STATUS
+            attr: $.message.issue.status
+            _RETURN_: attr are present && attr all in enumList && attr are unique
+            enumList:
+              - OPEN
+              - CLOSED
+              - PROCESSING
+              - RESOLVED
+              - NEED_MORE_INFO
+              - INFO_PROVIDED
+          - _NAME_: REQUIRED_MESSAGE_LEVEL
+            attr: $.message.issue.level
+            _RETURN_: attr are present && attr all in enumList
+            enumList:
+              - ISSUE
+              - GREVIENCE
+              - DISPUTE
+          - _NAME_: REQUIRED_MESSAGE_CREATED_AT
+            attr: $.message.issue.created_at
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_UPDATED_AT
+            attr: $.message.issue.updated_at
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_REF_ID
+            attr: $.message.issue.refs[*].ref_id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_REF_TYPE
+            attr: $.message.issue.refs[*].ref_type
+            _RETURN_: attr are present && attr all in enumList
+            enumList:
+              - ORDER
+              - ITEM
+              - FULFILLMENT
+              - TRANSACTION_ID
+              - MESSAGE_ID
+              - PROVIDER
+              - COMPLAINT
+              - ACTION
+              - PAYMENT
+              - CUSTOMER
+              - AGENT
+          - _NAME_: REQUIRED_EXPECTED_RESPONSE_TIME
+            attr:
+              - $.message.issue.expected_response_time.duration
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_EXPECTED_RESOLUTION_TIME
+            attr:
+              - $.message.issue.expected_resolution_time.duration
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_ID_10
+            attr: $.message.issue.actors[*].id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_TYPE
+            attr: $.message.issue.actors[*].type
+            _RETURN_: attr are present && attr all in enumList
+            enumList:
+              - INTERFACING_NP
+              - COUNTERPARTY_NP
+              - CASCADED_NP
+              - PROVIDER
+              - AGENT
+              - CUSTOMER
+              - INTERFACING_NP_GRO
+              - COUNTERPARTY_NP_GRO
+              - CASCADED_NP_GRO
+              - CONSUMER
+          - _NAME_: REQUIRED_MESSAGE_NAME_13
+            attr: $.message.issue.actors[*].info.person.name
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_PHONE
+            attr: $.message.issue.actors[*].info.contact.phone
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_EMAIL
+            attr: $.message.issue.actors[*].info.contact.email
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_ID_25
+            attr: $.message.issue.actions[*].id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_CODE_26
+            attr: $.message.issue.actions[*].descriptor.code
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_SHORT_DESC_27
+            attr: $.message.issue.actions[*].descriptor.short_desc
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_UPDATED_AT_28
+            attr: $.message.issue.actions[*].updated_at
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_MESSAGE_ACTION_BY
+            attr: $.message.issue.actions[*].action_by
+            _RETURN_: attr are present
+      - _NAME_: ON_ISSUE_VALIDATION_VERSION_100
+        action:
+          - on_issue
+        _SCOPE_: $.message.issue.issue_actions
+        _RETURN_:
+          - _NAME_: REQUIRED_ISSUE_ID
+            attr: $.message.issue.id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_RESPONDENT_ACTION
+            attr: $.message.issue.issue_actions.respondent_actions[*].respondent_action
+            _RETURN_: attr are present && attr all in enumList
+            enumList:
+              - OPEN
+              - PROCESSING
+              - RESOLVED
+              - CLOSED
+              - INFO_PROVIDED
+              - NEED_MORE_INFO
+          - _NAME_: REQUIRED_RESPONDENT_SHORT_DESC
+            attr: $.message.issue.issue_actions.respondent_actions[*].short_desc
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_RESPONDENT_UPDATED_AT
+            attr: $.message.issue.issue_actions.respondent_actions[*].updated_at
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_RESPONDENT_UPDATED_BY_PERSON
+            attr: $.message.issue.issue_actions.respondent_actions[*].updated_by.person.name
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_RESPONDENT_UPDATED_BY_ORG
+            attr: $.message.issue.issue_actions.respondent_actions[*].updated_by.org.name
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_ISSUE_CREATED_AT
+            attr: $.message.issue.created_at
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_ISSUE_UPDATED_AT
+            attr: $.message.issue.updated_at
+            _RETURN_: attr are present
+    on_issue_status:
+      - _NAME_: REQUIRED_CONTEXT_FIELDS
+        _RETURN_:
+          - _NAME_: REQUIRED_CONTEXT_DOMAIN
+            attr: $.context.domain
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_COUNTRY
+            attr:
+              - $.context.location.country.code
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_CITY
+            attr:
+              - $.context.location.city.code
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID
+            attr: $.context.transaction_id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID
+            attr: $.context.message_id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_ACTION
+            attr: $.context.action
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_TIMESTAMP
+            attr: $.context.timestamp
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_VERSION
+            attr:
+              - $.context.version
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_BAP_URI
+            attr: $.context.bap_uri
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_BAP_ID
+            attr: $.context.bap_id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_BPP_URI
+            attr: $.context.bpp_uri
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_BPP_ID
+            attr: $.context.bpp_id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_CONTEXT_TTL
+            attr: $.context.ttl
+            _RETURN_: attr are present
+          - _NAME_: VALID_CONTEXT_COUNTRY_CODE
+            attr:
+              - $.context.location.country.code
+            _RETURN_: attr are present
+      - _NAME_: ISSUE_ON_ISSUE_STATUS_VALIDATION
+        action:
+          - on_issue_status
+        _RETURN_:
+          - _NAME_: REQUIRED_ISSUE_ID
+            attr: $.message.issue.id
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_RESPONDENT_ACTION
+            attr: $.message.issue.issue_actions.respondent_actions[*].respondent_action
+            _RETURN_: attr are present && attr all in enumList
+            enumList:
+              - OPEN
+              - PROCESSING
+              - RESOLVED
+              - CLOSED
+              - INFO_PROVIDED
+              - NEED_MORE_INFO
+          - _NAME_: REQUIRED_RESPONDENT_SHORT_DESC
+            attr: $.message.issue.issue_actions.respondent_actions[*].short_desc
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_RESPONDENT_UPDATED_AT
+            attr: $.message.issue.issue_actions.respondent_actions[*].updated_at
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_RESPONDENT_UPDATED_BY_PERSON
+            attr: $.message.issue.issue_actions.respondent_actions[*].updated_by.person.name
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_RESPONDENT_UPDATED_BY_ORG
+            attr: $.message.issue.issue_actions.respondent_actions[*].updated_by.org.name
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_ISSUE_CREATED_AT
+            attr: $.message.issue.created_at
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_ISSUE_UPDATED_AT
+            attr: $.message.issue.updated_at
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_RESOLUTION_SHORT_DESC
+            attr:
+              - $.message.issue.resolution.short_desc
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_RESOLUTION_LONG_DESC
+            attr:
+              - $.message.issue.resolution.long_desc
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_RESOLUTION_ACTION_TRIGGERED
+            attr:
+              - $.message.issue.resolution.action_triggered
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_RESOLUTION_PROVIDER_TYPE
+            attr: $.message.issue.resolution_provider.respondent_info.type
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_RESOLUTION_PROVIDER_ORG_NAME
+            attr: $.message.issue.resolution_provider.respondent_info.organization.org.name
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_RESOLUTION_PROVIDER_PERSON_NAME
+            attr: $.message.issue.resolution_provider.respondent_info.organization.person.name
+            _RETURN_: attr are present
+
   _SESSION_DATA_:
     trans: {}
