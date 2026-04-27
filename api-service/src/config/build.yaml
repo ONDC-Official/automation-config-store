@@ -51890,6 +51890,11 @@ x-validations:
             enumList: &FORM_RESPONSE_STATUS
               - PENDING
               - SUCCESS
+              - APPROVED
+              - REJECTED
+              - EXPIRED
+              - COMPLETED
+              - OFFLINE_PENDING
             _RETURN_: attr all in enumList
           - _NAME_: REQUIRED_XINPUT_FORM_RESPONSE_SUBMISSION_ID
             attr: $.message.order.items[*].xinput.form_response.submission_id
@@ -52715,6 +52720,8 @@ x-validations:
               - OFFLINE_PENDING
               - APPROVED
               - SUCCESS
+              - REJECTED
+              - EXPIRED 
             _RETURN_: attr all in enumList
 
       # Conditional: Payments (only present in post-confirm status)
