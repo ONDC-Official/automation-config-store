@@ -170,8 +170,6 @@ export const checkUpdate = async (
                 "item_quantity",
                 "reason_id",
                 "reason_desc",
-                "condition_id",
-                "condition_desc",
               ];
               for (const field of mandatoryFields) {
                 if (!fields[field] || fields[field].trim() === "") {
