@@ -10,10 +10,10 @@ import {
   areTimestampsLessThanOrEqualTo,
   compareObjects,
   compareQuoteObjects,
+  compareTimeRanges,
   sumQuoteBreakUp,
 } from "../../utils/helper";
 import { contextChecker } from "../../utils/contextUtils";
-import { validateOfferQuoteBreakup } from "./on_status_pending";
 
 // Minimal interface for validation error
 interface ValidationError {
@@ -102,7 +102,7 @@ async function validateOrder(
           storedCred.descriptor?.short_desc === descriptor.short_desc
       );
 
-      if (storedCreds.length > 0 && !isMatchFound) {
+      if (storedCreds.length > 0 && !isMatchFound ) {
         addError(
           `Order validation failure: Credential (id + descriptor) in /${constants.ON_CONFIRM} does not match /${constants.ON_SEARCH}`,
           23003
@@ -127,42 +127,38 @@ async function validateFulfillments(
   const buyerGps = buyerGpsRaw ? JSON.parse(buyerGpsRaw) : null;
   const buyerAddr = buyerAddrRaw ? JSON.parse(buyerAddrRaw) : null;
   const providerAddr = providerAddrRaw ? JSON.parse(providerAddrRaw) : null;
-  const deliveryFulfillments: any[] =
-    order.fulfillments?.filter((ff: any) => ff.type === "Delivery") || [];
+ const deliveryFulfillments: any[] = order.fulfillments?.filter(
+  (ff: any) => ff.type === "Delivery"
+) || [];
 
-  const deliveryObjReplacementRaw = await RedisService.getKey(
-    `${transaction_id}_deliveryObjReplacement`
-  );
-  const deliveryObjReplacement: any[] = deliveryObjReplacementRaw
-    ? [JSON.parse(deliveryObjReplacementRaw)]
-    : [];
+const deliveryObjReplacementRaw = await RedisService.getKey(
+  `${transaction_id}_deliveryObjReplacement`
+);
+const deliveryObjReplacement: any[] = deliveryObjReplacementRaw
+  ? [JSON.parse(deliveryObjReplacementRaw)]
+  : [];
 
-  console.log(
-    "Delivery Fulfillments21212:",
-    JSON.stringify(deliveryFulfillments)
-  );
-  console.log(
-    "Delivery Object Replacements212134:",
-    JSON.stringify(deliveryObjReplacement)
-  );
+  console.log('Delivery Fulfillments21212:', JSON.stringify(deliveryFulfillments));
+  console.log('Delivery Object Replacements212134:', JSON.stringify(deliveryObjReplacement));
 
-  if (deliveryObjReplacement.length > 0) {
-    deliveryFulfillments.forEach((fulfillment: any) => {
-      const matched = deliveryObjReplacement.find(
-        (replacement: any) => replacement.id === fulfillment.id
-      );
+if (deliveryObjReplacement.length > 0) {
+  deliveryFulfillments.forEach((fulfillment: any) => {
+    const matched = deliveryObjReplacement.find(
+      (replacement: any) => replacement.id === fulfillment.id
+    );
 
-      if (matched) {
-        const fulfillmentErrors = compareObjects(fulfillment, matched);
-        fulfillmentErrors?.forEach((error: string) => {
-          addError(
-            `Business Error: fulfillment: ${error} when compared with /${constants.SELECT} fulfillment object with id '${fulfillment.id}'`,
-            40000
-          );
-        });
-      }
-    });
-  }
+    if (matched) {
+      const fulfillmentErrors = compareObjects(fulfillment, matched);
+      fulfillmentErrors?.forEach((error: string) => {
+        addError(
+          `Business Error: fulfillment: ${error} when compared with /${constants.SELECT} fulfillment object with id '${fulfillment.id}'`,
+          40000,
+        );
+      });
+    }
+  });
+}
+
 }
 
 async function validateTimestamps(
@@ -218,8 +214,6 @@ async function validatePayment(
     `${transaction_id}_prevPayment`
   );
   const prevPayment = prevPaymentRaw ? JSON.parse(prevPaymentRaw) : null;
-   console.log("prev payment on_status_pending", prevPayment);
-  console.log("order.payment on_status_pending", order.payment);
   if (prevPayment && !_.isEqual(prevPayment, order.payment)) {
     result.push(
       addError(
@@ -285,8 +279,6 @@ async function validateQuote(
     );
   }
 
-   validateOfferQuoteBreakup(order, result);
-
   const quoteObjRaw = await RedisService.getKey(`${transaction_id}_quoteObj`);
   const previousQuote = quoteObjRaw ? JSON.parse(quoteObjRaw) : null;
   const quoteErrors = compareQuoteObjects(
@@ -324,14 +316,13 @@ async function validateBilling(
 }
 
 const checkOnStatus = async (
-  payload: any,
+  data: any,
   state: string,
   fulfillmentsItemsSet: Set<any>
 ): Promise<ValidationError[]> => {
   const result: ValidationError[] = [];
 
   try {
-    const data = structuredClone(payload)
     const { context, message } = data;
     try {
       await contextChecker(

@@ -2,11 +2,12 @@ import { RedisService } from "ondc-automation-cache-lib";
 import checkOnStatusDelivered from "./on_status_delivered";
 import checkOnStatusOutForDelivery from "./on_status_out_for_delivery";
 import checkOnStatusPacked from "./on_status_packed";
-import checkOnStatusAgentAssigned from "./on_status_agent_assigned";
 import checkOnStatusPending from "./on_status_pending";
 import checkOnStatusPicked from "./on_status_picked";
 import checkOnStatusRTODelivered from "./on_status_rto_delivered";
+import checkOnStatus from "./on_status";
 import _ from "lodash";
+import checkOnStatusAgentAssigned from "./ on_status_agent_assigned";
 
 export const onStatusRouter = async (data: any) => {
   const fulfillments = data?.message?.order?.fulfillments;
@@ -29,6 +30,28 @@ export const onStatusRouter = async (data: any) => {
   let fulfillmentsItemsSet = new Set(
     fulfillmentsItemsSetRaw ? JSON.parse(fulfillmentsItemsSetRaw) : []
   );
+
+  const returnFulfillmentArr = fulfillments.filter(
+    (ff: any) => ff.type === "Return"
+  );
+
+  const deliveryFulfillmentArr = fulfillments.filter(
+    (ff: any) => ff.type === "Delivery"
+  );
+
+  if (returnFulfillmentArr.length > 0 && deliveryFulfillmentArr.length > 1) {
+    state = "Return";
+    const replaceId = await RedisService.getKey(
+      `${data.context.transaction_id}_replaceId`
+    );
+    const deliveryObj = deliveryFulfillmentArr.find((ff: any) => {
+      return ff.type == "Delivery" && ff.id === replaceId;
+    });
+
+    if (deliveryObj) {
+      returnState = deliveryObj.state?.descriptor?.code;
+    }
+  }
 
   switch (state) {
     case "Pending":
@@ -60,6 +83,9 @@ export const onStatusRouter = async (data: any) => {
     case "RTO-Disposed":
     case "RTO-Delivered":
       result = await checkOnStatusRTODelivered(data);
+      break;
+    case "Return":
+      result = await checkOnStatus(data, returnState, fulfillmentsItemsSet);
       break;
     default:
       result = [
