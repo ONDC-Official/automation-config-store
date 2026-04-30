@@ -7,7 +7,7 @@ import checkOnStatusPicked from "./on_status_picked";
 import checkOnStatusRTODelivered from "./on_status_rto_delivered";
 import checkOnStatus from "./on_status";
 import _ from "lodash";
-import checkOnStatusAgentAssigned from "./ on_status_agent_assigned";
+import checkOnStatusAgentAssigned from "./on_status_agent_assigned";
 
 export const onStatusRouter = async (data: any) => {
   const fulfillments = data?.message?.order?.fulfillments;
