@@ -103221,7 +103221,7 @@ x-validations:
             var_enum: [ "Pending", "Packed", "Agent-assigned", "Order-picked-up", "Out-for-delivery", "Order-delivered", "Cancelled", "RTO-Initiated", "RTO-Disposed", "RTO-Delivered" ]
             _RETURN_: attr are present && attr all in var_enum
           - _NAME_: FULFILLMENTS_TYPE
-            var_enum: ["Delivery", "Self-Pickup", "Buyer-Delivery", "RTO", "Cancel"]  
+            var_enum: ["Delivery", "Self-Pickup", "Buyer-Delivery", "Return", "RTO", "Cancel"]
             attr: "$.message.order.fulfillments[*].type"
             _RETURN_: attr are present && attr all in var_enum
           - _NAME_: FULFILLMENTS_ONDC_ORG_PROVIDER_NAME
