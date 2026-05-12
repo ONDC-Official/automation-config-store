@@ -335,12 +335,12 @@ export default async function onSearch(
           const accept_bap_terms = tag.list.find(
             (item) => item.code === "accept_bap_terms"
           );
-          if (accept_bap_terms) {
-            addError(
-              20006,
-              `remove accept_bap_terms block in /bpp/descriptor/tags; should be enabled once BNP send their static terms in /search and are later accepted by SNP`
-            );
-          }
+          // if (accept_bap_terms) {
+          //   addError(
+          //     20006,
+          //     `remove accept_bap_terms block in /bpp/descriptor/tags; should be enabled once BNP send their static terms in /search and are later accepted by SNP`
+          //   );
+          // }
 
           const collect_payment = tag.list.find(
             (item) => item.code === "collect_payment"
