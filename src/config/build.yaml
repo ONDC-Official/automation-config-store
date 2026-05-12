@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: ONDC Protocol API for retail (grocery, f&b)
   description: >-
-    ONDC Protocol API specification, which includes statutory requirements for
+    ONDC Protocol API specification, which includes statutory  requirements for
     packaged commodities and pre-packaged food This is an adaptation of Beckn
     Core version 0.9.3
   version: 1.2.5
