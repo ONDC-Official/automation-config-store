@@ -105432,13 +105432,13 @@ x-validations:
           #   _RETURN_: attr all in ref
 
           - _NAME_: PAYMENT_PARAMS_AMOUNT
-            attr: '$.message.order.payments[?(@.type!="PART-PAYMENT" && @.params.amount)].params.amount'
+            attr: "$.message.order.payments[?(@.type!='PART-PAYMENT' && @.params.amount)].params.amount"
             reg:  ['^(\d+)(\.\d{1,2})?$']
             _CONTINUE_: "!(attr are present)"
             _RETURN_: attr follow regex reg
 
           - _NAME_: PAYMENT_PARAMS_CURRENCY
-            attr: '$.message.order.payments[?(@.type!="PART-PAYMENT" && @.params.currency)].params.currency'
+            attr: "$.message.order.payments[?(@.type!='PART-PAYMENT' && @.params.currency)].params.currency"
             reg:  ['^[A-Z]{3}$']
             _CONTINUE_: "!(attr are present)"
             _RETURN_: attr follow regex reg
