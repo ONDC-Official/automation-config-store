@@ -105187,7 +105187,7 @@ x-validations:
             _RETURN_: attr all in var_enum
 
           - _NAME_: PAYMENTS_STATUS
-            attr: "$.message.order.payments[?(@.status)].status"
+            attr: $.message.order.payments[?(@.type!='PART-PAYMENT' && @.status)].status
             var_enum:
               - PAID
               - NOT-PAID
