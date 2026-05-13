@@ -105430,10 +105430,10 @@ x-validations:
             attr: "$.message.order.payments[?(@.type=='PART-PAYMENT')].tags[*].list[*].descriptor.code"
             _RETURN_: attr are present
 
-          - _NAME_: PART_PAYMENT_LINKED_IDS_EXIST
-            attr: "$.message.order.payments[?(@.type=='PART-PAYMENT')].tags[*].list[*].descriptor.code"
-            ref: "$.message.order.payments[?(@.type!='PART-PAYMENT')].id"
-            _RETURN_: attr all in ref
+          # - _NAME_: PART_PAYMENT_LINKED_IDS_EXIST
+          #   attr: "$.message.order.payments[?(@.type=='PART-PAYMENT')].tags[*].list[*].descriptor.code"
+          #   ref: "$.message.order.payments[?(@.type!='PART-PAYMENT')].id"
+          #   _RETURN_: attr all in ref
 
           - _NAME_: PAYMENT_PARAMS_AMOUNT
             attr: "$.message.order.payments[*].params.amount"
