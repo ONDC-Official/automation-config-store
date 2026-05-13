@@ -105339,10 +105339,6 @@ x-validations:
             attr: "$.message.order.fulfillments[*].type"
             var_enum: ["Delivery", "Self-Pickup", "Buyer-Delivery"]  
             _RETURN_: attr all in var_enum
-          - _NAME_: FULFILLMENTS_ONDC_ORG_TAT
-            attr: "$.message.order.fulfillments[*]['@ondc/org/TAT']"
-            reg: ['^P(?=\\d|T)(\\d+Y)?(\\d+M)?(\\d+W)?(\\d+D)?(T(?=\\d)(\\d+H)?(\\d+M)?(\\d+S)?)?$']
-            _RETURN_: attr follow regex reg
           - _NAME_: FULFILLMENTS_TRACKING
             attr: "$.message.order.fulfillments[*].tracking"
             _RETURN_: attr are present
@@ -105436,14 +105432,14 @@ x-validations:
           #   _RETURN_: attr all in ref
 
           - _NAME_: PAYMENT_PARAMS_AMOUNT
-            attr: "$.message.order.payments[*].params.amount"
-            reg: ['^(\\d+\\.\\d{1,2})$']
+            attr: '$.message.order.payments[?(@.type!="PART-PAYMENT" && @.params.amount)].params.amount'
+            reg:  ['^(\d+)(\.\d{1,2})?$']
             _CONTINUE_: "!(attr are present)"
             _RETURN_: attr follow regex reg
 
           - _NAME_: PAYMENT_PARAMS_CURRENCY
-            attr: "$.message.order.payments[*].params.currency"
-            reg: ['^[A-Z]{3}$']
+            attr: '$.message.order.payments[?(@.type!="PART-PAYMENT" && @.params.currency)].params.currency'
+            reg:  ['^[A-Z]{3}$']
             _CONTINUE_: "!(attr are present)"
             _RETURN_: attr follow regex reg
 
@@ -105510,6 +105506,10 @@ x-validations:
             attr: "$.message.order.fulfillments[*].state.descriptor.code"
             var_enum: ["Pending"]
             _RETURN_: attr all in var_enum
+          - _NAME_: FULFILLMENTS_ONDC_ORG_TAT
+            attr: "$.message.order.fulfillments[*]['@ondc/org/TAT']"
+            reg: ['^P(?=\\d|T)(\\d+Y)?(\\d+M)?(\\d+W)?(\\d+D)?(T(?=\\d)(\\d+H)?(\\d+M)?(\\d+S)?)?$']
+            _RETURN_: attr follow regex reg
           - _NAME_: FULFILLMENTS_START
             _RETURN_:
             - _NAME_: FULFILLMENTS_START_LOCATION
