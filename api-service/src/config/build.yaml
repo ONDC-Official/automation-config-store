@@ -105444,7 +105444,7 @@ x-validations:
             _RETURN_: attr follow regex reg
 
           - _NAME_: PAYMENT_TRANSACTION_ID_IF_PAID
-            attr: "$.message.order.payments[?(@.status=='PAID')].params.transaction_id"
+            attr: "$.message.order.payments[?(@.type!='PART-PAYMENT' && @.status=='PAID')].params.transaction_id"
             reg: ['^[0-9a-zA-Z/-_]{1,50}$']
             _RETURN_: attr are present && attr follow regex reg
 
