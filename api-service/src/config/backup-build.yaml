@@ -20138,9 +20138,9 @@ x-validations:
               - _NAME_: REQUIRED_MESSAGE_ITEMS_PRICE_CURRENCY
                 attr: $.message.order.items[*].price.currency
                 _RETURN_: attr are present
-              - _NAME_: REQUIRED_MESSAGE_ITEMS_QUANTITY_MAX
-                attr: $.message.order.items[*].quantity.maximum.count
-                _RETURN_: attr are present
+              # - _NAME_: REQUIRED_MESSAGE_ITEMS_QUANTITY_MAX
+              #   attr: $.message.order.items[*].quantity.maximum.count
+                # _RETURN_: attr are present
               - _NAME_: REQUIRED_MESSAGE_ITEMS_QUANTITY_MIN
                 attr: $.message.order.items[*].quantity.minimum.count
                 _RETURN_: attr are present
@@ -20456,9 +20456,9 @@ x-validations:
               - _NAME_: REQUIRED_MESSAGE_ITEMS_PRICE_CURRENCY
                 attr: $.message.order.items[*].price.currency
                 _RETURN_: attr are present
-              - _NAME_: REQUIRED_MESSAGE_ITEMS_QUANTITY_MAX
-                attr: $.message.order.items[*].quantity.maximum.count
-                _RETURN_: attr are present
+              # - _NAME_: REQUIRED_MESSAGE_ITEMS_QUANTITY_MAX
+              #   attr: $.message.order.items[*].quantity.maximum.count
+                # _RETURN_: attr are present
               - _NAME_: REQUIRED_MESSAGE_ITEMS_QUANTITY_MIN
                 attr: $.message.order.items[*].quantity.minimum.count
                 _RETURN_: attr are present
@@ -20669,9 +20669,9 @@ x-validations:
               - _NAME_: REQUIRED_MESSAGE_ITEMS_PRICE_CURRENCY
                 attr: $.message.order.items[*].price.currency
                 _RETURN_: attr are present
-              - _NAME_: REQUIRED_MESSAGE_ITEMS_QUANTITY_MAX
-                attr: $.message.order.items[*].quantity.maximum.count
-                _RETURN_: attr are present
+              # - _NAME_: REQUIRED_MESSAGE_ITEMS_QUANTITY_MAX
+              #   attr: $.message.order.items[*].quantity.maximum.count
+                # _RETURN_: attr are present
               - _NAME_: REQUIRED_MESSAGE_ITEMS_QUANTITY_MIN
                 attr: $.message.order.items[*].quantity.minimum.count
                 _RETURN_: attr are present

@@ -43,9 +43,14 @@ function createItemWithSelection(fullItem: any, selectedItem: any): any {
     };
   }
 
+  console.log('selectedItem', JSON.stringify(selectedItem));
+  console.log('fullItem', JSON.stringify(fullItem));
+
   // Handle add-ons - merge selected quantities from selectedItem.add_ons
-  if (selectedItem.add_ons && fullItem.add_ons) {
+  if (selectedItem?.add_ons && fullItem?.add_ons) {
     itemPayload.add_ons = mergeAddOnsWithSelection(fullItem.add_ons, selectedItem.add_ons);
+  } else {
+    delete itemPayload.add_ons; // Remove add_ons if not present in selection
   }
   return itemPayload;
 }
