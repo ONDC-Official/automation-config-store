@@ -84,6 +84,7 @@ jobs:
           echo "HOSTED_ENV=${{ vars.HOSTED_ENV_DEV }}" >> \$REPO_DIR/.env
           echo "NO_URL=${{ vars.NO_URL }}" >> \$REPO_DIR/.env
           echo "NO_TOKEN=${{ secrets.NO_TOKEN }}" >> \$REPO_DIR/.env
+          echo "CARE_URL=${{ vars.CARE_URL }}" >> \$REPO_DIR/.env
           EOF
 
       - name: Verify .env and docker-compose.yml files
@@ -218,6 +219,7 @@ jobs:
           echo "HOSTED_ENV=${{ vars.HOSTED_ENV_STAGING }}" >> \$REPO_DIR/.env
           echo "NO_URL=${{ vars.NO_URL }}" >> \$REPO_DIR/.env
           echo "NO_TOKEN=${{ secrets.NO_TOKEN }}" >> \$REPO_DIR/.env
+          echo "CARE_URL=${{ vars.CARE_URL }}" >> \$REPO_DIR/.env
           EOF
 
       - name: Verify .env and docker-compose.yml files
