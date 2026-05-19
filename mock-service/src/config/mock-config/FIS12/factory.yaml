@@ -423,7 +423,7 @@ codes:
     message_id: true
 
   - code: 144
-    action_id: on_update_pre_part_payment
+    action_id: on_update_pre_part_payment_pl
     action: on_update
     default: FIS12/personal-loan/2.0.2/on_update_pre_part_payment/default.yaml
     message_id: false
