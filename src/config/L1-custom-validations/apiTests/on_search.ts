@@ -977,61 +977,61 @@ export default async function onSearch(
 
             let lower_and_upper_not_present: boolean = true;
             let default_selection_not_present: boolean = true;
-            try {
-              console.info(
-                `Checking selling price and maximum price for item id: ${item.id}`
-              );
-              if ("price" in item) {
-                const sPrice = parseFloat(item.price.value);
-                const maxPrice = parseFloat(item.price.maximum_value);
+            // try {
+            //   console.info(
+            //     `Checking selling price and maximum price for item id: ${item.id}`
+            //   );
+            //   if ("price" in item) {
+            //     const sPrice = parseFloat(item.price.value);
+            //     const maxPrice = parseFloat(item.price.maximum_value);
 
-                const lower = parseFloat(item.price?.tags?.[0].list[0]?.value);
-                const upper = parseFloat(item.price?.tags?.[0].list[1]?.value);
+            //     const lower = parseFloat(item.price?.tags?.[0].list[0]?.value);
+            //     const upper = parseFloat(item.price?.tags?.[0].list[1]?.value);
 
-                if (lower >= 0 && upper >= 0) {
-                  lower_and_upper_not_present = false;
-                }
+            //     if (lower >= 0 && upper >= 0) {
+            //       lower_and_upper_not_present = false;
+            //     }
 
-                const default_selection_value = parseFloat(
-                  item.price?.tags?.[1].list[0]?.value
-                );
-                const default_selection_max_value = parseFloat(
-                  item.price?.tags?.[1].list[1]?.value
-                );
+            //     const default_selection_value = parseFloat(
+            //       item.price?.tags?.[1].list[0]?.value
+            //     );
+            //     const default_selection_max_value = parseFloat(
+            //       item.price?.tags?.[1].list[1]?.value
+            //     );
 
-                if (
-                  default_selection_value >= 0 &&
-                  default_selection_max_value >= 0
-                ) {
-                  default_selection_not_present = false;
-                }
+            //     if (
+            //       default_selection_value >= 0 &&
+            //       default_selection_max_value >= 0
+            //     ) {
+            //       default_selection_not_present = false;
+            //     }
 
-                if (sPrice > maxPrice) {
-                  addError(
-                    20006,
-                    `selling price of item /price/value with id: (${item.id}) can't be greater than the maximum price /price/maximum_value in /bpp/providers[${i}]/items[${j}]`
-                  );
-                }
+            //     if (sPrice > maxPrice) {
+            //       addError(
+            //         20006,
+            //         `selling price of item /price/value with id: (${item.id}) can't be greater than the maximum price /price/maximum_value in /bpp/providers[${i}]/items[${j}]`
+            //       );
+            //     }
 
-                if (upper < lower) {
-                  addError(
-                    20006,
-                    `selling lower range: ${lower} of code: range with id: (${item.id}) can't be greater than the upper range: ${upper}`
-                  );
-                }
+            //     if (upper < lower) {
+            //       addError(
+            //         20006,
+            //         `selling lower range: ${lower} of code: range with id: (${item.id}) can't be greater than the upper range: ${upper}`
+            //       );
+            //     }
 
-                if (default_selection_max_value < default_selection_value) {
-                  addError(
-                    20006,
-                    `value: ${default_selection_value} of code: default_selection with id: (${item.id}) can't be greater than the maximum_value: ${default_selection_max_value}`
-                  );
-                }
-              }
-            } catch (e: any) {
-              console.error(
-                `Error while checking selling price and maximum price for item id: ${item.id}, ${e.stack}`
-              );
-            }
+            //     if (default_selection_max_value < default_selection_value) {
+            //       addError(
+            //         20006,
+            //         `value: ${default_selection_value} of code: default_selection with id: (${item.id}) can't be greater than the maximum_value: ${default_selection_max_value}`
+            //       );
+            //     }
+            //   }
+            // } catch (e: any) {
+            //   console.error(
+            //     `Error while checking selling price and maximum price for item id: ${item.id}, ${e.stack}`
+            //   );
+            // }
 
             try {
               console.info(`Checking fulfillment_id for item id: ${item.id}`);
