@@ -8,7 +8,7 @@ on:
       - "mock-service/**"
     branches:
       - "draft-*"
-      - "release-*"
+      # - "release-*"
 
 env:
   REGISTRY: ghcr.io
@@ -82,11 +82,10 @@ jobs:
           HOSTED_ENV=${{ vars.HOSTED_ENV_DEV }}
           NO_URL=${{ vars.NO_URL }}
           NO_TOKEN=${{ secrets.NO_TOKEN }}
-
-
           IS_ONIX_ENABLED=true
           RECORDER_SERVICE_GRPC_URL=${{ vars.RECORDER_SERVICE_GRPC_URL }}
           RECORDER_SERVICE_HTTP_URL=${{ vars.RECORDER_SERVICE_HTTP_URL }}
+          CARE_URL=${{ vars.CARE_URL }}
 
           EOF
           elif [[ "$BUILD_TYPE" == "release" ]]; then
@@ -121,6 +120,8 @@ jobs:
           IS_ONIX_ENABLED=true
           RECORDER_SERVICE_GRPC_URL=${{ vars.RECORDER_SERVICE_GRPC_URL_STAGING }}
           RECORDER_SERVICE_HTTP_URL=${{ vars.RECORDER_SERVICE_HTTP_URL_STAGING }}
+          CARE_URL=${{ vars.CARE_URL }}
+
           EOF
           fi
 
@@ -172,6 +173,7 @@ jobs:
           echo "build_type=${BUILD_TYPE}" >> $GITHUB_OUTPUT
           echo "IMAGE_NAME=${IMAGE_NAME}" >> $GITHUB_ENV
           echo "DEPLOYMENT_TAG=${DEPLOYMENT_TAG}" >> $GITHUB_ENV
+          
 
       - name: Log in to GHCR
         uses: docker/login-action@v3
@@ -295,6 +297,8 @@ jobs:
             IS_ONIX_ENABLED=true
             RECORDER_SERVICE_GRPC_URL=${{ vars.RECORDER_SERVICE_GRPC_URL }}
             RECORDER_SERVICE_HTTP_URL=${{ vars.RECORDER_SERVICE_HTTP_URL }}
+            CARE_URL=${{ vars.CARE_URL }}
+
             EOF
             elif [[ "$BUILD_TYPE" == "release" ]]; then
               cat > .env <<EOF
@@ -328,6 +332,8 @@ jobs:
             IS_ONIX_ENABLED=true
             RECORDER_SERVICE_GRPC_URL=${{ vars.RECORDER_SERVICE_GRPC_URL_STAGING }}
             RECORDER_SERVICE_HTTP_URL=${{ vars.RECORDER_SERVICE_HTTP_URL_STAGING }}
+            CARE_URL=${{ vars.CARE_URL }}
+
             EOF
             fi
 
