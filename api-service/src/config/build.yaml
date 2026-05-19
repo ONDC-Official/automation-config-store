@@ -2192,6 +2192,7 @@ components:
         finder fee type in payment."@ondc/org/buyer_app_finder_fee_type" and
         amount in "@ondc/org/buyer_app_finder_fee_amount"
       type: object
+      additionalProperties: false
       properties:
         fulfillment:
           $ref: '#/components/schemas/IntentFulfillment'
