@@ -82,6 +82,7 @@ jobs:
           HOSTED_ENV=${{ vars.HOSTED_ENV_DEV }}
           NO_URL=${{ vars.NO_URL }}
           NO_TOKEN=${{ secrets.NO_TOKEN }}
+          CARE_URL=${{ vars.CARE_URL }}
 
 
           IS_ONIX_ENABLED=true
@@ -121,6 +122,7 @@ jobs:
           IS_ONIX_ENABLED=true
           RECORDER_SERVICE_GRPC_URL=${{ vars.RECORDER_SERVICE_GRPC_URL_STAGING }}
           RECORDER_SERVICE_HTTP_URL=${{ vars.RECORDER_SERVICE_HTTP_URL_STAGING }}
+          CARE_URL=${{ vars.CARE_URL }}
           EOF
           fi
 
