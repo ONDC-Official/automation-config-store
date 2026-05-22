@@ -977,6 +977,7 @@ export default async function onSearch(
 
             let lower_and_upper_not_present: boolean = true;
             let default_selection_not_present: boolean = true;
+            console.log("L1 validation for price is removed");
             // try {
             //   console.info(
             //     `Checking selling price and maximum price for item id: ${item.id}`
@@ -1032,7 +1033,7 @@ export default async function onSearch(
             //     `Error while checking selling price and maximum price for item id: ${item.id}, ${e.stack}`
             //   );
             // }
-
+            console.log("L1 validation for price is removed");
             try {
               console.info(`Checking fulfillment_id for item id: ${item.id}`);
               if (
