@@ -51264,9 +51264,6 @@ x-changeLog:
 x-validations:
 
   _TESTS_:
-    # ============================================================
-    # SEARCH
-    # ============================================================
     search:
       - _NAME_: SEARCH_CONTEXT
         action:
@@ -51275,7 +51272,7 @@ x-validations:
           - ONDC:FIS12
         version:
           - 2.0.3
-        _RETURN_: &COMMON_CONTEXT
+        _RETURN_: &a1
           - _NAME_: CONTEXT_REQUIRED
             _RETURN_:
               - _NAME_: REQUIRED_CONTEXT_LOCATION_COUNTRY_CODE
@@ -51324,49 +51321,65 @@ x-validations:
             _RETURN_:
               - _NAME_: VALID_CONTEXT_LOCATION_COUNTRY_CODE
                 attr: $.context.location.country.code
-                _CONTINUE_: '!(attr are present)'
-                enumList: &COUNTRY_CODE_IND
+                _CONTINUE_: "!(attr are present)"
+                enumList:
                   - IND
                 _RETURN_: attr any in enumList
               - _NAME_: VALID_CONTEXT_DOMAIN
                 attr: $.context.domain
-                enumList: &DOMAIN_FIS12
+                enumList:
                   - ONDC:FIS12
-                _CONTINUE_: '!(attr are present)'
+                _CONTINUE_: "!(attr are present)"
                 _RETURN_: attr all in enumList
           - _NAME_: CONTEXT_REGEX
             _RETURN_:
               - _NAME_: REGEX_CONTEXT_LOCATION_CITY_CODE
                 attr: $.context.location.city.code
-                reg: &CITY_CODE_REGEX
+                reg:
                   - ^\*$
-                _CONTINUE_: '!(attr are present)'
+                _CONTINUE_: "!(attr are present)"
                 _RETURN_: attr follow regex reg
               - _NAME_: REGEX_CONTEXT_TIMESTAMP
                 attr: $.context.timestamp
-                reg: &TIMESTAMP_REGEX
-                  - '^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$'
-                _CONTINUE_: '!(attr are present)'
+                reg:
+                  - ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$
+                _CONTINUE_: "!(attr are present)"
                 _RETURN_: attr follow regex reg
               - _NAME_: REGEX_CONTEXT_BAP_ID
                 attr: $.context.bap_id
-                reg: &BAP_ID_REGEX
-                  - '^(?!.*\b(?:http|https|www)\b)[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$'
-                _CONTINUE_: '!(attr are present)'
+                reg:
+                  - ^(?!.*\b(?:http|https|www)\b)[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$
+                _CONTINUE_: "!(attr are present)"
                 _RETURN_: attr follow regex reg
               - _NAME_: REGEX_CONTEXT_BAP_URI
                 attr: $.context.bap_uri
-                reg: &URI_REGEX
-                  - '^https?://([a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*|localhost)(:\d+)?(/.*)?$'
-                _CONTINUE_: '!(attr are present)'
+                reg:
+                  - ^https?://([a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*|localhost)(:\d+)?(/.*)?$
+                _CONTINUE_: "!(attr are present)"
                 _RETURN_: attr follow regex reg
               - _NAME_: REGEX_CONTEXT_TTL
                 attr: $.context.ttl
-                reg: &TTL_REGEX
-                  - '^P(?=\\d|T\\d)(\\d+Y)?(\\d+M)?(\\d+D)?(T(\\d+H)?(\\d+M)?(\\d+S)?)?$'
-                _CONTINUE_: '!(attr are present)'
+                reg:
+                  - ^P(?=\\d|T\\d)(\\d+Y)?(\\d+M)?(\\d+D)?(T(\\d+H)?(\\d+M)?(\\d+S)?)?$
+                _CONTINUE_: "!(attr are present)"
                 _RETURN_: attr follow regex reg
-
+      - _NAME_: ANCHOR_DEFINITIONS
+        action:
+          - search
+        validTags_a3: &a3
+          - BUYER_FINDER_FEES
+          - SETTLEMENT_TERMS
+        validValues_a4: &a4
+          - BUYER_FINDER_FEES_TYPE
+          - BUYER_FINDER_FEES_PERCENTAGE
+        validTags_a5: &a5
+          - SETTLEMENT_TERMS
+        dummy_path: $.message.intent.payment.tags[*].descriptor.code
+        _CONTINUE_: "!(dummy_path are present)"
+        _RETURN_:
+          - _NAME_: DUMMY
+            attr: $.message.intent.payment.tags[*].descriptor.code
+            _RETURN_: attr are present
       - _NAME_: SEARCH_CATEGORY_CODE
         action:
           - search
@@ -51376,73 +51389,30 @@ x-validations:
             _RETURN_: attr are present
           - _NAME_: VALID_ENUM_CATEGORY_CODE
             attr: $.message.intent.category.descriptor.code
-            enumList: &SEARCH_CATEGORY_CODES
+            enumList:
               - GOLD_LOAN
               - PERSONAL_LOAN
               - CREDIT_CARD
-            _CONTINUE_: '!(attr are present)'
+            _CONTINUE_: "!(attr are present)"
             _RETURN_: attr all in enumList
-
       - _NAME_: SEARCH_PAYMENT
         action:
           - search
         item_code: $.message.intent.category.descriptor.code
-        loan_type_match: &PERSONAL_LOAN_CODE
+        loan_type_match:
           - PERSONAL_LOAN
-        _CONTINUE_: '!(item_code any in loan_type_match)' 
+        _CONTINUE_: "!(item_code any in loan_type_match)"
         _RETURN_:
           - _NAME_: REQUIRED_PAYMENT_COLLECTED_BY
             attr: $.message.intent.payment.collected_by
             _RETURN_: attr are present
           - _NAME_: VALID_PAYMENT_COLLECTED_BY_ENUM
             attr: $.message.intent.payment.collected_by
-            enumList: &PAYMENT_COLLECTED_BY
+            enumList: &a2
               - BPP
               - BAP
-            _CONTINUE_: '!(attr are present)'
+            _CONTINUE_: "!(attr are present)"
             _RETURN_: attr any in enumList
-          - _NAME_: REQUIRED_PAYMENT_TAGS_GROUPS
-            _RETURN_:
-              - _NAME_: REQUIRED_BUYER_FINDER_FEES_TAG
-                validTags: &BUYER_FINDER_FEES_TAG
-                  - BUYER_FINDER_FEES
-                  - SETTLEMENT_TERMS
-                tagPath: $.message.intent.payment.tags[*].descriptor.code
-                _RETURN_: tagPath any in validTags
-              - _NAME_: REQUIRED_BUYER_FINDER_FEES_LIST
-                _SCOPE_: $.message.intent.payment.tags[?(@.descriptor.code=='BUYER_FINDER_FEES')]
-                subTags: $.list[*].descriptor.code
-                validValues: &BUYER_FINDER_FEES_LIST_FIELDS
-                  - BUYER_FINDER_FEES_TYPE
-                  - BUYER_FINDER_FEES_PERCENTAGE
-                _CONTINUE_: '!(subTags are present)'
-                _RETURN_: subTags all in validValues
-              - _NAME_: VALID_BUYER_FINDER_FEES_TYPE_VALUE
-                _SCOPE_: $.message.intent.payment.tags[?(@.descriptor.code=='BUYER_FINDER_FEES')].list[?(@.descriptor.code=='BUYER_FINDER_FEES_TYPE')]
-                attr: $.value
-                enumList: &BUYER_FINDER_FEES_TYPE_SEARCH
-                  - percent-annualized
-                  - percent
-                  - amount
-                _RETURN_: attr all in enumList
-              - _NAME_: REQUIRED_SETTLEMENT_TERMS_TAG
-                validTags: &SETTLEMENT_TERMS_TAG
-                  - SETTLEMENT_TERMS
-                tagPath: $.message.intent.payment.tags[*].descriptor.code
-                _RETURN_: tagPath any in validTags
-              - _NAME_: REQUIRED_SETTLEMENT_TERMS_LIST
-                _SCOPE_: $.message.intent.payment.tags[?(@.descriptor.code=='SETTLEMENT_TERMS')]
-                subTags: $.list[*].descriptor.code
-                validValues: &SETTLEMENT_TERMS_SEARCH
-                  - DELAY_INTEREST
-                  - STATIC_TERMS
-                  - OFFLINE_CONTRACT
-                _CONTINUE_: '!(subTags are present)'
-                _RETURN_: subTags all in validValues
-
-    # ============================================================
-    # ON_SEARCH
-    # ============================================================
     on_search:
       - _NAME_: ON_SEARCH_CONTEXT
         action:
@@ -51451,12 +51421,10 @@ x-validations:
           - ONDC:FIS12
         version:
           - 2.0.3
-        _RETURN_: *COMMON_CONTEXT
-
+        _RETURN_: *a1
       - _NAME_: ON_SEARCH_CATALOG_NAME
         attr: $.message.catalog.descriptor.name
         _RETURN_: attr are present
-  #   Personal-loan
       - _NAME_: ON_SEARCH_CATEGORIES_PL
         _SCOPE_: $.message.catalog.providers[*].categories[?(@.descriptor.code=='PERSONAL_LOAN')]
         _RETURN_:
@@ -51468,7 +51436,7 @@ x-validations:
             _RETURN_: attr are present
           - _NAME_: VALID_ENUM_CATEGORIES_CODE
             attr: $.message.catalog.providers[*].categories[*].descriptor.code
-            enumList: &ON_SEARCH_CATEGORY_CODES
+            enumList:
               - PERSONAL_LOAN
               - BUREAU_LOAN
               - AA_PERSONAL_LOAN
@@ -51483,58 +51451,14 @@ x-validations:
           - _NAME_: REQUIRED_CATEGORIES_PARENT_ID
             attr: $.message.catalog.providers[*].categories[*].parent_category_id
             category_code_path: $.message.catalog.providers[*].categories[*].descriptor.code
-            var_category_code: &CATEGORY_CODES_WITH_PARENT
+            var_category_code:
               - BUREAU_LOAN
               - AA_LOAN
               - PERSONAL_LOAN
               - AA_PERSONAL_LOAN
               - GOLD_LOAN
-            _CONTINUE_: '(var_category_code any in category_code_path)'
+            _CONTINUE_: (var_category_code any in category_code_path)
             _RETURN_: attr are present
-      
-      - _NAME_: ON_SEARCH_PAYMENT
-        _SCOPE_: $.message.catalog.providers[*].categories[?(@.descriptor.code=='PERSONAL_LOAN')]
-        _RETURN_:
-          - _NAME_: REQUIRED_PAYMENT_COLLECTED_BY
-            attr: $.message.catalog.providers[*].payments[*].collected_by
-            _RETURN_: attr are present
-          - _NAME_: VALID_PAYMENT_COLLECTED_BY_ENUM
-            attr: $.message.catalog.providers[*].payments[*].collected_by
-            enumList: *PAYMENT_COLLECTED_BY
-            _RETURN_: attr all in enumList
-          - _NAME_: REQUIRED_BUYER_FINDER_FEES_TAG
-            validTags: *BUYER_FINDER_FEES_TAG
-            tagPath: $.message.catalog.providers[*].payments[*].tags[*].descriptor.code
-            _RETURN_: tagPath any in validTags
-          - _NAME_: REQUIRED_BUYER_FINDER_FEES_LIST
-            _SCOPE_: $.message.catalog.providers[*].payments[*].tags[?(@.descriptor.code=='BUYER_FINDER_FEES')]
-            subTags: $.list[*].descriptor.code
-            validValues: *BUYER_FINDER_FEES_LIST_FIELDS
-            _CONTINUE_: '!(subTags are present)'
-            _RETURN_: subTags all in validValues
-          - _NAME_: VALID_BUYER_FINDER_FEES_TYPE_VALUE
-            _SCOPE_: $.message.catalog.providers[*].payments[*].tags[?(@.descriptor.code=='BUYER_FINDER_FEES')].list[?(@.descriptor.code=='BUYER_FINDER_FEES_TYPE')]
-            attr: $.value
-            enumList: &BUYER_FINDER_FEES_TYPE_ON_SEARCH
-              - PERCENT_ANNUALIZED
-            _RETURN_: attr all in enumList
-          - _NAME_: REQUIRED_SETTLEMENT_TERMS_TAG
-            validTags: *SETTLEMENT_TERMS_TAG
-            tagPath: $.message.catalog.providers[*].payments[*].tags[*].descriptor.code
-            _RETURN_: tagPath any in validTags
-          - _NAME_: REQUIRED_SETTLEMENT_TERMS_LIST
-            _SCOPE_: $.message.catalog.providers[*].payments[*].tags[?(@.descriptor.code=='SETTLEMENT_TERMS')]
-            subTags: $.list[*].descriptor.code
-            validValues: &SETTLEMENT_TERMS_ON_SEARCH
-              - SETTLEMENT_WINDOW
-              - SETTLEMENT_BASIS
-              - MANDATORY_ARBITRATION
-              - COURT_JURISDICTION
-              - STATIC_TERMS
-              - OFFLINE_CONTRACT
-            _CONTINUE_: '!(subTags are present)'
-            _RETURN_: subTags all in validValues
-
       - _NAME_: ON_SEARCH_ITEMS_PL
         _SCOPE_: $.message.catalog.providers[*].categories[?(@.descriptor.code=='PERSONAL_LOAN')]
         _RETURN_:
@@ -51548,21 +51472,21 @@ x-validations:
             attr: $.message.catalog.providers[*].items[*].descriptor.name
             _RETURN_: attr are present
           - _NAME_: REQUIRED_GENERAL_INFO_TAG_GROUP
-            validTags: &GENERAL_INFO_TAG
+            validTags:
               - GENERAL_INFO
             tagPath: $.message.catalog.providers[*].items[*].tags[*].descriptor.code
             _RETURN_: tagPath any in validTags
           - _NAME_: REQUIRED_GENERAL_INFO_LIST
             _SCOPE_: $.message.catalog.providers[*].items[*].tags[?(@.descriptor.code=='GENERAL_INFO')]
             subTags: $.list[*].descriptor.code
-            validValues: &GENERAL_INFO_VALUES
+            validValues:
               - MIN_INTEREST_RATE
               - MAX_INTEREST_RATE
               - MIN_TENURE
               - MAX_TENURE
               - MIN_LOAN_AMOUNT
               - MAX_LOAN_AMOUNT
-            _CONTINUE_: '!(subTags are present)'
+            _CONTINUE_: "!(subTags are present)"
             _RETURN_: subTags all in validValues
           - _NAME_: REQUIRED_XINPUT
             attr: $.message.catalog.providers[*].items[*].xinput.required
@@ -51572,22 +51496,27 @@ x-validations:
             _RETURN_: attr are present
           - _NAME_: VALID_XINPUT_HEADINGS_ENUM
             attr: $.message.catalog.providers[*].items[*].xinput.head.headings[*]
-            enumList: &XINPUT_HEADINGS_ON_SEARCH
+            enumList:
               - KYC
               - KYC_OFFLINE
               - JOURNEY_OFFLINE
               - SET_LOAN_AMOUNT
               - PERSONAL_INFORMATION
+              - Personal Information
               - ACCOUNT_INFORMATION
+              - Account Information
               - EMANDATE
               - LOAN_AGREEMENT
+              - BUREAU_CONSENT
+              - AA_CONSENT
+              - Set Loan Amount
+              - Know your Customer
+              - Emandate
+              - Loan Agreement
+              - Loan Details
             _RETURN_: attr any in enumList
-
-    
-    #  CREDIT_CARD
       - _NAME_: ON_SEARCH_CATEGORIES_CC
         _SCOPE_: $.message.catalog.providers[*].categories[?(@.descriptor.code=='CREDIT_CARD')]
-
         _RETURN_:
           - _NAME_: REQUIRED_CATEGORIES_NAME
             attr: $.message.catalog.providers[*].categories[*].descriptor.name
@@ -51597,10 +51526,10 @@ x-validations:
             _RETURN_: attr are present
           - _NAME_: VALID_ENUM_CATEGORIES_CODE
             attr: $.message.catalog.providers[*].categories[*].descriptor.code
-            enumList: &ON_SEARCH_CATEGORY_CODES
+            enumList:
               - CARD
               - CREDIT_CARD
-              - PREMIUIM_CARDS 
+              - PREMIUIM_CARDS
               - TRAVEL_CARDS
               - REWARDS_CARDS
               - LIFESTYLE_CARDS
@@ -51608,10 +51537,8 @@ x-validations:
           - _NAME_: REQUIRED_CATEGORIES_ID
             attr: $.message.catalog.providers[*].categories[*].id
             _RETURN_: attr are present
-
       - _NAME_: ON_SEARCH_ITEMS_CC
         _SCOPE_: $.message.catalog.providers[*].categories[?(@.descriptor.code=='CREDIT_CARD')]
-
         _RETURN_:
           - _NAME_: REQUIRED_ITEM_ID
             attr: $.message.catalog.providers[*].items[*].id
@@ -51623,14 +51550,14 @@ x-validations:
             attr: $.message.catalog.providers[*].items[*].descriptor.name
             _RETURN_: attr are present
           - _NAME_: REQUIRED_GENERAL_INFO_TAG_GROUP
-            validTags: &GENERAL_INFO_TAG
+            validTags:
               - GENERAL_INFO
             tagPath: $.message.catalog.providers[*].items[*].tags[*].descriptor.code
             _RETURN_: tagPath any in validTags
           - _NAME_: REQUIRED_GENERAL_INFO_LIST_CC
             _SCOPE_: $.message.catalog.providers[*].items[*].tags[?(@.descriptor.code=='GENERAL_INFO')]
             subTags: $.list[*].descriptor.code
-            validValues: 
+            validValues:
               - WELCOME_BENEFIT
               - ANNUAL_FEE
               - JOINING_FEE
@@ -51640,7 +51567,7 @@ x-validations:
               - EVERYDAY_BENEFITS
               - TNC_LINK
               - APR
-            _CONTINUE_: '!(subTags are present)'
+            _CONTINUE_: "!(subTags are present)"
             _RETURN_: subTags all in validValues
           - _NAME_: REQUIRED_XINPUT
             attr: $.message.catalog.providers[*].items[*].xinput.required
@@ -51650,7 +51577,7 @@ x-validations:
             _RETURN_: attr are present
           - _NAME_: VALID_XINPUT_HEADINGS_ENUM
             attr: $.message.catalog.providers[*].items[*].xinput.head.headings[*]
-            enumList: &XINPUT_HEADINGS_ON_SEARCH
+            enumList:
               - KYC
               - BUREAU_CONSENT
               - AA_CONSENT
@@ -51663,9 +51590,6 @@ x-validations:
               - PERSONAL_INFORMATION
               - Loan Details
             _RETURN_: attr all in enumList
-
-
-    #  COMMAN
       - _NAME_: ON_SEARCH_PROVIDER
         _RETURN_:
           - _NAME_: REQUIRED_PROVIDER_ID
@@ -51680,18 +51604,17 @@ x-validations:
           - _NAME_: REQUIRED_PROVIDER_IMAGES_SIZE_TYPE
             attr: $.message.catalog.providers[*].descriptor.images[*].size_type
             _RETURN_: attr are present
-
       - _NAME_: ON_SEARCH_PROVIDER_CONTACT_INFO
         _RETURN_:
           - _NAME_: REQUIRED_CONTACT_INFO_TAG_GROUP
-            validTags: &CONTACT_INFO_TAG
+            validTags: &a6
               - CONTACT_INFO
             tagPath: $.message.catalog.providers[*].tags[*].descriptor.code
             _RETURN_: tagPath any in validTags
           - _NAME_: REQUIRED_CONTACT_INFO_LIST
             _SCOPE_: $.message.catalog.providers[*].tags[?(@.descriptor.code=='CONTACT_INFO')]
             subTags: $.list[*].descriptor.code
-            validValues: &CONTACT_INFO_BASIC
+            validValues:
               - GRO_NAME
               - GRO_EMAIL
               - GRO_CONTACT_NUMBER
@@ -51700,32 +51623,25 @@ x-validations:
               - CUSTOMER_SUPPORT_LINK
               - CUSTOMER_SUPPORT_CONTACT_NUMBER
               - CUSTOMER_SUPPORT_EMAIL
-            _CONTINUE_: '!(subTags are present)'
+            _CONTINUE_: "!(subTags are present)"
             _RETURN_: subTags all in validValues
-
       - _NAME_: ON_SEARCH_PROVIDER_LSP_INFO
         _RETURN_:
           - _NAME_: REQUIRED_LSP_INFO_TAG_GROUP
-            validTags: &LSP_INFO_TAG
+            validTags: &a7
               - LSP_INFO
             tagPath: $.message.catalog.providers[*].tags[*].descriptor.code
             _RETURN_: tagPath any in validTags
           - _NAME_: REQUIRED_LSP_INFO_LIST
             _SCOPE_: $.message.catalog.providers[*].tags[?(@.descriptor.code=='LSP_INFO')]
             subTags: $.list[*].descriptor.code
-            validValues: &LSP_INFO_VALUES
+            validValues: &a8
               - LSP_NAME
               - LSP_EMAIL
               - LSP_CONTACT_NUMBER
               - LSP_ADDRESS
-            _CONTINUE_: '!(subTags are present)'
+            _CONTINUE_: "!(subTags are present)"
             _RETURN_: subTags all in validValues
-
-           
-      
-    # ============================================================
-    # SELECT (select_1, select_2, select_3)
-    # ============================================================
     select:
       - _NAME_: SELECT_CONTEXT
         action:
@@ -51734,24 +51650,20 @@ x-validations:
           - ONDC:FIS12
         version:
           - 2.0.3
-        _RETURN_: *COMMON_CONTEXT
-
+        _RETURN_: *a1
       - _NAME_: SELECT_PROVIDER_ID
         attr: $.message.order.provider.id
         _RETURN_: attr are present
-
       - _NAME_: SELECT_ITEMS
         _RETURN_:
           - _NAME_: REQUIRED_ITEM_ID
             attr: $.message.order.items[*].id
             _RETURN_: attr are present
-
-      # Conditional: Personal Loan only - xinput with index progression
       - _NAME_: SELECT_XINPUT_PERSONAL_LOAN
         item_code: $.message.order.items[*].descriptor.code
-        loan_type_match: &PERSONAL_LOAN_CODE
+        loan_type_match: &a11
           - PERSONAL_LOAN
-        _CONTINUE_: '!(item_code any in loan_type_match)'
+        _CONTINUE_: "!(item_code any in loan_type_match)"
         _RETURN_:
           - _NAME_: REQUIRED_XINPUT_HEAD_INDEX
             _RETURN_:
@@ -51764,10 +51676,6 @@ x-validations:
               - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_MAX
                 attr: $.message.order.items[*].xinput.head.index.max
                 _RETURN_: attr are present
-
-    # ============================================================
-    # ON_SELECT (on_select_1, on_select_2)
-    # ============================================================
     on_select:
       - _NAME_: ON_SELECT_CONTEXT
         action:
@@ -51776,8 +51684,7 @@ x-validations:
           - ONDC:FIS12
         version:
           - 2.0.3
-        _RETURN_: *COMMON_CONTEXT
-
+        _RETURN_: *a1
       - _NAME_: ON_SELECT_PROVIDER
         _RETURN_:
           - _NAME_: REQUIRED_PROVIDER_ID
@@ -51786,14 +51693,12 @@ x-validations:
           - _NAME_: REQUIRED_PROVIDER_NAME
             attr: $.message.order.provider.descriptor.name
             _RETURN_: attr are present
-
-      # Gold Loan specific: provider locations (conditional - only if present)
       - _NAME_: ON_SELECT_PROVIDER_LOCATIONS_GOLD
         item_code: $.message.order.items[*].descriptor.code
-        loan_type_match: &GOLD_LOAN_CODE
+        loan_type_match: &a10
           - LOAN
         locationspath: $.message.order.provider.locations[*].id
-        _CONTINUE_: '!(item_code any in loan_type_match) || !(locationspath are present)'
+        _CONTINUE_: "!(item_code any in loan_type_match) || !(locationspath are present)"
         _RETURN_:
           - _NAME_: REQUIRED_PROVIDER_LOCATIONS
             attr: $.message.order.provider.locations[*].id
@@ -51804,17 +51709,18 @@ x-validations:
           - _NAME_: REQUIRED_PROVIDER_LOCATION_ADDRESS
             attr: $.message.order.provider.locations[*].address
             _RETURN_: attr are present
-
       - _NAME_: ON_SELECT_PROVIDER_TAGS
+        tagPath: $.message.order.provider.tags[*].descriptor.code
+        _CONTINUE_: "!(tagPath are present)"
         _RETURN_:
           - _NAME_: REQUIRED_CONTACT_INFO_TAG_GROUP
-            validTags: *CONTACT_INFO_TAG
+            validTags: *a6
             tagPath: $.message.order.provider.tags[*].descriptor.code
             _RETURN_: tagPath any in validTags
           - _NAME_: REQUIRED_CONTACT_INFO_LIST
             _SCOPE_: $.message.order.provider.tags[?(@.descriptor.code=='CONTACT_INFO')]
             subTags: $.list[*].descriptor.code
-            validValues: &CONTACT_INFO_EXTENDED
+            validValues:
               - GRO_NAME
               - GRO_EMAIL
               - GRO_CONTACT_NUMBER
@@ -51823,22 +51729,18 @@ x-validations:
               - CUSTOMER_SUPPORT_LINK
               - CUSTOMER_SUPPORT_CONTACT_NUMBER
               - CUSTOMER_SUPPORT_EMAIL
-            _CONTINUE_: '!(subTags are present)'
+            _CONTINUE_: "!(subTags are present)"
             _RETURN_: subTags all in validValues
           - _NAME_: REQUIRED_LSP_INFO_TAG_GROUP
-            validTags: *LSP_INFO_TAG
+            validTags: *a7
             tagPath: $.message.order.provider.tags[*].descriptor.code
             _RETURN_: tagPath any in validTags
           - _NAME_: REQUIRED_LSP_INFO_LIST
             _SCOPE_: $.message.order.provider.tags[?(@.descriptor.code=='LSP_INFO')]
             subTags: $.list[*].descriptor.code
-            validValues: *LSP_INFO_VALUES
-            _CONTINUE_: '!(subTags are present)'
+            validValues: *a8
+            _CONTINUE_: "!(subTags are present)"
             _RETURN_: subTags all in validValues
-
-      # ============================================================
-      # ON_SELECT COMMON VALIDATIONS (both flows)
-      # ============================================================
       - _NAME_: ON_SELECT_ITEMS_BASIC
         _RETURN_:
           - _NAME_: REQUIRED_ITEM_ID
@@ -51849,33 +51751,29 @@ x-validations:
             _RETURN_: attr are present
           - _NAME_: VALID_ITEM_DESCRIPTOR_CODE_ENUM
             attr: $.message.order.items[*].descriptor.code
-            enumList: &ITEM_CODES
+            enumList: &a12
               - LOAN
               - PERSONAL_LOAN
               - CREDIT_CARD
+              - PRE_QUALIFIER
             _RETURN_: attr all in enumList
           - _NAME_: REQUIRED_ITEM_DESCRIPTOR_NAME
             attr: $.message.order.items[*].descriptor.name
             _RETURN_: attr are present
-
-      # ============================================================
-      # ON_SELECT_1 - AA CONSENT FLOW (No Price, has CONSENT_INFO)
-      # ============================================================
       - _NAME_: ON_SELECT_1_AA_CONSENT_ITEMS
         _SCOPE_: $.message.order.items[*].tags[?(@.descriptor.code=='PERSONAL_LOAN')]
         _RETURN_:
           - _NAME_: REQUIRED_CONSENT_INFO_TAG
-            validTags: &CONSENT_INFO_TAG
+            validTags:
               - CONSENT_INFO
             tagPath: $.message.order.items[*].tags[*].descriptor.code
             _RETURN_: tagPath any in validTags
           - _NAME_: REQUIRED_CONSENT_HANDLER
             _SCOPE_: $.message.order.items[*].tags[?(@.descriptor.code=='CONSENT_INFO')]
             subTags: $.list[*].descriptor.code
-            validValues: &CONSENT_HANDLER_TAG
+            validValues:
               - CONSENT_HANDLER
             _RETURN_: subTags any in validValues
-
       - _NAME_: ON_SELECT_1_AA_CONSENT_XINPUT
         _SCOPE_: $.message.order.items[*].tags[?(@.descriptor.code=='PERSONAL_LOAN')]
         _RETURN_:
@@ -51887,49 +51785,37 @@ x-validations:
             _RETURN_: attr are present
           - _NAME_: VALID_XINPUT_FORM_RESPONSE_STATUS
             attr: $.message.order.items[*].xinput.form_response.status
-            enumList: &FORM_RESPONSE_STATUS
+            enumList:
               - PENDING
               - SUCCESS
-              - APPROVED
-              - REJECTED
-              - EXPIRED
-              - COMPLETED
-              - OFFLINE_PENDING
             _RETURN_: attr all in enumList
           - _NAME_: REQUIRED_XINPUT_FORM_RESPONSE_SUBMISSION_ID
             attr: $.message.order.items[*].xinput.form_response.submission_id
             _RETURN_: attr are present
-
       - _NAME_: ON_SELECT_CONSENT_XINPUT_CC
         _SCOPE_: $.message.order.items[*].tags[?(@.descriptor.code=='PERSONAL_LOAN')]
         _RETURN_:
           - _NAME_: REQUIRED_XINPUT_FORM
             attr: $.message.order.items[*].xinput.form.id
             _RETURN_: attr are present
-          
-
-      # ============================================================
-      # ON_SELECT_2 - OFFER FLOW (Has Price, LOAN_INFO, Quote, etc.)
-      # ============================================================
       - _NAME_: ON_SELECT_2_OFFER_ITEMS_PRICE
         usecasepath: $.message.order.items[*].price.value
-        _CONTINUE_: '!(usecasepath are present)'
+        _CONTINUE_: "!(usecasepath are present)"
         _RETURN_:
           - _NAME_: REQUIRED_ITEM_PRICE
             attr: $.message.order.items[*].price.value
             _RETURN_: attr are present
           - _NAME_: REQUIRED_ITEM_PRICE_CURRENCY
             attr: $.message.order.items[*].price.currency
-            enumList: &CURRENCY_INR
+            enumList: &a9
               - INR
             _RETURN_: attr all in enumList
-
       - _NAME_: ON_SELECT_2_OFFER_LOAN_INFO
         usecasepath: $.message.order.items[*].price.value
-        _CONTINUE_: '!(usecasepath are present)'
+        _CONTINUE_: "!(usecasepath are present)"
         _RETURN_:
           - _NAME_: REQUIRED_LOAN_INFO_TAG_GROUP
-            validTags: &LOAN_INFO_TAG
+            validTags: &a13
               - LOAN_INFO
               - CONTACT_INFO
               - LSP_INFO
@@ -51939,7 +51825,7 @@ x-validations:
           - _NAME_: REQUIRED_LOAN_INFO_LIST_COMMON
             _SCOPE_: $.message.order.items[*].tags[?(@.descriptor.code=='LOAN_INFO')]
             subTags: $.list[*].descriptor.code
-            validValues: &LOAN_INFO_COMMON
+            validValues:
               - INTEREST_RATE
               - TERM
               - INTEREST_RATE_TYPE
@@ -51954,19 +51840,17 @@ x-validations:
               - TNC_LINK
               - COOL_OFF_PERIOD
               - INSTALLMENT_AMOUNT
-            _CONTINUE_: '!(subTags are present)'
+            _CONTINUE_: "!(subTags are present)"
             _RETURN_: subTags any in validValues
-          # Gold Loan specific: LTV_RATIO
           - _NAME_: REQUIRED_LOAN_INFO_LTV_RATIO_GOLD
             _SCOPE_: $.message.order.items[?(@.descriptor.code=='LOAN')].tags[?(@.descriptor.code=='LOAN_INFO')]
             subTags: $.list[*].descriptor.code
-            validValues: &LTV_RATIO_TAG
+            validValues:
               - LTV_RATIO
             _RETURN_: subTags any in validValues
-
       - _NAME_: ON_SELECT_2_OFFER_QUOTE
         usecasepath: $.message.order.items[*].price.value
-        _CONTINUE_: '!(usecasepath are present)'
+        _CONTINUE_: "!(usecasepath are present)"
         _RETURN_:
           - _NAME_: REQUIRED_QUOTE_ID
             attr: $.message.order.quote.id
@@ -51978,7 +51862,7 @@ x-validations:
                 _RETURN_: attr are present
               - _NAME_: REQUIRED_QUOTE_PRICE_CURRENCY
                 attr: $.message.order.quote.price.currency
-                enumList: *CURRENCY_INR
+                enumList: *a9
                 _RETURN_: attr all in enumList
           - _NAME_: REQUIRED_QUOTE_BREAKUP
             _RETURN_:
@@ -51987,7 +51871,7 @@ x-validations:
                 _RETURN_: attr are present
               - _NAME_: VALID_QUOTE_BREAKUP_TITLE_ENUM
                 attr: $.message.order.quote.breakup[*].title
-                enumList: &QUOTE_BREAKUP_TITLES
+                enumList: &a14
                   - PRINCIPAL
                   - INTEREST
                   - PROCESSING_FEE
@@ -52001,38 +51885,35 @@ x-validations:
                 _RETURN_: attr are present
               - _NAME_: REQUIRED_QUOTE_BREAKUP_PRICE_CURRENCY
                 attr: $.message.order.quote.breakup[*].price.currency
-                enumList: *CURRENCY_INR
+                enumList: *a9
                 _RETURN_: attr all in enumList
           - _NAME_: REQUIRED_QUOTE_TTL
             attr: $.message.order.quote.ttl
             _RETURN_: attr are present
-
-      # Gold Loan specific: fulfillments with agent (on_select_2)
       - _NAME_: ON_SELECT_2_OFFER_FULFILLMENT_GOLD
         item_code: $.message.order.items[*].descriptor.code
-        loan_type_match: *GOLD_LOAN_CODE
+        loan_type_match: *a10
         usecasepath: $.message.order.items[*].price.value
-        _CONTINUE_: '!(item_code any in loan_type_match) || !(usecasepath are present)'
+        _CONTINUE_: "!(item_code any in loan_type_match) || !(usecasepath are present)"
         _RETURN_:
           - _NAME_: REQUIRED_FULFILLMENT_TYPE
             attr: $.message.order.fulfillments[*].type
-            enumList: &FULFILLMENT_TYPE
+            enumList:
               - LOAN
-            _CONTINUE_: '!(attr are present)'  
+              - DEDUPE
+            _CONTINUE_: "!(attr are present)"
             _RETURN_: attr all in enumList
           - _NAME_: REQUIRED_FULFILLMENT_AGENT_NAME
             attr: $.message.order.fulfillments[*].agent.person.name
-            _CONTINUE_: '!(attr are present)'
+            _CONTINUE_: "!(attr are present)"
             _RETURN_: attr are present
           - _NAME_: REQUIRED_FULFILLMENT_AGENT_CONTACT
             attr: $.message.order.fulfillments[*].agent.contact.phone
-            _CONTINUE_: '!(attr are present)'
+            _CONTINUE_: "!(attr are present)"
             _RETURN_: attr are present
-
-      # Common xinput validations for on_select_2 offer flow (both loan types)
       - _NAME_: ON_SELECT_2_OFFER_XINPUT_COMMON
         usecasepath: $.message.order.items[*].price.value
-        _CONTINUE_: '!(usecasepath are present)'
+        _CONTINUE_: "!(usecasepath are present)"
         _RETURN_:
           - _NAME_: REQUIRED_XINPUT_REQUIRED
             attr: $.message.order.items[*].xinput.required
@@ -52043,13 +51924,11 @@ x-validations:
           - _NAME_: REQUIRED_XINPUT_FORM_URL
             attr: $.message.order.items[*].xinput.form.url
             _RETURN_: attr are present
-
-      # Personal Loan: xinput with index progression (on_select_2: cur=0, max=1)
       - _NAME_: ON_SELECT_2_OFFER_XINPUT_PERSONAL_LOAN
         item_code: $.message.order.items[*].descriptor.code
-        loan_type_match: *PERSONAL_LOAN_CODE
+        loan_type_match: *a11
         usecasepath: $.message.order.items[*].price.value
-        _CONTINUE_: '!(item_code any in loan_type_match) || !(usecasepath are present)'
+        _CONTINUE_: "!(item_code any in loan_type_match) || !(usecasepath are present)"
         _RETURN_:
           - _NAME_: REQUIRED_XINPUT_HEAD_INDEX
             _RETURN_:
@@ -52068,13 +51947,11 @@ x-validations:
           - _NAME_: REQUIRED_XINPUT_HEAD_HEADINGS
             attr: $.message.order.items[*].xinput.head.headings[*]
             _RETURN_: attr are present
-
-      # Gold Loan: xinput with index (on_select_2: single stage)
       - _NAME_: ON_SELECT_2_OFFER_XINPUT_GOLD
         item_code: $.message.order.items[*].descriptor.code
-        loan_type_match: *GOLD_LOAN_CODE
+        loan_type_match: *a10
         usecasepath: $.message.order.items[*].price.value
-        _CONTINUE_: '!(item_code any in loan_type_match) || !(usecasepath are present)'
+        _CONTINUE_: "!(item_code any in loan_type_match) || !(usecasepath are present)"
         _RETURN_:
           - _NAME_: REQUIRED_XINPUT_HEAD_INDEX
             _RETURN_:
@@ -52093,10 +51970,6 @@ x-validations:
           - _NAME_: REQUIRED_XINPUT_HEAD_HEADINGS
             attr: $.message.order.items[*].xinput.head.headings[*]
             _RETURN_: attr are present
-
-    # ============================================================
-    # INIT (init_1, init_2, init_3)
-    # ============================================================
     init:
       - _NAME_: INIT_CONTEXT
         action:
@@ -52105,23 +51978,19 @@ x-validations:
           - ONDC:FIS12
         version:
           - 2.0.3
-        _RETURN_: *COMMON_CONTEXT
-
+        _RETURN_: *a1
       - _NAME_: INIT_PROVIDER_ID
         attr: $.message.order.provider.id
         _RETURN_: attr are present
-
       - _NAME_: INIT_ITEMS
         _RETURN_:
           - _NAME_: REQUIRED_ITEM_ID
             attr: $.message.order.items[*].id
             _RETURN_: attr are present
-
-      # Personal Loan xinput index progression
       - _NAME_: INIT_XINPUT_PERSONAL_LOAN
         item_code: $.message.order.items[*].descriptor.code
-        loan_type_match: *PERSONAL_LOAN_CODE
-        _CONTINUE_: '!(item_code any in loan_type_match)'
+        loan_type_match: *a11
+        _CONTINUE_: "!(item_code any in loan_type_match)"
         _RETURN_:
           - _NAME_: REQUIRED_XINPUT_HEAD_INDEX
             _RETURN_:
@@ -52134,10 +52003,6 @@ x-validations:
               - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_MAX
                 attr: $.message.order.items[*].xinput.head.index.max
                 _RETURN_: attr are present
-
-    # ============================================================
-    # ON_INIT (on_init_1, on_init_2, on_init_3)
-    # ============================================================
     on_init:
       - _NAME_: ON_INIT_CONTEXT
         action:
@@ -52146,8 +52011,7 @@ x-validations:
           - ONDC:FIS12
         version:
           - 2.0.3
-        _RETURN_: *COMMON_CONTEXT
-
+        _RETURN_: *a1
       - _NAME_: ON_INIT_PROVIDER
         _RETURN_:
           - _NAME_: REQUIRED_PROVIDER_ID
@@ -52159,14 +52023,13 @@ x-validations:
           - _NAME_: REQUIRED_PROVIDER_TAGS
             _RETURN_:
               - _NAME_: REQUIRED_CONTACT_INFO_TAG_GROUP
-                validTags: *CONTACT_INFO_TAG
+                validTags: *a6
                 tagPath: $.message.order.provider.tags[*].descriptor.code
                 _RETURN_: tagPath any in validTags
               - _NAME_: REQUIRED_LSP_INFO_TAG_GROUP
-                validTags: *LSP_INFO_TAG
+                validTags: *a7
                 tagPath: $.message.order.provider.tags[*].descriptor.code
                 _RETURN_: tagPath any in validTags
-
       - _NAME_: ON_INIT_ITEMS
         _RETURN_:
           - _NAME_: REQUIRED_ITEM_ID
@@ -52174,23 +52037,21 @@ x-validations:
             _RETURN_: attr are present
           - _NAME_: REQUIRED_ITEM_DESCRIPTOR_CODE
             attr: $.message.order.items[*].descriptor.code
-            enumList: *ITEM_CODES
+            enumList: *a12
             _RETURN_: attr all in enumList
           - _NAME_: REQUIRED_ITEM_PRICE_VALUE
             attr: $.message.order.items[*].price.value
-            _CONTINUE_: '!(attr are present)'
+            _CONTINUE_: "!(attr are present)"
             _RETURN_: attr are present
           - _NAME_: REQUIRED_ITEM_PRICE_CURRENCY
             attr: $.message.order.items[*].price.currency
-            _CONTINUE_: '!(attr are present)'
-            enumList: *CURRENCY_INR
+            _CONTINUE_: "!(attr are present)"
+            enumList: *a9
             _RETURN_: attr all in enumList
           - _NAME_: REQUIRED_LOAN_INFO_TAG_GROUP
-            validTags: *LOAN_INFO_TAG
+            validTags: *a13
             tagPath: $.message.order.items[*].tags[*].descriptor.code
             _RETURN_: tagPath any in validTags
-
-      # Quote validations
       - _NAME_: ON_INIT_QUOTE
         _SCOPE_: $.message.order.items[*].tags[?(@.descriptor.code=='PERSONAL_LOAN')]
         _RETURN_:
@@ -52202,22 +52063,20 @@ x-validations:
             _RETURN_: attr are present
           - _NAME_: REQUIRED_QUOTE_PRICE_CURRENCY
             attr: $.message.order.quote.price.currency
-            enumList: *CURRENCY_INR
+            enumList: *a9
             _RETURN_: attr all in enumList
           - _NAME_: REQUIRED_QUOTE_TTL
             attr: $.message.order.quote.ttl
             _RETURN_: attr are present
           - _NAME_: VALID_QUOTE_TTL_REGEX
             attr: $.message.order.quote.ttl
-            reg: &TTL_ISO_REGEX
-              - '^P(?:(\\d+Y)?(\\d+M)?(\\d+D)?(T(\\d+H)?(\\d+M)?(\\d+S)?)?|T\\d+D)$'
+            reg:
+              - ^P(?:(\\d+Y)?(\\d+M)?(\\d+D)?(T(\\d+H)?(\\d+M)?(\\d+S)?)?|T\\d+D)$
             _RETURN_: attr follow regex reg
           - _NAME_: REQUIRED_QUOTE_BREAKUP
             attr: $.message.order.quote.breakup[*].title
-            enumList: *QUOTE_BREAKUP_TITLES
+            enumList: *a14
             _RETURN_: attr any in enumList
-
-      # Payment validations
       - _NAME_: ON_INIT_PAYMENTS
         _SCOPE_: $.message.order.items[*].tags[?(@.descriptor.code=='PERSONAL_LOAN')]
         _RETURN_:
@@ -52226,13 +52085,11 @@ x-validations:
             _RETURN_: attr are present
           - _NAME_: VALID_PAYMENT_TYPE_ENUM
             attr: $.message.order.payments[*].type
-            enumList: &PAYMENT_TYPE_ON_INIT
+            enumList: &a16
               - ON_ORDER
               - ON_FULFILLMENT
               - POST_FULFILLMENT
             _RETURN_: attr all in enumList
-
-      # collected_by required for ON_ORDER payments (POST_FULFILLMENT installments don't have it)
       - _NAME_: ON_INIT_PAYMENTS_ON_ORDER
         _SCOPE_: $.message.order.payments[?(@.type=='ON_ORDER')]
         _RETURN_:
@@ -52242,22 +52099,21 @@ x-validations:
           - _NAME_: REQUIRED_PAYMENT_TAGS
             _RETURN_:
               - _NAME_: REQUIRED_BUYER_FINDER_FEES_TAG
-                validTags: *BUYER_FINDER_FEES_TAG
+                validTags: *a3
                 tagPath: $.message.order.payments[?(@.type=='ON_ORDER')].tags[*].descriptor.code
                 _RETURN_: tagPath any in validTags
               - _NAME_: REQUIRED_SETTLEMENT_TERMS_TAG
-                validTags: *SETTLEMENT_TERMS_TAG
+                validTags: *a5
                 tagPath: $.message.order.payments[?(@.type=='ON_ORDER')].tags[*].descriptor.code
                 _RETURN_: tagPath any in validTags
-
-      # Fulfillment validations
       - _NAME_: ON_INIT_FULFILLMENTS
         _RETURN_:
           - _NAME_: REQUIRED_FULFILLMENT_TYPE
             attr: $.message.order.fulfillments[*].type
-            enumList: &FULFILLMENT_TYPE
+            enumList: &a15
               - LOAN
-            _CONTINUE_: '!(attr are present)'  
+              - DEDUPE
+            _CONTINUE_: "!(attr are present)"
             _RETURN_: attr all in enumList
           - _NAME_: REQUIRED_FULFILLMENT_CUSTOMER_PERSON_NAME
             attr: $.message.order.fulfillments[*].customer.person.name
@@ -52265,13 +52121,11 @@ x-validations:
           - _NAME_: REQUIRED_FULFILLMENT_STATE_CODE
             attr: $.message.order.fulfillments[*].state.descriptor.code
             _RETURN_: attr are present
-
-      # Xinput validations (Personal Loan progression) - Only if xinput exists
       - _NAME_: ON_INIT_XINPUT_PERSONAL_LOAN
         item_code: $.message.order.items[*].descriptor.code
-        loan_type_match: *PERSONAL_LOAN_CODE
+        loan_type_match: *a11
         xinputpath: $.message.order.items[*].xinput.form.id
-        _CONTINUE_: '!(item_code any in loan_type_match) || !(xinputpath are present)'
+        _CONTINUE_: "!(item_code any in loan_type_match) || !(xinputpath are present)"
         _RETURN_:
           - _NAME_: REQUIRED_XINPUT_HEAD_INDEX
             _RETURN_:
@@ -52290,10 +52144,6 @@ x-validations:
           - _NAME_: REQUIRED_XINPUT_HEAD_HEADINGS
             attr: $.message.order.items[*].xinput.head.headings[*]
             _RETURN_: attr are present
-
-    # ============================================================
-    # CONFIRM
-    # ============================================================
     confirm:
       - _NAME_: CONFIRM_CONTEXT
         action:
@@ -52302,18 +52152,15 @@ x-validations:
           - ONDC:FIS12
         version:
           - 2.0.3
-        _RETURN_: *COMMON_CONTEXT
-
+        _RETURN_: *a1
       - _NAME_: CONFIRM_PROVIDER_ID
         attr: $.message.order.provider.id
         _RETURN_: attr are present
-
       - _NAME_: CONFIRM_ITEMS
         _RETURN_:
           - _NAME_: REQUIRED_ITEM_ID
             attr: $.message.order.items[*].id
             _RETURN_: attr are present
-
       - _NAME_: CONFIRM_PAYMENTS
         _SCOPE_: $.message.order.payments[?(@.type=='ON_ORDER')]
         _RETURN_:
@@ -52326,10 +52173,6 @@ x-validations:
           - _NAME_: REQUIRED_PAYMENT_PARAMS_VPA
             attr: $.message.order.payments[*].params.virtual_payment_address
             _RETURN_: attr are present
-
-    # ============================================================
-    # ON_CONFIRM
-    # ============================================================
     on_confirm:
       - _NAME_: ON_CONFIRM_CONTEXT
         action:
@@ -52338,8 +52181,7 @@ x-validations:
           - ONDC:FIS12
         version:
           - 2.0.3
-        _RETURN_: *COMMON_CONTEXT
-
+        _RETURN_: *a1
       - _NAME_: ON_CONFIRM_PROVIDER
         _RETURN_:
           - _NAME_: REQUIRED_PROVIDER_ID
@@ -52351,14 +52193,13 @@ x-validations:
           - _NAME_: REQUIRED_PROVIDER_TAGS
             _RETURN_:
               - _NAME_: REQUIRED_CONTACT_INFO_TAG_GROUP
-                validTags: *CONTACT_INFO_TAG
+                validTags: *a6
                 tagPath: $.message.order.provider.tags[*].descriptor.code
                 _RETURN_: tagPath any in validTags
               - _NAME_: REQUIRED_LSP_INFO_TAG_GROUP
-                validTags: *LSP_INFO_TAG
+                validTags: *a7
                 tagPath: $.message.order.provider.tags[*].descriptor.code
                 _RETURN_: tagPath any in validTags
-
       - _NAME_: ON_CONFIRM_ITEMS
         _SCOPE_: $.message.order.items[?(@.descriptor.code=='PERSONAL_LOAN')]
         _RETURN_:
@@ -52367,17 +52208,15 @@ x-validations:
             _RETURN_: attr are present
           - _NAME_: REQUIRED_ITEM_DESCRIPTOR_CODE
             attr: $.message.order.items[*].descriptor.code
-            enumList: *ITEM_CODES
+            enumList: *a12
             _RETURN_: attr all in enumList
           - _NAME_: REQUIRED_ITEM_PRICE
             attr: $.message.order.items[*].price.value
             _RETURN_: attr are present
           - _NAME_: REQUIRED_LOAN_INFO_TAG
-            validTags: *LOAN_INFO_TAG
+            validTags: *a13
             tagPath: $.message.order.items[*].tags[*].descriptor.code
             _RETURN_: tagPath any in validTags
-
-      # Quote validations
       - _NAME_: ON_CONFIRM_QUOTE
         _SCOPE_: $.message.order.items[?(@.descriptor.code=='PERSONAL_LOAN')]
         _RETURN_:
@@ -52389,60 +52228,53 @@ x-validations:
             _RETURN_: attr are present
           - _NAME_: REQUIRED_QUOTE_BREAKUP
             attr: $.message.order.quote.breakup[*].title
-            enumList: *QUOTE_BREAKUP_TITLES
+            enumList: *a14
             _RETURN_: attr any in enumList
-
-      # Fulfillment validations
       - _NAME_: ON_CONFIRM_FULFILLMENTS
         _RETURN_:
           - _NAME_: REQUIRED_FULFILLMENT_TYPE
             attr: $.message.order.fulfillments[*].type
-            _CONTINUE_: '!(attr are present)'
-            enumList: *FULFILLMENT_TYPE
+            _CONTINUE_: "!(attr are present)"
+            enumList: *a15
             _RETURN_: attr all in enumList
           - _NAME_: REQUIRED_FULFILLMENT_STATE_DESCRIPTOR_CODE
             attr: $.message.order.fulfillments[*].state.descriptor.code
             _RETURN_: attr are present
           - _NAME_: VALID_FULFILLMENT_STATE_ENUM
             attr: $.message.order.fulfillments[*].state.descriptor.code
-            enumList: &FULFILLMENT_STATE_CONFIRM
+            enumList:
               - DISBURSED
               - SANCTIONED
               - DISPATCHED
+              - ACCEPTED
             _RETURN_: attr any in enumList
           - _NAME_: REQUIRED_FULFILLMENT_CUSTOMER
             attr: $.message.order.fulfillments[*].customer.person.name
-            _CONTINUE_: '!(attr are present)'
+            _CONTINUE_: "!(attr are present)"
             _RETURN_: attr are present
-
-      # Payment validations
       - _NAME_: ON_CONFIRM_PAYMENTS
         _SCOPE_: $.message.order.items[?(@.descriptor.code=='PERSONAL_LOAN')]
         _RETURN_:
           - _NAME_: REQUIRED_PAYMENT_TYPE
             attr: $.message.order.payments[*].type
-            enumList: *PAYMENT_TYPE_ON_INIT
+            enumList: *a16
             _RETURN_: attr all in enumList
           - _NAME_: REQUIRED_PAYMENT_STATUS
             attr: $.message.order.payments[*].status
             _RETURN_: attr are present
           - _NAME_: VALID_PAYMENT_STATUS_ENUM
             attr: $.message.order.payments[*].status
-            enumList: &PAYMENT_STATUS_BASIC
+            enumList:
               - PAID
               - NOT-PAID
             _RETURN_: attr all in enumList
-
-      # collected_by required for ON_ORDER payments (POST_FULFILLMENT installments don't have it)
       - _NAME_: ON_CONFIRM_PAYMENTS_COLLECTED_BY
         _SCOPE_: $.message.order.payments[?(@.type=='ON_ORDER')]
         _RETURN_:
           - _NAME_: REQUIRED_PAYMENT_COLLECTED_BY
             attr: $.message.order.payments[?(@.type=='ON_ORDER')].collected_by
-            enumList: *PAYMENT_COLLECTED_BY
+            enumList: *a2
             _RETURN_: attr all in enumList
-
-      # Documents
       - _NAME_: ON_CONFIRM_DOCUMENTS
         _SCOPE_: $.message.order.items[?(@.descriptor.code=='PERSONAL_LOAN')]
         _RETURN_:
@@ -52454,22 +52286,17 @@ x-validations:
             _RETURN_: attr are present
           - _NAME_: REQUIRED_DOCUMENT_MIME_TYPE
             attr: $.message.order.documents[*].mime_type
-            enumList: &DOCUMENT_MIME_TYPES
+            enumList:
               - application/pdf
               - text/html
             _RETURN_: attr all in enumList
-
       - _NAME_: ON_CONFIRM_CANCELLATION_TERMS
         attr: $.message.order.cancellation_terms[*].fulfillment_state.descriptor.code
-        enumList: &CANCELLATION_FULFILLMENT_STATES
+        enumList:
           - SANCTIONED
           - DISBURSED
-        _CONTINUE_: '!(attr are present)'
+        _CONTINUE_: "!(attr are present)"
         _RETURN_: attr all in enumList
-
-    # ============================================================
-    # UPDATE
-    # ============================================================
     update:
       - _NAME_: UPDATE_CONTEXT
         action:
@@ -52478,23 +52305,21 @@ x-validations:
           - ONDC:FIS12
         version:
           - 2.0.3
-        _RETURN_: *COMMON_CONTEXT
-
+        _RETURN_: *a1
       - _NAME_: UPDATE_ORDER_ID
         attr: $.message.order.id
         _RETURN_: attr are present
-
-      # Conditional: Payment update (runs when update_target="payments" OR no update_target but has payments field)
       - _NAME_: UPDATE_PAYMENT_TARGET
         update_target: $.message.update_target
         target_match_fulfillment:
           - fulfillment
         payment_types: $.message.order.payments[*].type
-        _CONTINUE_: '(update_target any in target_match_fulfillment) || !(payment_types are present)'
+        _CONTINUE_: (update_target any in target_match_fulfillment) || !(payment_types
+          are present)
         _RETURN_:
           - _NAME_: REQUIRED_PAYMENT_TYPE
             attr: $.message.order.payments[*].type
-            enumList: &PAYMENT_TYPE_UPDATE
+            enumList:
               - POST_FULFILLMENT
               - ON_ORDER
             _RETURN_: attr all in enumList
@@ -52503,7 +52328,7 @@ x-validations:
             _RETURN_: attr are present
           - _NAME_: VALID_PAYMENT_TIME_LABEL_ENUM
             attr: $.message.order.payments[*].time.label
-            enumList: &PAYMENT_TIME_LABELS
+            enumList:
               - PRE_PART_PAYMENT
               - INSTALLMENT
               - FORECLOSURE
@@ -52512,34 +52337,31 @@ x-validations:
           - _NAME_: REQUIRED_PAYMENT_PARAMS_AMOUNT
             attr: $.message.order.payments[*].params.amount
             _RETURN_: attr are present
-
-      # Gold Loan: ref_id required (for payment updates only)
       - _NAME_: UPDATE_PAYMENT_REF_ID_GOLD
         item_code: $.message.order.items[*].descriptor.code
-        loan_type_match: *GOLD_LOAN_CODE
+        loan_type_match: *a10
         update_target: $.message.update_target
         target_match_fulfillment:
           - fulfillment
         payment_types: $.message.order.payments[*].type
-        _CONTINUE_: '!(item_code any in loan_type_match) || (update_target any in target_match_fulfillment) || !(payment_types are present)'
+        _CONTINUE_: "!(item_code any in loan_type_match) || (update_target any in
+          target_match_fulfillment) || !(payment_types are present)"
         _RETURN_:
           - _NAME_: REQUIRED_PAYMENT_REF_ID
             attr: $.message.order.payments[*].tags[?(@.descriptor.code=='LOAN_REPAYMENT')].list[?(@.descriptor.code=='ref_id')].value
             _RETURN_: attr are present
-
-      # Conditional: Fulfillment update
       - _NAME_: UPDATE_FULFILLMENT_TARGET
         update_target: $.message.update_target
-        target_match: &UPDATE_TARGET_FULFILLMENT
+        target_match:
           - fulfillment
-        _CONTINUE_: '!(update_target any in target_match)'
+        _CONTINUE_: "!(update_target any in target_match)"
         _RETURN_:
           - _NAME_: REQUIRED_FULFILLMENT_STATE_CODE
             attr: $.message.order.fulfillments[*].state.descriptor.code
             _RETURN_: attr are present
           - _NAME_: VALID_FULFILLMENT_STATE_ENUM
             attr: $.message.order.fulfillments[*].state.descriptor.code
-            enumList: &FULFILLMENT_STATE_UPDATE
+            enumList: &a17
               - INITIATED
               - SANCTIONED
               - DISBURSED
@@ -52549,11 +52371,8 @@ x-validations:
               - CONSENT_REQUIRED
               - APPROVED
               - DISPATCHED
+              - ACCEPTED
             _RETURN_: attr all in enumList
-
-    # ============================================================
-    # ON_UPDATE
-    # ============================================================
     on_update:
       - _NAME_: ON_UPDATE_CONTEXT
         action:
@@ -52562,8 +52381,7 @@ x-validations:
           - ONDC:FIS12
         version:
           - 2.0.3
-        _RETURN_: *COMMON_CONTEXT
-
+        _RETURN_: *a1
       - _NAME_: ON_UPDATE_ORDER
         _RETURN_:
           - _NAME_: REQUIRED_ORDER_ID
@@ -52575,21 +52393,17 @@ x-validations:
           - _NAME_: REQUIRED_ORDER_ITEMS
             attr: $.message.order.items[*].id
             _RETURN_: attr are present
-
-      # Fulfillment validations
       - _NAME_: ON_UPDATE_FULFILLMENTS
         _RETURN_:
           - _NAME_: REQUIRED_FULFILLMENT_TYPE
             attr: $.message.order.fulfillments[*].type
-            _CONTINUE_: '!(attr are present)'
-            enumList: *FULFILLMENT_TYPE
+            _CONTINUE_: "!(attr are present)"
+            enumList: *a15
             _RETURN_: attr all in enumList
           - _NAME_: REQUIRED_FULFILLMENT_STATE_CODE
             attr: $.message.order.fulfillments[*].state.descriptor.code
-            enumList: *FULFILLMENT_STATE_UPDATE
+            enumList: *a17
             _RETURN_: attr all in enumList
-
-      # Payment validations
       - _NAME_: ON_UPDATE_PAYMENTS
         _RETURN_:
           - _NAME_: REQUIRED_PAYMENT_TYPE
@@ -52600,15 +52414,13 @@ x-validations:
             _RETURN_: attr are present
           - _NAME_: VALID_PAYMENT_STATUS_ENUM
             attr: $.message.order.payments[*].status
-            enumList: &PAYMENT_STATUS_EXTENDED
+            enumList: &a18
               - PAID
               - NOT-PAID
               - FAILED
               - DELAYED
               - DEFERRED
             _RETURN_: attr all in enumList
-
-      # Quote with special breakup titles for on_update
       - _NAME_: ON_UPDATE_QUOTE
         _RETURN_:
           - _NAME_: REQUIRED_QUOTE_BREAKUP_TITLE
@@ -52616,7 +52428,7 @@ x-validations:
             _RETURN_: attr are present
           - _NAME_: VALID_QUOTE_BREAKUP_TITLE_ON_UPDATE_ENUM
             attr: $.message.order.quote.breakup[*].title
-            enumList: &QUOTE_BREAKUP_TITLES_ON_UPDATE
+            enumList: &a19
               - PRINCIPAL
               - INTEREST
               - PROCESSING_FEE
@@ -52626,7 +52438,7 @@ x-validations:
               - OTHER_CHARGES
               - LATE_FEE_AMOUNT
               - OUTSTANDING_PRINCIPAL
-              - FORCLOSUER_CHARGES
+              - FORECLOSURE_CHARGES
               - OUTSTANDING_INTEREST
               - PRE_PAYMENT_CHARGE
               - INSURANCE_TOTAL_FEE
@@ -52636,10 +52448,6 @@ x-validations:
           - _NAME_: REQUIRED_QUOTE_BREAKUP_PRICE
             attr: $.message.order.quote.breakup[*].price.value
             _RETURN_: attr are present
-
-    # ============================================================
-    # STATUS
-    # ============================================================
     status:
       - _NAME_: STATUS_CONTEXT
         action:
@@ -52648,28 +52456,21 @@ x-validations:
           - ONDC:FIS12
         version:
           - 2.0.3
-        _RETURN_: *COMMON_CONTEXT
-
-      # Status can have either order_id (Personal Loan) or ref_id (Gold Loan)
+        _RETURN_: *a1
       - _NAME_: STATUS_ORDER_ID_PERSONAL_LOAN
         orderidpath: $.message.order_id
-        _CONTINUE_: '!(orderidpath are present)'
+        _CONTINUE_: "!(orderidpath are present)"
         _RETURN_:
           - _NAME_: REQUIRED_STATUS_ORDER_ID
             attr: $.message.order_id
             _RETURN_: attr are present
-
       - _NAME_: STATUS_REF_ID_GOLD_LOAN
         refidpath: $.message.ref_id
-        _CONTINUE_: '!(refidpath are present)'
+        _CONTINUE_: "!(refidpath are present)"
         _RETURN_:
           - _NAME_: REQUIRED_STATUS_REF_ID
             attr: $.message.ref_id
             _RETURN_: attr are present
-
-    # ============================================================
-    # ON_STATUS
-    # ============================================================
     on_status:
       - _NAME_: ON_STATUS_CONTEXT
         action:
@@ -52678,8 +52479,7 @@ x-validations:
           - ONDC:FIS12
         version:
           - 2.0.3
-        _RETURN_: *COMMON_CONTEXT
-
+        _RETURN_: *a1
       - _NAME_: ON_STATUS_ORDER
         _RETURN_:
           - _NAME_: REQUIRED_ORDER_PROVIDER_ID
@@ -52688,60 +52488,65 @@ x-validations:
           - _NAME_: REQUIRED_ORDER_ITEMS
             attr: $.message.order.items[*].id
             _RETURN_: attr are present
-
-      # Fulfillment validations
       - _NAME_: ON_STATUS_FULFILLMENTS
         _RETURN_:
           - _NAME_: REQUIRED_FULFILLMENT_TYPE
             attr: $.message.order.fulfillments[*].type
-            enumList: *FULFILLMENT_TYPE
-            _CONTINUE_: '!(attr are present)'
+            enumList: *a15
+            _CONTINUE_: "!(attr are present)"
             _RETURN_: attr all in enumList
-
-      # Conditional: Fulfillment state (only present in some on_status variants)
       - _NAME_: ON_STATUS_FULFILLMENT_STATE
         statepath: $.message.order.fulfillments[*].state.descriptor.code
-        _CONTINUE_: '!(statepath are present)'
+        _CONTINUE_: "!(statepath are present)"
         _RETURN_:
           - _NAME_: VALID_FULFILLMENT_STATE_CODE
             attr: $.message.order.fulfillments[*].state.descriptor.code
-            enumList: *FULFILLMENT_STATE_UPDATE
+            enumList: *a17
             _RETURN_: attr any in enumList
-
-      # If KYC/validation result is REJECTED in on_status, treat it as a terminal state and fail validation
       - _NAME_: ON_STATUS_XINPUT_FORM_RESPONSE_STATUS_NOT_REJECTED
         statuspath: $.message.order.items[*].xinput.form_response.status
-        _CONTINUE_: '!(statuspath are present)'
+        _CONTINUE_: "!(statuspath are present)"
         _RETURN_:
           - _NAME_: If_Validation_Result_is_REJECTED_flow_cant_move_forward
             attr: $.message.order.items[*].xinput.form_response.status
-            enumList: &FORM_RESPONSE_STATUS_ON_STATUS
+            enumList:
               - COMPLETED
               - OFFLINE_PENDING
               - APPROVED
               - SUCCESS
-              - REJECTED
-              - EXPIRED 
             _RETURN_: attr all in enumList
-
-      # Conditional: Payments (only present in post-confirm status)
       - _NAME_: ON_STATUS_PAYMENTS
         paymentspath: $.message.order.payments[*].type
-        _CONTINUE_: '!(paymentspath are present)'
+        _CONTINUE_: "!(paymentspath are present)"
         _RETURN_:
           - _NAME_: REQUIRED_PAYMENT_TYPE
             attr: $.message.order.payments[*].type
             _RETURN_: attr are present
           - _NAME_: REQUIRED_PAYMENT_STATUS
             attr: $.message.order.payments[*].status
-            enumList: *PAYMENT_STATUS_EXTENDED
+            enumList: *a18
             _RETURN_: attr all in enumList
-
       - _NAME_: ON_STATUS_QUOTE
         attr: $.message.order.quote.breakup[*].title
-        enumList: *QUOTE_BREAKUP_TITLES_ON_UPDATE
-        _CONTINUE_: '!(attr are present)'
+        enumList: *a19
+        _CONTINUE_: "!(attr are present)"
         _RETURN_: attr any in enumList
+      - _NAME_: ON_STATUS_CHECKLIST_CODES
+        checklistpath: $.message.order.fulfillments[*].tags[?(@.descriptor.code=='CHECKLISTS')].list[*].descriptor.code
+        _CONTINUE_: "!(checklistpath are present)"
+        _RETURN_:
+          - _NAME_: VALID_CHECKLIST_CODES_ENUM
+            attr: $.message.order.fulfillments[*].tags[?(@.descriptor.code=='CHECKLISTS')].list[*].descriptor.code
+            enumList:
+              - PERSONAL_INFORMATION
+              - LOAN_OFFER
+              - JOURNEY_OFFLINE
+              - SINGLE_REDIRECTION
+              - KYC
+              - REPAYMENT
+              - BANK_ACCOUNT_VERIFICATION
+              - LOAN_AGREEMENT
+            _RETURN_: attr all in enumList
     issue:
       - _NAME_: REQUIRED_CONTEXT_FIELDS
         _RETURN_:
@@ -52749,12 +52554,10 @@ x-validations:
             attr: $.context.domain
             _RETURN_: attr are present
           - _NAME_: REQUIRED_CONTEXT_COUNTRY
-            attr:
-              - $.context.location.country.code
+            attr: [$.context.location.country.code]
             _RETURN_: attr are present
           - _NAME_: REQUIRED_CONTEXT_CITY
-            attr:
-              - $.context.location.city.code
+            attr: [$.context.location.city.code]
             _RETURN_: attr are present
           - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID
             attr: $.context.transaction_id
@@ -52769,8 +52572,7 @@ x-validations:
             attr: $.context.timestamp
             _RETURN_: attr are present
           - _NAME_: REQUIRED_CONTEXT_VERSION
-            attr:
-              - $.context.version
+            attr: [$.context.version]
             _RETURN_: attr are present
           - _NAME_: REQUIRED_CONTEXT_BAP_URI
             attr: $.context.bap_uri
@@ -52789,7 +52591,12 @@ x-validations:
             _RETURN_: attr are present
           - _NAME_: VALID_CONTEXT_COUNTRY_CODE
             attr: $.context.location.country.code
+            # enumList:
+            #   - IND
             _RETURN_: attr are present
+          # - _NAME_: VALID_CONTEXT_COUNTRY_CODE
+          #   attr: $.context.country
+          #   _RETURN_: attr are present
       - _NAME_: ISSUE_VALIDATION_VERSION_200
         action:
           - issue
@@ -52953,25 +52760,29 @@ x-validations:
             enumPath: $.message.issue.actors[*].type
             _CONTINUE_: "!(enumPath are present)"
             _RETURN_: enumPath all in enumList
+            
       - _NAME_: ISSUE_VALIDATION_VERSION_100
         action:
           - issue
-        _SCOPE_: $.message.issue.issue_actions
+        _SCOPE_: $.message.issue.issue_actions  
         _RETURN_:
           - _NAME_: ISSUE_VALIDATION_OPEN
             action:
               - issue
             _SCOPE_: $.message.issue[?(@.status=='OPEN')]
             _RETURN_:
+              # Mandatory fields ONLY for OPEN
               - _NAME_: REQUIRED_ISSUE_ID
                 attr: $.message.issue.id
                 _RETURN_: attr are present
+
               - _NAME_: REQUIRED_ISSUE_STATUS
                 attr: $.message.issue.status
                 validValues:
                   - OPEN
                   - CLOSED
-                _RETURN_: attr all in validValues
+                _RETURN_: attr all in validValues    
+
               - _NAME_: REQUIRED_ISSUE_CATEGORY
                 attr: $.message.issue.category
                 validValues:
@@ -52979,6 +52790,53 @@ x-validations:
                   - PAYMENT
                   - ORDER
                 _RETURN_: attr all in validValues
+
+              # - _NAME_: VALID_FULFILLMENT_SUB_CATEGORY
+              #   _SCOPE_: $.message.issue[?(@.category=='FULFILLMENT')]
+              #   subCategory: $.sub_category
+              #   validValues:
+              #     - FLM0190
+              #     - FLM02
+              #     - FLM202
+              #     - FLM203
+              #     - FLM204
+              #     - FLM205
+              #     - FLM206
+              #     - FLM207
+              #     - FLM208
+              #     - FLM209
+              #     - FLM210
+              #     - FLM211
+              #     - FLM212
+              #   _RETURN_: subCategory any in validValues
+
+              # - _NAME_: VALID_PAYMENT_SUB_CATEGORY
+              #   _SCOPE_: $.message.issue[?(@.category=='PAYMENT')]
+              #   subCategory: $.sub_category
+              #   validValues:
+              #     - PMT01
+              #     - PMT02
+              #     - PMT03
+              #     - PMT04
+              #     - PMT05
+              #     - PMT06
+              #     - PMT07
+              #     - PMT08
+              #     - PMT09
+              #     - PTM09
+              #     - PTM10
+              #   _RETURN_: subCategory any in validValues
+
+              # - _NAME_: VALID_ORDER_SUB_CATEGORY
+              #   _SCOPE_: $.message.issue[?(@.category=='ORDER')]
+              #   subCategory: $.sub_category
+              #   validValues:
+              #     - ORD01
+              #     - ORD02
+              #     - ORD03
+              #     - ORD04
+              #   _RETURN_: subCategory any in validValues    
+
               - _NAME_: REQUIRED_ISSUE_SUB_CATEGORY
                 attr: $.message.issue.sub_category
                 validValues:
@@ -53011,59 +52869,67 @@ x-validations:
                   - ORD03
                   - ORD04
                 _RETURN_: attr all in validValues
+
               - _NAME_: REQUIRED_COMPLAINANT_PERSON_NAME
                 attr: $.message.issue.complainant_info.person.name
                 _RETURN_: attr are present
+
               - _NAME_: REQUIRED_COMPLAINANT_CONTACT_PHONE
                 attr: $.message.issue.complainant_info.contact.phone
                 _RETURN_: attr are present
+
               - _NAME_: REQUIRED_ORDER_ID
                 attr: $.message.issue.order_details.id
                 _RETURN_: attr are present
+
               - _NAME_: REQUIRED_ORDER_ITEMS
                 attr: $.message.issue.order_details.items[*].id
                 _RETURN_: attr are present
+
               - _NAME_: REQUIRED_ORDER_ITEMS_QUANTITY
                 attr: $.message.issue.order_details.items[*].quantity
-                _RETURN_: attr are present
+                _RETURN_: attr are present  
+
               - _NAME_: REQUIRED_FULFILLMENT_ID
                 attr: $.message.issue.order_details.fulfillments[*].id
                 _RETURN_: attr are present
+
               - _NAME_: REQUIRED_PROVIDER_ID
                 attr: $.message.issue.order_details.provider_id
-                _RETURN_: attr are present
+                _RETURN_: attr are present  
+
               - _NAME_: REQUIRED_DESCRIPTION
-                attr:
-                  - $.message.issue.description
+                attr: [$.message.issue.description]
                 _RETURN_: attr are present
+
               - _NAME_: REQUIRED_DESCRIPTION_SHORT
-                attr:
-                  - $.message.issue.description.short_desc
+                attr: [$.message.issue.description.short_desc]
                 _RETURN_: attr are present
+
               - _NAME_: REQUIRED_DESCRIPTION_LONG
-                attr:
-                  - $.message.issue.description.long_desc
+                attr: [$.message.issue.description.long_desc]
                 _RETURN_: attr are present
+
               - _NAME_: REQUIRED_DESCRIPTION_ADDITIONAL_URL
-                attr:
-                  - $.message.issue.description.additional_desc.url
+                attr: [$.message.issue.description.additional_desc.url]
                 _RETURN_: attr are present
+
               - _NAME_: REQUIRED_DESCRIPTION_ADDITIONAL_CONTENT_TYPE
-                attr:
-                  - $.message.issue.description.additional_desc.content_type
+                attr: [$.message.issue.description.additional_desc.content_type]
                 _RETURN_: attr are present
+
               - _NAME_: REQUIRED_DESCRIPTION_IMAGES
-                attr:
-                  - $.message.issue.description.images
-                _RETURN_: attr are present
+                attr: [$.message.issue.description.images]
+                _RETURN_: attr are present  
+
               - _NAME_: REQUIRED_EXPECTED_RESPONSE_TIME
-                attr:
-                  - $.message.issue.expected_response_time.duration
+                attr: [$.message.issue.expected_response_time.duration]
                 _RETURN_: attr are present
+
               - _NAME_: REQUIRED_EXPECTED_RESOLUTION_TIME
-                attr:
-                  - $.message.issue.expected_resolution_time.duration
+                attr: [$.message.issue.expected_resolution_time.duration]
                 _RETURN_: attr are present
+
               - _NAME_: REQUIRED_ISSUE_ACTIONS_OPEN
                 attr: $.message.issue.issue_actions.complainant_actions[*].complainant_action
                 validValues:
@@ -53071,26 +52937,30 @@ x-validations:
                   - CLOSE
                   - ESCALATE
                 _RETURN_: attr all in validValues
+
               - _NAME_: REQUIRED_CREATED_AT
                 attr: $.message.issue.created_at
                 _RETURN_: attr are present
+
               - _NAME_: REQUIRED_UPDATED_AT
                 attr: $.message.issue.updated_at
                 _RETURN_: attr are present
           - _NAME_: ISSUE_VALIDATION_CLOSED
             action:
-              - issue
+                - issue
             _SCOPE_: $.message.issue[?(@.status=='CLOSED')]
             _RETURN_:
               - _NAME_: REQUIRED_ISSUE_ID_CLOSED
                 attr: $.message.issue.id
                 _RETURN_: attr are present
+
               - _NAME_: REQUIRED_ISSUE_STATUS
                 attr: $.message.issue.status
                 validValues:
                   - OPEN
                   - CLOSED
-                _RETURN_: attr all in validValues
+                _RETURN_: attr all in validValues    
+
               - _NAME_: REQUIRED_ISSUE_ACTIONS_CLOSED
                 attr: $.message.issue.issue_actions.complainant_actions[*].complainant_action
                 validValues:
@@ -53101,9 +52971,11 @@ x-validations:
               - _NAME_: REQUIRED_CREATED_AT_CLOSED
                 attr: $.message.issue.created_at
                 _RETURN_: attr are present
+
               - _NAME_: REQUIRED_UPDATED_AT_CLOSED
                 attr: $.message.issue.updated_at
                 _RETURN_: attr are present
+
     on_issue:
       - _NAME_: REQUIRED_CONTEXT_FIELDS
         _RETURN_:
@@ -53111,12 +52983,10 @@ x-validations:
             attr: $.context.domain
             _RETURN_: attr are present
           - _NAME_: REQUIRED_CONTEXT_COUNTRY
-            attr:
-              - $.context.location.country.code
+            attr: [$.context.location.country.code]
             _RETURN_: attr are present
           - _NAME_: REQUIRED_CONTEXT_CITY
-            attr:
-              - $.context.location.city.code
+            attr: [$.context.location.city.code]
             _RETURN_: attr are present
           - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID
             attr: $.context.transaction_id
@@ -53131,8 +53001,7 @@ x-validations:
             attr: $.context.timestamp
             _RETURN_: attr are present
           - _NAME_: REQUIRED_CONTEXT_VERSION
-            attr:
-              - $.context.version
+            attr: [$.context.version]
             _RETURN_: attr are present
           - _NAME_: REQUIRED_CONTEXT_BAP_URI
             attr: $.context.bap_uri
@@ -53150,14 +53019,18 @@ x-validations:
             attr: $.context.ttl
             _RETURN_: attr are present
           - _NAME_: VALID_CONTEXT_COUNTRY_CODE
-            attr:
-              - $.context.location.country.code
+            attr: [$.context.location.country.code]
+            # enumList:
+            #   - IND
             _RETURN_: attr are present
+          # - _NAME_: VALID_CONTEXT_COUNTRY_CODE
+          #   attr: $.context.country
+          #   _RETURN_: attr are present  
       - _NAME_: ON_ISSUE_VALIDATION_VERSION_200
         action:
           - on_issue
         _SCOPE_: $.message.issue.actions
-        _RETURN_:
+        _RETURN_:  
           - _NAME_: REQUIRED_MESSAGE_ID
             attr: $.message.issue.id
             _RETURN_: attr are present
@@ -53180,10 +53053,10 @@ x-validations:
               - DISPUTE
           - _NAME_: REQUIRED_MESSAGE_CREATED_AT
             attr: $.message.issue.created_at
-            _RETURN_: attr are present
+            _RETURN_: attr are present 
           - _NAME_: REQUIRED_MESSAGE_UPDATED_AT
             attr: $.message.issue.updated_at
-            _RETURN_: attr are present
+            _RETURN_: attr are present 
           - _NAME_: REQUIRED_MESSAGE_REF_ID
             attr: $.message.issue.refs[*].ref_id
             _RETURN_: attr are present
@@ -53203,12 +53076,10 @@ x-validations:
               - CUSTOMER
               - AGENT
           - _NAME_: REQUIRED_EXPECTED_RESPONSE_TIME
-            attr:
-              - $.message.issue.expected_response_time.duration
+            attr: [$.message.issue.expected_response_time.duration]
             _RETURN_: attr are present
           - _NAME_: REQUIRED_EXPECTED_RESOLUTION_TIME
-            attr:
-              - $.message.issue.expected_resolution_time.duration
+            attr: [$.message.issue.expected_resolution_time.duration]
             _RETURN_: attr are present
           - _NAME_: REQUIRED_MESSAGE_ID_10
             attr: $.message.issue.actors[*].id
@@ -53226,7 +53097,7 @@ x-validations:
               - INTERFACING_NP_GRO
               - COUNTERPARTY_NP_GRO
               - CASCADED_NP_GRO
-              - CONSUMER
+              - CONSUMER  
           - _NAME_: REQUIRED_MESSAGE_NAME_13
             attr: $.message.issue.actors[*].info.person.name
             _RETURN_: attr are present
@@ -53236,6 +53107,24 @@ x-validations:
           - _NAME_: REQUIRED_MESSAGE_EMAIL
             attr: $.message.issue.actors[*].info.contact.email
             _RETURN_: attr are present
+          # - _NAME_: REQUIRED_MESSAGE_SOURCE_ID
+          #   attr: $.message.issue.source_id
+          #   _RETURN_: attr are present 
+          # - _NAME_: REQUIRED_MESSAGE_CODE
+          #   attr: $.message.issue.descriptor.code
+          #   _RETURN_: attr are present
+          # - _NAME_: REQUIRED_MESSAGE_SHORT_DESC
+          #   attr: $.message.issue.descriptor.short_desc
+          #   _RETURN_: attr are present
+          # - _NAME_: REQUIRED_MESSAGE_LONG_DESC
+          #   attr: $.message.issue.descriptor.long_desc
+          #   _RETURN_: attr are present
+          # - _NAME_: REQUIRED_MESSAGE_URL
+          #   attr: $.message.issue.descriptor.additional_desc.url
+          #   _RETURN_: attr are present
+          # - _NAME_: REQUIRED_MESSAGE_CONTENT_TYPE
+          #   attr: $.message.issue.descriptor.additional_desc.content_type
+          #   _RETURN_: attr are present 
           - _NAME_: REQUIRED_MESSAGE_ID_25
             attr: $.message.issue.actions[*].id
             _RETURN_: attr are present
@@ -53250,12 +53139,12 @@ x-validations:
             _RETURN_: attr are present
           - _NAME_: REQUIRED_MESSAGE_ACTION_BY
             attr: $.message.issue.actions[*].action_by
-            _RETURN_: attr are present
+            _RETURN_: attr are present              
       - _NAME_: ON_ISSUE_VALIDATION_VERSION_100
         action:
           - on_issue
         _SCOPE_: $.message.issue.issue_actions
-        _RETURN_:
+        _RETURN_: 
           - _NAME_: REQUIRED_ISSUE_ID
             attr: $.message.issue.id
             _RETURN_: attr are present
@@ -53269,24 +53158,31 @@ x-validations:
               - CLOSED
               - INFO_PROVIDED
               - NEED_MORE_INFO
+
           - _NAME_: REQUIRED_RESPONDENT_SHORT_DESC
             attr: $.message.issue.issue_actions.respondent_actions[*].short_desc
             _RETURN_: attr are present
+
           - _NAME_: REQUIRED_RESPONDENT_UPDATED_AT
             attr: $.message.issue.issue_actions.respondent_actions[*].updated_at
             _RETURN_: attr are present
+
           - _NAME_: REQUIRED_RESPONDENT_UPDATED_BY_PERSON
             attr: $.message.issue.issue_actions.respondent_actions[*].updated_by.person.name
             _RETURN_: attr are present
+
           - _NAME_: REQUIRED_RESPONDENT_UPDATED_BY_ORG
             attr: $.message.issue.issue_actions.respondent_actions[*].updated_by.org.name
             _RETURN_: attr are present
+
           - _NAME_: REQUIRED_ISSUE_CREATED_AT
             attr: $.message.issue.created_at
             _RETURN_: attr are present
+
           - _NAME_: REQUIRED_ISSUE_UPDATED_AT
             attr: $.message.issue.updated_at
             _RETURN_: attr are present
+
     on_issue_status:
       - _NAME_: REQUIRED_CONTEXT_FIELDS
         _RETURN_:
@@ -53294,12 +53190,10 @@ x-validations:
             attr: $.context.domain
             _RETURN_: attr are present
           - _NAME_: REQUIRED_CONTEXT_COUNTRY
-            attr:
-              - $.context.location.country.code
+            attr: [$.context.location.country.code]
             _RETURN_: attr are present
           - _NAME_: REQUIRED_CONTEXT_CITY
-            attr:
-              - $.context.location.city.code
+            attr: [$.context.location.city.code]
             _RETURN_: attr are present
           - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID
             attr: $.context.transaction_id
@@ -53314,8 +53208,7 @@ x-validations:
             attr: $.context.timestamp
             _RETURN_: attr are present
           - _NAME_: REQUIRED_CONTEXT_VERSION
-            attr:
-              - $.context.version
+            attr: [$.context.version]
             _RETURN_: attr are present
           - _NAME_: REQUIRED_CONTEXT_BAP_URI
             attr: $.context.bap_uri
@@ -53333,9 +53226,13 @@ x-validations:
             attr: $.context.ttl
             _RETURN_: attr are present
           - _NAME_: VALID_CONTEXT_COUNTRY_CODE
-            attr:
-              - $.context.location.country.code
+            attr: [$.context.location.country.code]
+            # enumList:
+            #   - IND
             _RETURN_: attr are present
+          # - _NAME_: VALID_CONTEXT_COUNTRY_CODE
+          #   attr: $.context.country
+          #   _RETURN_: attr are present
       - _NAME_: ISSUE_ON_ISSUE_STATUS_VALIDATION
         action:
           - on_issue_status
@@ -53343,6 +53240,7 @@ x-validations:
           - _NAME_: REQUIRED_ISSUE_ID
             attr: $.message.issue.id
             _RETURN_: attr are present
+
           - _NAME_: REQUIRED_RESPONDENT_ACTION
             attr: $.message.issue.issue_actions.respondent_actions[*].respondent_action
             _RETURN_: attr are present && attr all in enumList
@@ -53353,45 +53251,53 @@ x-validations:
               - CLOSED
               - INFO_PROVIDED
               - NEED_MORE_INFO
+
           - _NAME_: REQUIRED_RESPONDENT_SHORT_DESC
             attr: $.message.issue.issue_actions.respondent_actions[*].short_desc
             _RETURN_: attr are present
+
           - _NAME_: REQUIRED_RESPONDENT_UPDATED_AT
             attr: $.message.issue.issue_actions.respondent_actions[*].updated_at
             _RETURN_: attr are present
+
           - _NAME_: REQUIRED_RESPONDENT_UPDATED_BY_PERSON
             attr: $.message.issue.issue_actions.respondent_actions[*].updated_by.person.name
             _RETURN_: attr are present
+
           - _NAME_: REQUIRED_RESPONDENT_UPDATED_BY_ORG
             attr: $.message.issue.issue_actions.respondent_actions[*].updated_by.org.name
             _RETURN_: attr are present
+
           - _NAME_: REQUIRED_ISSUE_CREATED_AT
             attr: $.message.issue.created_at
             _RETURN_: attr are present
+
           - _NAME_: REQUIRED_ISSUE_UPDATED_AT
             attr: $.message.issue.updated_at
             _RETURN_: attr are present
+
           - _NAME_: REQUIRED_RESOLUTION_SHORT_DESC
-            attr:
-              - $.message.issue.resolution.short_desc
+            attr: [$.message.issue.resolution.short_desc]
             _RETURN_: attr are present
+
           - _NAME_: REQUIRED_RESOLUTION_LONG_DESC
-            attr:
-              - $.message.issue.resolution.long_desc
+            attr: [$.message.issue.resolution.long_desc]
             _RETURN_: attr are present
+
           - _NAME_: REQUIRED_RESOLUTION_ACTION_TRIGGERED
-            attr:
-              - $.message.issue.resolution.action_triggered
+            attr: [$.message.issue.resolution.action_triggered]
             _RETURN_: attr are present
+
           - _NAME_: REQUIRED_RESOLUTION_PROVIDER_TYPE
             attr: $.message.issue.resolution_provider.respondent_info.type
             _RETURN_: attr are present
+
           - _NAME_: REQUIRED_RESOLUTION_PROVIDER_ORG_NAME
             attr: $.message.issue.resolution_provider.respondent_info.organization.org.name
             _RETURN_: attr are present
+
           - _NAME_: REQUIRED_RESOLUTION_PROVIDER_PERSON_NAME
             attr: $.message.issue.resolution_provider.respondent_info.organization.person.name
-            _RETURN_: attr are present
-
+            _RETURN_: attr are present    
   _SESSION_DATA_:
     trans: {}
