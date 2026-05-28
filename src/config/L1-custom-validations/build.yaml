@@ -4,6 +4,7 @@ info:
   description: >-
     ONDC Protocol Core API specification. This is an adaptation of Beckn Core version 0.9.3
   version: 1.2.5
+  domain: ONDC:LOG10
 security:
 - SubscriberAuth: []
 - GatewaySubscriberAuth: []
@@ -24467,6 +24468,7 @@ x-validations:
       _RETURN_: subTags all in validValues
     - _NAME_: validate_tag_4
       validTags:
+      - bpp_terms
       - bap_terms
       - lbnp_sla_terms
       tagPath: $.message.order.tags[*].code
@@ -24951,6 +24953,7 @@ x-validations:
       - special_req
       - linked_package
       - motorable_distance
+      - shipping_label
       tagPath: $.message.order.fulfillments[*].tags[*].code
       _CONTINUE_: "!(tagPath are present)"
       _RETURN_: tagPath all in validTags
