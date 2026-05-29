@@ -215,4 +215,4 @@ order:
                 - descriptor:
                     name: roundOfFee
                   value: "0"
-    ttl: PT10M
+    ttl: PT1M

@@ -1,6 +1,6 @@
 order:
     id: O1
-    status: SOFT-CANCEL
+    status: SOFT_CANCEL
     items:
       - id: I1
         descriptor:

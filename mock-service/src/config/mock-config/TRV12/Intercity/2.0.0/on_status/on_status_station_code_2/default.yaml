@@ -258,7 +258,7 @@ order:
                 - descriptor:
                     name: roundOfFee
                   value: "0"
-    ttl: PT10M
+    ttl: PT1M
   payments:
     - id: PA1
       collected_by: BAP

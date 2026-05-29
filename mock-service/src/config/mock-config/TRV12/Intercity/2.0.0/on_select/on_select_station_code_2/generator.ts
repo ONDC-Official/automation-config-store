@@ -105,7 +105,7 @@ function calculateQuote(sessionData: SessionData, existingPayload: any) {
         },
       },
     ],
-    ttl: "PT10M",
+    ttl: "PT1M",
   };
 }
 function transformFulfillments(

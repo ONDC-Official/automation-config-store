@@ -1,9 +1,35 @@
 import { SessionData } from "../../../../session-types";
 
+function parseISODuration(durationStr: string) {
+  const regex = /^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/;
+
+  const match = durationStr.match(regex);
+
+  if (!match) {
+    throw new Error(`Invalid ISO duration format: ${durationStr}`);
+  }
+
+  const hours = parseInt(match[1] || "0", 10);
+  const minutes = parseInt(match[2] || "0", 10);
+  const seconds = parseInt(match[3] || "0", 10);
+
+  return (hours * 3600 + minutes * 60 + seconds) * 1000;
+}
+
 export async function initGenerator(
   existingPayload: any,
   sessionData: SessionData
 ) {
+  const quoteTTL = sessionData?.quote?.ttl;
+
+  if (quoteTTL) {
+    const delay = parseISODuration(quoteTTL);
+
+    console.log(`Waiting for quote TTL expiry: ${quoteTTL}`);
+
+    await new Promise((resolve) => setTimeout(resolve, delay));
+  }
+
   existingPayload.context.location.city.code = sessionData.city_code;
 
   existingPayload.message.order.items = [sessionData.select_items];
