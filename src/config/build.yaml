@@ -102595,12 +102595,12 @@ x-validations:
               - _NAME_: LOCATIONS_TIME_RANGE_START
                 attr: "$.message.catalog['bpp/providers'][*].locations[*].time.range.start"
                 _CONTINUE_: "!(attr are present)"
-                reg: ['^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{3}Z$']
+                reg: ['^([01][0-9]|2[0-3])[0-5][0-9]$']
                 _RETURN_: attr follow regex reg
               - _NAME_: LOCATIONS_TIME_RANGE_END
                 attr: "$.message.catalog['bpp/providers'][*].locations[*].time.range.end"
                 _CONTINUE_: "!(attr are present)"
-                reg: ['^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{3}Z$']
+                reg: ['^([01][0-9]|2[0-3])[0-5][0-9]$']
                 _RETURN_: attr follow regex reg
           - _NAME_: PROVIDERS_TIME
             _RETURN_:
