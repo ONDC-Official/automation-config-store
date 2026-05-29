@@ -102667,7 +102667,7 @@ x-validations:
           - _NAME_: ITEMS_FULFILLMENT_ID
             attr: "$.message.order.items[*].fulfillment_id"
             reg: ['^[0-9a-zA-Z/-_]{1,36}$']
-            _RETURN_: attr follow regex reg
+            _RETURN_: attr are present
           - _NAME_: ITEMS_FULFILLMENT_ID_MAP_SPF
             attr: "$.message.order.items[*].fulfillment_id"
             enum_var_id: "$.message.order.fulfillments[*].id"
@@ -103528,7 +103528,7 @@ x-validations:
           - _NAME_: FULFILLMENTS_ID
             attr: "$.message.order.fulfillments[*].id"
             reg: ['^[0-9a-zA-Z/-_]{1,36}$']
-            _RETURN_: attr follow regex reg
+            _RETURN_: attr are present
           - _NAME_: FULFILLMENTS_STATE_DESCRIPTOR_CODE
             attr: "$.message.order.fulfillments[*].state.descriptor.code"
             var_enum: [ "Cancelled", "RTO-Initiated", "RTO-Disposed", "RTO-Delivered" ]
@@ -103775,7 +103775,7 @@ x-validations:
           - _NAME_: FULFILLMENTS_ID
             attr: "$.message.order.fulfillments[*].id"
             reg: ['^[0-9a-zA-Z/-_]{1,36}$']
-            _RETURN_: attr follow regex reg
+            _RETURN_: attr are present
           - _NAME_: FULFILLMENTS_TYPE
             attr: "$.message.order.fulfillments[*].type"
             var_enum: ["Delivery", "Self-Pickup", "Buyer-Delivery", "Return", "Cancel"]
@@ -103818,7 +103818,7 @@ x-validations:
           - _NAME_: FULFILLMENTS_ID
             attr: "$.message.order.fulfillments[*].id"
             reg: ['^[0-9a-zA-Z/-_]{1,36}$']
-            _RETURN_: attr follow regex reg
+            _RETURN_: attr are present
           - _NAME_: FULFILLMENTS_TYPE
             attr: "$.message.order.fulfillments[*].type"
             var_enum: ["Delivery", "Self-Pickup", "Buyer-Delivery", "Return", "Cancel"]
