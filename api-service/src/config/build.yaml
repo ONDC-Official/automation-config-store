@@ -128737,6 +128737,7 @@ x-validations:
         - SET_LOAN_AMOUNT
         - SET_DOWN_PAYMENT
         - MANUAL_VERIFICATION
+        - SINGLE_REDIRECTION
     documents: &documents
       - LOAN_AGREEMENT
       - LOAN_CANCELLATION
@@ -128751,16 +128752,16 @@ x-validations:
       - COMPLETED
       - CANCELLATION_INITIATED
     quote:
-        breakup: &breakupTitles
-          - PRINCIPAL_AMOUNT
-          - INTEREST_AMOUNT
-          - PROCESSING_FEE
-          - OTHER_UPFRONT_CHARGES
-          - INSURANCE_CHARGES
-          - NET_DISBURSED_AMOUNT
-          - OTHER_CHARGES
-          - WORKING_CAPITAL_LIMIT
-          - CURRENT_UTLIZATION  
+      breakup: &breakupTitles
+        - PRINCIPAL_AMOUNT
+        - INTEREST_AMOUNT
+        - PROCESSING_FEE
+        - OTHER_UPFRONT_CHARGES
+        - INSURANCE_CHARGES
+        - NET_DISBURSED_AMOUNT
+        - OTHER_CHARGES
+        - WORKING_CAPITAL_LIMIT
+        - CURRENT_UTLIZATION  
   tags:
     payments:
       # BPP_TERMS are optional in search, init
@@ -128834,6 +128835,7 @@ x-validations:
         - SELLER_SUBVENTION_RATE
         - WORKING_CAPITAL_LIMIT
         - CURRENT_UTILIZATION
+        - OVERDRAFT_LIMIT
       
 
 
@@ -128882,6 +128884,7 @@ x-validations:
         - &PERSONAL_INFORMATION_BUSINESS_TERM_GST PERSONAL_INFORMATION_BUSINESS_TERM_GST
         - &PERSONAL_INFORMATION_BUSINESS_TERM PERSONAL_INFORMATION_BUSINESS_TERM
         - &INVOICE_UPLOAD INVOICE_UPLOAD
+        - &SINGLE_REDIRECTION SINGLE_REDIRECTION
       
 
     providerTags: &providerTags
@@ -128947,16 +128950,16 @@ x-validations:
                 attr: $.context.ttl
                 _RETURN_: attr are present
               
-              - _NAME_: REQUIRED_CONTEXT_BPP_ID
-                attr: $.context.bpp_id
-                usecasepath: $.message.intent.provider.id
-                _CONTINUE_: '!(usecasepath are present)'
-                _RETURN_: attr are present
-              - _NAME_: REQUIRED_CONTEXT_BPP_URI
-                attr: $.context.bpp_uri
-                usecasepath: $.message.intent.provider.id
-                _CONTINUE_: '!(usecasepath are present)'
-                _RETURN_: attr are present
+              # - _NAME_: REQUIRED_CONTEXT_BPP_ID
+              #   attr: $.context.bpp_id
+              #   usecasepath: $.message.intent.provider.id
+              #   _CONTINUE_: '!(usecasepath are present)'
+              #   _RETURN_: attr are present
+              # - _NAME_: REQUIRED_CONTEXT_BPP_URI
+              #   attr: $.context.bpp_uri
+              #   usecasepath: $.message.intent.provider.id
+              #   _CONTINUE_: '!(usecasepath are present)'
+              #   _RETURN_: attr are present
 
           - _NAME_: CONTEXT_ENUM
             _RETURN_:
@@ -129885,55 +129888,56 @@ x-validations:
                 validValues: *checkListTags
                 _RETURN_: subTags all in validValues
 
-      - _NAME_: ON_SEARCH_PAYMENTS
-        _RETURN_:
-          - _NAME_: REQUIRED_PAYMENT_ITEMS
-            _RETURN_:
-              - _NAME_: REQUIRED_PAYMENT_TYPE
-                attr: $.message.catalog.providers[*].payments[*].type
-                _RETURN_: attr are present
+      #commenting for LAMF single redirection
+      # - _NAME_: ON_SEARCH_PAYMENTS
+      #   _RETURN_:
+      #     - _NAME_: REQUIRED_PAYMENT_ITEMS
+      #       _RETURN_:
+      #         - _NAME_: REQUIRED_PAYMENT_TYPE
+      #           attr: $.message.catalog.providers[*].payments[*].type
+      #           _RETURN_: attr are present
 
-              - _NAME_: REQUIRED_PAYMENT_ID
-                attr: $.message.catalog.providers[*].payments[*].id
-                _RETURN_: attr are present
+      #         - _NAME_: REQUIRED_PAYMENT_ID
+      #           attr: $.message.catalog.providers[*].payments[*].id
+      #           _RETURN_: attr are present
 
-              - _NAME_: REQUIRED_PAYMENT_STATUS
-                attr: $.message.catalog.providers[*].payments[*].status
-                _RETURN_: attr are present
+      #         - _NAME_: REQUIRED_PAYMENT_STATUS
+      #           attr: $.message.catalog.providers[*].payments[*].status
+      #           _RETURN_: attr are present
 
-              - _NAME_: REQUIRED_PAYMENT_COLLECTED_BY
-                attr: $.message.catalog.providers[*].payments[*].collected_by
-                _RETURN_: attr are present
+      #         - _NAME_: REQUIRED_PAYMENT_COLLECTED_BY
+      #           attr: $.message.catalog.providers[*].payments[*].collected_by
+      #           _RETURN_: attr are present
 
-              - _NAME_: REQUIRED_PAYMENT_TIME_LABEL
-                attr: $.message.catalog.providers[*].payments[*].time.label
-                _RETURN_: attr are present        
+      #         - _NAME_: REQUIRED_PAYMENT_TIME_LABEL
+      #           attr: $.message.catalog.providers[*].payments[*].time.label
+      #           _RETURN_: attr are present        
 
-          - _NAME_: VALID_PAYMENT_ITEMS
-            _RETURN_:
-              - _NAME_: VALID_PAYMENT_TYPE
-                attr: $.message.catalog.providers[*].payments[*].type
-                _CONTINUE_: '!(attr are present)'
-                enumList: *paymentType
-                _RETURN_:  attr all in enumList
+      #     - _NAME_: VALID_PAYMENT_ITEMS
+      #       _RETURN_:
+      #         - _NAME_: VALID_PAYMENT_TYPE
+      #           attr: $.message.catalog.providers[*].payments[*].type
+      #           _CONTINUE_: '!(attr are present)'
+      #           enumList: *paymentType
+      #           _RETURN_:  attr all in enumList
 
-              - _NAME_: VALID_PAYMENT_STATUS
-                attr: $.message.catalog.providers[*].payments[*].status
-                _CONTINUE_: '!(attr are present)'
-                enumList: *paymentStatus
-                _RETURN_:  attr all in enumList
+      #         - _NAME_: VALID_PAYMENT_STATUS
+      #           attr: $.message.catalog.providers[*].payments[*].status
+      #           _CONTINUE_: '!(attr are present)'
+      #           enumList: *paymentStatus
+      #           _RETURN_:  attr all in enumList
 
-              - _NAME_: VALID_PAYMENT_COLLECTOR
-                attr: $.message.catalog.providers[*].payments[*].collected_by
-                _CONTINUE_: '!(attr are present)'
-                enumList: *paymentCollector
-                _RETURN_:  attr all in enumList
+      #         - _NAME_: VALID_PAYMENT_COLLECTOR
+      #           attr: $.message.catalog.providers[*].payments[*].collected_by
+      #           _CONTINUE_: '!(attr are present)'
+      #           enumList: *paymentCollector
+      #           _RETURN_:  attr all in enumList
 
-              - _NAME_: VALID_PAYMENT_LABEL
-                attr: $.message.catalog.providers[*].payments[*].time.label
-                _CONTINUE_: '!(attr are present)'
-                enumList: *paymentLabel
-                _RETURN_:  enumList all in attr       
+      #         - _NAME_: VALID_PAYMENT_LABEL
+      #           attr: $.message.catalog.providers[*].payments[*].time.label
+      #           _CONTINUE_: '!(attr are present)'
+      #           enumList: *paymentLabel
+      #           _RETURN_:  enumList all in attr       
 
       - _NAME_: ON_SEARCH_TAGS
         action:
@@ -130929,7 +130933,7 @@ x-validations:
       - *ON_ACTION_FULFILLMENTS
       - *COMMON_QUOTE_ITEMS
 
-      - *ON_INIT_PAYMENTS
+      # - *ON_INIT_PAYMENTS
       - *ON_INIT_PAYMENT_TAGS
       - *ON_INIT_CANCELLATION_TERMS
       - *BAP_BPP_TERMS
