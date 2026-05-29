@@ -2,13 +2,13 @@ name: Deploy Api Service
 
 on:
   workflow_dispatch:
-  # push:
-  #   paths:
+  push:
+    # paths:
   #     - "api-service/**"
   #     - "mock-service/**"
-  #   branches:
+    branches:
   #     - "draft-*"
-  #     - "release-*"
+      - "release-*"
 
 jobs:
   build-and-verify:
