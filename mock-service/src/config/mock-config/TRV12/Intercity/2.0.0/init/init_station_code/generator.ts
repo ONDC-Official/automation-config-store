@@ -15,15 +15,16 @@ function parseISODuration(durationStr: string) {
 
   return (hours * 3600 + minutes * 60 + seconds) * 1000;
 }
-
+let delayed_init_flow_ids = ["Intercity(Bus)_Error_Response(Soft Locking Time)"]
 export async function initGenerator(
   existingPayload: any,
   sessionData: SessionData
 ) {
   const quoteTTL = sessionData?.quote?.ttl;
+  console.log(`FLOWID data in init Generator call: ${JSON.stringify(sessionData)}`)
 
-  if (quoteTTL) {
-    const delay = parseISODuration(quoteTTL);
+  if (quoteTTL && delayed_init_flow_ids.includes(sessionData.flow_id)) {
+    const delay = parseISODuration(quoteTTL);``
 
     console.log(`Waiting for quote TTL expiry: ${quoteTTL}`);
 

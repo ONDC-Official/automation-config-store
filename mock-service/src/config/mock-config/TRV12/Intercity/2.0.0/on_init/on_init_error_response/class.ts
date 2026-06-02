@@ -28,8 +28,8 @@ export class MockOnInitErrorResponseClass extends MockAction {
   generator(existingPayload: any, sessionData: SessionData): Promise<any> {
     return initGenerator(existingPayload, sessionData);
   }
-  async validate(targetPayload: any): Promise<MockOutput> {
-    return { valid: true };
+  async validate(targetPayload: any, sessionData: any): Promise<MockOutput> {
+    return { valid: false };
   }
   async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
     return { valid: true };
