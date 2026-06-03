@@ -4227,22 +4227,22 @@ x-enum:
         fulfillments: *ref_3  # from Airline
         payments: *ref_4      # from Intercity Bus (added)
         status: &ref_5        # merged from Intercity Bus
-          - code: SOFT-CANCEL
+          - code: SOFT_CANCEL
             description: >-
-              Describes a soft-cancel request initiated by the buyer app, a step
+              Describes a soft_cancel request initiated by the buyer app, a step
               preceding cancellation.
             reference: <PR/Issue/Discussion Links md format text>
-          - code: CONFIRM-CANCEL
+          - code: CONFIRM_CANCEL
             description: >-
-              Describes a confirm-cancel request initiated by the buyer app,
+              Describes a confirm_cancel request initiated by the buyer app,
               confirming the order cancellation.
             reference: <PR/Issue/Discussion Links md format text>
-          - code: SOFT-UPDATE
+          - code: SOFT_UPDATE
             description: >-
-              Describes a soft-update request initiated by the buyer app,
+              Describes a soft_update request initiated by the buyer app,
               occurring before the actual order update.
             reference: <PR/Issue/Discussion Links md format text>
-          - code: CONFIRM-UPDATE
+          - code: CONFIRM_UPDATE
             description: >-
               Describes a confirm-update request initiated by the buyer app,
               confirming the order update.
@@ -33795,11 +33795,11 @@ x-validations:
                 _NAME_: REQUIRED_ORDER_STATUS
                 attr: $.message.order.status
                 enumList:
-                  - SOFT-CANCEL
-                  - CONFIRM-CANCEL
-                  - SOFT-UPDATE
-                  - CONFIRM-UPDATE
-                  - CONFIRM-UPDATE
+                  - SOFT_CANCEL
+                  - CONFIRM_CANCEL
+                  - SOFT_UPDATE
+                  - CONFIRM_UPDATE
+                  - CONFIRM_UPDATE
                   - COMPLETED
                   - CANCELLED
                   - ACTIVE
