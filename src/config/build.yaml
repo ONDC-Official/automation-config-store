@@ -1780,9 +1780,9 @@ components:
           type: string
           format: uri
         tags:
-          description: Tags of the credential
           type: array
-          $ref: '#/components/schemas/TagGroup'
+          items:
+            $ref: '#/components/schemas/TagGroup'
     DecimalValue:
       description: Describes a decimal value
       type: string
