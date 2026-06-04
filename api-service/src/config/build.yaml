@@ -4048,6 +4048,9 @@ x-enum:
                 - code: RIDE_ENDED
                   description: Describes when the rider concludes the journey.
                   reference: <PR/Issue/Discussion Links md format text
+                - code: RIDE_COMPLETED
+                  description: Describes when the ride has been completed.
+                  reference: <PR/Issue/Discussion Links md format text
                 - code: RIDE_STARTED
                   description: Describes when the rider initiates the journey.
                   reference: <PR/Issue/Discussion Links md format text
