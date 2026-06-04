@@ -1781,7 +1781,9 @@ components:
           type: string
           format: uri
         tags:
-          $ref: '#/components/schemas/TagGroup'
+          type: array
+          items:
+            $ref: '#/components/schemas/TagGroup'
     DecimalValue:
       description: Describes a decimal value
       type: string
