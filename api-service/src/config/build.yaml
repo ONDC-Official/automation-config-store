@@ -35597,6 +35597,7 @@ x-validations:
               - enumList:
                   - RIDE_CANCELLED
                   - RIDE_ENDED
+                  - RIDE_COMPLETED
                   - RIDE_STARTED
                   - RIDE_ASSIGNED
                   - RIDE_ENROUTE_PICKUP
@@ -35808,6 +35809,7 @@ x-validations:
                 enumList:
                   - RIDE_CANCELLED
                   - RIDE_ENDED
+                  - RIDE_COMPLETED
                   - RIDE_STARTED
                   - RIDE_ASSIGNED
                   - RIDE_ENROUTE_PICKUP
@@ -36278,6 +36280,7 @@ x-validations:
               - enumList:
                   - RIDE_CANCELLED
                   - RIDE_ENDED
+                  - RIDE_COMPLETED
                   - RIDE_STARTED
                   - RIDE_ASSIGNED
                   - RIDE_ENROUTE_PICKUP
@@ -36532,6 +36535,7 @@ x-validations:
                 enumList:
                   - RIDE_CANCELLED
                   - RIDE_ENDED
+                  - RIDE_COMPLETED
                   - RIDE_STARTED
                   - RIDE_ASSIGNED
                   - RIDE_ENROUTE_PICKUP
@@ -36583,6 +36587,7 @@ x-validations:
                     enumList:
                       - RIDE_CANCELLED
                       - RIDE_ENDED
+                      - RIDE_COMPLETED
                       - RIDE_STARTED
                       - RIDE_ASSIGNED
                       - RIDE_ENROUTE_PICKUP
