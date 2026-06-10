@@ -28,7 +28,7 @@ export async function onStatusUnsolicitedGenerator(
           "id": "F04"
         },
         "form_response": {
-          "status": "SUCCESS",
+          "status": sessionData?.flow_id?.includes("Single_Redirection") ? "PENDING" : "SUCCESS",
           "submission_id": "F04_SUBMISSION_ID"
         }
       }
@@ -48,14 +48,13 @@ export async function onStatusUnsolicitedGenerator(
             ? sessionData?.form_data?.E_sign_verification_status?.idType
             : formId === "Emanadate_verification_status" ? sessionData?.form_data?.Emanadate_verification_status?.idType
               : sessionData?.form_data?.Ekyc_details_verification_status?.idType;
-        // Set form status to OFFLINE_PENDING
+
         if (item.xinput?.form_response) {
-          item.xinput.form_response.status = form_status || "APPROVED"//form_status//"OFFLINE_PENDING";
+          item.xinput.form_response.status = sessionData?.flow_id?.includes("Single_Redirection") ? "PENDING" : form_status || "APPROVED";
           if (submission_id) {
             item.xinput.form_response.submission_id = submission_id;
           }
         }
-
       }
     }
   }

@@ -30,61 +30,62 @@ export async function onSearchDefaultGenerator(existingPayload: any, sessionData
   const contactNumber = sessionData.form_data?.personal_details_information_form?.contactNumber;
 
   //Inject Random consent handler into payload tags
-  if (existingPayload.message?.catalog?.providers?.[0]?.items?.[0]) {
-    const item = existingPayload.message.catalog.providers[0].items[0];
-    item.xinput = sessionData.selected_items_xinput
-    // Initialize tags array if it doesn't exist
-    if (!item.tags) {
-      item.tags = [];
-    }
+  // if (existingPayload.message?.catalog?.providers?.[0]?.items?.[0]) {
+  //   const item = existingPayload.message.catalog.providers[0].items[0];
+  //   item.xinput = sessionData.selected_items_xinput
+  //   // Initialize tags array if it doesn't exist
+  //   if (!item.tags) {
+  //     item.tags = [];
+  //   }
 
-    // Find existing CONSENT_INFO tag or create new one
-    let consentInfoTag = item.tags.find((tag: any) =>
-      tag.descriptor?.code === 'CONSENT_INFO'
-    );
+  //   // Find existing CONSENT_INFO tag or create new one
+  //   let consentInfoTag = item.tags.find((tag: any) =>
+  //     tag.descriptor?.code === 'CONSENT_INFO'
+  //   );
 
-    if (!consentInfoTag) {
-      // Create new CONSENT_INFO tag structure
-      consentInfoTag = {
-        descriptor: {
-          code: 'CONSENT_INFO',
-          name: 'Consent Information'
-        },
-        list: [],
-        display: false
-      };
-      item.tags.push(consentInfoTag);
-    }
+  //   if (!consentInfoTag) {
+  //     // Create new CONSENT_INFO tag structure
+  //     consentInfoTag = {
+  //       descriptor: {
+  //         code: 'CONSENT_INFO',
+  //         name: 'Consent Information'
+  //       },
+  //       list: [],
+  //       display: false
+  //     };
+  //     item.tags.push(consentInfoTag);
+  //   }
 
-    // Update or add CONSENT_HANDLER in the list
-    const consentHandlerItem = {
-      descriptor: {
-        code: 'CONSENT_HANDLER',
-        name: 'Consent Handler'
-      },
-      value: randomUUID()
-    };
+  //   // Update or add CONSENT_HANDLER in the list
+  //   const consentHandlerItem = {
+  //     descriptor: {
+  //       code: 'CONSENT_HANDLER',
+  //       name: 'Consent Handler'
+  //     },
+  //     value: randomUUID()
+  //   };
 
-    // Find and update existing CONSENT_HANDLER or add new one
-    const existingHandlerIndex = consentInfoTag.list?.findIndex((item: any) =>
-      item.descriptor?.code === 'CONSENT_HANDLER'
-    );
+  //   // Find and update existing CONSENT_HANDLER or add new one
+  //   const existingHandlerIndex = consentInfoTag.list?.findIndex((item: any) =>
+  //     item.descriptor?.code === 'CONSENT_HANDLER'
+  //   );
 
-    if (existingHandlerIndex !== undefined && existingHandlerIndex >= 0) {
-      consentInfoTag.list[existingHandlerIndex] = consentHandlerItem;
-      console.log("Updated existing CONSENT_HANDLER in tags");
-    } else {
-      if (!consentInfoTag.list) {
-        consentInfoTag.list = [];
-      }
-      consentInfoTag.list.push(consentHandlerItem);
-      console.log("Added new CONSENT_HANDLER to tags");
-    }
+  //   if (existingHandlerIndex !== undefined && existingHandlerIndex >= 0) {
+  //     consentInfoTag.list[existingHandlerIndex] = consentHandlerItem;
+  //     console.log("Updated existing CONSENT_HANDLER in tags");
+  //   } else {
+  //     if (!consentInfoTag.list) {
+  //       consentInfoTag.list = [];
+  //     }
+  //     consentInfoTag.list.push(consentHandlerItem);
+  //     console.log("Added new CONSENT_HANDLER to tags");
+  //   }
 
-    console.log("✅ Finvu AA integration successful - consent handler injected into payload");
-  } else {
-    console.warn("⚠️ Cannot inject consent handler - items[0] not found in payload");
-  }
+  //   console.log("✅ Finvu AA integration successful - consent handler injected into payload");
+  // } else {
+  //   console.warn("⚠️ Cannot inject consent handler - items[0] not found in payload");
+  // }
+
   if (contactNumber) {
     const custId = `${contactNumber}@finvu`;
     console.log("Customer ID for consent:", custId);

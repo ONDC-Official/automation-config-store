@@ -1,0 +1,7 @@
+save-data:
+  transaction_id: "$.context.transaction_id"
+  message_id: "$.context.message_id"
+  order_id: "$.message.order.id"
+  provider_id: "$.message.order.provider.id"
+  loan_status: "$.message.order.fulfillments[0].state.descriptor.code"
+  payment_status: "$.message.order.payments[0].status"

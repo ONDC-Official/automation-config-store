@@ -441,7 +441,562 @@ export function generateInstallmentPayments(
     );
 }
 
-export function applyPrepartInstallmentStatuses(
+// export function applyPrepartInstallmentStatuses(
+//     existingPayload: any,
+//     sessionData: any,
+//     unsolicited: boolean
+// ): void {
+//     const order = existingPayload?.message?.order;
+//     if (!order) return;
+
+//     // ── Use saved payments from on_update as the authoritative base ──────────
+//     const savedPayments: any[] = Array.isArray(sessionData?.payments)
+//         ? sessionData.payments
+//         : [];
+
+//     // Fall back if no saved payments
+//     if (savedPayments.length === 0) {
+//         console.warn("[settlement-utils] applyPrepartInstallmentStatuses: no saved payments, falling back to generateInstallmentPayments");
+//         generateInstallmentPayments(existingPayload, sessionData);
+//         return;
+//     }
+
+//     // ── Rebuild loan details for outstanding calculations ─────────────────────
+//     let details: LoanDetails;
+//     if (sessionData.schedule?.length && sessionData.emi_amount && sessionData.loan_term_months) {
+//         details = {
+//             downPayment: sessionData.down_payment ?? 0,
+//             principalAmount: sessionData.principal_amount ?? 0,
+//             netDisbursedAmount: sessionData.net_disbursed_amount ?? 0,
+//             emiAmount: sessionData.emi_amount,
+//             totalInterest: sessionData.total_interest ?? 0,
+//             loanTermMonths: sessionData.loan_term_months,
+//             interestRateAnnual: sessionData.interest_rate_annual ?? 12,
+//             schedule: sessionData.schedule,
+//         };
+//     } else {
+//         details = calculateLoanDetails(sessionData, existingPayload);
+//     }
+
+//     const { schedule, emiAmount, loanTermMonths, principalAmount } = details;
+
+//     // ── Determine event month from context timestamp ──────────────────────────
+//     const contextTs = existingPayload?.context?.timestamp ?? new Date().toISOString();
+//     const eventDate = new Date(contextTs);
+//     const eventYear = eventDate.getUTCFullYear();
+//     const eventMonth = eventDate.getUTCMonth();
+
+//     // Determine eventIdx (which installment index corresponds to the event month)
+//     const loanStartDate: Date = sessionData.loan_start_date
+//         ? new Date(sessionData.loan_start_date)
+//         : new Date(Date.UTC(eventDate.getUTCFullYear(), eventDate.getUTCMonth() - (loanTermMonths - 1), 1));
+
+//     const startYear = loanStartDate.getUTCFullYear();
+//     const startMonth = loanStartDate.getUTCMonth();
+//     const diff = (eventYear - startYear) * 12 + (eventMonth - startMonth);
+//     const eventIdx = Math.max(0, Math.min(diff, loanTermMonths - 1));
+
+//     // ── Calculate outstanding amounts at event month ───────────────────────────
+//     let paidPrincipal = 0;
+//     for (let i = 0; i < eventIdx && i < schedule.length; i++) {
+//         paidPrincipal += schedule[i].principal;
+//     }
+//     const outstandingPrincipal = Math.round(principalAmount - paidPrincipal);
+
+//     let outstandingInterest = 0;
+//     for (let i = eventIdx; i < schedule.length; i++) {
+//         outstandingInterest += schedule[i].interest;
+//     }
+//     outstandingInterest = Math.round(outstandingInterest);
+
+//     // Pre-payment charge (from FORECLOSURE_FEE INFO tag or default 0.5%)
+//     const getTagValue = (code: string, defaultVal: number): number => {
+//         const tags: any[] = existingPayload?.message?.order?.items?.[0]?.tags ?? [];
+//         for (const tag of tags) {
+//             if (tag?.descriptor?.code === "INFO") {
+//                 const entry = (tag.list ?? []).find((i: any) => i?.descriptor?.code === code);
+//                 if (entry?.value) return parseFloat(String(entry.value).replace(/[^0-9.]/g, "")) || defaultVal;
+//             }
+//         }
+//         return defaultVal;
+//     };
+//     const prepayPct = getTagValue("FORECLOSURE_FEE", 0.5);
+//     const prePaymentCharge = Math.round(outstandingPrincipal * prepayPct / 100);
+//     const specialAmount = outstandingPrincipal + outstandingInterest + prePaymentCharge;
+
+//     // ── Upsert quote.breakup with outstanding amounts ─────────────────────────
+//     const upsertBreakup = (title: string, value: number) => {
+//         order.quote = order.quote ?? { price: { currency: "INR", value: "0" }, breakup: [] };
+//         order.quote.breakup = Array.isArray(order.quote.breakup) ? order.quote.breakup : [];
+//         const idx = order.quote.breakup.findIndex((b: any) => (b?.title ?? "").toUpperCase() === title.toUpperCase());
+//         const row = { title, price: { value: String(Math.round(value)), currency: "INR" } };
+//         if (idx >= 0) order.quote.breakup[idx] = row; else order.quote.breakup.push(row);
+//     };
+//     upsertBreakup("OUTSTANDING_PRINCIPAL", outstandingPrincipal);
+//     upsertBreakup("OUTSTANDING_INTEREST", outstandingInterest);
+//     upsertBreakup("PRE_PAYMENT_CHARGE", prePaymentCharge);
+
+//     const refId = sessionData.message_id ?? order.id ?? "auto-ref";
+//     const eventRow = schedule[eventIdx] ?? { principal: outstandingPrincipal, interest: outstandingInterest };
+//     const monthStart = (y: number, m: number) => new Date(Date.UTC(y, m, 1)).toISOString();
+//     const monthEnd = (y: number, m: number) => new Date(Date.UTC(y, m + 1, 0, 23, 59, 59, 999)).toISOString();
+
+//     const breakupTags = [{
+//         descriptor: { code: "BREAKUP", name: "Emi Breakup" },
+//         list: [
+//             { descriptor: { code: "PRINCIPAL_AMOUNT", name: "Principal", short_desc: "Loan Principal" }, value: `${eventRow.principal} INR` },
+//             { descriptor: { code: "INTEREST_AMOUNT", name: "Interest", short_desc: "Loan Interest" }, value: `${eventRow.interest} INR` },
+//         ],
+//     }];
+
+//     // ── payments[0]: PID-8000 — the special PRE_PART_PAYMENT entry ────────────
+//     let pid8000: any;
+//     if (unsolicited) {
+//         // Unsolicited: lender pushes notification back — PAID, has timestamp, no url
+//         pid8000 = {
+//             id: "PID-9000",
+//             type: "POST_FULFILLMENT",
+//             params: {
+//                 amount: String(Math.round(specialAmount)),
+//                 currency: "INR",
+//                 transaction_id: `txn-prepart-${Date.now()}`,
+//             },
+//             status: "PAID",
+//             time: {
+//                 timestamp: monthStart(eventYear, eventMonth),
+//                 label: "PRE_PART_PAYMENT",
+//             },
+//             tags: breakupTags,
+//         };
+//     } else {
+//         const paymentUrl = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/payment_url_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
+
+//         // Solicited: borrower-initiated — NOT-PAID, has url + payment window (P15D)
+//         pid8000 = {
+//             id: "PID-9000",
+//             type: "POST_FULFILLMENT",
+//             params: {
+//                 amount: String(Math.round(specialAmount)),
+//                 currency: "INR",
+//             },
+//             status: "NOT-PAID",
+//             url: paymentUrl,
+//             time: {
+//                 duration: "P15D",
+//                 label: "PRE_PART_PAYMENT",
+//             },
+//             tags: breakupTags,
+//         };
+//     }
+
+//     // ── Process INSTALLMENT payments from saved session ───────────────────────
+//     const installments = savedPayments.filter(
+//         (p: any) => p?.type === "POST_FULFILLMENT" && p?.time?.label === "INSTALLMENT"
+//     );
+
+//     const updatedInstallments = installments.map((inst: any) => {
+//         const rangeStart = inst?.time?.range?.start ?? inst?.time?.timestamp ?? "";
+//         const instDate = new Date(rangeStart);
+//         const instYear = instDate.getUTCFullYear();
+//         const instMonth = instDate.getUTCMonth();
+//         const monthDiff = (instYear - eventYear) * 12 + (instMonth - eventMonth);
+
+//         let newStatus: string;
+//         if (monthDiff < 0) {
+//             // Past — keep PAID as-is with original transaction_id and timestamps
+//             newStatus = inst.status ?? "PAID";
+//             return { ...inst, status: newStatus };
+//         } else if (monthDiff === 0) {
+//             // Event month
+//             newStatus = unsolicited ? "DEFERRED" : "NOT-PAID";
+//         } else {
+//             // Future
+//             newStatus = "NOT-PAID";
+//         }
+
+//         // Remove transaction_id for non-PAID statuses
+//         const params = { ...inst.params };
+//         delete params.transaction_id;
+//         return { ...inst, params, status: newStatus };
+//     });
+
+//     // ── Assemble final payments array ─────────────────────────────────────────
+//     // Order: [PID-8000 PRE_PART] [PRE_ORDER] [ON_ORDER] [INSTALLMENTS...]
+//     const freshNonPost = (order.payments ?? []).filter(
+//         (p: any) => p?.type !== "POST_FULFILLMENT"
+//     );
+
+//     order.payments = [pid8000, ...freshNonPost, ...updatedInstallments];
+//     console.log(
+//         `[settlement-utils] applyPrepartInstallmentStatuses: unsolicited=${unsolicited}, ` +
+//         `specialAmount=${specialAmount}, eventIdx=${eventIdx}, ` +
+//         `${updatedInstallments.length} installments from saved payments`
+//     );
+// }
+
+// export function applyMissedEmiInstallmentStatuses(
+//     existingPayload: any,
+//     sessionData: any,
+//     unsolicited: boolean
+// ): void {
+//     const order = existingPayload?.message?.order;
+//     if (!order) return;
+
+//     // ── Saved payments from on_update ─────────────────────────────────────────
+//     const savedPayments: any[] = Array.isArray(sessionData?.payments)
+//         ? sessionData.payments
+//         : [];
+
+//     if (savedPayments.length === 0) {
+//         console.warn("[settlement-utils] applyMissedEmiInstallmentStatuses: no saved payments, falling back to generateInstallmentPayments");
+//         generateInstallmentPayments(existingPayload, sessionData);
+//         return;
+//     }
+
+//     // ── Loan details ──────────────────────────────────────────────────────────
+//     let details: LoanDetails;
+//     if (sessionData.schedule?.length && sessionData.emi_amount && sessionData.loan_term_months) {
+//         details = {
+//             downPayment: sessionData.down_payment ?? 0,
+//             principalAmount: sessionData.principal_amount ?? 0,
+//             netDisbursedAmount: sessionData.net_disbursed_amount ?? 0,
+//             emiAmount: sessionData.emi_amount,
+//             totalInterest: sessionData.total_interest ?? 0,
+//             loanTermMonths: sessionData.loan_term_months,
+//             interestRateAnnual: sessionData.interest_rate_annual ?? 12,
+//             schedule: sessionData.schedule,
+//         };
+//     } else {
+//         details = calculateLoanDetails(sessionData, existingPayload);
+//     }
+
+//     const { schedule, emiAmount, loanTermMonths, principalAmount } = details;
+
+//     // ── Event month from context ──────────────────────────────────────────────
+//     const contextTs = existingPayload?.context?.timestamp ?? new Date().toISOString();
+//     const eventDate = new Date(contextTs);
+//     const eventYear = eventDate.getUTCFullYear();
+//     const eventMonth = eventDate.getUTCMonth();
+
+//     // eventIdx: which installment index is the "missed" one
+//     const loanStartDate: Date = sessionData.loan_start_date
+//         ? new Date(sessionData.loan_start_date)
+//         : new Date(Date.UTC(eventDate.getUTCFullYear(), eventDate.getUTCMonth() - (loanTermMonths - 1), 1));
+
+//     const startYear = loanStartDate.getUTCFullYear();
+//     const startMonth = loanStartDate.getUTCMonth();
+//     const diffMonths = (eventYear - startYear) * 12 + (eventMonth - startMonth);
+//     const eventIdx = Math.max(0, Math.min(diffMonths, loanTermMonths - 1));
+
+//     // ── Outstanding amounts for breakup ───────────────────────────────────────
+//     let paidPrincipal = 0;
+//     for (let i = 0; i < eventIdx && i < schedule.length; i++) paidPrincipal += schedule[i].principal;
+//     const outstandingPrincipal = Math.round(principalAmount - paidPrincipal);
+
+//     let outstandingInterest = 0;
+//     for (let i = eventIdx; i < schedule.length; i++) outstandingInterest += schedule[i].interest;
+//     outstandingInterest = Math.round(outstandingInterest);
+
+//     // ── Late fee from DELAY_PENALTY_FEE info tag ──────────────────────────────
+//     const getTagValue = (code: string, defaultVal: number): number => {
+//         const tags: any[] = existingPayload?.message?.order?.items?.[0]?.tags ?? [];
+//         for (const tag of tags) {
+//             if (tag?.descriptor?.code === "INFO") {
+//                 const entry = (tag.list ?? []).find((i: any) => i?.descriptor?.code === code);
+//                 if (entry?.value) return parseFloat(String(entry.value).replace(/[^0-9.]/g, "")) || defaultVal;
+//             }
+//         }
+//         return defaultVal;
+//     };
+//     const delayPenaltyPct = getTagValue("DELAY_PENALTY_FEE", 5);
+//     const lateFee = Math.round(emiAmount * delayPenaltyPct / 100);
+//     const specialAmount = Math.round(emiAmount + lateFee);
+
+//     // ── Upsert quote.breakup ──────────────────────────────────────────────────
+//     const upsertBreakup = (title: string, value: number) => {
+//         order.quote = order.quote ?? { price: { currency: "INR", value: "0" }, breakup: [] };
+//         order.quote.breakup = Array.isArray(order.quote.breakup) ? order.quote.breakup : [];
+//         const idx = order.quote.breakup.findIndex((b: any) => (b?.title ?? "").toUpperCase() === title.toUpperCase());
+//         const row = { title, price: { value: String(Math.round(value)), currency: "INR" } };
+//         if (idx >= 0) order.quote.breakup[idx] = row; else order.quote.breakup.push(row);
+//     };
+//     upsertBreakup("OUTSTANDING_PRINCIPAL", outstandingPrincipal);
+//     upsertBreakup("OUTSTANDING_INTEREST", outstandingInterest);
+//     upsertBreakup("LATE_FEE_AMOUNT", lateFee);
+
+//     // ── PID-8000 breakup tags (event month's EMI split) ──────────────────────
+//     const refId = sessionData.message_id ?? order.id ?? "auto-ref";
+//     const eventRow = schedule[eventIdx] ?? { principal: emiAmount, interest: 0 };
+//     const monthStart = (y: number, m: number) => new Date(Date.UTC(y, m, 1)).toISOString();
+//     const monthEnd = (y: number, m: number) => new Date(Date.UTC(y, m + 1, 0, 23, 59, 59, 999)).toISOString();
+
+//     const breakupTags = [{
+//         descriptor: { code: "BREAKUP", name: "Emi Breakup" },
+//         list: [
+//             { descriptor: { code: "PRINCIPAL_AMOUNT", name: "Principal", short_desc: "Loan Principal" }, value: `${eventRow.principal} INR` },
+//             { descriptor: { code: "INTEREST_AMOUNT", name: "Interest", short_desc: "Loan Interest" }, value: `${eventRow.interest} INR` },
+//         ],
+//     }];
+
+//     // ── payments[0]: PID-8000 MISSED_EMI_PAYMENT ──────────────────────────────
+//     let pid8000: any;
+//     if (unsolicited) {
+//         // Unsolicited: lender notifies payment was received — PAID, timestamp, range, no url
+//         pid8000 = {
+//             id: "PID-9000",
+//             type: "POST_FULFILLMENT",
+//             params: {
+//                 amount: String(specialAmount),
+//                 currency: "INR",
+//                 transaction_id: `txn-missedemi-${Date.now()}`,
+//             },
+//             status: "PAID",
+//             time: {
+//                 label: "MISSED_EMI_PAYMENT",
+//                 timestamp: monthStart(eventYear, eventMonth),
+//                 range: { start: monthStart(eventYear, eventMonth), end: monthEnd(eventYear, eventMonth) },
+//             },
+//             tags: breakupTags,
+//         };
+//     } else {
+//         const paymentUrl = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/payment_url_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
+
+//         // Solicited: borrower missed EMI — NOT-PAID, url, P15D, range
+//         pid8000 = {
+//             id: "PID-9000",
+//             type: "POST_FULFILLMENT",
+//             params: { amount: String(specialAmount), currency: "INR" },
+//             status: "NOT-PAID",
+//             url: paymentUrl,
+//             time: {
+//                 duration: "P15D",
+//                 label: "MISSED_EMI_PAYMENT",
+//                 range: { start: monthStart(eventYear, eventMonth), end: monthEnd(eventYear, eventMonth) },
+//             },
+//             tags: breakupTags,
+//         };
+//     }
+
+//     // ── INSTALLMENT payments from saved session ───────────────────────────────
+//     const installments = savedPayments.filter(
+//         (p: any) => p?.type === "POST_FULFILLMENT" && p?.time?.label === "INSTALLMENT"
+//     );
+
+//     const updatedInstallments = installments.map((inst: any) => {
+//         const rangeStart = inst?.time?.range?.start ?? inst?.time?.timestamp ?? "";
+//         const instDate = new Date(rangeStart);
+//         const instYear = instDate.getUTCFullYear();
+//         const instMonth = instDate.getUTCMonth();
+//         const monthDiff = (instYear - eventYear) * 12 + (instMonth - eventMonth);
+
+//         if (monthDiff < 0) {
+//             // Past — keep PAID exactly as-is (real transaction_id, real timestamps)
+//             return { ...inst, status: inst.status ?? "PAID" };
+//         }
+
+//         let newStatus: string;
+//         if (monthDiff === 0) {
+//             newStatus = unsolicited ? "DEFERRED" : "DELAYED";  // ← key difference from prepart
+//         } else {
+//             newStatus = "NOT-PAID";
+//         }
+
+//         const params = { ...inst.params };
+//         delete params.transaction_id;
+//         return { ...inst, params, status: newStatus };
+//     });
+
+//     // ── Assemble: [PID-8000] [PRE_ORDER] [ON_ORDER] [INSTALLMENTS...] ─────────
+//     const freshNonPost = (order.payments ?? []).filter(
+//         (p: any) => p?.type !== "POST_FULFILLMENT"
+//     );
+
+//     order.payments = [pid8000, ...freshNonPost, ...updatedInstallments];
+//     console.log(
+//         `[settlement-utils] applyMissedEmiInstallmentStatuses: unsolicited=${unsolicited}, ` +
+//         `emiAmount=${emiAmount}, lateFee=${lateFee}, specialAmount=${specialAmount}, ` +
+//         `eventIdx=${eventIdx}, ${updatedInstallments.length} installments`
+//     );
+// }
+
+// export function applyForeclosureInstallmentStatuses(
+//     existingPayload: any,
+//     sessionData: any,
+//     unsolicited: boolean
+// ): void {
+//     const order = existingPayload?.message?.order;
+//     if (!order) return;
+
+//     // ── Saved payments from on_update ─────────────────────────────────────────
+//     const savedPayments: any[] = Array.isArray(sessionData?.payments)
+//         ? sessionData.payments
+//         : [];
+
+//     if (savedPayments.length === 0) {
+//         console.warn("[settlement-utils] applyForeclosureInstallmentStatuses: no saved payments, falling back to generateInstallmentPayments");
+//         generateInstallmentPayments(existingPayload, sessionData);
+//         return;
+//     }
+
+//     // ── Loan details ──────────────────────────────────────────────────────────
+//     let details: LoanDetails;
+//     if (sessionData.schedule?.length && sessionData.emi_amount && sessionData.loan_term_months) {
+//         details = {
+//             downPayment: sessionData.down_payment ?? 0,
+//             principalAmount: sessionData.principal_amount ?? 0,
+//             netDisbursedAmount: sessionData.net_disbursed_amount ?? 0,
+//             emiAmount: sessionData.emi_amount,
+//             totalInterest: sessionData.total_interest ?? 0,
+//             loanTermMonths: sessionData.loan_term_months,
+//             interestRateAnnual: sessionData.interest_rate_annual ?? 12,
+//             schedule: sessionData.schedule,
+//         };
+//     } else {
+//         details = calculateLoanDetails(sessionData, existingPayload);
+//     }
+
+//     const { schedule, loanTermMonths, principalAmount } = details;
+
+//     // ── Event month from context ──────────────────────────────────────────────
+//     const contextTs = existingPayload?.context?.timestamp ?? new Date().toISOString();
+//     const eventDate = new Date(contextTs);
+//     const eventYear = eventDate.getUTCFullYear();
+//     const eventMonth = eventDate.getUTCMonth();
+
+//     const loanStartDate: Date = sessionData.loan_start_date
+//         ? new Date(sessionData.loan_start_date)
+//         : new Date(Date.UTC(eventDate.getUTCFullYear(), eventDate.getUTCMonth() - (loanTermMonths - 1), 1));
+
+//     const startYear = loanStartDate.getUTCFullYear();
+//     const startMonth = loanStartDate.getUTCMonth();
+//     const diffMonths = (eventYear - startYear) * 12 + (eventMonth - startMonth);
+//     const eventIdx = Math.max(0, Math.min(diffMonths, loanTermMonths - 1));
+
+//     // ── Outstanding amounts ───────────────────────────────────────────────────
+//     let paidPrincipal = 0;
+//     for (let i = 0; i < eventIdx && i < schedule.length; i++) paidPrincipal += schedule[i].principal;
+//     const outstandingPrincipal = Math.round(principalAmount - paidPrincipal);
+
+//     let outstandingInterest = 0;
+//     for (let i = eventIdx; i < schedule.length; i++) outstandingInterest += schedule[i].interest;
+//     outstandingInterest = Math.round(outstandingInterest);
+
+//     // ── Foreclosure charge from FORECLOSURE_FEE info tag (default 0.5%) ──────
+//     const getTagValue = (code: string, defaultVal: number): number => {
+//         const tags: any[] = existingPayload?.message?.order?.items?.[0]?.tags ?? [];
+//         for (const tag of tags) {
+//             if (tag?.descriptor?.code === "INFO") {
+//                 const entry = (tag.list ?? []).find((i: any) => i?.descriptor?.code === code);
+//                 if (entry?.value) return parseFloat(String(entry.value).replace(/[^0-9.]/g, "")) || defaultVal;
+//             }
+//         }
+//         return defaultVal;
+//     };
+//     const foreclosureFeePct = getTagValue("FORECLOSURE_FEE", 0.5);
+//     const foreclosureCharges = Math.round(outstandingPrincipal * foreclosureFeePct / 100);
+//     const specialAmount = outstandingPrincipal + outstandingInterest + foreclosureCharges;
+
+//     // ── Upsert quote.breakup ──────────────────────────────────────────────────
+//     const upsertBreakup = (title: string, value: number) => {
+//         order.quote = order.quote ?? { price: { currency: "INR", value: "0" }, breakup: [] };
+//         order.quote.breakup = Array.isArray(order.quote.breakup) ? order.quote.breakup : [];
+//         const idx = order.quote.breakup.findIndex((b: any) => (b?.title ?? "").toUpperCase() === title.toUpperCase());
+//         const row = { title, price: { value: String(Math.round(value)), currency: "INR" } };
+//         if (idx >= 0) order.quote.breakup[idx] = row; else order.quote.breakup.push(row);
+//     };
+//     upsertBreakup("OUTSTANDING_PRINCIPAL", outstandingPrincipal);
+//     upsertBreakup("OUTSTANDING_INTEREST", outstandingInterest);
+//     upsertBreakup("FORECLOSURE_CHARGES", foreclosureCharges);
+
+//     // ── PID-8000 breakup tags ─────────────────────────────────────────────────
+//     const refId = sessionData.message_id ?? order.id ?? "auto-ref";
+//     const monthStart = (y: number, m: number) => new Date(Date.UTC(y, m, 1)).toISOString();
+
+//     const breakupTags = [{
+//         descriptor: { code: "BREAKUP", name: "Emi Breakup" },
+//         list: [
+//             { descriptor: { code: "PRINCIPAL_AMOUNT", name: "Principal", short_desc: "Loan Principal" }, value: `${outstandingPrincipal} INR` },
+//             { descriptor: { code: "INTEREST_AMOUNT", name: "Interest", short_desc: "Loan Interest" }, value: `${outstandingInterest} INR` },
+//         ],
+//     }];
+
+//     // ── payments[0]: PID-8000 FORECLOSURE ────────────────────────────────────
+//     let pid8000: any;
+//     if (unsolicited) {
+//         // Lender-initiated (closed): PAID, timestamp, no url, no range
+//         pid8000 = {
+//             id: "PID-9000",
+//             type: "POST_FULFILLMENT",
+//             params: {
+//                 amount: String(specialAmount),
+//                 currency: "INR",
+//                 transaction_id: `txn-foreclosure-${Date.now()}`,
+//             },
+//             status: "PAID",
+//             time: {
+//                 timestamp: monthStart(eventYear, eventMonth),
+//                 label: "FORECLOSURE",
+//             },
+//             tags: breakupTags,
+//         };
+//     } else {
+//         const paymentUrl = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/payment_url_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
+
+//         // Borrower-initiated (requesting closure): NOT-PAID, url, PT90M window, no range
+//         pid8000 = {
+//             id: "PID-9000",
+//             type: "POST_FULFILLMENT",
+//             params: { amount: String(specialAmount), currency: "INR" },
+//             status: "NOT-PAID",
+//             url: paymentUrl,
+//             time: {
+//                 duration: "PT90M",
+//                 label: "FORECLOSURE",
+//             },
+//             tags: breakupTags,
+//         };
+//     }
+
+//     // ── INSTALLMENT payments from saved session ───────────────────────────────
+//     const installments = savedPayments.filter(
+//         (p: any) => p?.type === "POST_FULFILLMENT" && p?.time?.label === "INSTALLMENT"
+//     );
+
+//     const updatedInstallments = installments.map((inst: any) => {
+//         const rangeStart = inst?.time?.range?.start ?? inst?.time?.timestamp ?? "";
+//         const instDate = new Date(rangeStart);
+//         const instYear = instDate.getUTCFullYear();
+//         const instMonth = instDate.getUTCMonth();
+//         const monthDiff = (instYear - eventYear) * 12 + (instMonth - eventMonth);
+
+//         if (monthDiff < 0) {
+//             // Past — keep PAID exactly as-is
+//             return { ...inst, status: inst.status ?? "PAID" };
+//         }
+
+//         // Key difference vs prepart/missedEMI:
+//         // Unsolicited (lender closed loan) → ALL remaining = DEFERRED
+//         // Solicited   (borrower requested) → ALL remaining = NOT-PAID
+//         const newStatus = unsolicited ? "DEFERRED" : "NOT-PAID";
+//         const params = { ...inst.params };
+//         delete params.transaction_id;
+//         return { ...inst, params, status: newStatus };
+//     });
+
+//     // ── Assemble: [PID-8000] [PRE_ORDER] [ON_ORDER] [INSTALLMENTS...] ─────────
+//     const freshNonPost = (order.payments ?? []).filter(
+//         (p: any) => p?.type !== "POST_FULFILLMENT"
+//     );
+
+//     order.payments = [pid8000, ...freshNonPost, ...updatedInstallments];
+//     console.log(
+//         `[settlement-utils] applyForeclosureInstallmentStatuses: unsolicited=${unsolicited}, ` +
+//         `outstandingPrincipal=${outstandingPrincipal}, foreclosureCharges=${foreclosureCharges}, ` +
+//         `specialAmount=${specialAmount}, eventIdx=${eventIdx}, ${updatedInstallments.length} installments`
+//     );
+// }
+
+export function applyForeclosureInstallmentStatuses(
     existingPayload: any,
     sessionData: any,
     unsolicited: boolean
@@ -449,19 +1004,18 @@ export function applyPrepartInstallmentStatuses(
     const order = existingPayload?.message?.order;
     if (!order) return;
 
-    // ── Use saved payments from on_update as the authoritative base ──────────
+    // ── Saved payments ─────────────────────────────────────────
     const savedPayments: any[] = Array.isArray(sessionData?.payments)
         ? sessionData.payments
         : [];
 
-    // Fall back if no saved payments
     if (savedPayments.length === 0) {
-        console.warn("[settlement-utils] applyPrepartInstallmentStatuses: no saved payments, falling back to generateInstallmentPayments");
+        console.warn("[settlement-utils] no saved payments, fallback");
         generateInstallmentPayments(existingPayload, sessionData);
         return;
     }
 
-    // ── Rebuild loan details for outstanding calculations ─────────────────────
+    // ── Loan details ───────────────────────────────────────────
     let details: LoanDetails;
     if (sessionData.schedule?.length && sessionData.emi_amount && sessionData.loan_term_months) {
         details = {
@@ -478,118 +1032,54 @@ export function applyPrepartInstallmentStatuses(
         details = calculateLoanDetails(sessionData, existingPayload);
     }
 
-    const { schedule, emiAmount, loanTermMonths, principalAmount } = details;
+    const { schedule, loanTermMonths, principalAmount } = details;
 
-    // ── Determine event month from context timestamp ──────────────────────────
+    // ── Event month ────────────────────────────────────────────
     const contextTs = existingPayload?.context?.timestamp ?? new Date().toISOString();
     const eventDate = new Date(contextTs);
     const eventYear = eventDate.getUTCFullYear();
     const eventMonth = eventDate.getUTCMonth();
 
-    // Determine eventIdx (which installment index corresponds to the event month)
     const loanStartDate: Date = sessionData.loan_start_date
         ? new Date(sessionData.loan_start_date)
         : new Date(Date.UTC(eventDate.getUTCFullYear(), eventDate.getUTCMonth() - (loanTermMonths - 1), 1));
 
     const startYear = loanStartDate.getUTCFullYear();
     const startMonth = loanStartDate.getUTCMonth();
-    const diff = (eventYear - startYear) * 12 + (eventMonth - startMonth);
-    const eventIdx = Math.max(0, Math.min(diff, loanTermMonths - 1));
 
-    // ── Calculate outstanding amounts at event month ───────────────────────────
+    const diffMonths = (eventYear - startYear) * 12 + (eventMonth - startMonth);
+    const eventIdx = Math.max(0, Math.min(diffMonths, loanTermMonths - 1));
+
+    // ── Outstanding Principal (Correct) ────────────────────────
     let paidPrincipal = 0;
     for (let i = 0; i < eventIdx && i < schedule.length; i++) {
         paidPrincipal += schedule[i].principal;
     }
     const outstandingPrincipal = Math.round(principalAmount - paidPrincipal);
 
-    let outstandingInterest = 0;
-    for (let i = eventIdx; i < schedule.length; i++) {
-        outstandingInterest += schedule[i].interest;
-    }
-    outstandingInterest = Math.round(outstandingInterest);
+    // ── Outstanding Interest (FIXED) ───────────────────────────
+    const outstandingInterest = Math.round(
+        schedule[eventIdx]?.interest ?? 0
+    );
 
-    // Pre-payment charge (from FORECLOSURE_FEE INFO tag or default 0.5%)
+    // ── Foreclosure Charges ────────────────────────────────────
     const getTagValue = (code: string, defaultVal: number): number => {
         const tags: any[] = existingPayload?.message?.order?.items?.[0]?.tags ?? [];
         for (const tag of tags) {
             if (tag?.descriptor?.code === "INFO") {
                 const entry = (tag.list ?? []).find((i: any) => i?.descriptor?.code === code);
-                if (entry?.value) return parseFloat(String(entry.value).replace(/[^0-9.]/g, "")) || defaultVal;
+                if (entry?.value) {
+                    return parseFloat(String(entry.value).replace(/[^0-9.]/g, "")) || defaultVal;
+                }
             }
         }
         return defaultVal;
     };
-    const prepayPct = getTagValue("FORECLOSURE_FEE", 0.5);
-    const prePaymentCharge = Math.round(outstandingPrincipal * prepayPct / 100);
-    const specialAmount = outstandingPrincipal + outstandingInterest + prePaymentCharge;
 
-    // ── Upsert quote.breakup with outstanding amounts ─────────────────────────
-    const upsertBreakup = (title: string, value: number) => {
-        order.quote = order.quote ?? { price: { currency: "INR", value: "0" }, breakup: [] };
-        order.quote.breakup = Array.isArray(order.quote.breakup) ? order.quote.breakup : [];
-        const idx = order.quote.breakup.findIndex((b: any) => (b?.title ?? "").toUpperCase() === title.toUpperCase());
-        const row = { title, price: { value: String(Math.round(value)), currency: "INR" } };
-        if (idx >= 0) order.quote.breakup[idx] = row; else order.quote.breakup.push(row);
-    };
-    upsertBreakup("OUTSTANDING_PRINCIPAL", outstandingPrincipal);
-    upsertBreakup("OUTSTANDING_INTEREST", outstandingInterest);
-    upsertBreakup("PRE_PAYMENT_CHARGE", prePaymentCharge);
+    const foreclosureFeePct = getTagValue("FORECLOSURE_FEE", 0.5);
+    const foreclosureCharges = Math.round(outstandingPrincipal * foreclosureFeePct / 100);
 
-    const refId = sessionData.message_id ?? order.id ?? "auto-ref";
-    const eventRow = schedule[eventIdx] ?? { principal: outstandingPrincipal, interest: outstandingInterest };
-    const monthStart = (y: number, m: number) => new Date(Date.UTC(y, m, 1)).toISOString();
-    const monthEnd = (y: number, m: number) => new Date(Date.UTC(y, m + 1, 0, 23, 59, 59, 999)).toISOString();
-
-    const breakupTags = [{
-        descriptor: { code: "BREAKUP", name: "Emi Breakup" },
-        list: [
-            { descriptor: { code: "PRINCIPAL_AMOUNT", name: "Principal", short_desc: "Loan Principal" }, value: `${eventRow.principal} INR` },
-            { descriptor: { code: "INTEREST_AMOUNT", name: "Interest", short_desc: "Loan Interest" }, value: `${eventRow.interest} INR` },
-        ],
-    }];
-
-    // ── payments[0]: PID-8000 — the special PRE_PART_PAYMENT entry ────────────
-    let pid8000: any;
-    if (unsolicited) {
-        // Unsolicited: lender pushes notification back — PAID, has timestamp, no url
-        pid8000 = {
-            id: "PID-9000",
-            type: "POST_FULFILLMENT",
-            params: {
-                amount: String(Math.round(specialAmount)),
-                currency: "INR",
-                transaction_id: `txn-prepart-${Date.now()}`,
-            },
-            status: "PAID",
-            time: {
-                timestamp: monthStart(eventYear, eventMonth),
-                label: "PRE_PART_PAYMENT",
-            },
-            tags: breakupTags,
-        };
-    } else {
-        const paymentUrl = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/payment_url_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
-
-        // Solicited: borrower-initiated — NOT-PAID, has url + payment window (P15D)
-        pid8000 = {
-            id: "PID-9000",
-            type: "POST_FULFILLMENT",
-            params: {
-                amount: String(Math.round(specialAmount)),
-                currency: "INR",
-            },
-            status: "NOT-PAID",
-            url: paymentUrl,
-            time: {
-                duration: "P15D",
-                label: "PRE_PART_PAYMENT",
-            },
-            tags: breakupTags,
-        };
-    }
-
-    // ── Process INSTALLMENT payments from saved session ───────────────────────
+    // ── INSTALLMENTS ───────────────────────────────────────────
     const installments = savedPayments.filter(
         (p: any) => p?.type === "POST_FULFILLMENT" && p?.time?.label === "INSTALLMENT"
     );
@@ -597,40 +1087,144 @@ export function applyPrepartInstallmentStatuses(
     const updatedInstallments = installments.map((inst: any) => {
         const rangeStart = inst?.time?.range?.start ?? inst?.time?.timestamp ?? "";
         const instDate = new Date(rangeStart);
+
         const instYear = instDate.getUTCFullYear();
         const instMonth = instDate.getUTCMonth();
+
         const monthDiff = (instYear - eventYear) * 12 + (instMonth - eventMonth);
 
-        let newStatus: string;
         if (monthDiff < 0) {
-            // Past — keep PAID as-is with original transaction_id and timestamps
-            newStatus = inst.status ?? "PAID";
-            return { ...inst, status: newStatus };
-        } else if (monthDiff === 0) {
-            // Event month
-            newStatus = unsolicited ? "DEFERRED" : "NOT-PAID";
-        } else {
-            // Future
-            newStatus = "NOT-PAID";
+            return { ...inst, status: inst.status ?? "PAID" };
         }
 
-        // Remove transaction_id for non-PAID statuses
+        const newStatus = unsolicited ? "DEFERRED" : "NOT-PAID";
+
         const params = { ...inst.params };
         delete params.transaction_id;
+
         return { ...inst, params, status: newStatus };
     });
 
-    // ── Assemble final payments array ─────────────────────────────────────────
-    // Order: [PID-8000 PRE_PART] [PRE_ORDER] [ON_ORDER] [INSTALLMENTS...]
+    // ── Calculate Quote from Installments (IMPORTANT) ──────────
+    const calculateQuoteFromInstallments = (installments: any[]) => {
+        let principal = 0;
+        let interest = 0;
+
+        for (const inst of installments) {
+            if (inst.status === "NOT-PAID") {
+                const breakup = inst.tags?.find((t: any) => t.descriptor?.code === "BREAKUP");
+
+                const p = Number(
+                    breakup?.list?.find((l: any) => l.descriptor?.code === "PRINCIPAL_AMOUNT")
+                        ?.value?.replace(/[^0-9.]/g, "") || 0
+                );
+
+                const i = Number(
+                    breakup?.list?.find((l: any) => l.descriptor?.code === "INTEREST_AMOUNT")
+                        ?.value?.replace(/[^0-9.]/g, "") || 0
+                );
+
+                principal += p;
+                interest += i;
+            }
+        }
+
+        return { principal, interest };
+    };
+
+    let payablePrincipal = 0;
+    let payableInterest = 0;
+
+    if (!unsolicited) {
+        const res = calculateQuoteFromInstallments(updatedInstallments);
+        payablePrincipal = res.principal;
+        payableInterest = res.interest;
+    }
+
+    // ── Quote Update ───────────────────────────────────────────
+    const upsertBreakup = (title: string, value: number) => {
+        order.quote = order.quote ?? { price: { currency: "INR", value: "0" }, breakup: [] };
+        order.quote.breakup = Array.isArray(order.quote.breakup) ? order.quote.breakup : [];
+
+        const idx = order.quote.breakup.findIndex(
+            (b: any) => (b?.title ?? "").toUpperCase() === title.toUpperCase()
+        );
+
+        const row = {
+            title,
+            price: { value: String(Math.round(value)), currency: "INR" },
+        };
+
+        if (idx >= 0) order.quote.breakup[idx] = row;
+        else order.quote.breakup.push(row);
+    };
+
+    upsertBreakup("OUTSTANDING_PRINCIPAL", payablePrincipal);
+    upsertBreakup("OUTSTANDING_INTEREST", payableInterest);
+    upsertBreakup("FORECLOSURE_CHARGES", foreclosureCharges);
+
+    const specialAmount = payablePrincipal + payableInterest + foreclosureCharges;
+
+    // ── Breakup Tags ───────────────────────────────────────────
+    const breakupTags = [{
+        descriptor: { code: "BREAKUP", name: "Emi Breakup" },
+        list: [
+            { descriptor: { code: "PRINCIPAL_AMOUNT" }, value: `${payablePrincipal} INR` },
+            { descriptor: { code: "INTEREST_AMOUNT" }, value: `${payableInterest} INR` },
+        ],
+    }];
+
+    const monthStart = (y: number, m: number) =>
+        new Date(Date.UTC(y, m, 1)).toISOString();
+
+    // ── PID-8000 ───────────────────────────────────────────────
+    let pid8000: any;
+
+    if (unsolicited) {
+        pid8000 = {
+            id: "PID-9000",
+            type: "POST_FULFILLMENT",
+            params: {
+                amount: String(specialAmount),
+                currency: "INR",
+                transaction_id: `txn-foreclosure-${Date.now()}`,
+            },
+            status: "PAID",
+            time: {
+                timestamp: monthStart(eventYear, eventMonth),
+                label: "FORECLOSURE",
+            },
+            tags: breakupTags,
+        };
+    } else {
+        const paymentUrl = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/payment_url_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
+
+        pid8000 = {
+            id: "PID-9000",
+            type: "POST_FULFILLMENT",
+            params: {
+                amount: String(specialAmount),
+                currency: "INR",
+            },
+            status: "NOT-PAID",
+            url: paymentUrl,
+            time: {
+                duration: "PT90M",
+                label: "FORECLOSURE",
+            },
+            tags: breakupTags,
+        };
+    }
+
+    // ── Final Payments ─────────────────────────────────────────
     const freshNonPost = (order.payments ?? []).filter(
         (p: any) => p?.type !== "POST_FULFILLMENT"
     );
 
     order.payments = [pid8000, ...freshNonPost, ...updatedInstallments];
+
     console.log(
-        `[settlement-utils] applyPrepartInstallmentStatuses: unsolicited=${unsolicited}, ` +
-        `specialAmount=${specialAmount}, eventIdx=${eventIdx}, ` +
-        `${updatedInstallments.length} installments from saved payments`
+        `[settlement-utils] foreclosure applied → principal=${payablePrincipal}, interest=${payableInterest}, charges=${foreclosureCharges}, total=${specialAmount}`
     );
 }
 
@@ -642,18 +1236,18 @@ export function applyMissedEmiInstallmentStatuses(
     const order = existingPayload?.message?.order;
     if (!order) return;
 
-    // ── Saved payments from on_update ─────────────────────────────────────────
+    // ── Saved payments ─────────────────────────────────────────
     const savedPayments: any[] = Array.isArray(sessionData?.payments)
         ? sessionData.payments
         : [];
 
     if (savedPayments.length === 0) {
-        console.warn("[settlement-utils] applyMissedEmiInstallmentStatuses: no saved payments, falling back to generateInstallmentPayments");
+        console.warn("[settlement-utils] no saved payments, fallback");
         generateInstallmentPayments(existingPayload, sessionData);
         return;
     }
 
-    // ── Loan details ──────────────────────────────────────────────────────────
+    // ── Loan details ───────────────────────────────────────────
     let details: LoanDetails;
     if (sessionData.schedule?.length && sessionData.emi_amount && sessionData.loan_term_months) {
         details = {
@@ -670,78 +1264,152 @@ export function applyMissedEmiInstallmentStatuses(
         details = calculateLoanDetails(sessionData, existingPayload);
     }
 
-    const { schedule, emiAmount, loanTermMonths, principalAmount } = details;
+    const { schedule, emiAmount, loanTermMonths } = details;
 
-    // ── Event month from context ──────────────────────────────────────────────
+    // ── Event month ────────────────────────────────────────────
     const contextTs = existingPayload?.context?.timestamp ?? new Date().toISOString();
     const eventDate = new Date(contextTs);
     const eventYear = eventDate.getUTCFullYear();
     const eventMonth = eventDate.getUTCMonth();
 
-    // eventIdx: which installment index is the "missed" one
     const loanStartDate: Date = sessionData.loan_start_date
         ? new Date(sessionData.loan_start_date)
         : new Date(Date.UTC(eventDate.getUTCFullYear(), eventDate.getUTCMonth() - (loanTermMonths - 1), 1));
 
     const startYear = loanStartDate.getUTCFullYear();
     const startMonth = loanStartDate.getUTCMonth();
+
     const diffMonths = (eventYear - startYear) * 12 + (eventMonth - startMonth);
     const eventIdx = Math.max(0, Math.min(diffMonths, loanTermMonths - 1));
 
-    // ── Outstanding amounts for breakup ───────────────────────────────────────
-    let paidPrincipal = 0;
-    for (let i = 0; i < eventIdx && i < schedule.length; i++) paidPrincipal += schedule[i].principal;
-    const outstandingPrincipal = Math.round(principalAmount - paidPrincipal);
-
-    let outstandingInterest = 0;
-    for (let i = eventIdx; i < schedule.length; i++) outstandingInterest += schedule[i].interest;
-    outstandingInterest = Math.round(outstandingInterest);
-
-    // ── Late fee from DELAY_PENALTY_FEE info tag ──────────────────────────────
+    // ── Late Fee ───────────────────────────────────────────────
     const getTagValue = (code: string, defaultVal: number): number => {
         const tags: any[] = existingPayload?.message?.order?.items?.[0]?.tags ?? [];
         for (const tag of tags) {
             if (tag?.descriptor?.code === "INFO") {
                 const entry = (tag.list ?? []).find((i: any) => i?.descriptor?.code === code);
-                if (entry?.value) return parseFloat(String(entry.value).replace(/[^0-9.]/g, "")) || defaultVal;
+                if (entry?.value) {
+                    return parseFloat(String(entry.value).replace(/[^0-9.]/g, "")) || defaultVal;
+                }
             }
         }
         return defaultVal;
     };
+
     const delayPenaltyPct = getTagValue("DELAY_PENALTY_FEE", 5);
     const lateFee = Math.round(emiAmount * delayPenaltyPct / 100);
-    const specialAmount = Math.round(emiAmount + lateFee);
 
-    // ── Upsert quote.breakup ──────────────────────────────────────────────────
+    // ── INSTALLMENTS ───────────────────────────────────────────
+    const installments = savedPayments.filter(
+        (p: any) => p?.type === "POST_FULFILLMENT" && p?.time?.label === "INSTALLMENT"
+    );
+
+    const updatedInstallments = installments.map((inst: any) => {
+        const rangeStart = inst?.time?.range?.start ?? inst?.time?.timestamp ?? "";
+        const instDate = new Date(rangeStart);
+
+        const instYear = instDate.getUTCFullYear();
+        const instMonth = instDate.getUTCMonth();
+
+        const monthDiff = (instYear - eventYear) * 12 + (instMonth - eventMonth);
+
+        if (monthDiff < 0) {
+            return { ...inst, status: inst.status ?? "PAID" };
+        }
+
+        let newStatus: string;
+
+        if (monthDiff === 0) {
+            newStatus = unsolicited ? "DEFERRED" : "DELAYED";
+        } else {
+            newStatus = "NOT-PAID";
+        }
+
+        const params = { ...inst.params };
+        delete params.transaction_id;
+
+        return { ...inst, params, status: newStatus };
+    });
+
+    // ── Calculate Quote from Installments ──────────────────────
+    const calculateQuoteFromInstallments = (installments: any[]) => {
+        let principal = 0;
+        let interest = 0;
+
+        for (const inst of installments) {
+            if (["NOT-PAID", "DELAYED"].includes(inst.status)) {
+                const breakup = inst.tags?.find((t: any) => t.descriptor?.code === "BREAKUP");
+
+                const p = Number(
+                    breakup?.list?.find((l: any) => l.descriptor?.code === "PRINCIPAL_AMOUNT")
+                        ?.value?.replace(/[^0-9.]/g, "") || 0
+                );
+
+                const i = Number(
+                    breakup?.list?.find((l: any) => l.descriptor?.code === "INTEREST_AMOUNT")
+                        ?.value?.replace(/[^0-9.]/g, "") || 0
+                );
+
+                principal += p;
+                interest += i;
+            }
+        }
+
+        return { principal, interest };
+    };
+
+    let payablePrincipal = 0;
+    let payableInterest = 0;
+
+    const res = calculateQuoteFromInstallments(updatedInstallments);
+    payablePrincipal = res.principal;
+    payableInterest = res.interest;
+
+    // ── Quote Update ───────────────────────────────────────────
     const upsertBreakup = (title: string, value: number) => {
         order.quote = order.quote ?? { price: { currency: "INR", value: "0" }, breakup: [] };
         order.quote.breakup = Array.isArray(order.quote.breakup) ? order.quote.breakup : [];
-        const idx = order.quote.breakup.findIndex((b: any) => (b?.title ?? "").toUpperCase() === title.toUpperCase());
-        const row = { title, price: { value: String(Math.round(value)), currency: "INR" } };
-        if (idx >= 0) order.quote.breakup[idx] = row; else order.quote.breakup.push(row);
+
+        const idx = order.quote.breakup.findIndex(
+            (b: any) => (b?.title ?? "").toUpperCase() === title.toUpperCase()
+        );
+
+        const row = {
+            title,
+            price: { value: String(Math.round(value)), currency: "INR" },
+        };
+
+        if (idx >= 0) order.quote.breakup[idx] = row;
+        else order.quote.breakup.push(row);
     };
-    upsertBreakup("OUTSTANDING_PRINCIPAL", outstandingPrincipal);
-    upsertBreakup("OUTSTANDING_INTEREST", outstandingInterest);
+
+    upsertBreakup("OUTSTANDING_PRINCIPAL", payablePrincipal);
+    upsertBreakup("OUTSTANDING_INTEREST", payableInterest);
     upsertBreakup("LATE_FEE_AMOUNT", lateFee);
 
-    // ── PID-8000 breakup tags (event month's EMI split) ──────────────────────
-    const refId = sessionData.message_id ?? order.id ?? "auto-ref";
+    const specialAmount = payablePrincipal + payableInterest + lateFee;
+
+    // ── Breakup Tags (event EMI only) ──────────────────────────
     const eventRow = schedule[eventIdx] ?? { principal: emiAmount, interest: 0 };
-    const monthStart = (y: number, m: number) => new Date(Date.UTC(y, m, 1)).toISOString();
-    const monthEnd = (y: number, m: number) => new Date(Date.UTC(y, m + 1, 0, 23, 59, 59, 999)).toISOString();
 
     const breakupTags = [{
         descriptor: { code: "BREAKUP", name: "Emi Breakup" },
         list: [
-            { descriptor: { code: "PRINCIPAL_AMOUNT", name: "Principal", short_desc: "Loan Principal" }, value: `${eventRow.principal} INR` },
-            { descriptor: { code: "INTEREST_AMOUNT", name: "Interest", short_desc: "Loan Interest" }, value: `${eventRow.interest} INR` },
+            { descriptor: { code: "PRINCIPAL_AMOUNT" }, value: `${eventRow.principal} INR` },
+            { descriptor: { code: "INTEREST_AMOUNT" }, value: `${eventRow.interest} INR` },
         ],
     }];
 
-    // ── payments[0]: PID-8000 MISSED_EMI_PAYMENT ──────────────────────────────
+    const monthStart = (y: number, m: number) =>
+        new Date(Date.UTC(y, m, 1)).toISOString();
+
+    const monthEnd = (y: number, m: number) =>
+        new Date(Date.UTC(y, m + 1, 0, 23, 59, 59, 999)).toISOString();
+
+    // ── PID-8000 ───────────────────────────────────────────────
     let pid8000: any;
+
     if (unsolicited) {
-        // Unsolicited: lender notifies payment was received — PAID, timestamp, range, no url
         pid8000 = {
             id: "PID-9000",
             type: "POST_FULFILLMENT",
@@ -761,7 +1429,6 @@ export function applyMissedEmiInstallmentStatuses(
     } else {
         const paymentUrl = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/payment_url_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
 
-        // Solicited: borrower missed EMI — NOT-PAID, url, P15D, range
         pid8000 = {
             id: "PID-9000",
             type: "POST_FULFILLMENT",
@@ -777,49 +1444,19 @@ export function applyMissedEmiInstallmentStatuses(
         };
     }
 
-    // ── INSTALLMENT payments from saved session ───────────────────────────────
-    const installments = savedPayments.filter(
-        (p: any) => p?.type === "POST_FULFILLMENT" && p?.time?.label === "INSTALLMENT"
-    );
-
-    const updatedInstallments = installments.map((inst: any) => {
-        const rangeStart = inst?.time?.range?.start ?? inst?.time?.timestamp ?? "";
-        const instDate = new Date(rangeStart);
-        const instYear = instDate.getUTCFullYear();
-        const instMonth = instDate.getUTCMonth();
-        const monthDiff = (instYear - eventYear) * 12 + (instMonth - eventMonth);
-
-        if (monthDiff < 0) {
-            // Past — keep PAID exactly as-is (real transaction_id, real timestamps)
-            return { ...inst, status: inst.status ?? "PAID" };
-        }
-
-        let newStatus: string;
-        if (monthDiff === 0) {
-            newStatus = unsolicited ? "DEFERRED" : "DELAYED";  // ← key difference from prepart
-        } else {
-            newStatus = "NOT-PAID";
-        }
-
-        const params = { ...inst.params };
-        delete params.transaction_id;
-        return { ...inst, params, status: newStatus };
-    });
-
-    // ── Assemble: [PID-8000] [PRE_ORDER] [ON_ORDER] [INSTALLMENTS...] ─────────
+    // ── Final Payments ─────────────────────────────────────────
     const freshNonPost = (order.payments ?? []).filter(
         (p: any) => p?.type !== "POST_FULFILLMENT"
     );
 
     order.payments = [pid8000, ...freshNonPost, ...updatedInstallments];
+
     console.log(
-        `[settlement-utils] applyMissedEmiInstallmentStatuses: unsolicited=${unsolicited}, ` +
-        `emiAmount=${emiAmount}, lateFee=${lateFee}, specialAmount=${specialAmount}, ` +
-        `eventIdx=${eventIdx}, ${updatedInstallments.length} installments`
+        `[settlement-utils] missed EMI applied → principal=${payablePrincipal}, interest=${payableInterest}, lateFee=${lateFee}, total=${specialAmount}`
     );
 }
 
-export function applyForeclosureInstallmentStatuses(
+export function applyPrepartInstallmentStatuses(
     existingPayload: any,
     sessionData: any,
     unsolicited: boolean
@@ -827,18 +1464,18 @@ export function applyForeclosureInstallmentStatuses(
     const order = existingPayload?.message?.order;
     if (!order) return;
 
-    // ── Saved payments from on_update ─────────────────────────────────────────
+    // ── Saved payments ─────────────────────────────────────────
     const savedPayments: any[] = Array.isArray(sessionData?.payments)
         ? sessionData.payments
         : [];
 
     if (savedPayments.length === 0) {
-        console.warn("[settlement-utils] applyForeclosureInstallmentStatuses: no saved payments, falling back to generateInstallmentPayments");
+        console.warn("[settlement-utils] no saved payments, fallback");
         generateInstallmentPayments(existingPayload, sessionData);
         return;
     }
 
-    // ── Loan details ──────────────────────────────────────────────────────────
+    // ── Loan details ───────────────────────────────────────────
     let details: LoanDetails;
     if (sessionData.schedule?.length && sessionData.emi_amount && sessionData.loan_term_months) {
         details = {
@@ -855,9 +1492,9 @@ export function applyForeclosureInstallmentStatuses(
         details = calculateLoanDetails(sessionData, existingPayload);
     }
 
-    const { schedule, loanTermMonths, principalAmount } = details;
+    const { schedule, emiAmount, loanTermMonths } = details;
 
-    // ── Event month from context ──────────────────────────────────────────────
+    // ── Event month ────────────────────────────────────────────
     const contextTs = existingPayload?.context?.timestamp ?? new Date().toISOString();
     const eventDate = new Date(contextTs);
     const eventYear = eventDate.getUTCFullYear();
@@ -869,95 +1506,28 @@ export function applyForeclosureInstallmentStatuses(
 
     const startYear = loanStartDate.getUTCFullYear();
     const startMonth = loanStartDate.getUTCMonth();
-    const diffMonths = (eventYear - startYear) * 12 + (eventMonth - startMonth);
-    const eventIdx = Math.max(0, Math.min(diffMonths, loanTermMonths - 1));
 
-    // ── Outstanding amounts ───────────────────────────────────────────────────
-    let paidPrincipal = 0;
-    for (let i = 0; i < eventIdx && i < schedule.length; i++) paidPrincipal += schedule[i].principal;
-    const outstandingPrincipal = Math.round(principalAmount - paidPrincipal);
+    const diff = (eventYear - startYear) * 12 + (eventMonth - startMonth);
+    const eventIdx = Math.max(0, Math.min(diff, loanTermMonths - 1));
 
-    let outstandingInterest = 0;
-    for (let i = eventIdx; i < schedule.length; i++) outstandingInterest += schedule[i].interest;
-    outstandingInterest = Math.round(outstandingInterest);
-
-    // ── Foreclosure charge from FORECLOSURE_FEE info tag (default 0.5%) ──────
+    // ── Prepayment Charge ──────────────────────────────────────
     const getTagValue = (code: string, defaultVal: number): number => {
         const tags: any[] = existingPayload?.message?.order?.items?.[0]?.tags ?? [];
         for (const tag of tags) {
             if (tag?.descriptor?.code === "INFO") {
                 const entry = (tag.list ?? []).find((i: any) => i?.descriptor?.code === code);
-                if (entry?.value) return parseFloat(String(entry.value).replace(/[^0-9.]/g, "")) || defaultVal;
+                if (entry?.value) {
+                    return parseFloat(String(entry.value).replace(/[^0-9.]/g, "")) || defaultVal;
+                }
             }
         }
         return defaultVal;
     };
-    const foreclosureFeePct = getTagValue("FORECLOSURE_FEE", 0.5);
-    const foreclosureCharges = Math.round(outstandingPrincipal * foreclosureFeePct / 100);
-    const specialAmount = outstandingPrincipal + outstandingInterest + foreclosureCharges;
 
-    // ── Upsert quote.breakup ──────────────────────────────────────────────────
-    const upsertBreakup = (title: string, value: number) => {
-        order.quote = order.quote ?? { price: { currency: "INR", value: "0" }, breakup: [] };
-        order.quote.breakup = Array.isArray(order.quote.breakup) ? order.quote.breakup : [];
-        const idx = order.quote.breakup.findIndex((b: any) => (b?.title ?? "").toUpperCase() === title.toUpperCase());
-        const row = { title, price: { value: String(Math.round(value)), currency: "INR" } };
-        if (idx >= 0) order.quote.breakup[idx] = row; else order.quote.breakup.push(row);
-    };
-    upsertBreakup("OUTSTANDING_PRINCIPAL", outstandingPrincipal);
-    upsertBreakup("OUTSTANDING_INTEREST", outstandingInterest);
-    upsertBreakup("FORECLOSURE_CHARGES", foreclosureCharges);
+    const prepayPct = getTagValue("FORECLOSURE_FEE", 0.5);
+    let prePaymentCharge = 0;
 
-    // ── PID-8000 breakup tags ─────────────────────────────────────────────────
-    const refId = sessionData.message_id ?? order.id ?? "auto-ref";
-    const monthStart = (y: number, m: number) => new Date(Date.UTC(y, m, 1)).toISOString();
-
-    const breakupTags = [{
-        descriptor: { code: "BREAKUP", name: "Emi Breakup" },
-        list: [
-            { descriptor: { code: "PRINCIPAL_AMOUNT", name: "Principal", short_desc: "Loan Principal" }, value: `${outstandingPrincipal} INR` },
-            { descriptor: { code: "INTEREST_AMOUNT", name: "Interest", short_desc: "Loan Interest" }, value: `${outstandingInterest} INR` },
-        ],
-    }];
-
-    // ── payments[0]: PID-8000 FORECLOSURE ────────────────────────────────────
-    let pid8000: any;
-    if (unsolicited) {
-        // Lender-initiated (closed): PAID, timestamp, no url, no range
-        pid8000 = {
-            id: "PID-9000",
-            type: "POST_FULFILLMENT",
-            params: {
-                amount: String(specialAmount),
-                currency: "INR",
-                transaction_id: `txn-foreclosure-${Date.now()}`,
-            },
-            status: "PAID",
-            time: {
-                timestamp: monthStart(eventYear, eventMonth),
-                label: "FORECLOSURE",
-            },
-            tags: breakupTags,
-        };
-    } else {
-        const paymentUrl = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/payment_url_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
-
-        // Borrower-initiated (requesting closure): NOT-PAID, url, PT90M window, no range
-        pid8000 = {
-            id: "PID-9000",
-            type: "POST_FULFILLMENT",
-            params: { amount: String(specialAmount), currency: "INR" },
-            status: "NOT-PAID",
-            url: paymentUrl,
-            time: {
-                duration: "PT90M",
-                label: "FORECLOSURE",
-            },
-            tags: breakupTags,
-        };
-    }
-
-    // ── INSTALLMENT payments from saved session ───────────────────────────────
+    // ── INSTALLMENTS ───────────────────────────────────────────
     const installments = savedPayments.filter(
         (p: any) => p?.type === "POST_FULFILLMENT" && p?.time?.label === "INSTALLMENT"
     );
@@ -965,34 +1535,149 @@ export function applyForeclosureInstallmentStatuses(
     const updatedInstallments = installments.map((inst: any) => {
         const rangeStart = inst?.time?.range?.start ?? inst?.time?.timestamp ?? "";
         const instDate = new Date(rangeStart);
+
         const instYear = instDate.getUTCFullYear();
         const instMonth = instDate.getUTCMonth();
+
         const monthDiff = (instYear - eventYear) * 12 + (instMonth - eventMonth);
 
         if (monthDiff < 0) {
-            // Past — keep PAID exactly as-is
             return { ...inst, status: inst.status ?? "PAID" };
         }
 
-        // Key difference vs prepart/missedEMI:
-        // Unsolicited (lender closed loan) → ALL remaining = DEFERRED
-        // Solicited   (borrower requested) → ALL remaining = NOT-PAID
-        const newStatus = unsolicited ? "DEFERRED" : "NOT-PAID";
+        let newStatus: string;
+
+        if (monthDiff === 0) {
+            newStatus = unsolicited ? "DEFERRED" : "NOT-PAID";
+        } else {
+            newStatus = "NOT-PAID";
+        }
+
         const params = { ...inst.params };
         delete params.transaction_id;
+
         return { ...inst, params, status: newStatus };
     });
 
-    // ── Assemble: [PID-8000] [PRE_ORDER] [ON_ORDER] [INSTALLMENTS...] ─────────
+    // ── Calculate Quote from Installments ──────────────────────
+    const calculateQuoteFromInstallments = (installments: any[]) => {
+        let principal = 0;
+        let interest = 0;
+
+        for (const inst of installments) {
+            if (inst.status === "NOT-PAID") {
+                const breakup = inst.tags?.find((t: any) => t.descriptor?.code === "BREAKUP");
+
+                const p = Number(
+                    breakup?.list?.find((l: any) => l.descriptor?.code === "PRINCIPAL_AMOUNT")
+                        ?.value?.replace(/[^0-9.]/g, "") || 0
+                );
+
+                const i = Number(
+                    breakup?.list?.find((l: any) => l.descriptor?.code === "INTEREST_AMOUNT")
+                        ?.value?.replace(/[^0-9.]/g, "") || 0
+                );
+
+                principal += p;
+                interest += i;
+            }
+        }
+
+        return { principal, interest };
+    };
+
+    const { principal: payablePrincipal, interest: payableInterest } =
+        calculateQuoteFromInstallments(updatedInstallments);
+
+    // calculate prepayment charge ONLY on payable principal
+    prePaymentCharge = Math.round(payablePrincipal * prepayPct / 100);
+
+    // ── Quote Update ───────────────────────────────────────────
+    const upsertBreakup = (title: string, value: number) => {
+        order.quote = order.quote ?? { price: { currency: "INR", value: "0" }, breakup: [] };
+        order.quote.breakup = Array.isArray(order.quote.breakup) ? order.quote.breakup : [];
+
+        const idx = order.quote.breakup.findIndex(
+            (b: any) => (b?.title ?? "").toUpperCase() === title.toUpperCase()
+        );
+
+        const row = {
+            title,
+            price: { value: String(Math.round(value)), currency: "INR" },
+        };
+
+        if (idx >= 0) order.quote.breakup[idx] = row;
+        else order.quote.breakup.push(row);
+    };
+
+    upsertBreakup("OUTSTANDING_PRINCIPAL", payablePrincipal);
+    upsertBreakup("OUTSTANDING_INTEREST", payableInterest);
+    upsertBreakup("PRE_PAYMENT_CHARGE", prePaymentCharge);
+
+    const specialAmount = payablePrincipal + payableInterest + prePaymentCharge;
+
+    // ── Breakup Tags (event EMI only) ──────────────────────────
+    const eventRow = schedule[eventIdx] ?? { principal: emiAmount, interest: 0 };
+
+    const breakupTags = [{
+        descriptor: { code: "BREAKUP", name: "Emi Breakup" },
+        list: [
+            { descriptor: { code: "PRINCIPAL_AMOUNT" }, value: `${eventRow.principal} INR` },
+            { descriptor: { code: "INTEREST_AMOUNT" }, value: `${eventRow.interest} INR` },
+        ],
+    }];
+
+    const monthStart = (y: number, m: number) =>
+        new Date(Date.UTC(y, m, 1)).toISOString();
+
+    // ── PID-8000 ───────────────────────────────────────────────
+    let pid8000: any;
+
+    if (unsolicited) {
+        pid8000 = {
+            id: "PID-9000",
+            type: "POST_FULFILLMENT",
+            params: {
+                amount: String(specialAmount),
+                currency: "INR",
+                transaction_id: `txn-prepart-${Date.now()}`,
+            },
+            status: "PAID",
+            time: {
+                timestamp: monthStart(eventYear, eventMonth),
+                label: "PRE_PART_PAYMENT",
+            },
+            tags: breakupTags,
+        };
+    } else {
+        const paymentUrl = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/payment_url_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
+
+        pid8000 = {
+            id: "PID-9000",
+            type: "POST_FULFILLMENT",
+            params: {
+                amount: String(specialAmount),
+                currency: "INR",
+            },
+            status: "NOT-PAID",
+            url: paymentUrl,
+            time: {
+                duration: "P15D",
+                label: "PRE_PART_PAYMENT",
+            },
+            tags: breakupTags,
+        };
+    }
+
+    // ── Final Payments ─────────────────────────────────────────
     const freshNonPost = (order.payments ?? []).filter(
         (p: any) => p?.type !== "POST_FULFILLMENT"
     );
 
     order.payments = [pid8000, ...freshNonPost, ...updatedInstallments];
+
     console.log(
-        `[settlement-utils] applyForeclosureInstallmentStatuses: unsolicited=${unsolicited}, ` +
-        `outstandingPrincipal=${outstandingPrincipal}, foreclosureCharges=${foreclosureCharges}, ` +
-        `specialAmount=${specialAmount}, eventIdx=${eventIdx}, ${updatedInstallments.length} installments`
+        `[settlement-utils] prepart applied → principal=${payablePrincipal}, interest=${payableInterest}, charge=${prePaymentCharge}, total=${specialAmount}`
     );
 }
 
