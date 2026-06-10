@@ -51902,6 +51902,8 @@ x-validations:
             enumList:
               - LOAN
               - DEDUPE
+              - ONLINE
+              - SEMI_ONLINE
             _CONTINUE_: "!(attr are present)"
             _RETURN_: attr all in enumList
           - _NAME_: REQUIRED_FULFILLMENT_AGENT_NAME
