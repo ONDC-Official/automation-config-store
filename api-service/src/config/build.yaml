@@ -105215,9 +105215,9 @@ x-validations:
               _RETURN_: attr are present
 
             - _NAME_: PART_PAYMENT_LINKED_IDS_EXIST
-              attr: "$.message.order.payments[?(@.type=='PART-PAYMENT')].tags[*].list[*].descriptor.code"
-              ref: "$.message.order.payments[*].id"
-              _RETURN_: attr all in ref
+            attr: $.message.order.payments[?(@.type=='PART-PAYMENT')].tags[*].list[*].descriptor.code
+            ref: $.message.order.payments[?(@.type!='PART-PAYMENT')].id
+            _RETURN_: attr all in ref
 
           - _NAME_: PAYMENT_PARAMS_VALIDATION
             _RETURN_:
