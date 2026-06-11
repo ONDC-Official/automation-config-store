@@ -105187,7 +105187,7 @@ x-validations:
             _RETURN_: attr all in var_enum
 
           - _NAME_: PAYMENTS_STATUS
-            attr: "$.message.order.payments[?(@.status)].status"
+            attr: $.message.order.payments[?(@.type!='PART-PAYMENT' && @.status)].status
             var_enum:
               - PAID
               - NOT-PAID
@@ -105215,9 +105215,9 @@ x-validations:
               _RETURN_: attr are present
 
             - _NAME_: PART_PAYMENT_LINKED_IDS_EXIST
-              attr: "$.message.order.payments[?(@.type=='PART-PAYMENT')].tags[*].list[*].descriptor.code"
-              ref: "$.message.order.payments[*].id"
-              _RETURN_: attr all in ref
+            attr: $.message.order.payments[?(@.type=='PART-PAYMENT')].tags[*].list[*].descriptor.code
+            ref: $.message.order.payments[?(@.type!='PART-PAYMENT')].id
+            _RETURN_: attr all in ref
 
           - _NAME_: PAYMENT_PARAMS_VALIDATION
             _RETURN_:
@@ -105435,8 +105435,8 @@ x-validations:
             _RETURN_: attr are present
 
           - _NAME_: PART_PAYMENT_LINKED_IDS_EXIST
-            attr: "$.message.order.payments[?(@.type=='PART-PAYMENT')].tags[*].list[*].descriptor.code"
-            ref: "$.message.order.payments[*].id"
+            attr: $.message.order.payments[?(@.type=='PART-PAYMENT')].tags[*].list[*].descriptor.code
+            ref: $.message.order.payments[?(@.type!='PART-PAYMENT')].id
             _RETURN_: attr all in ref
 
           - _NAME_: PAYMENT_PARAMS_AMOUNT
