@@ -1,5 +1,6 @@
 import { randomUUID } from 'crypto';
 import { injectSettlementAmount } from '../settlement-utils';
+import logger from "@ondc/automation-logger";
 
 export async function onInitDefaultGenerator(existingPayload: any, sessionData: any) {
   console.log("sessionData for on_init", sessionData);
@@ -138,7 +139,7 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
 
   console.log("payments in on_init near return", JSON.stringify(existingPayload.message?.order?.payments));
   console.log("payments in session data near return", JSON.stringify(sessionData.payments));
-
+    logger.info("init_message_id after: ", existingPayload.context?.message_id);
   // Dynamically inject SETTLEMENT_AMOUNT derived from BAP_TERMS fee data
   injectSettlementAmount(existingPayload, sessionData);
 
