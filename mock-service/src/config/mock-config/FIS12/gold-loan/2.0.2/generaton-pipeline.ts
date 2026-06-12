@@ -22,7 +22,7 @@ function getDetailsByActionId(
 ): { default: string; action: string; message_id: boolean } {
 	console.log("getDetailsByActionId - actionId:", actionId);
 	console.log("getDetailsByActionId - available codes:", factoryData.codes.map((item: any) => item.action_id));
-	
+
 	const entry = factoryData.codes.find(
 		(item: any) => item.action_id === actionId
 	);
