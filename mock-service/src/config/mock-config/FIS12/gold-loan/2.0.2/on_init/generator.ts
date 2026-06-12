@@ -15,13 +15,13 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
     existingPayload.context.transaction_id = sessionData.transaction_id;
   }
 
-  // // Use the same message_id as init (matching pair)
-  // if (sessionData.message_id && existingPayload.context) {
-  //   existingPayload.context.message_id = sessionData.message_id;
-  //   console.log("Using matching message_id from init:", sessionData.message_id);
-  // }
+  // Update message_id from session data
+  if (sessionData.message_id && existingPayload.context) {
+    existingPayload.context.message_id = sessionData.message_id;
+    console.log("Updated message_id:", sessionData.message_id);
+  }
 
-  logger.info("init_message_id: ", sessionData.message_id);
+  logger.info("on_init_message_id: ", sessionData.message_id);
 
   // Generate or update provider.id with gold_loan_ prefix
   if (existingPayload.message?.order?.provider) {

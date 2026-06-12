@@ -33,11 +33,11 @@ export async function initDefaultGenerator(existingPayload: any, sessionData: an
     existingPayload.context.transaction_id = sessionData.transaction_id;
   }
   
-  // Generate new UUID message_id for init (new API call)
-  if (existingPayload.context) {
-    existingPayload.context.message_id = randomUUID();
-    console.log("Generated new UUID message_id for init:", existingPayload.context.message_id);
-  }
+  // // Generate new UUID message_id for init (new API call)
+  // if (existingPayload.context) {
+  //   existingPayload.context.message_id = randomUUID();
+  //   console.log("Generated new UUID message_id for init:", existingPayload.context.message_id);
+  // }
   
   // Generate or update provider.id with gold_loan_ prefix
   if (existingPayload.message?.order?.provider) {
