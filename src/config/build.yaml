@@ -27796,9 +27796,6 @@ x-validations:
     - _NAME_: REQUIRED_MESSAGE_AMOUNT_49
       attr: "$.message.order.payments[*].params.amount"
       _RETURN_: attr are present
-    - _NAME_: REQUIRED_MESSAGE_DURATION_50
-      attr: "$.message.order.cancellation_terms[*].cancel_by.duration"
-      _RETURN_: attr are present
     - _NAME_: VALID_ENUM_MESSAGE_STATUS_1
       enumList:
       - UNCLAIMED
