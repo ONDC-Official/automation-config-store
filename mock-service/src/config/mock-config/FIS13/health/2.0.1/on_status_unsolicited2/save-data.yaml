@@ -3,7 +3,7 @@ save-data:
   message_id: "$.context.message_id"
   order_id: "$.message.order.id"
   provider_id: "$.message.order.provider.id"
-  loan_status: "$.message.order.fulfillments[0].state.descriptor.code"
+  # loan_status: "$.message.order.fulfillments[0].state.descriptor.code"
   second_fulfillment_id: "$.message.order.fulfillments[1].id"
   claim_doc_url: "$.message.order.documents[?(@.descriptor.code=='CLAIM_DOC')].url"
   renew_doc_url: "$.message.order.documents[?(@.descriptor.code=='RENEW_DOC')].url"
