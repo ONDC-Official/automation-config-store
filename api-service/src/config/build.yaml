@@ -55,6 +55,49 @@ paths:
                     $ref: '#/components/schemas/Error'
                 required:
                   - message
+  /catalog_rejection:
+    post:
+      tags:
+        - ONDC Seller App
+        - ONDC Gateway
+      description: Catalog rejection by seller app or gateway
+      requestBody:
+        description: Rejection of catalog by seller app or gateway in response to buyer search
+        content:
+          application/json:
+            schema:
+              additionalProperties: false
+              type: object
+              properties:
+                context:
+                  $ref: "#/components/schemas/Context"
+                message:
+                  type: object
+                  properties:
+                    errors:
+                      $ref: "#/components/schemas/CatalogRejection"
+              required:
+                - context
+                - message
+      responses:
+        "200":
+          description: Acknowledgement of message received
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: object
+                    properties:
+                      ack:
+                        $ref: "#/components/schemas/Ack"
+                    required:
+                      - ack
+                  error:
+                    $ref: "#/components/schemas/Error"
+                required:
+                  - message
   /select:
     post:
       tags:
@@ -1535,6 +1578,37 @@ components:
             $ref: '#/components/schemas/Fulfillment'
       required:
         - bpp/providers
+    CatalogRejection:
+      type: array
+      items:
+        type: object
+        properties:
+          type:
+            type: string
+            example: "ITEM-ERROR"
+          code:
+            type: string
+            example: "91001"
+          message:
+            type: string
+            example: "Item price > MRP"
+          path:
+            type: string
+            example: "sessionData.on_search_items[?(@.id=='I1')].price.value"
+        required:
+          - code
+          - message
+          - path
+          - type
+      example:
+        - code: "91001"
+          message: "Item price > MRP"
+          path: "sessionData.on_search_items[?(@.id=='I1')].price.value"
+          type: "ITEM-ERROR"
+        - code: "91001"
+          message: "Item price > MRP"
+          path: "sessionData.on_search_items[?(@.id=='I2')].price.value"
+          type: "ITEM-ERROR"
     Category:
       description: Describes a category
       additionalProperties: false
