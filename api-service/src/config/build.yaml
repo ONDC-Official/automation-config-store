@@ -104273,7 +104273,7 @@ x-validations:
             - _NAME_: FULFILLMENTS_TAGS_VALID_TAGS
               _CONTINUE_: "!(attr are present)"
               attr: "$.message.order.fulfillments[*].tags[*].code"
-              valid: ["state","routing","tracking","fulfillment_delay","order_details","cancel_request","quote_trail","precancel_state"]
+              valid: ["state","routing","tracking","fulfillment_delay","order_details","cancel_request","quote_trail","precancel_state","return_request","replace_request"]
               _RETURN_: attr all in valid
             - _NAME_: TAGS_STATE
               _RETURN_:
