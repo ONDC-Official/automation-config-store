@@ -1,40 +1,40 @@
-// import { RedisService } from "ondc-automation-cache-lib";
-// import _ from "lodash";
-// import { ApiSequence } from "../../utils/constants";
-// import { checkUpdate } from "./update";
-// import { checkOnUpdate } from "./on_update";
+import { RedisService } from "ondc-automation-cache-lib";
+import _ from "lodash";
+import { ApiSequence } from "../../utils/constants";
+import { checkUpdate } from "./update";
+import { checkOnUpdate } from "./on_update";
 
-// interface ValidationError {
-//   valid: boolean;
-//   code: number;
-//   description: string;
-// }
+interface ValidationError {
+  valid: boolean;
+  code: number;
+  description: string;
+}
 
-// const addError = (code: number, description: string): ValidationError => ({
-//   valid: false,
-//   code,
-//   description,
-// });
+const addError = (code: number, description: string): ValidationError => ({
+  valid: false,
+  code,
+  description,
+});
 
-// async function fetchRedisSet(
-//   transaction_id: string,
-//   key: string
-// ): Promise<Set<any>> {
-//   try {
-//     const rawData = await RedisService.getKey(`${transaction_id}_${key}`);
-//     return new Set(rawData ? JSON.parse(rawData) : []);
-//   } catch (error: any) {
-//     console.error(
-//       `Error fetching Redis key ${transaction_id}_${key}: ${error.stack}`
-//     );
-//     return new Set();
-//   }
-// }
+async function fetchRedisSet(
+  transaction_id: string,
+  key: string
+): Promise<Set<any>> {
+  try {
+    const rawData = await RedisService.getKey(`${transaction_id}_${key}`);
+    return new Set(rawData ? JSON.parse(rawData) : []);
+  } catch (error: any) {
+    console.error(
+      `Error fetching Redis key ${transaction_id}_${key}: ${error.stack}`
+    );
+    return new Set();
+  }
+}
 
-// export const updateRouter = async (data: any) => {
+export const updateRouter = async (data: any) => {
 //   const transaction_id = data.context.transaction_id;
 //   let apiSeq = "update";
-//   let result: any = [];
+  let result: any = [];
 
 //   let settlementDetailSet = await fetchRedisSet(
 //     transaction_id,
@@ -56,16 +56,16 @@
 //     result = [addError(400, "Invalid action call, update_target is misisng")];
 //   }
 
-//   return result;
-// };
+  return result;
+};
 
-// export const onUpdateRouter = async (data: any) => {
-//   const transaction_id = data.context.transaction_id;
-//   let result: any = [];
+export const onUpdateRouter = async (data: any) => {
+  const transaction_id = data.context.transaction_id;
+  let result: any = [];
 //   let apiSeq = "";
 //   let flow = "";
 
-//   // Fetch Redis sets concurrently
+  // Fetch Redis sets concurrently
 //   const [fulfillmentsItemsSet, settlementDetailSet, quoteTrailItemsSet] =
 //     await Promise.all([
 //       fetchRedisSet(transaction_id, "fulfillmentsItemsSet"),
@@ -126,5 +126,5 @@
 //     );
 //   }
 
-//   return result;
-// };
+  return result;
+};
