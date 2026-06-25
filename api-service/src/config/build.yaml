@@ -51262,8 +51262,8 @@ x-changeLog:
 
 
 x-validations:
-
   _TESTS_:
+
     search:
       - _NAME_: SEARCH_CONTEXT
         action:
@@ -51271,8 +51271,8 @@ x-validations:
         domain:
           - ONDC:FIS12
         version:
-          - 2.0.3
-        _RETURN_: &a1
+          - 2.3.0
+        _RETURN_: 
           - _NAME_: CONTEXT_REQUIRED
             _RETURN_:
               - _NAME_: REQUIRED_CONTEXT_LOCATION_COUNTRY_CODE
@@ -51293,17 +51293,450 @@ x-validations:
               - _NAME_: REQUIRED_CONTEXT_BAP_URI
                 attr: $.context.bap_uri
                 _RETURN_: attr are present
-              - _NAME_: REQUIRED_CONTEXT_BPP_ID
-                attr: $.context.bpp_id
-                var_search:
-                  - search
-                _CONTINUE_: (action all in var_search)
+              - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID
+                attr: $.context.transaction_id
                 _RETURN_: attr are present
-              - _NAME_: REQUIRED_CONTEXT_BPP_URI
+              - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID
+                attr: $.context.message_id
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_CONTEXT_VERSION
+                attr: $.context.version
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_CONTEXT_TTL
+                attr: $.context.ttl
+                _RETURN_: attr are present
+              
+              # - _NAME_: REQUIRED_CONTEXT_BPP_ID
+              #   attr: $.context.bpp_id
+              #   usecasepath: $.message.intent.provider.id
+              #   _CONTINUE_: '!(usecasepath are present)'
+              #   _RETURN_: attr are present
+              # - _NAME_: REQUIRED_CONTEXT_BPP_URI
+              #   attr: $.context.bpp_uri
+              #   usecasepath: $.message.intent.provider.id
+              #   _CONTINUE_: '!(usecasepath are present)'
+              #   _RETURN_: attr are present
+
+          - _NAME_: CONTEXT_ENUM
+            _RETURN_:
+              - _NAME_: VALID_CONTEXT_LOCATION_COUNTRY_CODE
+                attr: $.context.location.country.code
+                _CONTINUE_: '!(attr are present)'
+                enumList:
+                  - IND
+                _RETURN_: attr all in enumList
+              - _NAME_: VALID_CONTEXT_DOMAIN
+                attr: $.context.domain
+                enumList:
+                  - ONDC:FIS12
+                _CONTINUE_: '!(attr are present)'
+                _RETURN_: attr all in enumList
+          - _NAME_: CONTEXT_REGEX
+            _RETURN_:
+              - _NAME_: REGEX_CONTEXT_LOCATION_CITY_CODE
+                attr: $.context.location.city.code
+                reg:
+                  - (\\*)|(^std\\:[0-9]{2,4}$)
+                _CONTINUE_: '!(attr are present)'
+                _RETURN_: attr follow regex reg
+              - _NAME_: REGEX_CONTEXT_TIMESTAMP_1
+                attr: $.context.timestamp
+                reg:
+                  - >-
+                    ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$
+                _CONTINUE_: '!(attr are present)'
+                _RETURN_: attr follow regex reg
+              
+              - _NAME_: REGEX_CONTEXT_BAP_ID
+                attr: $.context.bap_id
+                reg:
+                  - ^(?!.*\b(?:http|https|www)\b)[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$
+                _CONTINUE_: '!(attr are present)'
+                _RETURN_: attr follow regex reg
+              - _NAME_: REGEX_CONTEXT_BAP_URI
+                attr: $.context.bap_uri
+                reg:
+                  - ^https?:\/\/[a-zA-Z0-9.-]+(\/[a-zA-Z0-9\-._~:\/?#\[\]@!$&'()*+,;=%]*)?\/?$
+                _CONTINUE_: '!(attr are present)'
+                _RETURN_: attr follow regex reg
+              - _NAME_: REQUIRED_CONTEXT_TTL
+                attr: $.context.ttl
+                reg:
+                  - >-
+                    ^P(?=\\d|T\\d)(\\d+Y)?(\\d+M)?(\\d+D)?(T(\\d+H)?(\\d+M)?(\\d+S)?)?$
+                _CONTINUE_: '!(attr are present)'
+                _RETURN_: attr follow regex reg
+
+              - _NAME_: REGEX_CONTEXT_BPP_ID
+                attr: $.context.bpp_id
+                reg:
+                  - ^(?!.*\b(?:http|https|www)\b)[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$
+                usecasepath: $.message.intent.provider.id
+                _CONTINUE_: '!(attr are present && usecasepath are present)'
+                _RETURN_: attr follow regex reg
+              - _NAME_: REGEX_CONTEXT_BPP_URI
                 attr: $.context.bpp_uri
-                var_search:
-                  - search
-                _CONTINUE_: (action all in var_search)
+                reg:
+                  - ^https?:\/\/[a-zA-Z0-9.-]+(\/[a-zA-Z0-9\-._~:\/?#\[\]@!$&'()*+,;=%]*)?\/?$
+                usecasepath: $.message.intent.provider.id
+                _CONTINUE_: '!(attr are present && usecasepath are present)'
+                _RETURN_: attr follow regex reg
+    
+    
+      - _NAME_: SEARCH_CATEGORY_CODE
+        action:
+          - search
+        useCasePath: $.message.intent.provider.id
+        _CONTINUE_: '(useCasePath are present)'  
+        _RETURN_:
+          - _NAME_: REQUIRED_CATEGORY_CODE
+            attr: $.message.intent.category.descriptor.code
+            _RETURN_: attr are present
+          - _NAME_: VALID_ENUM_CATEGORY_CODE
+            attr: $.message.intent.category.descriptor.code
+            enumList: *loanCategories
+            _CONTINUE_: '!(attr are present)'
+            _RETURN_: attr all in enumList  
+
+      #search -> 2
+      - _NAME_: SEARCH_ITEMS
+        action:
+          - search
+        useCasePath: $.message.intent.provider.id
+        _CONTINUE_: '!(useCasePath are present)' 
+        _RETURN_:
+          - _NAME_: REQUIRED_ITEM_FIELDS
+            _RETURN_: 
+              - _NAME_: REQUIRED_PROVIDER_ID
+                attr: $.message.intent.provider.id
+                _RETURN_: attr are present
+
+              - _NAME_: REQUIRED_PROVIDER_ITEM_ID
+                attr: $.message.intent.provider.items[*].id
+                _RETURN_: attr are present
+
+              - _NAME_: REQUIRED_XINPUT_FIELDS
+                _RETURN_:
+                  - _NAME_: REQUIRED_HEAD_CODE 
+                    attr: $.message.intent.provider.items[*].xinput.head.descriptor.code
+                    _RETURN_: attr are present
+                  - _NAME_: REQUIRED_FORM_ID
+                    attr: $.message.intent.provider.items[*].xinput.form.id
+                    _RETURN_: attr are present
+
+                  - _NAME_: REQUIRED_SUBMISSION_ID
+                    attr: $.message.intent.provider.items[*].xinput.form_response.submission_id
+                    useCasePath: $.message.intent.provider.items[*].xinput.head.descriptor.code
+                    formHeading: CONSENT_APPROVAL
+                    _CONTINUE_: '!(useCasePath equal to formHeading)'
+                    _RETURN_: attr are present
+
+                  - _NAME_: PERSONAL_LOAN_FIELDS
+                    usecasepath : $.message.intent.provider.items[*].xinput.head.descriptor.code
+                    formHeading: 
+                      - PERSONAL_INFORMATION
+                    _CONTINUE_: '!(usecasepath all in formHeading)'
+                    _RETURN_:
+                      - _NAME_: REQUIRED_FIELD_PAN_NAME_1
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.panName.value
+                        _RETURN_: attr are present
+
+                      - _NAME_: REQUIRED_FIELD_DOB
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.dob.value
+                        _RETURN_: attr are present
+
+                      - _NAME_: REQUIRED_FIELD_GENDER
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.gender.value
+                        _RETURN_: attr are present 
+
+                      - _NAME_: REQUIRED_FIELD_PAN
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.pan.value
+                        _RETURN_: attr are present
+
+                      - _NAME_: REQUIRED_FIELD_CONTACT_NUMBER
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.contactNumber.value
+                        _RETURN_: attr are present
+
+                      - _NAME_: REQUIRED_FIELD_INCOME
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.income.value
+                        _RETURN_: attr are present
+
+                      - _NAME_: REQUIRED_FIELD_COMPANY_NAME
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.companyName.value
+                        _RETURN_: attr are present
+
+                      - _NAME_: REQUIRED_FIELD_BUREAU_CONSENT
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.bureauConsent.value
+                        _RETURN_: attr are present
+
+                  - _NAME_: REQUIRED_CONSENT_FIELDS
+                    usecasepath: $.message.intent.provider.items[*].xinput.head.descriptor.code
+                    formHeading: 
+                      - CONSENT_APPROVAL
+                    _CONTINUE_: '!(usecasepath any in formHeading)'
+                    _RETURN_:
+                      - _NAME_: REQUIRED_FIELD_CONSENT_HANDLER
+                        attr:  $.message.intent.provider.items[*].xinput.form_response.submission_id
+                        _RETURN_: attr are present
+
+                  - _NAME_: GOLD_LOAN_FIELDS
+                    attr : $.message.intent.provider.items[*].xinput.head.descriptor.code
+                    formHeading: 
+                      - PERSONAL_INFORMATION_GOLD
+                    _CONTINUE_: '!(attr all in  formHeading)'
+                    _RETURN_: 
+                      - _NAME_: REQUIRED_FIELD_PAN
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.pan.value
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FULL_NAME
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.fullName.value
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_GENDER
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.gender.value
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_DOB
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.dob.value
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_CONTACT_NUMBER
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.contactNumber.value
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_PINCODE
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.pincode.value
+                        _RETURN_: attr are present 
+                      - _NAME_: REQUIRED_FIELD_JWELLERY
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.jewellery.value
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_PURITY
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.purity.value
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_BUREAU_CONSENT
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.bureauConsent.value
+                        _RETURN_: attr are present 
+
+                  - _NAME_: WORKING_CAPITAL_LOAN_FIELDS
+                    attr: $.message.intent.provider.items[*].xinput.head.descriptor.code
+                    formHeading:
+                      - BANK_STATEMENT_AND_GST_RETURNS
+                    _CONTINUE_: '!(attr all in  formHeading)'
+                    _RETURN_:
+                      - _NAME_: REQUIRED_FIELD_GSTIN_PROFILE_1
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.gstinProfile_1.value
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_GSTR_B2B_INVOICE_1
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.gstr1B2bInvoice_1.value
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_GSTR_B2B_CDNR_1
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.gstr1B2bCdnr_1.value
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_GSTR_B2B_INVOICES_1
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.gstr2aB2bInvoices_1.value
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_GSTR_3B_SUMMARY_1
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.gstr3bSummary_1.value
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_BANK_STATEMENT_FILES
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.bankStatementFiles_1.value
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_BANK_NAME
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.bankName_1.value
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_MIME_TYPE
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.mimeType_1.value
+                        _RETURN_: attr are present
+
+                  - _NAME_: BUSINESS_AND_FINANCIAL_DOCUMENTS_FIELDS
+                    usecasepath: $.message.intent.provider.items[*].xinput.head.descriptor.code
+                    formHeading: 
+                      - BUSINESS_AND_FINANCIAL_DOCUMENTS
+                    _CONTINUE_: '!(usecasepath all in  formHeading)'
+                    _RETURN_:
+                      - _NAME_: REQUIRED_FIELD_FINANCIAL_STATEMENTS
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.financialStatements.value
+                        _RETURN_: attr are present 
+
+                      - _NAME_: REQUIRED_FIELD_SHAREHOLDING_PATTERN
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.shareholdingPattern.value
+                        _RETURN_: attr are present 
+
+                      - _NAME_: REQUIRED_FIELD_ITR
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.itr.value
+                        _RETURN_: attr are present
+
+                  - _NAME_: TERM_LOAN_FIELDS
+                    usecasepath : $.message.intent.provider.items[*].xinput.head.descriptor.code
+                    formHeading: 
+                      - PERSONAL_INFORMATION_TERM
+                    _CONTINUE_: '!(usecasepath all in formHeading)'
+                    _RETURN_:
+                      - _NAME_: REQUIRED_FIELD_PAN
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.pan.value
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FULL_NAME
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.fullName.value
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_DOB
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.dob.value
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_CONSTITUTION
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.constitution.value
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_BUSINESS_PAN
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.businessPan.value
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_DOI
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.doi.value
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_NATURE_OF_BUSINESS
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.natureOfBusiness.value
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_ANNUAL_TURNOVER
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.annualTurnover.value
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_BUSINESS_PINCODE
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.businessPincode.value
+                        _RETURN_: attr are present                     
+
+                  - _NAME_: LAMF_FIELDS
+                    usecasepath : $.message.intent.provider.items[*].xinput.head.descriptor.code
+                    formHeading: 
+                      - PERSONAL_INFORMATION_LAMF
+                    _CONTINUE_: '!(usecasepath all in  formHeading)'
+                    _RETURN_:
+                      - _NAME_: REQUIRED_FIELD_PAN
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.pan.value
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_FULL_NAME
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.fullName.value
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_CONSTITUION
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.constitution.value
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_GENDER
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.gender.value
+                        _RETURN_: attr are present 
+                      - _NAME_: REQUIRED_FIELD_EMPLOYMENT_TYPE
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.employmentType.value
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_DOB
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.dob.value
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_ANNUAL_INCOME
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.annualIncome.value
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_MOBILE_NUMBER
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.mobileNumber.value
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_EMAIL_ID
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.emailId.value
+                        _RETURN_: attr are present
+
+                  - _NAME_: INVOICE_LOAN_FIELDS
+                    usecasepath : $.message.intent.provider.items[*].xinput.head.descriptor.code
+                    formHeading: 
+                      - ORGANIZATION_INFORMATION
+                    _CONTINUE_: '!(usecasepath all in formHeading)'
+                    _RETURN_: 
+                      - _NAME_: REQUIRED_FIELD_BUREAU_CONSENT_INVOICE
+                        attr:  $.message.intent.provider.items[*].xinput.form.data.bureauConsent.value
+                        _RETURN_: attr are present                   
+
+              - _NAME_: VALID_XINPUT_ENUMS
+                _RETURN_:
+                  - _NAME_: REQUIRED_HEAD_CODE 
+                    attr: $.message.intent.provider.items[*].xinput.head.descriptor.code
+                    _CONTINUE_: '!(attr are present)'
+                    enumList: *searchForms
+                    _RETURN_: attr all in enumList
+
+      - _NAME_: SEARCH_FULFILLMENTS
+        attr: $.message.intent.provider.fulfillments[*].customer.person.name
+        _CONTINUE_: '!(attr are present)'
+        _RETURN_:
+          - _NAME_: REQUIRED_FULFILLMENT_ITEMS
+            _RETURN_:
+              - _NAME_: REQUIRED_PERSON_NAME
+                attr: $.message.intent.provider.fulfillments[*].customer.person.name
+                _RETURN_: attr are present
+
+              - _NAME_: REQUIRED_PERSON_DOB
+                attr: $.message.intent.provider.fulfillments[*].customer.person.dob
+                _RETURN_: attr are present
+
+              - _NAME_: REQUIRED_PERSON_GENDER
+                attr: $.message.intent.provider.fulfillments[*].customer.person.gender
+                _RETURN_: attr are present 
+
+              - _NAME_: REQUIRED_CREDS_ID
+                attr: $.message.intent.provider.fulfillments[*].customer.person.creds[*].id
+                _RETURN_: attr are present
+
+              - _NAME_: REQUIRED_CREDS_TYPE
+                attr: $.message.intent.provider.fulfillments[*].customer.person.creds[*].type
+                _RETURN_: attr are present
+
+              - _NAME_: REQUIRED_CONTACT_EMAIL
+                attr: $.message.intent.provider.fulfillments[*].customer.contact.email
+                _RETURN_: attr are present
+
+              - _NAME_: REQUIRED_CONTACT_PHONE
+                attr: $.message.intent.provider.fulfillments[*].customer.contact.phone
+                _RETURN_: attr are present       
+
+
+      - _NAME_: SEARCH_PAYMENT
+        action:
+          - search
+        _RETURN_:
+          - _NAME_: REQUIRED_PAYMENT_ITEMS
+            _RETURN_:
+              - _NAME_: REQUIRED_PAYMENT_COLLECTED_BY
+                attr: $.message.intent.payment.collected_by
+                _RETURN_: attr are present
+
+      - _NAME_: SEARCH_TAGS
+        action:
+          - search
+        _RETURN_:
+          - _NAME_: REQUIRED_PAYMENT_TAGS
+            validTags: *paymentTagGroups
+            tagPath: $.message.intent.tags[*].descriptor.code
+            _CONTINUE_: '!(tagPath are present)'
+            _RETURN_: tagPath all in validTags
+
+          - _NAME_: REQUIRED_BAP_TERMS
+            _SCOPE_: $.message.intent.tags[?(@.descriptor.code == 'BAP_TERMS')]
+            subTags: $.list[*].descriptor.code
+            validValues: *bapTermTag
+            _RETURN_: subTags all in validValues
+
+    on_search:
+      - _NAME_: ON_SEARCH_CONTEXT
+        action:
+          - on_search
+        domain:
+          - ONDC:FIS12
+        version:
+          - 2.3.0
+        _RETURN_: &COMMON_CONTEXT
+          - _NAME_: CONTEXT_REQUIRED
+            _RETURN_:
+              - _NAME_: REQUIRED_CONTEXT_LOCATION_COUNTRY_CODE
+                attr: $.context.location.country.code
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_CONTEXT_LOCATION_CITY_CODE
+                attr: $.context.location.city.code
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_CONTEXT_DOMAIN
+                attr: $.context.domain
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_CONTEXT_TIMESTAMP
+                attr: $.context.timestamp
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_CONTEXT_BAP_ID
+                attr: $.context.bap_id
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_CONTEXT_BAP_URI
+                attr: $.context.bap_uri
                 _RETURN_: attr are present
               - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID
                 attr: $.context.transaction_id
@@ -51317,332 +51750,610 @@ x-validations:
               - _NAME_: REQUIRED_CONTEXT_TTL
                 attr: $.context.ttl
                 _RETURN_: attr are present
+              
+              - _NAME_: REQUIRED_CONTEXT_BPP_ID
+                attr: $.context.bpp_id
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_CONTEXT_BPP_URI
+                attr: $.context.bpp_uri
+                _RETURN_: attr are present
+
           - _NAME_: CONTEXT_ENUM
             _RETURN_:
               - _NAME_: VALID_CONTEXT_LOCATION_COUNTRY_CODE
                 attr: $.context.location.country.code
-                _CONTINUE_: "!(attr are present)"
+                _CONTINUE_: '!(attr are present)'
                 enumList:
                   - IND
-                _RETURN_: attr any in enumList
+                _RETURN_: attr all in enumList
               - _NAME_: VALID_CONTEXT_DOMAIN
                 attr: $.context.domain
                 enumList:
                   - ONDC:FIS12
-                _CONTINUE_: "!(attr are present)"
+                _CONTINUE_: '!(attr are present)'
                 _RETURN_: attr all in enumList
           - _NAME_: CONTEXT_REGEX
             _RETURN_:
               - _NAME_: REGEX_CONTEXT_LOCATION_CITY_CODE
                 attr: $.context.location.city.code
                 reg:
-                  - ^\*$
-                _CONTINUE_: "!(attr are present)"
+                  - (\\*)|(^std\\:[0-9]{2,4}$)
+                _CONTINUE_: '!(attr are present)'
                 _RETURN_: attr follow regex reg
-              - _NAME_: REGEX_CONTEXT_TIMESTAMP
+              - _NAME_: REGEX_CONTEXT_TIMESTAMP_1
                 attr: $.context.timestamp
                 reg:
-                  - ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$
-                _CONTINUE_: "!(attr are present)"
+                  - >-
+                    ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$
+                _CONTINUE_: '!(attr are present)'
                 _RETURN_: attr follow regex reg
+              
               - _NAME_: REGEX_CONTEXT_BAP_ID
                 attr: $.context.bap_id
                 reg:
                   - ^(?!.*\b(?:http|https|www)\b)[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$
-                _CONTINUE_: "!(attr are present)"
+                _CONTINUE_: '!(attr are present)'
                 _RETURN_: attr follow regex reg
               - _NAME_: REGEX_CONTEXT_BAP_URI
                 attr: $.context.bap_uri
                 reg:
-                  - ^https?://([a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*|localhost)(:\d+)?(/.*)?$
-                _CONTINUE_: "!(attr are present)"
+                  - ^https?:\/\/[a-zA-Z0-9.-]+(\/[a-zA-Z0-9\-._~:\/?#\[\]@!$&'()*+,;=%]*)?\/?$
+                _CONTINUE_: '!(attr are present)'
                 _RETURN_: attr follow regex reg
-              - _NAME_: REGEX_CONTEXT_TTL
+              - _NAME_: REQUIRED_CONTEXT_TTL
                 attr: $.context.ttl
                 reg:
-                  - ^P(?=\\d|T\\d)(\\d+Y)?(\\d+M)?(\\d+D)?(T(\\d+H)?(\\d+M)?(\\d+S)?)?$
-                _CONTINUE_: "!(attr are present)"
+                  - >-
+                    ^P(?=\\d|T\\d)(\\d+Y)?(\\d+M)?(\\d+D)?(T(\\d+H)?(\\d+M)?(\\d+S)?)?$
+                _CONTINUE_: '!(attr are present)'
                 _RETURN_: attr follow regex reg
-      - _NAME_: ANCHOR_DEFINITIONS
-        action:
-          - search
-        validTags_a3: &a3
-          - BUYER_FINDER_FEES
-          - SETTLEMENT_TERMS
-        validValues_a4: &a4
-          - BUYER_FINDER_FEES_TYPE
-          - BUYER_FINDER_FEES_PERCENTAGE
-        validTags_a5: &a5
-          - SETTLEMENT_TERMS
-        dummy_path: $.message.intent.payment.tags[*].descriptor.code
-        _CONTINUE_: "!(dummy_path are present)"
-        _RETURN_:
-          - _NAME_: DUMMY
-            attr: $.message.intent.payment.tags[*].descriptor.code
-            _RETURN_: attr are present
-      - _NAME_: SEARCH_CATEGORY_CODE
-        action:
-          - search
-        _RETURN_:
-          - _NAME_: REQUIRED_CATEGORY_CODE
-            attr: $.message.intent.category.descriptor.code
-            _RETURN_: attr are present
-          - _NAME_: VALID_ENUM_CATEGORY_CODE
-            attr: $.message.intent.category.descriptor.code
-            enumList:
-              - GOLD_LOAN
-              - PERSONAL_LOAN
-              - CREDIT_CARD
-            _CONTINUE_: "!(attr are present)"
-            _RETURN_: attr all in enumList
-      - _NAME_: SEARCH_PAYMENT
-        action:
-          - search
-        item_code: $.message.intent.category.descriptor.code
-        loan_type_match:
-          - PERSONAL_LOAN
-        _CONTINUE_: "!(item_code any in loan_type_match)"
-        _RETURN_:
-          - _NAME_: REQUIRED_PAYMENT_COLLECTED_BY
-            attr: $.message.intent.payment.collected_by
-            _RETURN_: attr are present
-          - _NAME_: VALID_PAYMENT_COLLECTED_BY_ENUM
-            attr: $.message.intent.payment.collected_by
-            enumList: &a2
-              - BPP
-              - BAP
-              - CONSUMER
-            _CONTINUE_: "!(attr are present)"
-            _RETURN_: attr any in enumList
-    on_search:
-      - _NAME_: ON_SEARCH_CONTEXT
-        action:
-          - on_search
-        domain:
-          - ONDC:FIS12
-        version:
-          - 2.0.3
-        _RETURN_: *a1
+
+              - _NAME_: REGEX_CONTEXT_BPP_ID
+                attr: $.context.bpp_id
+                reg:
+                  - ^(?!.*\b(?:http|https|www)\b)[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$
+                _CONTINUE_: '!(attr are present)'
+                _RETURN_: attr follow regex reg
+              - _NAME_: REGEX_CONTEXT_BPP_URI
+                attr: $.context.bpp_uri
+                reg:
+                  - ^https?:\/\/[a-zA-Z0-9.-]+(\/[a-zA-Z0-9\-._~:\/?#\[\]@!$&'()*+,;=%]*)?\/?$
+                _CONTINUE_: '!(attr are present)'
+                _RETURN_: attr follow regex reg
+    
+          
+
+
       - _NAME_: ON_SEARCH_CATALOG_NAME
         attr: $.message.catalog.descriptor.name
         _RETURN_: attr are present
-      - _NAME_: ON_SEARCH_CATEGORIES_PL
-        _SCOPE_: $.message.catalog.providers[*].categories[?(@.descriptor.code=='PERSONAL_LOAN')]
+
+      - _NAME_: ON_SEARCH_PROVIDER
+        action: 
+          - on_search
         _RETURN_:
-          - _NAME_: REQUIRED_CATEGORIES_NAME
-            attr: $.message.catalog.providers[*].categories[*].descriptor.name
+          - _NAME_: ON_SEARCH_PROVIDER_ID
+            attr:  $.message.catalog.providers[*].id
             _RETURN_: attr are present
-          - _NAME_: REQUIRED_CATEGORIES_CODE
-            attr: $.message.catalog.providers[*].categories[*].descriptor.code
+          - _NAME_: ON_SEARCH_PROVIDER_NAME
+            attr:  $.message.catalog.providers[*].descriptor.name
             _RETURN_: attr are present
-          - _NAME_: VALID_ENUM_CATEGORIES_CODE
-            attr: $.message.catalog.providers[*].categories[*].descriptor.code
-            enumList:
-              - PERSONAL_LOAN
-              - BUREAU_LOAN
-              - AA_PERSONAL_LOAN
-              - GOLD_LOAN
-              - AA_LOAN
-              - LOAN
-              - PERSONAL_INFORMATION
-            _RETURN_: attr any in enumList
-          - _NAME_: REQUIRED_CATEGORIES_ID
-            attr: $.message.catalog.providers[*].categories[*].id
+          - _NAME_: ON_SEARCH_PROVIDER_IMAGES_URL
+            attr:  $.message.catalog.providers[*].descriptor.images[*].url
             _RETURN_: attr are present
-          - _NAME_: REQUIRED_CATEGORIES_PARENT_ID
+          - _NAME_: ON_SEARCH_PROVIDER_IMAGES_SIZE_TYPE
+            attr:  $.message.catalog.providers[*].descriptor.images[*].size_type
+            _RETURN_: attr are present    
+
+      - _NAME_: ON_SEARCH_CATEGORIES
+        action: 
+          - on_search
+        usecasepath: $.message.catalog.providers[*].categories[*].id
+        _CONTINUE_: '!(usecasepath are present)'
+        _RETURN_:
+          - _NAME_: ON_SEARCH_CATEGORIES_NAME
+            attr:  $.message.catalog.providers[*].categories[*].descriptor.name
+            _RETURN_: attr are present
+          - _NAME_: ON_SEARCH_CATEGORIES_CODE
+            attr:  $.message.catalog.providers[*].categories[*].descriptor.code
+            _RETURN_: attr are present
+          - _NAME_: ON_SEARCH_CATEGORIES_ID
+            attr:  $.message.catalog.providers[*].categories[*].id
+            _RETURN_: attr are present
+          
+          - _NAME_: ON_SEARCH_CATEGORIES_PARENT_ID
             attr: $.message.catalog.providers[*].categories[*].parent_category_id
             category_code_path: $.message.catalog.providers[*].categories[*].descriptor.code
             var_category_code:
-              - BUREAU_LOAN
-              - AA_LOAN
-              - PERSONAL_LOAN
-              - AA_PERSONAL_LOAN
-              - GOLD_LOAN
-            _CONTINUE_: (var_category_code any in category_code_path)
+              - *LOAN
+            _CONTINUE_: '(category_code_path any in var_category_code)'
             _RETURN_: attr are present
-      - _NAME_: ON_SEARCH_ITEMS_PL
-        _SCOPE_: $.message.catalog.providers[*].categories[?(@.descriptor.code=='PERSONAL_LOAN')]
-        _RETURN_:
-          - _NAME_: REQUIRED_ITEM_ID
-            attr: $.message.catalog.providers[*].items[*].id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_ITEM_CATEGORY_IDS
-            attr: $.message.catalog.providers[*].items[*].category_ids[*]
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_ITEM_DESCRIPTOR_NAME
-            attr: $.message.catalog.providers[*].items[*].descriptor.name
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_GENERAL_INFO_TAG_GROUP
-            validTags:
-              - GENERAL_INFO
-            tagPath: $.message.catalog.providers[*].items[*].tags[*].descriptor.code
-            _RETURN_: tagPath any in validTags
-          - _NAME_: REQUIRED_GENERAL_INFO_LIST
-            _SCOPE_: $.message.catalog.providers[*].items[*].tags[?(@.descriptor.code=='GENERAL_INFO')]
-            subTags: $.list[*].descriptor.code
-            validValues:
-              - MIN_INTEREST_RATE
-              - MAX_INTEREST_RATE
-              - MIN_TENURE
-              - MAX_TENURE
-              - MIN_LOAN_AMOUNT
-              - MAX_LOAN_AMOUNT
-            _CONTINUE_: "!(subTags are present)"
-            _RETURN_: subTags all in validValues
-          - _NAME_: REQUIRED_XINPUT
-            attr: $.message.catalog.providers[*].items[*].xinput.required
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_XINPUT_FORM_URL
-            attr: $.message.catalog.providers[*].items[*].xinput.form.url
-            _RETURN_: attr are present
-          - _NAME_: VALID_XINPUT_HEADINGS_ENUM
-            attr: $.message.catalog.providers[*].items[*].xinput.head.headings[*]
-            enumList:
-              - KYC
-              - KYC_OFFLINE
-              - JOURNEY_OFFLINE
-              - SET_LOAN_AMOUNT
-              - PERSONAL_INFORMATION
-              - Personal Information
-              - ACCOUNT_INFORMATION
-              - Account Information
-              - EMANDATE
-              - LOAN_AGREEMENT
-              - BUREAU_CONSENT
-              - AA_CONSENT
-              - Set Loan Amount
-              - Know your Customer
-              - Emandate
-              - Loan Agreement
-              - Loan Details
-            _RETURN_: attr any in enumList
-      - _NAME_: ON_SEARCH_CATEGORIES_CC
-        _SCOPE_: $.message.catalog.providers[*].categories[?(@.descriptor.code=='CREDIT_CARD')]
-        _RETURN_:
-          - _NAME_: REQUIRED_CATEGORIES_NAME
-            attr: $.message.catalog.providers[*].categories[*].descriptor.name
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CATEGORIES_CODE
+
+          - _NAME_: VALID_ENUM_CATEGORY_CODE
             attr: $.message.catalog.providers[*].categories[*].descriptor.code
-            _RETURN_: attr are present
-          - _NAME_: VALID_ENUM_CATEGORIES_CODE
-            attr: $.message.catalog.providers[*].categories[*].descriptor.code
-            enumList:
-              - CARD
-              - CREDIT_CARD
-              - PREMIUIM_CARDS
-              - TRAVEL_CARDS
-              - REWARDS_CARDS
-              - LIFESTYLE_CARDS
-            _RETURN_: attr all in enumList
-          - _NAME_: REQUIRED_CATEGORIES_ID
-            attr: $.message.catalog.providers[*].categories[*].id
-            _RETURN_: attr are present
-      - _NAME_: ON_SEARCH_ITEMS_CC
-        _SCOPE_: $.message.catalog.providers[*].categories[?(@.descriptor.code=='CREDIT_CARD')]
+            enumList: *loanCategories
+            _CONTINUE_: '!(attr are present)'
+            _RETURN_: attr all in enumList  
+
+      # - _NAME_: ON_SEARCH_CATEGORIES
+      #   action: on_search
+      #   _RETURN_:
+      #     - _NAME_: ON_SEARCH_CATEGORIES_NAME
+      #       attr:  $.message.catalog.providers[*].categories[*].descriptor.name
+      #       _RETURN_: attr are present
+      #     - _NAME_: ON_SEARCH_CATEGORIES_CODE
+      #       attr:  $.message.catalog.providers[*].categories[*].descriptor.code
+      #       _RETURN_: attr are present
+      #     - _NAME_: ON_SEARCH_CATEGORIES_ID
+      #       attr:  $.message.catalog.providers[*].categories[*].id
+      #       _RETURN_: attr are present
+          
+      #     - _NAME_: ON_SEARCH_CATEGORIES_PARENT_ID
+      #       attr: $.message.catalog.providers[*].categories[*].parent_category_id
+      #       category_code_path: $.message.catalog.providers[*].categories[*].descriptor.code
+      #       var_category_code:
+      #         - *LOAN
+      #       _CONTINUE_: '(category_code_path all in var_category_code)'
+      #       _RETURN_: attr are present
+
+      #     - _NAME_: VALID_ENUM_CATEGORY_CODE
+      #       attr: $.message.catalog.providers[*].categories[*].descriptor.code
+      #       enumList: *loanCategories
+      #       _CONTINUE_: '!(attr are present)'
+      #       _RETURN_: attr all in enumList  
+
+      - _NAME_: ON_SEARCH_ITEMS
         _RETURN_:
-          - _NAME_: REQUIRED_ITEM_ID
-            attr: $.message.catalog.providers[*].items[*].id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_ITEM_CATEGORY_IDS
-            attr: $.message.catalog.providers[*].items[*].category_ids[*]
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_ITEM_DESCRIPTOR_NAME
-            attr: $.message.catalog.providers[*].items[*].descriptor.name
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_GENERAL_INFO_TAG_GROUP
-            validTags:
-              - GENERAL_INFO
-            tagPath: $.message.catalog.providers[*].items[*].tags[*].descriptor.code
-            _RETURN_: tagPath any in validTags
-          - _NAME_: REQUIRED_GENERAL_INFO_LIST_CC
-            _SCOPE_: $.message.catalog.providers[*].items[*].tags[?(@.descriptor.code=='GENERAL_INFO')]
+          - _NAME_: REQUIRED_ITEMS
+            _RETURN_:
+              - _NAME_: REQUIRED_ITEM_ID
+                attr: $.message.catalog.providers[*].items[*].id
+                _RETURN_: attr are present
+
+              - _NAME_: REQUIRED_ITEM_CODE
+                attr: $.message.catalog.providers[*].items[*].descriptor.code
+                _RETURN_: attr are present
+
+              - _NAME_: REQUIRED_ITEM_CATEGORY_ID
+                attr: $.message.catalog.providers[*].items[*].category_ids[*]
+                _RETURN_: attr are present
+              #check category id exist
+              - _NAME_: CHECK_CATEGORY_ID
+                attr: $.message.catalog.providers[*].items[*].category_ids[*]
+                useCasePath: $.message.catalog.providers[*].categories[*].id
+                _CONTINUE_: '!(useCasePath are present)'
+                _RETURN_: (attr any in useCasePath)
+
+              - _NAME_: REQUIRED_ITEM_FULFILLMENT_ID
+                attr: $.message.catalog.providers[*].items[*].fulfillment_ids[*]
+                _RETURN_: attr are present
+              
+              - _NAME_: REQUIRED_XINPUT_FIELDS
+                usecasepath: $.message.catalog.providers[*].items[*].tags[*].descriptor.code
+                validTags:
+                  - LOAN_INFO
+                _CONTINUE_: '!(usecasepath are present && usecasepath all in validTags)'
+                _RETURN_:
+                  - _NAME_: REQUIRED_HEAD_CODE 
+                    attr: $.message.catalog.providers[*].items[*].xinput.head.descriptor.code
+                    _RETURN_: attr are present
+                  - _NAME_: REQUIRED_HEAD_NAME
+                    attr: $.message.catalog.providers[*].items[*].xinput.head.descriptor.name
+                    _RETURN_: attr are present
+
+                  - _NAME_: REQUIRED_FORM_HEADINGS
+                    attr: $.message.catalog.providers[*].items[*].xinput.head.headings[*]
+                    _RETURN_: attr are present
+
+                  - _NAME_: REQUIRED_FORM_ID
+                    attr: $.message.catalog.providers[*].items[*].xinput.form.id
+                    _RETURN_: attr are present
+
+                  - _NAME_: REQUIRED_FORM_MIME_TYPE
+                    attr: $.message.catalog.providers[*].items[*].xinput.form.mime_type
+                    _RETURN_: attr are present
+      
+
+
+                  #Pending
+                  - _NAME_: PERSONAL_LOAN_FIELDS
+                    usecasepath : $.message.catalog.providers[*].items[*].xinput.head.descriptor.code
+                    formHeading: 
+                      - PERSONAL_INFORMATION
+                    _CONTINUE_: '!(usecasepath all in  formHeading)'
+                    _RETURN_:
+                      - _NAME_: REQUIRED_FIELD_PAN_NAME
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.panName.type
+                        _RETURN_: attr are present
+
+                      - _NAME_: REQUIRED_FIELD_DOB
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.dob.type
+                        _RETURN_: attr are present
+
+                      - _NAME_: REQUIRED_FIELD_GENDER
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.gender.type
+                        _RETURN_: attr are present 
+
+                      - _NAME_: REQUIRED_FIELD_PAN
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.pan.type
+                        _RETURN_: attr are present
+
+                      - _NAME_: REQUIRED_FIELD_CONTACT_NUMBER
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.contactNumber.type
+                        _RETURN_: attr are present
+
+                      - _NAME_: REQUIRED_FIELD_EMPLOYMENT_TYPE
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.employmentType.type
+                        _RETURN_: attr are present
+
+                      - _NAME_: REQUIRED_FIELD_INCOME
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.income.type
+                        _RETURN_: attr are present
+
+                      - _NAME_: REQUIRED_FIELD_COMPANY_NAME
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.companyName.type
+                        _RETURN_: attr are present
+
+                      - _NAME_: REQUIRED_FIELD_BUREAU_CONSENT
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.bureauConsent.type
+                        _RETURN_: attr are present
+
+                  - _NAME_: REQUIRED_CONSENT_FIELDS
+                    usecasepath: $.message.catalog.providers[*].items[*].xinput.head.descriptor.code
+                    formHeading: 
+                      - CONSENT_APPROVAL
+                    _CONTINUE_: '!(usecasepath any in formHeading)'
+                    _RETURN_:
+                      # - _NAME_: REQUIRED_FIELD_AA_ID
+                      #   attr:  $.message.catalog.providers[*].items[*].xinput.form.data.aa_id.type
+                      #   _RETURN_: attr are present
+
+                      - _NAME_: REQUIRED_FIELD_CONSENT_HANDLER
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.consent_handler
+                        _RETURN_: attr are present
+                    
+                  - _NAME_: INVOICE_LOAN_FIELDS
+                    usecasepath : $.message.catalog.providers[*].items[*].xinput.head.descriptor.code
+                    formHeading: 
+                      - ORGANIZATION_INFORMATION
+                    _CONTINUE_: '!(usecasepath all in formHeading)'
+                    _RETURN_: 
+                      - _NAME_: REQUIRED_FIELD_BUREAU_CONSENT
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.bureauConsent.type
+                        _RETURN_: attr are present
+
+                  - _NAME_: GOLD_LOAN_FIELDS
+                    usecasepath : $.message.catalog.providers[*].items[*].xinput.head.descriptor.code
+                    formHeading: 
+                      - PERSONAL_INFORMATION_GOLD
+                    _CONTINUE_: '!(usecasepath all in formHeading)'
+                    _RETURN_: 
+                      - _NAME_: REQUIRED_FIELD_PAN
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.pan.type
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FULL_NAME
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.fullName.type
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_GENDER
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.gender.type
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_DOB
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.dob.type
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_CONTACT_NUMBER
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.contactNumber.type
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_PINCODE
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.pincode.type
+                        _RETURN_: attr are present 
+                      - _NAME_: REQUIRED_FIELD_JWELLERY
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.jewellery.type
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_PURITY
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.purity.type
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_BUREAU_CONSENT
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.bureauConsent.type
+                        _RETURN_: attr are present 
+
+                      - _NAME_: REQUIRED_CONSENT_FIELDS
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.bureauConsent.type
+                        usecasepath: $.message.order.items[*].xinput.head.descriptor.code
+                        formHeading: 
+                          - CONSENT_APPROVAL
+                        _CONTINUE_: '!(usecasepath any in formHeading)'
+                        _RETURN_:
+                          - _NAME_: REQUIRED_FIELD_AA_ID
+                            attr:  $.message.catalog.providers[*].items[*].xinput.form.data.aa_id.type
+                            _RETURN_: attr are present                         
+
+                  - _NAME_: WORKING_CAPITAL_LOAN_FIELDS
+                    usecasepath : $.message.catalog.providers[*].items[*].xinput.head.descriptor.code
+                    formHeading: 
+                      - BANK_STATEMENT_AND_GST_RETURNS
+                    _CONTINUE_: '!(usecasepath all in  formHeading)'
+                    _RETURN_:
+                      - _NAME_: REQUIRED_FIELD_GSTIN_PROFILE_1
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.gstinProfile_1.type
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_GSTR_B2B_INVOICE_1
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.gstr1B2bInvoice_1.type
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_GSTR_B2B_CDNR_1
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.gstr1B2bCdnr_1.type
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_GSTR_B2B_INVOICES_1
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.gstr2aB2bInvoices_1.type
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_GSTR_3B_SUMMARY_1
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.gstr3bSummary_1.type
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_BANK_STATEMENT_FILES
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.bankStatementFiles_1.type
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_BANK_NAME
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.bankName_1.type
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_MIME_TYPE
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.mimeType_1.type
+                        _RETURN_: attr are present
+
+
+                  - _NAME_: BUSINESS_AND_FINANCIAL_DOCUMENTS_FIELDS
+                    usecasepath : $.message.catalog.providers[*].items[*].xinput.head.descriptor.code
+                    formHeading: 
+                      - BUSINESS_AND_FINANCIAL_DOCUMENTS
+                    _CONTINUE_: '!(usecasepath all in  formHeading)'
+                    _RETURN_:
+                      - _NAME_: REQUIRED_FIELD_FINANCIAL_STATEMENTS
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.financialStatements.type
+                        _RETURN_: attr are present 
+
+                      - _NAME_: REQUIRED_FIELD_SHAREHOLDING_PATTERN
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.shareholdingPattern.type
+                        _RETURN_: attr are present 
+
+                      - _NAME_: REQUIRED_FIELD_ITR
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.itr.type
+                        _RETURN_: attr are present            
+
+                  - _NAME_: TERM_LOAN_FIELDS
+                    usecasepath : $.message.catalog.providers[*].items[*].xinput.head.descriptor.code
+                    formHeading: 
+                      - PERSONAL_INFORMATION_TERM
+                    _CONTINUE_: '!(usecasepath all in formHeading)'
+                    _RETURN_:
+                      - _NAME_: REQUIRED_FIELD_PAN
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.pan.type
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FULL_NAME
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.fullName.type
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_DOB
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.dob.type
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_CONSTITUTION
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.constitution.type
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_BUSINESS_PAN
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.businessPan.type
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_DOI
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.doi.type
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_NATURE_OF_BUSINESS
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.natureOfBusiness.type
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_ANNUAL_TURNOVER
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.annualTurnover.type
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_BUSINESS_PINCODE
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.businessPincode.type
+                        _RETURN_: attr are present
+
+                  - _NAME_: TERM_LOAN_FIELDS_GST
+                    usecasepath : $.message.catalog.providers[*].items[*].xinput.head.descriptor.code
+                    formHeading: 
+                      - PERSONAL_INFORMATION_TERM_GST
+                    _CONTINUE_: '!(usecasepath all in formHeading)'
+                    _RETURN_:
+                      - _NAME_: REQUIRED_FIELD_BUREAU_CONSENT
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.bureauConsent.type
+                        _RETURN_: attr are present
+
+                  - _NAME_: LAMF_FIELDS
+                    usecasepath : $.message.catalog.providers[*].items[*].xinput.head.descriptor.code
+                    formHeading: 
+                      - PERSONAL_INFORMATION_LAMF
+                    _CONTINUE_: '!(usecasepath all in  formHeading)'
+                    _RETURN_:
+                      - _NAME_: REQUIRED_FIELD_PAN
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.pan.type
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_FULL_NAME
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.fullName.type
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_CONSTITUION
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.constitution.type
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_GENDER
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.gender.type
+                        _RETURN_: attr are present 
+                      - _NAME_: REQUIRED_FIELD_EMPLOYMENT_TYPE
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.employmentType.type
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_DOB
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.dob.type
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_ANNUAL_INCOME
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.annualIncome.type
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_MOBILE_NUMBER
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.mobileNumber.type
+                        _RETURN_: attr are present
+                      - _NAME_: REQUIRED_FIELD_EMAIL_ID
+                        attr:  $.message.catalog.providers[*].items[*].xinput.form.data.emailId.type
+                        _RETURN_: attr are present
+          - _NAME_: VALID_ENUM_ITEMS
+            _RETURN_:
+              - _NAME_: VALID_ITEM_CODE
+                attr: $.message.catalog.providers[*].items[*].descriptor.code
+                enumList: *itemCode
+                _CONTINUE_: '!(attr are present)'
+                _RETURN_: attr all in enumList
+
+              - _NAME_: VALID_HEAD_CODE
+                attr: $.message.catalog.providers[*].items[*].xinput.head.descriptor.code
+                _CONTINUE_: '!(attr are present)'
+                enumList: *searchForms
+                _RETURN_: attr all in enumList
+
+      - _NAME_: ON_SEARCH_FULFILLMENTS
+        _RETURN_:
+          - _NAME_: REQUIRED_FULFILLMENT_ITEMS
+            _RETURN_:
+              - _NAME_: REQUIRED_FULFILLMENT_ID
+                attr: $.message.catalog.providers[*].fulfillments[*].id
+                _RETURN_: attr are present
+
+              - _NAME_: REQUIRED_FULFILLMENT_TYPE
+                attr: $.message.catalog.providers[*].fulfillments[*].type
+                _RETURN_: attr are present
+
+          - _NAME_: VALID_FULFILLMENT_ITEMS
+            _RETURN_: 
+              - _NAME_: VALID_FULFILLMENT_TYPE
+                attr: $.message.catalog.providers[*].fulfillments[*].type
+                enumList: *fulfillmentTypes
+                _CONTINUE_: '!(attr are present)'
+                _RETURN_: (attr all in enumList)
+
+          - _NAME_:  VALID_FULFILLMENT_TAGS
+            _SCOPE_: $.message.catalog.providers[*].fulfillments[*][?(@.type != 'BASE_ORDER')]
+            _RETURN_:
+              - _NAME_: REQUIRED_FULFILLMENT_TAGS
+                validTags: *CHECKLISTS
+                tagPath: $.message.catalog.providers[*].fulfillments[*].tags[*].descriptor.code
+                _CONTINUE_: '!(tagPath are present)'
+                _RETURN_: tagPath all in validTags
+
+              #use-case based validations are not enabled
+              - _NAME_: REQUIRED_CHECKLISTS_ITEM
+                _SCOPE_: $.message.catalog.providers[*].fulfillments[*].tags[?(@.descriptor.code == 'CHECKLISTS')]
+                subTags: $.list[*].descriptor.code
+                validValues: *checkListTags
+                _RETURN_: subTags all in validValues
+
+      #commenting for LAMF single redirection
+      # - _NAME_: ON_SEARCH_PAYMENTS
+      #   _RETURN_:
+      #     - _NAME_: REQUIRED_PAYMENT_ITEMS
+      #       _RETURN_:
+      #         - _NAME_: REQUIRED_PAYMENT_TYPE
+      #           attr: $.message.catalog.providers[*].payments[*].type
+      #           _RETURN_: attr are present
+
+      #         - _NAME_: REQUIRED_PAYMENT_ID
+      #           attr: $.message.catalog.providers[*].payments[*].id
+      #           _RETURN_: attr are present
+
+      #         - _NAME_: REQUIRED_PAYMENT_STATUS
+      #           attr: $.message.catalog.providers[*].payments[*].status
+      #           _RETURN_: attr are present
+
+      #         - _NAME_: REQUIRED_PAYMENT_COLLECTED_BY
+      #           attr: $.message.catalog.providers[*].payments[*].collected_by
+      #           _RETURN_: attr are present
+
+      #         - _NAME_: REQUIRED_PAYMENT_TIME_LABEL
+      #           attr: $.message.catalog.providers[*].payments[*].time.label
+      #           _RETURN_: attr are present        
+
+      #     - _NAME_: VALID_PAYMENT_ITEMS
+      #       _RETURN_:
+      #         - _NAME_: VALID_PAYMENT_TYPE
+      #           attr: $.message.catalog.providers[*].payments[*].type
+      #           _CONTINUE_: '!(attr are present)'
+      #           enumList: *paymentType
+      #           _RETURN_:  attr all in enumList
+
+      #         - _NAME_: VALID_PAYMENT_STATUS
+      #           attr: $.message.catalog.providers[*].payments[*].status
+      #           _CONTINUE_: '!(attr are present)'
+      #           enumList: *paymentStatus
+      #           _RETURN_:  attr all in enumList
+
+      #         - _NAME_: VALID_PAYMENT_COLLECTOR
+      #           attr: $.message.catalog.providers[*].payments[*].collected_by
+      #           _CONTINUE_: '!(attr are present)'
+      #           enumList: *paymentCollector
+      #           _RETURN_:  attr all in enumList
+
+      #         - _NAME_: VALID_PAYMENT_LABEL
+      #           attr: $.message.catalog.providers[*].payments[*].time.label
+      #           _CONTINUE_: '!(attr are present)'
+      #           enumList: *paymentLabel
+      #           _RETURN_:  enumList all in attr       
+
+      - _NAME_: ON_SEARCH_TAGS
+        action:
+          - on_search
+        _RETURN_:
+          - _NAME_: REQUIRED_PAYMENT_TAGS
+            validTags: *paymentTagGroups
+            tagPath: $.message.catalog.tags[*].descriptor.code
+            _CONTINUE_: '!(tagPath are present)'
+            _RETURN_: tagPath all in validTags
+
+          - _NAME_: REQUIRED_BPP_TERMS
+            _SCOPE_: $.message.catalog.tags[?(@.descriptor.code == 'BPP_TERMS')]
             subTags: $.list[*].descriptor.code
-            validValues:
-              - WELCOME_BENEFIT
-              - ANNUAL_FEE
-              - JOINING_FEE
-              - REWARDS
-              - TRAVEL_BENEFITS
-              - LIFESTYLE_BENEFITS
-              - EVERYDAY_BENEFITS
-              - TNC_LINK
-              - APR
-            _CONTINUE_: "!(subTags are present)"
+            validValues: *bapTermTag
             _RETURN_: subTags all in validValues
-          - _NAME_: REQUIRED_XINPUT
-            attr: $.message.catalog.providers[*].items[*].xinput.required
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_XINPUT_FORM_URL
-            attr: $.message.catalog.providers[*].items[*].xinput.form.url
-            _RETURN_: attr are present
-          - _NAME_: VALID_XINPUT_HEADINGS_ENUM
-            attr: $.message.catalog.providers[*].items[*].xinput.head.headings[*]
-            enumList:
-              - KYC
-              - BUREAU_CONSENT
-              - AA_CONSENT
-              - Personal Information
-              - Set Loan Amount
-              - Know your Customer
-              - Account Information
-              - Emandate
-              - Loan Agreement
-              - PERSONAL_INFORMATION
-              - Loan Details
-            _RETURN_: attr all in enumList
-      - _NAME_: ON_SEARCH_PROVIDER
+
+      - _NAME_: ON_SEARCH_PROVIDER_TAGS
+        action: 
+          - on_search
         _RETURN_:
-          - _NAME_: REQUIRED_PROVIDER_ID
-            attr: $.message.catalog.providers[*].id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_PROVIDER_NAME
-            attr: $.message.catalog.providers[*].descriptor.name
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_PROVIDER_IMAGES_URL
-            attr: $.message.catalog.providers[*].descriptor.images[*].url
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_PROVIDER_IMAGES_SIZE_TYPE
-            attr: $.message.catalog.providers[*].descriptor.images[*].size_type
-            _RETURN_: attr are present
-      - _NAME_: ON_SEARCH_PROVIDER_CONTACT_INFO
-        _RETURN_:
-          - _NAME_: REQUIRED_CONTACT_INFO_TAG_GROUP
-            validTags: &a6
-              - CONTACT_INFO
+          - _NAME_: VALID_PROVODER_TAGS
+            validTags: *providerTags
             tagPath: $.message.catalog.providers[*].tags[*].descriptor.code
-            _RETURN_: tagPath any in validTags
-          - _NAME_: REQUIRED_CONTACT_INFO_LIST
-            _SCOPE_: $.message.catalog.providers[*].tags[?(@.descriptor.code=='CONTACT_INFO')]
+            _CONTINUE_: '!(tagPath are present)'
+            _RETURN_: tagPath all in validTags
+
+          - _NAME_: REQUIRED_CONTACT_INFO
+            _SCOPE_:  $.message.catalog.providers[*].tags[?(@.descriptor.code == 'CONTACT_INFO')]
             subTags: $.list[*].descriptor.code
-            validValues:
-              - GRO_NAME
-              - GRO_EMAIL
-              - GRO_CONTACT_NUMBER
-              - GRO_DESIGNATION
-              - GRO_ADDRESS
-              - CUSTOMER_SUPPORT_LINK
-              - CUSTOMER_SUPPORT_CONTACT_NUMBER
-              - CUSTOMER_SUPPORT_EMAIL
-            _CONTINUE_: "!(subTags are present)"
+            validValues: *contactInfo
             _RETURN_: subTags all in validValues
-      - _NAME_: ON_SEARCH_PROVIDER_LSP_INFO
-        _RETURN_:
-          - _NAME_: REQUIRED_LSP_INFO_TAG_GROUP
-            validTags: &a7
-              - LSP_INFO
-            tagPath: $.message.catalog.providers[*].tags[*].descriptor.code
-            _RETURN_: tagPath any in validTags
-          - _NAME_: REQUIRED_LSP_INFO_LIST
-            _SCOPE_: $.message.catalog.providers[*].tags[?(@.descriptor.code=='LSP_INFO')]
+
+          - _NAME_: REQUIRED_LSP_INFO
+            _SCOPE_:  $.message.catalog.providers[*].tags[?(@.descriptor.code == 'LSP_INFO')]
             subTags: $.list[*].descriptor.code
-            validValues: &a8
-              - LSP_NAME
-              - LSP_EMAIL
-              - LSP_CONTACT_NUMBER
-              - LSP_ADDRESS
-            _CONTINUE_: "!(subTags are present)"
+            validValues: *lspInfo
             _RETURN_: subTags all in validValues
+
+
+
+      - _NAME_: ON_SEARCH_ITEM_TAGS
+        action: 
+          - on_search
+        validTags: *itemLoanInfoTags
+        usecasepath: $.message.catalog.providers[*].items[*].tags[*].descriptor.code
+        _CONTINUE_: '!(usecasepath are present && usecasepath all in validTags)'
+        _RETURN_: 
+          - _NAME_: REQUIRED_LOAN_INFO_TAG_GROUP
+            _SCOPE_:  $.message.catalog.providers[*].items[*].tags[?(@.descriptor.code == 'LOAN_INFO')]
+            subTags: $.list[*].descriptor.code
+            validValues: *loanInfoTags
+            _RETURN_: subTags all in validValues
+
+          - _NAME_: REQUIRED_LOAN_OFFER_TAGS
+            _SCOPE_: $.message.catalog.providers[*].items[*].tags[?(@.descriptor.code == 'LOAN_OFFER')]
+            subTags: $.list[*].descriptor.code
+            validValues: *loanOffer
+            _RETURN_: subTags all in validValues   
+
     select:
       - _NAME_: SELECT_CONTEXT
         action:
@@ -51650,329 +52361,403 @@ x-validations:
         domain:
           - ONDC:FIS12
         version:
-          - 2.0.3
-        _RETURN_: *a1
-      - _NAME_: SELECT_PROVIDER_ID
+          - 2.3.0
+        _RETURN_: *COMMON_CONTEXT
+
+      - &_REQUIRED_PROVIDER_ID
+        _NAME_: REQUIRED_PROVIDER_ID
         attr: $.message.order.provider.id
         _RETURN_: attr are present
-      - _NAME_: SELECT_ITEMS
+
+      - _NAME_: REQUIRED_ITEM_FIELDS
         _RETURN_:
-          - _NAME_: REQUIRED_ITEM_ID
+          - &REQUIRED_ITEM_ID
+            _NAME_: REQUIRED_ITEM_ID
             attr: $.message.order.items[*].id
             _RETURN_: attr are present
-      - _NAME_: SELECT_XINPUT_PERSONAL_LOAN
-        item_code: $.message.order.items[*].descriptor.code
-        loan_type_match: &a11
-          - PERSONAL_LOAN
-        _CONTINUE_: "!(item_code any in loan_type_match)"
-        _RETURN_:
-          - _NAME_: REQUIRED_XINPUT_HEAD_INDEX
+          - &REQUIRED_PARENT_ITEM_ID
+            _NAME_: REQUIRED_PARENT_ITEM_ID
+            attr: $.message.order.items[*].parent_item_id
+            _RETURN_: attr are present
+
+          - _NAME_: REQUIRED_XINPUT_ITEMS
+            usecasepath:  $.message.order.items[*].xinput.form.id
+            _CONTINUE_: '!(usecasepath are present)'
             _RETURN_:
-              - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_MIN
-                attr: $.message.order.items[*].xinput.head.index.min
+              - _NAME_: SET_LOAN_AMOUNT_FORM
+                attrForm: $.message.order.items[*].xinput.head.descriptor.code
+                formHeading:
+                  - SET_LOAN_AMOUNT
+                _CONTINUE_: '!(attrForm equal to formHeading)'
+                _RETURN_: 
+                  - _NAME_: REQUIRED_REQUEST_AMOUNT
+                    attr: $.message.order.items[*].xinput.form.data.requestAmount.value
+                    _RETURN_: attr are present
+
+                  # - _NAME_: REQUIRED_REQUEST_TERM
+                  #   attr: $.message.order.items[*].xinput.form.data.requestTerm.value
+                  #   _RETURN_: attr are present
+
+              - _NAME_: REQUIRED_FORM_SUBMISSION_ID
+                attr: $.message.order.items[*].xinput.form_response.submission_id
+                useCasePath: $.message.order.items[*].xinput.head.descriptor.code
+                formHeading: 
+                  - *INDIVIDUAL_KYC
+                  - *MANUAL_VERIFICATION
+                _CONTINUE_: '!(useCasePath all in formHeading)'
                 _RETURN_: attr are present
-              - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_CUR
-                attr: $.message.order.items[*].xinput.head.index.cur
+
+              - _NAME_: BUSINESS_KYC_FORM
+                attrForm: $.message.order.items[*].xinput.head.descriptor.code
+                formHeading: 
+                  - BUSINESS_KYC
+                _CONTINUE_: '!(attrForm equal to formHeading)'
+                _RETURN_:  
+                  - _NAME_: REQUIRED_COMPANY_PAN
+                    attr: $.message.order.items[*].xinput.form.data.companyPan.value
+                    _RETURN_: attr are present
+
+                  - _NAME_: REQUIRED_GST_CERTIFICATE
+                    attr: $.message.order.items[*].xinput.form.data.gstCertificate.value
+                    _RETURN_: attr are present 
+
+                  - _NAME_: REQUIRED_BUSINESS_PROOF
+                    attr: $.message.order.items[*].xinput.form.data.businessProof.value
+                    _RETURN_: attr are present
+
+                  - _NAME_: REQUIRED_APPLICATION_FORM
+                    attr: $.message.order.items[*].xinput.form.data.applicationForm.value
+                    _RETURN_: attr are present     
+                
+                        
+          
+          # for LAMF
+          - _NAME_: VALID_TAGS
+            tagPath1: $.message.order.items[*].tags[*].descriptor.code
+            _CONTINUE_: '!(tagPath1 are present)'
+            _RETURN_:
+              - _NAME_: VALID_ITEM_TAGS
+                tagPath: $.message.order.items[*].tags[*].descriptor.code
+                validTags: *itemTags
+                _CONTINUE_: '!(tagPath are present)'
+                _RETURN_: tagPath all in validTags
+              
+              - _NAME_: VALID_PLEDGE_TAGS
+                _SCOPE_: $.message.order.items[*].tags[?(@.descriptor.code == 'PLEDGE_REQUIREMENTS')]
+                subTags: $.list[*].descriptor.code
+                validValues:
+                  - *SCHEME_CODE
+                  - *UNITS_PLEDGED
+                _RETURN_: subTags all in validValues
+
+              
+      - &ACTION_FULFILMENT_ITEMS
+        _NAME_: REQUIRED_FULFILMENT_ITEMS
+        _RETURN_:
+          - _NAME_: REQUIRED_FULFILLMENT_ID
+            attr:  $.message.order.fulfillments[*].id
+            _RETURN_: attr are present
+
+          - _NAME_: REQUIRED_CUSTOMER_ITEMS
+            attr:  $.message.order.fulfillments[*].customer.person.name
+            _CONTINUE_: '!(attr are present)'
+            _RETURN_:
+              - _NAME_: REQUIRED_CUSTOMER_DOB
+                attr: $.message.order.fulfillments[*].customer.person.dob
                 _RETURN_: attr are present
-              - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_MAX
-                attr: $.message.order.items[*].xinput.head.index.max
+              - _NAME_: REQUIRED_CUSTOMER_GENDER
+                attr: $.message.order.fulfillments[*].customer.person.gender
                 _RETURN_: attr are present
+              
+              - &REQUIRED_CREDS
+                _NAME_: REQUIRED_CREDS
+                attr:  $.message.order.fulfillments[*].customer.person.creds[*].id
+                _CONTINUE_: '!(attr are present)'
+                _RETURN_:
+                  - _NAME_: REQUIRED_CUSTOMER_CREDS_ID
+                    attr: $.message.order.fulfillments[*].customer.person.creds[*].id
+                    _RETURN_: attr are present
+                  - _NAME_: REQUIRED_CUSTOMER_CREDS_TYPE
+                    attr: $.message.order.fulfillments[*].customer.person.creds[*].type
+                    _RETURN_: attr are present
+
+              - _NAME_: REQUIRED_CUSTOMER_CONTACT_EMAIL
+                attr: $.message.order.fulfillments[*].customer.contact.email
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_CUSTOMER_CONTACT_PHONE
+                attr: $.message.order.fulfillments[*].customer.contact.phone
+                _RETURN_: attr are present    
+
+
     on_select:
       - _NAME_: ON_SELECT_CONTEXT
         action:
-          - on_select
+          - select
         domain:
           - ONDC:FIS12
         version:
-          - 2.0.3
-        _RETURN_: *a1
-      - _NAME_: ON_SELECT_PROVIDER
+          - 2.3.0
+        _RETURN_: *COMMON_CONTEXT
+
+
+      - &ON_ACTION_PROVIDER
+        _NAME_: ON_SELECT_PROVIDER
+        usecasepath: $.message.order.provider.id
+        _CONTINUE_: '!(usecasepath are present)'
         _RETURN_:
-          - _NAME_: REQUIRED_PROVIDER_ID
-            attr: $.message.order.provider.id
+          - _NAME_: ON_SELECT_PROVIDER_ID
+            attr:  $.message.order.provider.id
             _RETURN_: attr are present
-          - _NAME_: REQUIRED_PROVIDER_NAME
-            attr: $.message.order.provider.descriptor.name
+          - _NAME_: ON_SELECT_PROVIDER_NAME
+            attr:  $.message.order.provider.descriptor.name
             _RETURN_: attr are present
-      - _NAME_: ON_SELECT_PROVIDER_LOCATIONS_GOLD
-        item_code: $.message.order.items[*].descriptor.code
-        loan_type_match: &a10
-          - LOAN
-        locationspath: $.message.order.provider.locations[*].id
-        _CONTINUE_: "!(item_code any in loan_type_match) || !(locationspath are present)"
+          - _NAME_: ON_SELECT_PROVIDER_IMAGES_URL
+            attr:  $.message.order.provider.descriptor.images[*].url
+            _RETURN_: attr are present
+          - _NAME_: ON_SELECT_PROVIDER_IMAGES_SIZE_TYPE
+            attr:  $.message.order.provider.descriptor.images[*].size_type
+            _RETURN_: attr are present
+      
+        
+      - &ON_SELECT_PROVIDER_TAGS
+        _NAME_: ON_SELECT_PROVIDER_TAGS
+        action: 
+          - on_select
         _RETURN_:
-          - _NAME_: REQUIRED_PROVIDER_LOCATIONS
-            attr: $.message.order.provider.locations[*].id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_PROVIDER_LOCATION_GPS
-            attr: $.message.order.provider.locations[*].gps
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_PROVIDER_LOCATION_ADDRESS
-            attr: $.message.order.provider.locations[*].address
-            _RETURN_: attr are present
-      - _NAME_: ON_SELECT_PROVIDER_TAGS
-        tagPath: $.message.order.provider.tags[*].descriptor.code
-        _CONTINUE_: "!(tagPath are present)"
-        _RETURN_:
-          - _NAME_: REQUIRED_CONTACT_INFO_TAG_GROUP
-            validTags: *a6
+          - _NAME_: VALID_PROVODER_TAGS
+            validTags: *providerTags
             tagPath: $.message.order.provider.tags[*].descriptor.code
-            _RETURN_: tagPath any in validTags
-          - _NAME_: REQUIRED_CONTACT_INFO_LIST
-            _SCOPE_: $.message.order.provider.tags[?(@.descriptor.code=='CONTACT_INFO')]
+            _CONTINUE_: '!(tagPath are present)'
+            _RETURN_: tagPath all in validTags
+
+          - _NAME_: REQUIRED_CONTACT_INFO
+            _SCOPE_: $.message.order.provider.tags[?(@.descriptor.code == 'CONTACT_INFO')]
             subTags: $.list[*].descriptor.code
-            validValues:
-              - GRO_NAME
-              - GRO_EMAIL
-              - GRO_CONTACT_NUMBER
-              - GRO_DESIGNATION
-              - GRO_ADDRESS
-              - CUSTOMER_SUPPORT_LINK
-              - CUSTOMER_SUPPORT_CONTACT_NUMBER
-              - CUSTOMER_SUPPORT_EMAIL
-            _CONTINUE_: "!(subTags are present)"
-            _RETURN_: subTags all in validValues
-          - _NAME_: REQUIRED_LSP_INFO_TAG_GROUP
-            validTags: *a7
-            tagPath: $.message.order.provider.tags[*].descriptor.code
-            _RETURN_: tagPath any in validTags
-          - _NAME_: REQUIRED_LSP_INFO_LIST
-            _SCOPE_: $.message.order.provider.tags[?(@.descriptor.code=='LSP_INFO')]
+            validValues: *contactInfo
+            _RETURN_: subTags all in validValues 
+
+          - _NAME_: REQUIRED_LSP_INFO
+            _SCOPE_: $.message.order.provider.tags[?(@.descriptor.code == 'LSP_INFO')]
             subTags: $.list[*].descriptor.code
-            validValues: *a8
-            _CONTINUE_: "!(subTags are present)"
-            _RETURN_: subTags all in validValues
-      - _NAME_: ON_SELECT_ITEMS_BASIC
+            validValues: *lspInfo
+            _RETURN_: subTags all in validValues   
+    
+      - _NAME_: ON_SELECT_ITEMS
         _RETURN_:
-          - _NAME_: REQUIRED_ITEM_ID
-            attr: $.message.order.items[*].id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_ITEM_DESCRIPTOR_CODE
-            attr: $.message.order.items[*].descriptor.code
-            _RETURN_: attr are present
-          - _NAME_: VALID_ITEM_DESCRIPTOR_CODE_ENUM
-            attr: $.message.order.items[*].descriptor.code
-            enumList: &a12
-              - LOAN
-              - PERSONAL_LOAN
-              - CREDIT_CARD
-              - PRE_QUALIFIER
-            _RETURN_: attr all in enumList
-          - _NAME_: REQUIRED_ITEM_DESCRIPTOR_NAME
-            attr: $.message.order.items[*].descriptor.name
-            _RETURN_: attr are present
-      - _NAME_: ON_SELECT_1_AA_CONSENT_ITEMS
-        _SCOPE_: $.message.order.items[*].tags[?(@.descriptor.code=='PERSONAL_LOAN')]
-        _RETURN_:
-          - _NAME_: REQUIRED_CONSENT_INFO_TAG
-            validTags:
-              - CONSENT_INFO
-            tagPath: $.message.order.items[*].tags[*].descriptor.code
-            _RETURN_: tagPath any in validTags
-          - _NAME_: REQUIRED_CONSENT_HANDLER
-            _SCOPE_: $.message.order.items[*].tags[?(@.descriptor.code=='CONSENT_INFO')]
-            subTags: $.list[*].descriptor.code
-            validValues:
-              - CONSENT_HANDLER
-            _RETURN_: subTags any in validValues
-      - _NAME_: ON_SELECT_1_AA_CONSENT_XINPUT
-        _SCOPE_: $.message.order.items[*].tags[?(@.descriptor.code=='PERSONAL_LOAN')]
-        _RETURN_:
-          - _NAME_: REQUIRED_XINPUT_FORM
-            attr: $.message.order.items[*].xinput.form.id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_XINPUT_FORM_RESPONSE
-            attr: $.message.order.items[*].xinput.form_response.status
-            _RETURN_: attr are present
-          - _NAME_: VALID_XINPUT_FORM_RESPONSE_STATUS
-            attr: $.message.order.items[*].xinput.form_response.status
-            enumList:
-              - PENDING
-              - SUCCESS
-            _RETURN_: attr all in enumList
-          - _NAME_: REQUIRED_XINPUT_FORM_RESPONSE_SUBMISSION_ID
-            attr: $.message.order.items[*].xinput.form_response.submission_id
-            _RETURN_: attr are present
-      - _NAME_: ON_SELECT_CONSENT_XINPUT_CC
-        _SCOPE_: $.message.order.items[*].tags[?(@.descriptor.code=='PERSONAL_LOAN')]
-        _RETURN_:
-          - _NAME_: REQUIRED_XINPUT_FORM
-            attr: $.message.order.items[*].xinput.form.id
-            _RETURN_: attr are present
-      - _NAME_: ON_SELECT_2_OFFER_ITEMS_PRICE
-        usecasepath: $.message.order.items[*].price.value
-        _CONTINUE_: "!(usecasepath are present)"
-        _RETURN_:
-          - _NAME_: REQUIRED_ITEM_PRICE
-            attr: $.message.order.items[*].price.value
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_ITEM_PRICE_CURRENCY
-            attr: $.message.order.items[*].price.currency
-            enumList: &a9
-              - INR
-            _RETURN_: attr all in enumList
-      - _NAME_: ON_SELECT_2_OFFER_LOAN_INFO
-        usecasepath: $.message.order.items[*].price.value
-        _CONTINUE_: "!(usecasepath are present)"
-        _RETURN_:
-          - _NAME_: REQUIRED_LOAN_INFO_TAG_GROUP
-            validTags: &a13
-              - LOAN_INFO
-              - CONTACT_INFO
-              - LSP_INFO
-              - GENERAL_INFO
-            tagPath: $.message.order.items[*].tags[*].descriptor.code
-            _RETURN_: tagPath any in validTags
-          - _NAME_: REQUIRED_LOAN_INFO_LIST_COMMON
-            _SCOPE_: $.message.order.items[*].tags[?(@.descriptor.code=='LOAN_INFO')]
-            subTags: $.list[*].descriptor.code
-            validValues:
-              - INTEREST_RATE
-              - TERM
-              - INTEREST_RATE_TYPE
-              - APPLICATION_FEE
-              - FORECLOSURE_FEE
-              - INTEREST_RATE_CONVERSION_CHARGE
-              - DELAY_PENALTY_FEE
-              - OTHER_PENALTY_FEE
-              - ANNUAL_PERCENTAGE_RATE
-              - REPAYMENT_FREQUENCY
-              - NUMBER_OF_INSTALLMENTS_OF_REPAYMENT
-              - TNC_LINK
-              - COOL_OFF_PERIOD
-              - INSTALLMENT_AMOUNT
-            _CONTINUE_: "!(subTags are present)"
-            _RETURN_: subTags any in validValues
-          - _NAME_: REQUIRED_LOAN_INFO_LTV_RATIO_GOLD
-            _SCOPE_: $.message.order.items[?(@.descriptor.code=='LOAN')].tags[?(@.descriptor.code=='LOAN_INFO')]
-            subTags: $.list[*].descriptor.code
-            validValues:
-              - LTV_RATIO
-            _RETURN_: subTags any in validValues
-      - _NAME_: ON_SELECT_2_OFFER_QUOTE
-        usecasepath: $.message.order.items[*].price.value
-        _CONTINUE_: "!(usecasepath are present)"
-        _RETURN_:
-          - _NAME_: REQUIRED_QUOTE_ID
-            attr: $.message.order.quote.id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_QUOTE_PRICE
+          - _NAME_: REQUIRED_ITEMS
             _RETURN_:
+              - &REQUIRED_ITEM_ID
+                _NAME_: REQUIRED_ITEM_ID
+                attr: $.message.order.items[*].id
+                _RETURN_: attr are present
+
+              - &REQUIRED_PARENT_ITEM_ID
+                _NAME_: REQUIRED_PARENT_ITEM_ID
+                attr: $.message.order.items[*].parent_item_id
+                _RETURN_: attr are present
+
+              - &REQUIRED_ITEM_DESCRIPTOR_CODE
+                _NAME_: REQUIRED_ITEM_DESCRIPTOR_CODE
+                attr: $.message.order.items[*].descriptor.code
+                _RETURN_: attr are present
+
+              - &REQUIRED_ITEM_CATEGORY_ID
+                _NAME_: REQUIRED_ITEM_CATEGORY_ID
+                attr: $.message.order.items[*].category_ids[*]
+                _RETURN_: attr are present
+              
+              - &REQUIRED_ITEM_PRICE_CURRENCY
+                _NAME_: ON_SEARCH_ITEM_PRICE_CURRENCY
+                attr:  $.message.order.items[*].price.currency
+                _RETURN_: attr are present
+              - &REQUIRED_ITEM_PRICE_VALUE
+                _NAME_: ON_SEARCH_ITEM_PRICE_VALUE
+                attr:  $.message.order.items[*].price.value
+                _RETURN_: attr are present
+
+              - &REQUIRED_ITEM_FULFILLMENT_IDS
+                _NAME_: ON_SELECT_ITEM_FULFILLMENT_IDS
+                attr:  $.message.order.items[*].fulfillment_ids[*]
+                _RETURN_: attr are present
+
+              - &REQUIRED_XINPUT_FIELDS
+                _NAME_: REQUIRED_XINPUT_FIELDS
+                usecasepath: $.message.order.items[*].xinput.form.id
+                _CONTINUE_: '!(usecasepath are present)'
+                _RETURN_:
+                  - &REQUIRED_HEAD_CODE
+                    _NAME_: REQUIRED_HEAD_CODE 
+                    attr: $.message.order.items[*].xinput.head.descriptor.code
+                    useCasePath1: $.message.order.items[*].xinput.form_response.status
+                    _CONTINUE_: '(useCasePath1 are present)'
+                    _RETURN_: attr are present
+
+                  - &REQUIRED_HEAD_NAME
+                    _NAME_: REQUIRED_HEAD_NAME
+                    attr: $.message.order.items[*].xinput.head.descriptor.name
+                    useCasePath1: $.message.order.items[*].xinput.form_response.status
+                    _CONTINUE_: '(useCasePath1 are present)'
+                    _RETURN_: attr are present
+
+                  - &REQUIRED_FORM_HEADINGS
+                    _NAME_: REQUIRED_FORM_HEADINGS
+                    attr: $.message.order.items[*].xinput.head.headings[*]
+                    useCasePath1: $.message.order.items[*].xinput.form_response.status
+                    _CONTINUE_: '(useCasePath1 are present)'
+                    _RETURN_: attr are present
+
+                  - &REQUIRED_FORM_ID
+                    _NAME_: REQUIRED_FORM_ID
+                    attr: $.message.order.items[*].xinput.form.id
+                    _RETURN_: attr are present
+
+                  - &REQUIRED_FORM_MIME_TYPE
+                    _NAME_: REQUIRED_FORM_MIME_TYPE
+                    attr: $.message.order.items[*].xinput.form.mime_type
+                    useCasePath1: $.message.order.items[*].xinput.form_response.status
+                    _CONTINUE_: '(useCasePath1 are present)'
+                    _RETURN_: attr are present
+
+                  - &REQUIRED_FORM_RESPONSE
+                    _NAME_: REQUIRED_FORM_RESPONSE
+                    useCasePath1: $.message.order.items[*].xinput.form_response.status
+                    _CONTINUE_: '!(useCasePath1 are present)'
+                    _RETURN_:
+                      - _NAME_: REQUIRED_FORM_STATUS
+                        attr: $.message.order.items[*].xinput.form_response.status
+                        _RETURN_: attr are present
+
+                      - _NAME_: REQUIRED_FORM_SUBMISSION_ID
+                        attr: $.message.order.items[*].xinput.form_response.status
+                        _RETURN_: attr are present  
+
+
+
+                  - _NAME_: ON_SELECT_LOAN_AMOUNT_FORM
+                    attr : $.message.order.items[*].xinput.head.descriptor.code
+                    formHeading: 
+                      - SET_LOAN_AMOUNT
+                    _CONTINUE_: '!(attr equal to formHeading)'
+                    _RETURN_:
+                      - _NAME_: REQUIRED_REQUEST_AMOUNT
+                        attr: $.message.order.items[*].xinput.form.data.requestAmount.value
+                        _RETURN_: attr are present
+
+                      # - _NAME_: REQUIRED_REQUEST_TERM
+                      #   attr: $.message.order.items[*].xinput.form.data.requestTerm.value
+                      #   _RETURN_: attr are present   
+              
+                  - _NAME_: VALID_FORM_HEADINGS
+                    _RETURN_: 
+                      - _NAME_: REQUIRED_FORM_HEADINGS
+                        attr: $.message.order.items[*].xinput.head.headings[*] 
+                        useCasePath1: $.message.order.items[*].xinput.form_response.status
+                        _CONTINUE_: '(useCasePath1 are present)'
+                        enumList: *onSelectForms
+                        _RETURN_: attr all in enumList       
+
+      - &loanInfoTag
+        _NAME_: ON_SELECT_ITEM_TAGS
+        action: 
+          - on_select
+        validTags: *itemLoanInfoTags
+        usecasepath: $.message.order.items[*].tags[*].descriptor.code
+        _CONTINUE_: '!(usecasepath are present && usecasepath all in validTags)'
+        _RETURN_: 
+          - _NAME_: REQUIRED_LOAN_INFO
+            _SCOPE_: $.message.order.items[*].tags[?(@.descriptor.code == 'LOAN_INFO')]
+            subTags: $.list[*].descriptor.code
+            validValues: *loanInfoTags
+            _RETURN_: subTags all in validValues
+
+          - _NAME_: REQUIRED_LOAN_OFFER
+            _SCOPE_: $.message.order.items[*].tags[?(@.descriptor.code == 'LOAN_OFFER')]
+            subTags: $.list[*].descriptor.code
+            validValues: *loanOffer
+            _RETURN_: subTags all in validValues
+
+      - _NAME_: ON_SELECT_FULFILLMENTS
+        _RETURN_:
+          - _NAME_: REQUIRED_FULFILLMENT_ITEMS
+            _RETURN_:
+              - &REQUIRED_FULFILLMENT_ID
+                _NAME_: REQUIRED_FULFILLMENT_ID
+                attr: $.message.order.fulfillments[*].id
+                _RETURN_: attr are present
+
+              - &REQUIRED_FULFILLMENT_TYPE
+                _NAME_: REQUIRED_FULFILLMENT_TYPE
+                attr: $.message.order.fulfillments[*].type
+                _RETURN_: attr are present
+
+          - _NAME_: VALID_FULFILLMENT_ITEMS
+            _RETURN_: 
+              - &VALID_FULFILLMENT_TYPE
+                _NAME_: VALID_FULFILLMENT_TYPE
+                attr: $.message.order.fulfillments[*].type
+                enumList: *fulfillmentTypes
+                _CONTINUE_: '!(attr are present)'
+                _RETURN_: (attr all in enumList)
+
+          - &VALID_FULFILLMENT_TAGS
+            _NAME_:  VALID_FULFILLMENT_TAGS
+            _SCOPE_: $.message.order.providers[*].fulfillments[*][?(@.type != 'BASE_ORDER')]
+            _RETURN_:
+              - _NAME_: REQUIRED_FULFILLMENT_TAGS
+                validTags: *CHECKLISTS
+                tagPath: $.message.order.fulfillments[*].tags[*].descriptor.code
+                _CONTINUE_: '!(tagPath are present)'
+                _RETURN_: tagPath all in validTags
+
+              #use-case based validations are not enabled
+              - _NAME_: REQUIRED_CHECKLISTS_ITEM
+                _SCOPE_: $.message.order.fulfillments[*].tags[?(@.descriptor.code == 'CHECKLISTS')]
+                subTags: $.list[*].descriptor.code
+                validValues: *checkListTags
+                _RETURN_: subTags all in validValues
+
+      - &COMMON_QUOTE_ITEMS
+        _NAME_: ON_SELECT_QUOTE
+        usecasepath: $.message.order.quote.id
+        _CONTINUE_: '!(usecasepath are present)'
+        _RETURN_:    
+          - _NAME_: REQUIRED_COMMON_QUOTE_ITEMS
+            _RETURN_:
+              - _NAME_: REQUIRED_QUOTE_ID
+                attr: $.message.order.quote.id
+                _RETURN_: attr are present
               - _NAME_: REQUIRED_QUOTE_PRICE_VALUE
                 attr: $.message.order.quote.price.value
                 _RETURN_: attr are present
               - _NAME_: REQUIRED_QUOTE_PRICE_CURRENCY
                 attr: $.message.order.quote.price.currency
-                enumList: *a9
-                _RETURN_: attr all in enumList
-          - _NAME_: REQUIRED_QUOTE_BREAKUP
-            _RETURN_:
-              - _NAME_: REQUIRED_QUOTE_BREAKUP_TITLE
+                _RETURN_: attr are present    
+              - _NAME_: REQUIRED_BREAKUP_TITLE
                 attr: $.message.order.quote.breakup[*].title
                 _RETURN_: attr are present
-              - _NAME_: VALID_QUOTE_BREAKUP_TITLE_ENUM
-                attr: $.message.order.quote.breakup[*].title
-                enumList: &a14
-                  - PRINCIPAL
-                  - INTEREST
-                  - PROCESSING_FEE
-                  - OTHER_UPFRONT_CHARGES
-                  - INSURANCE_CHARGES
-                  - NET_DISBURSED_AMOUNT
-                  - OTHER_CHARGES
-                _RETURN_: attr any in enumList
-              - _NAME_: REQUIRED_QUOTE_BREAKUP_PRICE
+              - _NAME_: REQUIRED_BREAKUP_PRICE_VALUE
                 attr: $.message.order.quote.breakup[*].price.value
                 _RETURN_: attr are present
-              - _NAME_: REQUIRED_QUOTE_BREAKUP_PRICE_CURRENCY
+              - _NAME_: REQUIRED_BREAKUP_PRICE_CURRENCY
                 attr: $.message.order.quote.breakup[*].price.currency
-                enumList: *a9
-                _RETURN_: attr all in enumList
-          - _NAME_: REQUIRED_QUOTE_TTL
-            attr: $.message.order.quote.ttl
-            _RETURN_: attr are present
-      - _NAME_: ON_SELECT_2_OFFER_FULFILLMENT_GOLD
-        item_code: $.message.order.items[*].descriptor.code
-        loan_type_match: *a10
-        usecasepath: $.message.order.items[*].price.value
-        _CONTINUE_: "!(item_code any in loan_type_match) || !(usecasepath are present)"
-        _RETURN_:
-          - _NAME_: REQUIRED_FULFILLMENT_TYPE
-            attr: $.message.order.fulfillments[*].type
-            enumList:
-              - LOAN
-              - DEDUPE
-              - ONLINE
-              - SEMI_ONLINE
-            _CONTINUE_: "!(attr are present)"
-            _RETURN_: attr all in enumList
-          - _NAME_: REQUIRED_FULFILLMENT_AGENT_NAME
-            attr: $.message.order.fulfillments[*].agent.person.name
-            _CONTINUE_: "!(attr are present)"
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_FULFILLMENT_AGENT_CONTACT
-            attr: $.message.order.fulfillments[*].agent.contact.phone
-            _CONTINUE_: "!(attr are present)"
-            _RETURN_: attr are present
-      - _NAME_: ON_SELECT_2_OFFER_XINPUT_COMMON
-        usecasepath: $.message.order.items[*].price.value
-        _CONTINUE_: "!(usecasepath are present)"
-        _RETURN_:
-          - _NAME_: REQUIRED_XINPUT_REQUIRED
-            attr: $.message.order.items[*].xinput.required
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_XINPUT_FORM_ID
-            attr: $.message.order.items[*].xinput.form.id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_XINPUT_FORM_URL
-            attr: $.message.order.items[*].xinput.form.url
-            _RETURN_: attr are present
-      - _NAME_: ON_SELECT_2_OFFER_XINPUT_PERSONAL_LOAN
-        item_code: $.message.order.items[*].descriptor.code
-        loan_type_match: *a11
-        usecasepath: $.message.order.items[*].price.value
-        _CONTINUE_: "!(item_code any in loan_type_match) || !(usecasepath are present)"
-        _RETURN_:
-          - _NAME_: REQUIRED_XINPUT_HEAD_INDEX
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_QUOTE_TTL
+                attr: $.message.order.quote.ttl
+                _RETURN_: attr are present      
+
+          - _NAME_: VALID_COMMON_QUOTE_ITEMS
             _RETURN_:
-              - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_MIN
-                attr: $.message.order.items[*].xinput.head.index.min
-                _RETURN_: attr are present
-              - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_CUR
-                attr: $.message.order.items[*].xinput.head.index.cur
-                _RETURN_: attr are present
-              - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_MAX
-                attr: $.message.order.items[*].xinput.head.index.max
-                _RETURN_: attr are present
-          - _NAME_: REQUIRED_XINPUT_HEAD_DESCRIPTOR_NAME
-            attr: $.message.order.items[*].xinput.head.descriptor.name
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_XINPUT_HEAD_HEADINGS
-            attr: $.message.order.items[*].xinput.head.headings[*]
-            _RETURN_: attr are present
-      - _NAME_: ON_SELECT_2_OFFER_XINPUT_GOLD
-        item_code: $.message.order.items[*].descriptor.code
-        loan_type_match: *a10
-        usecasepath: $.message.order.items[*].price.value
-        _CONTINUE_: "!(item_code any in loan_type_match) || !(usecasepath are present)"
-        _RETURN_:
-          - _NAME_: REQUIRED_XINPUT_HEAD_INDEX
-            _RETURN_:
-              - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_MIN
-                attr: $.message.order.items[*].xinput.head.index.min
-                _RETURN_: attr are present
-              - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_CUR
-                attr: $.message.order.items[*].xinput.head.index.cur
-                _RETURN_: attr are present
-              - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_MAX
-                attr: $.message.order.items[*].xinput.head.index.max
-                _RETURN_: attr are present
-          - _NAME_: REQUIRED_XINPUT_HEAD_DESCRIPTOR_NAME
-            attr: $.message.order.items[*].xinput.head.descriptor.name
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_XINPUT_HEAD_HEADINGS
-            attr: $.message.order.items[*].xinput.head.headings[*]
-            _RETURN_: attr are present
+              - _NAME_: VALID_ENUM_BREAKUP_PRICE_CURRENCY
+                attr: $.message.order.quote.breakup[*].price.currency
+                enumList:
+                - INR
+                _RETURN_: attr any in enumList
+
+              - _NAME_: VALID_ENUM_BREAKUP_TITLE
+                attr: $.message.order.quote.breakup[*].title
+                enumList: *breakupTitles
+                _RETURN_: attr any in enumList  
+              
     init:
       - _NAME_: INIT_CONTEXT
         action:
@@ -51980,32 +52765,150 @@ x-validations:
         domain:
           - ONDC:FIS12
         version:
-          - 2.0.3
-        _RETURN_: *a1
-      - _NAME_: INIT_PROVIDER_ID
-        attr: $.message.order.provider.id
-        _RETURN_: attr are present
-      - _NAME_: INIT_ITEMS
+          - 2.3.0
+        _RETURN_: *COMMON_CONTEXT
+      - *_REQUIRED_PROVIDER_ID
+
+      - _NAME_: REQUIRED_ITEM_FIELDS
+        usecaseRef: $.message.order.ref_order_ids[*]
+        _CONTINUE_: '(usecaseRef are present)'
         _RETURN_:
-          - _NAME_: REQUIRED_ITEM_ID
-            attr: $.message.order.items[*].id
-            _RETURN_: attr are present
-      - _NAME_: INIT_XINPUT_PERSONAL_LOAN
-        item_code: $.message.order.items[*].descriptor.code
-        loan_type_match: *a11
-        _CONTINUE_: "!(item_code any in loan_type_match)"
-        _RETURN_:
-          - _NAME_: REQUIRED_XINPUT_HEAD_INDEX
+          - *REQUIRED_ITEM_ID
+          - *REQUIRED_PARENT_ITEM_ID
+
+          - &REQUIRED_ACTION_XINPUT_ITEMS
+            _NAME_: REQUIRED_XINPUT_ITEMS
+            usecasepath:  $.message.order.items[*].xinput.form.id
+            _CONTINUE_: '!(usecasepath are present)'
             _RETURN_:
-              - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_MIN
-                attr: $.message.order.items[*].xinput.head.index.min
+              - _NAME_: REQUIRED_HEAD_CODE
+                attr:  $.message.order.items[*].xinput.head.descriptor.code
                 _RETURN_: attr are present
-              - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_CUR
-                attr: $.message.order.items[*].xinput.head.index.cur
+
+              - _NAME_: REQUIRED_FORM_ID
+                attr:  $.message.order.items[*].xinput.form.id
                 _RETURN_: attr are present
-              - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_MAX
-                attr: $.message.order.items[*].xinput.head.index.max
+
+              - &REQUIRED_SUBMISSION_ID
+                _NAME_: REQUIRED_SUBMISSION_ID
+                attr: $.message.order.items[*].xinput.form_response.submission_id
+                _CONTINUE_: '!(attr are present)'
+                _RETURN_: attr are present 
+
+      - _NAME_: INIT_PAYMENT_ITEMS
+        usecaseRef: $.message.order.ref_order_ids[*]
+        _CONTINUE_: '(usecaseRef are present)'
+        _RETURN_:
+          - _NAME_: REQUIRED_PAYMENT_ITEMS
+            _RETURN_: 
+              - &REQUIRED_PAYMENT_ITEMS
+                _NAME_: REQUIRED_PAYMENT_ITEMS
+                attr: $.message.order.payments[*].type
                 _RETURN_: attr are present
+
+              - &REQUIRED_PAYMENT_ID
+                _NAME_: REQUIRED_PAYMENT_ID
+                attr: $.message.order.payments[*].id
+                _RETURN_: attr are present
+
+              - &REQUIRED_PAYMENT_STATUS
+                _NAME_: REQUIRED_PAYMENT_STATUS
+                attr: $.message.order.payments[*].status
+                _RETURN_: attr are present
+
+              - &REQUIRED_PAYMENT_COLLECTED_BY
+                _NAME_: REQUIRED_PAYMENT_COLLECTED_BY
+                attr: $.message.order.payments[*].collected_by
+                usecasepath: $.message.order.payments[*].time.label
+                label: 
+                  - LOAN_DISBURSMENT
+                _CONTINUE_: '!(usecasepath all in label)'
+                _RETURN_: attr are present
+
+              - &REQUIRED_PAYMENT_BANK_ACCOUNT_NUMBER
+                _NAME_: REQUIRED_PAYMENT_BANK_ACCOUNT_NUMBER
+                _SCOPE_: $.message.order.payments[*][?(@.time.label=='LOAN_DISBURSMENT')]
+                _RETURN_:
+                  - _NAME_: REQUIRED_PAYMENT_BANK_ACCOUNT_NUMBER
+                    attr: $.message.order.payments[*].params.bank_account_number
+                    _RETURN_: attr are present
+
+              - &REQUIRED_PAYMENT_BANK_CODE
+                _NAME_: REQUIRED_PAYMENT_BANK_CODE
+                _SCOPE_: $.message.order.payments[*][?(@.time.label=='LOAN_DISBURSMENT')]
+                _RETURN_:
+                  - _NAME_: REQUIRED_PAYMENT_BANK_CODE
+                    attr: $.message.order.payments[*].params.bank_code
+                    _RETURN_: attr are present
+              
+              - &REQUIRED_PAYMENT_LABEL
+                _NAME_: REQUIRED_PAYMENT_LABEL
+                attr: $.message.order.payments[*].time.label
+                _RETURN_: attr are present
+          
+          - &VALID_PAYMENT_ITEMS
+            _NAME_: VALID_PAYMENT_ITEMS
+            _RETURN_:
+              - _NAME_: VALID_PAYMENT_TYPE
+                attr: $.message.order.payments[*].type
+                _CONTINUE_: '!(attr are present)'
+                enumList: *paymentType
+                _RETURN_:  attr all in enumList
+
+              - _NAME_: VALID_PAYMENT_STATUS
+                attr: $.message.order.payments[*].status
+                _CONTINUE_: '!(attr are present)'
+                enumList: *paymentStatus
+                _RETURN_:  attr all in enumList
+
+              - _NAME_: VALID_PAYMENT_COLLECTOR
+                attr: $.message.order.payments[*].collected_by
+                _CONTINUE_: '!(attr are present)'
+                enumList: *paymentCollector
+                _RETURN_:  attr all in enumList
+
+              - _NAME_: VALID_PAYMENT_LABEL
+                attr: $.message.order.payments[*].time.label
+                _CONTINUE_: '!(attr are present)'
+                enumList: *paymentLabel
+                _RETURN_:  attr all in enumList
+
+      # - *ACTION_FULFILMENT_ITEMS
+                
+      - _NAME_: INIT_PAYMENT_TAGS
+        action: 
+          - init
+        _RETURN_: 
+          - &VALID_PAYMENT_TAGS
+            _NAME_: VALID_PAYMENT_TAGS
+            validTags: *paymentTags
+            tagPath: $.message.order.payments[*].tags[*].descriptor.code
+            _CONTINUE_: '!(tagPath are present)'
+            _RETURN_: tagPath all in validTags
+
+          - _NAME_: REQUIRED_ACCOUNT_DETAILS
+            _SCOPE_: $.message.order.payments[*].tags[?(@.descriptor.code == 'ACCOUNT_DETAILS')]
+            subTags: $.list[*].descriptor.code
+            validValues: *accountDetails
+            _RETURN_: subTags all in validValues 
+              
+      - _NAME_: INIT_BAP_TERM_TAGS
+        action:
+          - init
+        _RETURN_:
+          - _NAME_: REQUIRED_TLC_TAGS
+            validTags: *paymentTagGroups
+            tagPath: $.message.order.tags[*].descriptor.code
+            _CONTINUE_: '!(tagPath are present)'
+            _RETURN_: tagPath all in validTags
+
+          - &REQUIRED_BAP_TERMS
+            _NAME_: REQUIRED_BAP_TERMS
+            _SCOPE_: $.message.order.tags[?(@.descriptor.code == 'BAP_TERMS')]
+            subTags: $.list[*].descriptor.code
+            validValues: *bapTermTag
+            _RETURN_: subTags all in validValues         
+                
     on_init:
       - _NAME_: ON_INIT_CONTEXT
         action:
@@ -52013,140 +52916,264 @@ x-validations:
         domain:
           - ONDC:FIS12
         version:
-          - 2.0.3
-        _RETURN_: *a1
-      - _NAME_: ON_INIT_PROVIDER
+          - 2.3.0
+        _RETURN_: *COMMON_CONTEXT
+
+      - *ON_ACTION_PROVIDER 
+      - *ON_SELECT_PROVIDER_TAGS 
+
+      - &ON_ACTION_ITEMS
+        _NAME_: ON_INIT_ITEMS
         _RETURN_:
-          - _NAME_: REQUIRED_PROVIDER_ID
-            attr: $.message.order.provider.id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_PROVIDER_NAME
-            attr: $.message.order.provider.descriptor.name
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_PROVIDER_TAGS
+          - _NAME_: REQUIRED_ITEMS
             _RETURN_:
-              - _NAME_: REQUIRED_CONTACT_INFO_TAG_GROUP
-                validTags: *a6
-                tagPath: $.message.order.provider.tags[*].descriptor.code
-                _RETURN_: tagPath any in validTags
-              - _NAME_: REQUIRED_LSP_INFO_TAG_GROUP
-                validTags: *a7
-                tagPath: $.message.order.provider.tags[*].descriptor.code
-                _RETURN_: tagPath any in validTags
-      - _NAME_: ON_INIT_ITEMS
+              - *REQUIRED_ITEM_ID
+              - *REQUIRED_PARENT_ITEM_ID
+              - *REQUIRED_ITEM_DESCRIPTOR_CODE
+              - *REQUIRED_ITEM_CATEGORY_ID
+              - *REQUIRED_ITEM_PRICE_CURRENCY
+              - *REQUIRED_ITEM_PRICE_VALUE
+              - *REQUIRED_ITEM_FULFILLMENT_IDS
+              - &REQUIRED_XINPUT_FIELDS
+                _NAME_: REQUIRED_XINPUT_FIELDS
+                usecasepath: $.message.order.items[*].xinput.form.id
+                _CONTINUE_: '!(usecasepath are present)'
+                _RETURN_:
+                  - _NAME_: REQUIRED_XINPUT_ITEMS
+                    _RETURN_:
+                      - *REQUIRED_HEAD_CODE
+                      - *REQUIRED_HEAD_NAME
+                      - *REQUIRED_FORM_HEADINGS
+                      - *REQUIRED_FORM_ID
+                      - *REQUIRED_FORM_MIME_TYPE
+                      - *REQUIRED_FORM_RESPONSE
+                      - *REQUIRED_SUBMISSION_ID
+
+                  - _NAME_: VALID_XINPUT_FIELDS
+                    _RETURN_:
+                      - _NAME_: VALID_FORM_HEADINGS 
+                        attr:  $.message.order.items[*].xinput.head.headings[*]
+                        useCasePath1: $.message.order.items[*].xinput.form_response.submission_id
+                        _CONTINUE_: '(useCasePath1 are present)'
+                        enumList:
+                          - *KYC
+                          - *EMANDATE
+                          - *LOAN_AGREEMENT
+                          - *INDIVIDUAL_KYC
+                          - *ENTITY_KYC
+                          - *ENACH
+                          - *ESIGN
+                          - *KYC_OFFLINE
+                          - *JOURNEY_OFFLINE
+                          - *LIEN_MARKING
+                          - *ACCOUNT_MONITORING
+                          - *INVOICE_UPLOAD
+                        _RETURN_: '(attr all in enumList)'  
+
+      - *loanInfoTag
+
+      - &ON_ACTION_FULFILLMENTS
+        _NAME_: ON_INIT_FULFILLMENTS
         _RETURN_:
-          - _NAME_: REQUIRED_ITEM_ID
-            attr: $.message.order.items[*].id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_ITEM_DESCRIPTOR_CODE
-            attr: $.message.order.items[*].descriptor.code
-            enumList: *a12
-            _RETURN_: attr all in enumList
-          - _NAME_: REQUIRED_ITEM_PRICE_VALUE
-            attr: $.message.order.items[*].price.value
-            _CONTINUE_: "!(attr are present)"
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_ITEM_PRICE_CURRENCY
-            attr: $.message.order.items[*].price.currency
-            _CONTINUE_: "!(attr are present)"
-            enumList: *a9
-            _RETURN_: attr all in enumList
-          - _NAME_: REQUIRED_LOAN_INFO_TAG_GROUP
-            validTags: *a13
-            tagPath: $.message.order.items[*].tags[*].descriptor.code
-            _RETURN_: tagPath any in validTags
-      - _NAME_: ON_INIT_QUOTE
-        _SCOPE_: $.message.order.items[*].tags[?(@.descriptor.code=='PERSONAL_LOAN')]
-        _RETURN_:
-          - _NAME_: REQUIRED_QUOTE_ID
-            attr: $.message.order.quote.id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_QUOTE_PRICE
-            attr: $.message.order.quote.price.value
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_QUOTE_PRICE_CURRENCY
-            attr: $.message.order.quote.price.currency
-            enumList: *a9
-            _RETURN_: attr all in enumList
-          - _NAME_: REQUIRED_QUOTE_TTL
-            attr: $.message.order.quote.ttl
-            _RETURN_: attr are present
-          - _NAME_: VALID_QUOTE_TTL_REGEX
-            attr: $.message.order.quote.ttl
-            reg:
-              - ^P(?:(\\d+Y)?(\\d+M)?(\\d+D)?(T(\\d+H)?(\\d+M)?(\\d+S)?)?|T\\d+D)$
-            _RETURN_: attr follow regex reg
-          - _NAME_: REQUIRED_QUOTE_BREAKUP
-            attr: $.message.order.quote.breakup[*].title
-            enumList: *a14
-            _RETURN_: attr any in enumList
-      - _NAME_: ON_INIT_PAYMENTS
-        _SCOPE_: $.message.order.items[*].tags[?(@.descriptor.code=='PERSONAL_LOAN')]
-        _RETURN_:
-          - _NAME_: REQUIRED_PAYMENT_TYPE
-            attr: $.message.order.payments[*].type
-            _RETURN_: attr are present
-          - _NAME_: VALID_PAYMENT_TYPE_ENUM
-            attr: $.message.order.payments[*].type
-            enumList: &a16
-              - ON_ORDER
-              - ON_FULFILLMENT
-              - POST_FULFILLMENT
-            _RETURN_: attr all in enumList
-      - _NAME_: ON_INIT_PAYMENTS_ON_ORDER
-        _SCOPE_: $.message.order.payments[?(@.type=='ON_ORDER')]
-        _RETURN_:
-          - _NAME_: REQUIRED_PAYMENT_COLLECTED_BY
-            attr: $.message.order.payments[?(@.type=='ON_ORDER')].collected_by
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_PAYMENT_TAGS
+          - _NAME_: REQUIRED_FULFILLMENT_ITEMS
             _RETURN_:
-              - _NAME_: REQUIRED_BUYER_FINDER_FEES_TAG
-                validTags: *a3
-                tagPath: $.message.order.payments[?(@.type=='ON_ORDER')].tags[*].descriptor.code
-                _RETURN_: tagPath any in validTags
-              - _NAME_: REQUIRED_SETTLEMENT_TERMS_TAG
-                validTags: *a5
-                tagPath: $.message.order.payments[?(@.type=='ON_ORDER')].tags[*].descriptor.code
-                _RETURN_: tagPath any in validTags
-      - _NAME_: ON_INIT_FULFILLMENTS
+              - *REQUIRED_FULFILLMENT_ID
+              - *REQUIRED_FULFILLMENT_TYPE
+              - *REQUIRED_CREDS
+              - _NAME_: REQUIRED_CUSTOMER_NAME
+                attr: $.message.order.fulfillments[*].customer.person.name
+                _CONTINUE_: '!(attr are present)'
+                _RETURN_: attr are present
+
+              - _NAME_: REQUIRED_CUSTOMER_CONTACT_DETAILS
+                attr: $.message.order.fulfillments[*].customer.contact.phone
+                _CONTINUE_: '!(attr are present)'
+                _RETURN_:
+                  - _NAME_: REQUIRED_CUSTOMER_CONTACT_NUMBER
+                    attr: $.message.order.fulfillments[*].customer.contact.phone
+                    _RETURN_: attr are present
+
+                  - _NAME_: REQUIRED_CUSTOMER_CONTACT_EMAIL
+                    attr: $.message.order.fulfillments[*].customer.contact.email
+                    _RETURN_: attr are present
+
+              - _NAME_: REQUIRED_CUSTOMER_ORG_DETAILS
+                attr: $.message.order.fulfillments[*].customer.organization.address
+                _CONTINUE_: '!(attr are present)' 
+                _RETURN_:
+                  - _NAME_: REQUIRED_ORG_ADDRESS
+                    attr : $.message.order.fulfillments[*].customer.organization.address
+                    _RETURN_: attr are present
+
+                  - _NAME_: REQUIRED_ORG_STATE
+                    attr : $.message.order.fulfillments[*].customer.organization.state.name
+                    _RETURN_: attr are present
+
+                  - _NAME_: REQUIRED_ORG_CITY
+                    attr : $.message.order.fulfillments[*].customer.organization.city.name
+                    _RETURN_: attr are present
+
+                  - _NAME_: REQUIRED_ORG_CODE
+                    attr : $.message.order.fulfillments[*].customer.organization.city.code
+                    _RETURN_: attr are present
+
+                  - _NAME_: REQUIRED_ORG_CONTACT_PHONE
+                    attr : $.message.order.fulfillments[*].customer.organization.contact.phone
+                    _RETURN_: attr are present
+
+                  - _NAME_: REQUIRED_ORG_CONTACT_EMAIL
+                    attr : $.message.order.fulfillments[*].customer.organization.contact.email
+                    _RETURN_: attr are present        
+                    
+
+
+              #commenting as credit line flows has no state for multiple fulfillments
+              # - _NAME_: REQUIRED_FULFILLMENT_STATE_CODE
+              #   attr: $.message.order.fulfillments[*].state.descriptor.code
+              #   _RETURN_: attr are present      
+
+          - _NAME_: VALID_FULFILLMENT_ITEMS
+            _RETURN_: 
+              - *VALID_FULFILLMENT_TYPE
+              - _NAME_: VALID_FULFILLMENT_STATE_CODE
+                attr: $.message.order.fulfillments[*].state.descriptor.code
+                enumList: *fulfillmentState
+                _CONTINUE_: '!(attr are present)'
+                _RETURN_: attr all in enumList
+
+          - *VALID_FULFILLMENT_TAGS        
+      
+      - *COMMON_QUOTE_ITEMS
+
+      - &ON_INIT_PAYMENTS
+        _NAME_: ON_INIT_PAYMENTS
+        usecaseRef: $.message.order.ref_order_ids[*]
+        _CONTINUE_: '(usecaseRef are present)'
         _RETURN_:
-          - _NAME_: REQUIRED_FULFILLMENT_TYPE
-            attr: $.message.order.fulfillments[*].type
-            enumList: &a15
-              - LOAN
-              - DEDUPE
-            _CONTINUE_: "!(attr are present)"
-            _RETURN_: attr all in enumList
-          - _NAME_: REQUIRED_FULFILLMENT_CUSTOMER_PERSON_NAME
-            attr: $.message.order.fulfillments[*].customer.person.name
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_FULFILLMENT_STATE_CODE
-            attr: $.message.order.fulfillments[*].state.descriptor.code
-            _RETURN_: attr are present
-      - _NAME_: ON_INIT_XINPUT_PERSONAL_LOAN
-        item_code: $.message.order.items[*].descriptor.code
-        loan_type_match: *a11
-        xinputpath: $.message.order.items[*].xinput.form.id
-        _CONTINUE_: "!(item_code any in loan_type_match) || !(xinputpath are present)"
-        _RETURN_:
-          - _NAME_: REQUIRED_XINPUT_HEAD_INDEX
+          - _NAME_: REQUIRED_PAYMENT_ITEMS
             _RETURN_:
-              - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_MIN
-                attr: $.message.order.items[*].xinput.head.index.min
+              - *REQUIRED_PAYMENT_ITEMS
+              - *REQUIRED_PAYMENT_ID
+              - *REQUIRED_PAYMENT_STATUS
+              - *REQUIRED_PAYMENT_COLLECTED_BY
+              - *REQUIRED_PAYMENT_BANK_ACCOUNT_NUMBER
+              - *REQUIRED_PAYMENT_BANK_CODE
+              - *REQUIRED_PAYMENT_LABEL
+              
+
+              - _NAME_: REQUIRED_PARAMS_DETAILS
+                useCasePath1:  $.message.order.payments[*].status
+                # useCasePath2:  $.message.order.payments[*].time.label
+                # timeLabel:
+                #   - LOAN_DISBURSMENT
+                paymentStatus:
+                  - PAID  
+                _CONTINUE_: '!(useCasePath1 all in paymentStatus)' 
+                _RETURN_:
+                    - _NAME_: REQUIRED_TRANSACTION_ID
+                      attr: $.message.order.payments[*].params.transaction_id
+                      _RETURN_: attr are present
+
+                    - _NAME_: REQUIRED_PAYMENTS_AMOUNT
+                      attr: $.message.order.payments[*].params.amount
+                      _RETURN_: attr are present
+
+                    - _NAME_: REQUIRED_PAYMENTS_CURRENCY
+                      attr: $.message.order.payments[*].params.currency
+                      _RETURN_: attr are present    
+
+              - _NAME_: REQUIRED_PAYMENT_URL
+                useCasePath1:  $.message.order.payments[*].url
+                _CONTINUE_: '!(useCasePath1 are present)'
+                _RETURN_: 
+                  - _NAME_: REQUIRED_TIME_DURATION
+                    attr: $.message.order.payments[*].time.duration
+                    _RETURN_: attr are present
+
+
+
+              - _NAME_: REQUIRED_TIME_RANGE
+                usecasepath: $.message.order.payments[*].time.label
+                label: 
+                  - INSTALLMENT
+                _CONTINUE_: '!(usecasepath all in label)'
+                _RETURN_:
+                  - _NAME_: REQUIRED_TIME_START_RANGE
+                    attr: $.message.order.payments[*].time.range.start
+                    _RETURN_: attr are present
+                
+                  - _NAME_: REQUIRED_TIME_END_RANGE
+                    attr: $.message.order.payments[*].time.range.end
+                    _RETURN_: attr are present
+
+          # - *VALID_PAYMENT_ITEMS
+
+      - &ON_INIT_PAYMENT_TAGS
+        _NAME_: ON_INIT_PAYMENT_TAGS
+        action: 
+          - on_init
+        _RETURN_: 
+          - *VALID_PAYMENT_TAGS      
+
+          - &REQUIRED_ACCOUNT_DETAILS
+            _NAME_: REQUIRED_ACCOUNT_DETAILS
+            _SCOPE_: $.message.order.payments[*].tags[?(@.descriptor.code == 'ACCOUNT_DETAILS')]
+            subTags: $.list[*].descriptor.code
+            validValues: *accountDetails
+            _RETURN_: subTags all in validValues
+
+          - _NAME_: REQUIRED_BREAKUP_DETAILS
+            _SCOPE_: $.message.order.payments[*].tags[?(@.descriptor.code == 'BREAKUP')]
+            subTags: $.list[*].descriptor.code
+            validValues: *breakupDetails
+            _RETURN_: subTags all in validValues 
+
+      - &ON_INIT_CANCELLATION_TERMS
+        _NAME_: ON_INIT_CANCELLATION_TERMS
+        _RETURN_:
+          - _NAME_: EXTERNAL_REF_TERMS
+            usecasepath: $.message.order.cancellation_terms[*].external_ref.mimetype
+            _CONTINUE_: '!(usecasepath are present)'
+            _RETURN_:
+              - _NAME_: REQUIRED_EXTERNAL_REF_MIME_TYPE
+                attr: $.message.order.cancellation_terms[*].external_ref.mimetype
                 _RETURN_: attr are present
-              - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_CUR
-                attr: $.message.order.items[*].xinput.head.index.cur
+
+              - _NAME_: REQUIRED_EXTERNAL_REF_URL
+                attr: $.message.order.cancellation_terms[*].external_ref.url
                 _RETURN_: attr are present
-              - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_MAX
-                attr: $.message.order.items[*].xinput.head.index.max
+
+          - _NAME_: FULFILLMENT_STATE_TERMS
+            usecasepath: $.message.order.cancellation_terms[*].fulfillment_state.descriptor.code
+            _CONTINUE_: '!(usecasepath are present)'
+            _RETURN_:
+              - _NAME_: REQUIRED_FULFILLMENT_STATE_CODE
+                attr:  $.message.order.cancellation_terms[*].fulfillment_state.descriptor.code
                 _RETURN_: attr are present
-          - _NAME_: REQUIRED_XINPUT_HEAD_DESCRIPTOR_NAME
-            attr: $.message.order.items[*].xinput.head.descriptor.name
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_XINPUT_HEAD_HEADINGS
-            attr: $.message.order.items[*].xinput.head.headings[*]
-            _RETURN_: attr are present
+
+              - _NAME_: REQUIRED_CANCELLATION_FEE
+                attr: $.message.order.cancellation_terms[*].cancellation_fee.percentage
+                _RETURN_: attr are present               
+
+      - &ON_ACTION_TAGS
+        _NAME_: ON_INIT_TAGS
+        action:
+          - on_init
+        _RETURN_:
+          - &REQUIRED_PAYMENT_TAGS
+            _NAME_: REQUIRED_PAYMENT_TAGS
+            validTags: *paymentTagGroups
+            tagPath: $.message.order.tags[*].descriptor.code
+            _CONTINUE_: '!(tagPath are present)'
+            _RETURN_: tagPath all in validTags
+
+          - &REQUIRED_BPP_TERMS
+            _NAME_: REQUIRED_BPP_TERMS
+            _SCOPE_: $.message.order.tags[?(@.descriptor.code == 'BPP_TERMS')]
+            subTags: $.list[*].descriptor.code
+            validValues: *bapTermTag
+            _RETURN_: subTags all in validValues
+
     confirm:
       - _NAME_: CONFIRM_CONTEXT
         action:
@@ -52154,28 +53181,44 @@ x-validations:
         domain:
           - ONDC:FIS12
         version:
-          - 2.0.3
-        _RETURN_: *a1
-      - _NAME_: CONFIRM_PROVIDER_ID
-        attr: $.message.order.provider.id
-        _RETURN_: attr are present
-      - _NAME_: CONFIRM_ITEMS
+          - 2.3.0
+        _RETURN_: *COMMON_CONTEXT
+      - *_REQUIRED_PROVIDER_ID 
+
+      - _NAME_: REQUIRED_ITEM_FIELDS
         _RETURN_:
-          - _NAME_: REQUIRED_ITEM_ID
-            attr: $.message.order.items[*].id
-            _RETURN_: attr are present
+          - *REQUIRED_ITEM_ID
+          - *REQUIRED_PARENT_ITEM_ID 
+
       - _NAME_: CONFIRM_PAYMENTS
-        _SCOPE_: $.message.order.payments[?(@.type=='ON_ORDER')]
+        usecaseRef: $.message.order.ref_order_ids[*]
+        _CONTINUE_: '(usecaseRef are present)'
         _RETURN_:
-          - _NAME_: REQUIRED_PAYMENT_PARAMS_BANK_CODE
-            attr: $.message.order.payments[*].params.bank_code
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_PAYMENT_PARAMS_BANK_ACCOUNT
-            attr: $.message.order.payments[*].params.bank_account_number
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_PAYMENT_PARAMS_VPA
-            attr: $.message.order.payments[*].params.virtual_payment_address
-            _RETURN_: attr are present
+          - _NAME_: REQUIRED_PAYMENT_ITEMS
+            _RETURN_:
+              - *REQUIRED_PAYMENT_ITEMS
+              - *REQUIRED_PAYMENT_ID
+              - *REQUIRED_PAYMENT_STATUS
+              - *REQUIRED_PAYMENT_COLLECTED_BY
+              - *REQUIRED_PAYMENT_BANK_ACCOUNT_NUMBER
+              - *REQUIRED_PAYMENT_BANK_CODE
+              - *REQUIRED_PAYMENT_LABEL
+
+      - _NAME_: CONFIRM_PAYMENT_TAGS
+        action: 
+          - confirm
+        _RETURN_: 
+          - *VALID_PAYMENT_TAGS      
+
+          - *REQUIRED_ACCOUNT_DETAILS          
+
+      - &BAP_BPP_TERMS
+        _NAME_: CONFIRM_TAGS
+        _RETURN_:
+          - *REQUIRED_PAYMENT_TAGS
+          - *REQUIRED_BAP_TERMS
+          - *REQUIRED_BPP_TERMS
+
     on_confirm:
       - _NAME_: ON_CONFIRM_CONTEXT
         action:
@@ -52183,123 +53226,107 @@ x-validations:
         domain:
           - ONDC:FIS12
         version:
-          - 2.0.3
-        _RETURN_: *a1
-      - _NAME_: ON_CONFIRM_PROVIDER
+          - 2.3.0
+        _RETURN_: *COMMON_CONTEXT
+
+
+      - &REQUIRED_ORDER_ITEMS
+        _NAME_: REQUIRED_ORDER_ITEMS
         _RETURN_:
-          - _NAME_: REQUIRED_PROVIDER_ID
-            attr: $.message.order.provider.id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_PROVIDER_NAME
-            attr: $.message.order.provider.descriptor.name
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_PROVIDER_TAGS
+          - _NAME_: REQUIRED_ITEMS
+            _RETURN_: 
+              - &REQUIRED_ORDER_ID
+                _NAME_: REQUIRED_ORDER_ID
+                attr: $.message.order.id
+                _RETURN_: attr are present
+
+              - &REQUIRED_ORDER_STATUS
+                _NAME_: REQUIRED_ORDER_STATUS
+                attr: $.message.order.status
+                _RETURN_: attr are present
+
+              - &REQUIRED_ORDER_CREATED_AT
+                _NAME_: REQUIRED_ORDER_CREATED_AT
+                attr: $.message.order.created_at
+                _RETURN_: attr are present
+
+              - &REQUIRED_ORDER_UPDATED_AT
+                _NAME_: REQUIRED_ORDER_UPDATED_AT
+                attr: $.message.order.updated_at
+                _RETURN_: attr are present
+
+              - &CREATED_AT_UPDATED_AT_EQUALITY
+                _NAME_: CREATED_AT_UPDATED_AT_EQUALITY
+                created_at: $.message.order.created_at
+                updated_at: $.message.order.updated_at
+                _RETURN_: created_at equal to updated_at  
+          - _NAME_: VALID_ENUM_ITEMS
             _RETURN_:
-              - _NAME_: REQUIRED_CONTACT_INFO_TAG_GROUP
-                validTags: *a6
-                tagPath: $.message.order.provider.tags[*].descriptor.code
-                _RETURN_: tagPath any in validTags
-              - _NAME_: REQUIRED_LSP_INFO_TAG_GROUP
-                validTags: *a7
-                tagPath: $.message.order.provider.tags[*].descriptor.code
-                _RETURN_: tagPath any in validTags
-      - _NAME_: ON_CONFIRM_ITEMS
-        _SCOPE_: $.message.order.items[?(@.descriptor.code=='PERSONAL_LOAN')]
+              - _NAME_: VALID_ENUM_ORDER_STATUS
+                attr: $.message.order.status
+                enumList:
+                  - ACTIVE
+                  - COMPLETED
+                  - CANCELLED
+                _RETURN_: attr any in enumList
+              - _NAME_: REGEX_ON_CONFIRM_CREATED_AT
+                attr: $.message.order.created_at
+                reg:
+                  - >-
+                    ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$
+                _RETURN_: attr follow regex reg
+              - _NAME_: REGEX_ON_CONFIRM_UPDATED_AT
+                attr: $.message.order.updated_at
+                reg:
+                  - >-
+                    ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$
+                _RETURN_: attr follow regex reg
+
+      - *ON_ACTION_PROVIDER 
+      - *ON_SELECT_PROVIDER_TAGS
+      - *ON_ACTION_ITEMS
+      - *loanInfoTag
+      - *ON_ACTION_FULFILLMENTS
+      - *COMMON_QUOTE_ITEMS
+
+      # - *ON_INIT_PAYMENTS
+      - *ON_INIT_PAYMENT_TAGS
+      - *ON_INIT_CANCELLATION_TERMS
+      - *BAP_BPP_TERMS
+
+      - &REQUIRED_ORDER_DOCUMENTS
+        _NAME_: REQUIRED_ORDER_DOCUMENTS
+        usecaseRef: $.message.order.ref_order_ids[*]
+        _CONTINUE_: '(usecaseRef are present)'
         _RETURN_:
-          - _NAME_: REQUIRED_ITEM_ID
-            attr: $.message.order.items[*].id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_ITEM_DESCRIPTOR_CODE
-            attr: $.message.order.items[*].descriptor.code
-            enumList: *a12
-            _RETURN_: attr all in enumList
-          - _NAME_: REQUIRED_ITEM_PRICE
-            attr: $.message.order.items[*].price.value
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_LOAN_INFO_TAG
-            validTags: *a13
-            tagPath: $.message.order.items[*].tags[*].descriptor.code
-            _RETURN_: tagPath any in validTags
-      - _NAME_: ON_CONFIRM_QUOTE
-        _SCOPE_: $.message.order.items[?(@.descriptor.code=='PERSONAL_LOAN')]
-        _RETURN_:
-          - _NAME_: REQUIRED_QUOTE_ID
-            attr: $.message.order.quote.id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_QUOTE_PRICE
-            attr: $.message.order.quote.price.value
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_QUOTE_BREAKUP
-            attr: $.message.order.quote.breakup[*].title
-            enumList: *a14
-            _RETURN_: attr any in enumList
-      - _NAME_: ON_CONFIRM_FULFILLMENTS
-        _RETURN_:
-          - _NAME_: REQUIRED_FULFILLMENT_TYPE
-            attr: $.message.order.fulfillments[*].type
-            _CONTINUE_: "!(attr are present)"
-            enumList: *a15
-            _RETURN_: attr all in enumList
-          - _NAME_: REQUIRED_FULFILLMENT_STATE_DESCRIPTOR_CODE
-            attr: $.message.order.fulfillments[*].state.descriptor.code
-            _RETURN_: attr are present
-          - _NAME_: VALID_FULFILLMENT_STATE_ENUM
-            attr: $.message.order.fulfillments[*].state.descriptor.code
-            enumList:
-              - DISBURSED
-              - SANCTIONED
-              - DISPATCHED
-              - ACCEPTED
-            _RETURN_: attr any in enumList
-          - _NAME_: REQUIRED_FULFILLMENT_CUSTOMER
-            attr: $.message.order.fulfillments[*].customer.person.name
-            _CONTINUE_: "!(attr are present)"
-            _RETURN_: attr are present
-      - _NAME_: ON_CONFIRM_PAYMENTS
-        _SCOPE_: $.message.order.items[?(@.descriptor.code=='PERSONAL_LOAN')]
-        _RETURN_:
-          - _NAME_: REQUIRED_PAYMENT_TYPE
-            attr: $.message.order.payments[*].type
-            enumList: *a16
-            _RETURN_: attr all in enumList
-          - _NAME_: REQUIRED_PAYMENT_STATUS
-            attr: $.message.order.payments[*].status
-            _RETURN_: attr are present
-          - _NAME_: VALID_PAYMENT_STATUS_ENUM
-            attr: $.message.order.payments[*].status
-            enumList:
-              - PAID
-              - NOT-PAID
-            _RETURN_: attr all in enumList
-      - _NAME_: ON_CONFIRM_PAYMENTS_COLLECTED_BY
-        _SCOPE_: $.message.order.payments[?(@.type=='ON_ORDER')]
-        _RETURN_:
-          - _NAME_: REQUIRED_PAYMENT_COLLECTED_BY
-            attr: $.message.order.payments[?(@.type=='ON_ORDER')].collected_by
-            enumList: *a2
-            _RETURN_: attr all in enumList
-      - _NAME_: ON_CONFIRM_DOCUMENTS
-        _SCOPE_: $.message.order.items[?(@.descriptor.code=='PERSONAL_LOAN')]
-        _RETURN_:
-          - _NAME_: REQUIRED_DOCUMENT_DESCRIPTOR_CODE
+          - &REQUIRED_DOCUMENT_CODE
+            _NAME_: REQUIRED_DOCUMENT_CODE
             attr: $.message.order.documents[*].descriptor.code
             _RETURN_: attr are present
-          - _NAME_: REQUIRED_DOCUMENT_URL
+
+          - &REQUIRED_DOCUMENT_NAME
+            _NAME_: REQUIRED_DOCUMENT_NAME
+            attr: $.message.order.documents[*].descriptor.name
+            _RETURN_: attr are present
+
+          - &REQUIRED_DOCUMENT_TYPE
+            _NAME_: REQUIRED_DOCUMENT_TYPE
+            attr: $.message.order.documents[*].mime_type
+            _RETURN_: attr are present
+
+          - &REQUIRED_DOCUMENT_URL
+            _NAME_: REQUIRED_DOCUMENT_URL
             attr: $.message.order.documents[*].url
             _RETURN_: attr are present
-          - _NAME_: REQUIRED_DOCUMENT_MIME_TYPE
-            attr: $.message.order.documents[*].mime_type
+
+          - &VALID_DESCRIPTOR_CODE
+            _NAME_: VALID_DESCRIPTOR_CODE
+            attr: $.message.order.documents[*].descriptor.code
             enumList:
-              - application/pdf
-              - text/html
-            _RETURN_: attr all in enumList
-      - _NAME_: ON_CONFIRM_CANCELLATION_TERMS
-        attr: $.message.order.cancellation_terms[*].fulfillment_state.descriptor.code
-        enumList:
-          - SANCTIONED
-          - DISBURSED
-        _CONTINUE_: "!(attr are present)"
-        _RETURN_: attr all in enumList
+              - LOAN_AGREEMENT
+              - LOAN_CANCELLATION
+            _RETURN_: attr all in enumList    
+
     update:
       - _NAME_: UPDATE_CONTEXT
         action:
@@ -52307,75 +53334,22 @@ x-validations:
         domain:
           - ONDC:FIS12
         version:
-          - 2.0.3
-        _RETURN_: *a1
-      - _NAME_: UPDATE_ORDER_ID
-        attr: $.message.order.id
+          - 2.3.0
+        _RETURN_: *COMMON_CONTEXT
+
+      - _NAME_: REQUIRED_UPDATE_TARGET 
+        attr: $.message.update_target
         _RETURN_: attr are present
-      - _NAME_: UPDATE_PAYMENT_TARGET
-        update_target: $.message.update_target
-        target_match_fulfillment:
-          - fulfillment
-        payment_types: $.message.order.payments[*].type
-        _CONTINUE_: (update_target any in target_match_fulfillment) || !(payment_types
-          are present)
+
+      - *REQUIRED_ORDER_ID
+
+      - _NAME_: REQUIRED_ITEMS_FIELDS
+        usecasepath: $.message.order.items[*].id
+        _CONTINUE_: '!(usecasepath are present)'
         _RETURN_:
-          - _NAME_: REQUIRED_PAYMENT_TYPE
-            attr: $.message.order.payments[*].type
-            enumList:
-              - POST_FULFILLMENT
-              - ON_ORDER
-            _RETURN_: attr all in enumList
-          - _NAME_: REQUIRED_PAYMENT_TIME_LABEL
-            attr: $.message.order.payments[*].time.label
-            _RETURN_: attr are present
-          - _NAME_: VALID_PAYMENT_TIME_LABEL_ENUM
-            attr: $.message.order.payments[*].time.label
-            enumList:
-              - PRE_PART_PAYMENT
-              - INSTALLMENT
-              - FORECLOSURE
-              - MISSED_EMI_PAYMENT
-            _RETURN_: attr all in enumList
-          - _NAME_: REQUIRED_PAYMENT_PARAMS_AMOUNT
-            attr: $.message.order.payments[*].params.amount
-            _RETURN_: attr are present
-      - _NAME_: UPDATE_PAYMENT_REF_ID_GOLD
-        item_code: $.message.order.items[*].descriptor.code
-        loan_type_match: *a10
-        update_target: $.message.update_target
-        target_match_fulfillment:
-          - fulfillment
-        payment_types: $.message.order.payments[*].type
-        _CONTINUE_: "!(item_code any in loan_type_match) || (update_target any in
-          target_match_fulfillment) || !(payment_types are present)"
-        _RETURN_:
-          - _NAME_: REQUIRED_PAYMENT_REF_ID
-            attr: $.message.order.payments[*].tags[?(@.descriptor.code=='LOAN_REPAYMENT')].list[?(@.descriptor.code=='ref_id')].value
-            _RETURN_: attr are present
-      - _NAME_: UPDATE_FULFILLMENT_TARGET
-        update_target: $.message.update_target
-        target_match:
-          - fulfillment
-        _CONTINUE_: "!(update_target any in target_match)"
-        _RETURN_:
-          - _NAME_: REQUIRED_FULFILLMENT_STATE_CODE
-            attr: $.message.order.fulfillments[*].state.descriptor.code
-            _RETURN_: attr are present
-          - _NAME_: VALID_FULFILLMENT_STATE_ENUM
-            attr: $.message.order.fulfillments[*].state.descriptor.code
-            enumList: &a17
-              - INITIATED
-              - SANCTIONED
-              - DISBURSED
-              - PENDING
-              - REJECTED
-              - COMPLETED
-              - CONSENT_REQUIRED
-              - APPROVED
-              - DISPATCHED
-              - ACCEPTED
-            _RETURN_: attr all in enumList
+          - *REQUIRED_ITEM_ID
+          - *REQUIRED_ACTION_XINPUT_ITEMS
+
     on_update:
       - _NAME_: ON_UPDATE_CONTEXT
         action:
@@ -52383,74 +53357,30 @@ x-validations:
         domain:
           - ONDC:FIS12
         version:
-          - 2.0.3
-        _RETURN_: *a1
-      - _NAME_: ON_UPDATE_ORDER
+          - 2.3.0
+        _RETURN_: *COMMON_CONTEXT
+
+      - _NAME_: REQUIRED_ORDER_ITEMS
         _RETURN_:
-          - _NAME_: REQUIRED_ORDER_ID
-            attr: $.message.order.id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_ORDER_PROVIDER_ID
-            attr: $.message.order.provider.id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_ORDER_ITEMS
-            attr: $.message.order.items[*].id
-            _RETURN_: attr are present
-      - _NAME_: ON_UPDATE_FULFILLMENTS
-        _RETURN_:
-          - _NAME_: REQUIRED_FULFILLMENT_TYPE
-            attr: $.message.order.fulfillments[*].type
-            _CONTINUE_: "!(attr are present)"
-            enumList: *a15
-            _RETURN_: attr all in enumList
-          - _NAME_: REQUIRED_FULFILLMENT_STATE_CODE
-            attr: $.message.order.fulfillments[*].state.descriptor.code
-            enumList: *a17
-            _RETURN_: attr all in enumList
-      - _NAME_: ON_UPDATE_PAYMENTS
-        _RETURN_:
-          - _NAME_: REQUIRED_PAYMENT_TYPE
-            attr: $.message.order.payments[*].type
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_PAYMENT_STATUS
-            attr: $.message.order.payments[*].status
-            _RETURN_: attr are present
-          - _NAME_: VALID_PAYMENT_STATUS_ENUM
-            attr: $.message.order.payments[*].status
-            enumList: &a18
-              - PAID
-              - NOT-PAID
-              - FAILED
-              - DELAYED
-              - DEFERRED
-            _RETURN_: attr all in enumList
-      - _NAME_: ON_UPDATE_QUOTE
-        _RETURN_:
-          - _NAME_: REQUIRED_QUOTE_BREAKUP_TITLE
-            attr: $.message.order.quote.breakup[*].title
-            _RETURN_: attr are present
-          - _NAME_: VALID_QUOTE_BREAKUP_TITLE_ON_UPDATE_ENUM
-            attr: $.message.order.quote.breakup[*].title
-            enumList: &a19
-              - PRINCIPAL
-              - INTEREST
-              - PROCESSING_FEE
-              - OTHER_UPFRONT_CHARGES
-              - INSURANCE_CHARGES
-              - NET_DISBURSED_AMOUNT
-              - OTHER_CHARGES
-              - LATE_FEE_AMOUNT
-              - OUTSTANDING_PRINCIPAL
-              - FORECLOSURE_CHARGES
-              - OUTSTANDING_INTEREST
-              - PRE_PAYMENT_CHARGE
-              - INSURANCE_TOTAL_FEE
-              - INSURANCE_PRODUCT_FEE
-              - TAX
-            _RETURN_: attr any in enumList
-          - _NAME_: REQUIRED_QUOTE_BREAKUP_PRICE
-            attr: $.message.order.quote.breakup[*].price.value
-            _RETURN_: attr are present
+            - *REQUIRED_ORDER_ID
+            - *REQUIRED_ORDER_STATUS
+            - *REQUIRED_ORDER_CREATED_AT
+            - *REQUIRED_ORDER_UPDATED_AT
+          
+      - *ON_ACTION_PROVIDER 
+      - *ON_SELECT_PROVIDER_TAGS
+      - *ON_ACTION_ITEMS
+
+      - *loanInfoTag
+      - *ON_ACTION_FULFILLMENTS
+      - *COMMON_QUOTE_ITEMS
+
+      - *ON_INIT_PAYMENTS
+      - *ON_INIT_PAYMENT_TAGS
+      - *ON_INIT_CANCELLATION_TERMS
+      - *BAP_BPP_TERMS
+      - *REQUIRED_ORDER_DOCUMENTS
+
     status:
       - _NAME_: STATUS_CONTEXT
         action:
@@ -52458,22 +53388,21 @@ x-validations:
         domain:
           - ONDC:FIS12
         version:
-          - 2.0.3
-        _RETURN_: *a1
-      - _NAME_: STATUS_ORDER_ID_PERSONAL_LOAN
-        orderidpath: $.message.order_id
-        _CONTINUE_: "!(orderidpath are present)"
-        _RETURN_:
-          - _NAME_: REQUIRED_STATUS_ORDER_ID
-            attr: $.message.order_id
-            _RETURN_: attr are present
-      - _NAME_: STATUS_REF_ID_GOLD_LOAN
-        refidpath: $.message.ref_id
-        _CONTINUE_: "!(refidpath are present)"
-        _RETURN_:
-          - _NAME_: REQUIRED_STATUS_REF_ID
-            attr: $.message.ref_id
-            _RETURN_: attr are present
+          - 2.3.0
+        _RETURN_: *COMMON_CONTEXT
+
+      - _NAME_: REQUIRED_ORDER_ID
+        usecasepath: $.message.ref_id
+        _CONTINUE_: (usecasepath are present)
+        attr: $.message.order_id
+        _RETURN_: attr are present
+
+      - _NAME_: REQUIRED_REF_ID
+        usecasepath: $.message.order_id
+        _CONTINUE_: (usecasepath are present)
+        attr : $.message.ref_id
+        _RETURN_: attr are present  
+
     on_status:
       - _NAME_: ON_STATUS_CONTEXT
         action:
@@ -52481,826 +53410,129 @@ x-validations:
         domain:
           - ONDC:FIS12
         version:
-          - 2.0.3
-        _RETURN_: *a1
-      - _NAME_: ON_STATUS_ORDER
+          - 2.3.0
+        _RETURN_: *COMMON_CONTEXT
+
+      - _NAME_: REQUIRED_ORDER_ITEMS
+        usecasepath: $.message.order.id
+        _CONTINUE_: '!(usecasepath are present)'
         _RETURN_:
-          - _NAME_: REQUIRED_ORDER_PROVIDER_ID
-            attr: $.message.order.provider.id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_ORDER_ITEMS
-            attr: $.message.order.items[*].id
-            _RETURN_: attr are present
+            - *REQUIRED_ORDER_ID
+            - *REQUIRED_ORDER_STATUS
+            - *REQUIRED_ORDER_CREATED_AT
+            - *REQUIRED_ORDER_UPDATED_AT
+            - *CREATED_AT_UPDATED_AT_EQUALITY
+              
+      - *ON_ACTION_PROVIDER 
+      - *ON_SELECT_PROVIDER_TAGS
+      - &ON_ACTION_ITEMS
+        _NAME_: ON_STATUS_ITEMS
+        _RETURN_:
+          - _NAME_: REQUIRED_ITEMS
+            _RETURN_:
+              - *REQUIRED_ITEM_ID
+              - *REQUIRED_PARENT_ITEM_ID
+              - *REQUIRED_ITEM_DESCRIPTOR_CODE
+              - *REQUIRED_ITEM_CATEGORY_ID
+              - *REQUIRED_ITEM_PRICE_CURRENCY
+              - *REQUIRED_ITEM_PRICE_VALUE
+              - *REQUIRED_ITEM_FULFILLMENT_IDS
+              - &REQUIRED_XINPUT_FIELDS
+                _NAME_: REQUIRED_XINPUT_FIELDS
+                usecasepath: $.message.order.items[*].xinput.form_response.submission_id
+                _CONTINUE_: '!(usecasepath are present)'
+                _RETURN_:
+                  - _NAME_: REQUIRED_XINPUT_ITEMS
+                    _RETURN_:
+                      - *REQUIRED_FORM_ID
+                      - *REQUIRED_FORM_RESPONSE
+                      - *REQUIRED_SUBMISSION_ID
+
+      - *loanInfoTag
       - _NAME_: ON_STATUS_FULFILLMENTS
         _RETURN_:
-          - _NAME_: REQUIRED_FULFILLMENT_TYPE
-            attr: $.message.order.fulfillments[*].type
-            enumList: *a15
-            _CONTINUE_: "!(attr are present)"
-            _RETURN_: attr all in enumList
-      - _NAME_: ON_STATUS_FULFILLMENT_STATE
-        statepath: $.message.order.fulfillments[*].state.descriptor.code
-        _CONTINUE_: "!(statepath are present)"
-        _RETURN_:
-          - _NAME_: VALID_FULFILLMENT_STATE_CODE
-            attr: $.message.order.fulfillments[*].state.descriptor.code
-            enumList: *a17
-            _RETURN_: attr any in enumList
-      - _NAME_: ON_STATUS_XINPUT_FORM_RESPONSE_STATUS_NOT_REJECTED
-        statuspath: $.message.order.items[*].xinput.form_response.status
-        _CONTINUE_: "!(statuspath are present)"
-        _RETURN_:
-          - _NAME_: If_Validation_Result_is_REJECTED_flow_cant_move_forward
-            attr: $.message.order.items[*].xinput.form_response.status
-            enumList:
-              - COMPLETED
-              - OFFLINE_PENDING
-              - APPROVED
-              - SUCCESS
-            _RETURN_: attr all in enumList
-      - _NAME_: ON_STATUS_PAYMENTS
-        paymentspath: $.message.order.payments[*].type
-        _CONTINUE_: "!(paymentspath are present)"
-        _RETURN_:
-          - _NAME_: REQUIRED_PAYMENT_TYPE
-            attr: $.message.order.payments[*].type
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_PAYMENT_STATUS
-            attr: $.message.order.payments[*].status
-            enumList: *a18
-            _RETURN_: attr all in enumList
-      - _NAME_: ON_STATUS_QUOTE
-        attr: $.message.order.quote.breakup[*].title
-        enumList: *a19
-        _CONTINUE_: "!(attr are present)"
-        _RETURN_: attr any in enumList
-      - _NAME_: ON_STATUS_CHECKLIST_CODES
-        checklistpath: $.message.order.fulfillments[*].tags[?(@.descriptor.code=='CHECKLISTS')].list[*].descriptor.code
-        _CONTINUE_: "!(checklistpath are present)"
-        _RETURN_:
-          - _NAME_: VALID_CHECKLIST_CODES_ENUM
-            attr: $.message.order.fulfillments[*].tags[?(@.descriptor.code=='CHECKLISTS')].list[*].descriptor.code
-            enumList:
-              - PERSONAL_INFORMATION
-              - LOAN_OFFER
-              - JOURNEY_OFFLINE
-              - SINGLE_REDIRECTION
-              - KYC
-              - REPAYMENT
-              - BANK_ACCOUNT_VERIFICATION
-              - LOAN_AGREEMENT
-            _RETURN_: attr all in enumList
-    issue:
-      - _NAME_: REQUIRED_CONTEXT_FIELDS
-        _RETURN_:
-          - _NAME_: REQUIRED_CONTEXT_DOMAIN
-            attr: $.context.domain
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_COUNTRY
-            attr: [$.context.location.country.code]
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_CITY
-            attr: [$.context.location.city.code]
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID
-            attr: $.context.transaction_id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID
-            attr: $.context.message_id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_ACTION
-            attr: $.context.action
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_TIMESTAMP
-            attr: $.context.timestamp
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_VERSION
-            attr: [$.context.version]
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_BAP_URI
-            attr: $.context.bap_uri
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_BAP_ID
-            attr: $.context.bap_id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_BPP_URI
-            attr: $.context.bpp_uri
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_BPP_ID
-            attr: $.context.bpp_id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_TTL
-            attr: $.context.ttl
-            _RETURN_: attr are present
-          - _NAME_: VALID_CONTEXT_COUNTRY_CODE
-            attr: $.context.location.country.code
-            # enumList:
-            #   - IND
-            _RETURN_: attr are present
-          # - _NAME_: VALID_CONTEXT_COUNTRY_CODE
-          #   attr: $.context.country
-          #   _RETURN_: attr are present
-      - _NAME_: ISSUE_VALIDATION_VERSION_200
-        action:
-          - issue
-        _SCOPE_: $.message.issue.actions
-        _RETURN_:
-          - _NAME_: REQUIRED_MESSAGE_ID
-            attr: $.message.issue.id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_MESSAGE_STATUS
-            attr: $.message.issue.status
-            _RETURN_: attr are present && attr all in enumList && attr are unique
-            enumList:
-              - OPEN
-              - CLOSED
-              - PROCESSING
-              - RESOLVED
-              - NEED_MORE_INFO
-              - INFO_PROVIDED
-          - _NAME_: REQUIRED_MESSAGE_LEVEL
-            attr: $.message.issue.level
-            _RETURN_: attr are present && attr all in enumList
-            enumList:
-              - ISSUE
-              - GREVIENCE
-              - DISPUTE
-          - _NAME_: REQUIRED_MESSAGE_CREATED_AT
-            attr: $.message.issue.created_at
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_MESSAGE_UPDATED_AT
-            attr: $.message.issue.updated_at
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_MESSAGE_REF_ID
-            attr: $.message.issue.refs[*].ref_id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_MESSAGE_REF_TYPE
-            attr: $.message.issue.refs[*].ref_type
-            _RETURN_: attr are present && attr all in enumList
-            enumList:
-              - ORDER
-              - ITEM
-              - FULFILLMENT
-              - TRANSACTION_ID
-              - MESSAGE_ID
-              - PROVIDER
-              - COMPLAINT
-              - ACTION
-              - PAYMENT
-              - CUSTOMER
-              - AGENT
-          - _NAME_: REQUIRED_MESSAGE_ID_10
-            attr: $.message.issue.actors[*].id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_MESSAGE_TYPE
-            attr: $.message.issue.actors[*].type
-            _RETURN_: attr are present && attr all in enumList
-            enumList:
-              - INTERFACING_NP
-              - COUNTERPARTY_NP
-              - CASCADED_NP
-              - PROVIDER
-              - AGENT
-              - CUSTOMER
-              - INTERFACING_NP_GRO
-              - COUNTERPARTY_NP_GRO
-              - CASCADED_NP_GRO
-              - CONSUMER
-          - _NAME_: REQUIRED_MESSAGE_NAME
-            attr: $.message.issue.actors[*].info.person.name
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_MESSAGE_NAME_13
-            attr: $.message.issue.actors[*].info.person.name
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_MESSAGE_PHONE
-            attr: $.message.issue.actors[*].info.contact.phone
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_MESSAGE_EMAIL
-            attr: $.message.issue.actors[*].info.contact.email
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_MESSAGE_SOURCE_ID
-            attr: $.message.issue.source_id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_MESSAGE_CODE
-            attr: $.message.issue.descriptor.code
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_MESSAGE_SHORT_DESC
-            attr: $.message.issue.descriptor.short_desc
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_MESSAGE_LONG_DESC
-            attr: $.message.issue.descriptor.long_desc
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_MESSAGE_URL
-            attr: $.message.issue.descriptor.additional_desc.url
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_MESSAGE_CONTENT_TYPE
-            attr: $.message.issue.descriptor.additional_desc.content_type
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_MESSAGE_LAST_ACTION_ID
-            attr: $.message.issue.last_action_id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_MESSAGE_ID_25
-            attr: $.message.issue.actions[*].id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_MESSAGE_CODE_26
-            attr: $.message.issue.actions[*].descriptor.code
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_MESSAGE_SHORT_DESC_27
-            attr: $.message.issue.actions[*].descriptor.short_desc
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_MESSAGE_UPDATED_AT_28
-            attr: $.message.issue.actions[*].updated_at
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_MESSAGE_ACTION_BY
-            attr: $.message.issue.actions[*].action_by
-            _RETURN_: attr are present
-          - _NAME_: VALID_ENUM_MESSAGE_STATUS
-            enumList:
-              - OPEN
-              - CLOSED
-              - PROCESSING
-              - RESOLVED
-              - INFO_PROVIDED
-            enumPath: $.message.issue.status
-            _CONTINUE_: "!(enumPath are present)"
-            _RETURN_: enumPath all in enumList
-          - _NAME_: VALID_ENUM_MESSAGE_LEVEL
-            enumList:
-              - ISSUE
-              - GREVIENCE
-              - DISPUTE
-            enumPath: $.message.issue.level
-            _CONTINUE_: "!(enumPath are present)"
-            _RETURN_: enumPath all in enumList
-          - _NAME_: VALID_ENUM_MESSAGE_REF_TYPE
-            enumList:
-              - ORDER
-              - ITEM
-              - FULFILLMENT
-              - TRANSACTION_ID
-              - MESSAGE_ID
-              - PROVIDER
-              - COMPLAINT
-              - ACTION
-              - PAYMENT
-              - CUSTOMER
-              - AGENT
-            enumPath: $.message.issue.refs[*].ref_type
-            _CONTINUE_: "!(enumPath are present)"
-            _RETURN_: enumPath all in enumList
-          - _NAME_: VALID_ENUM_MESSAGE_TYPE
-            enumList:
-              - INTERFACING_NP
-              - COUNTERPARTY_NP
-              - CASCADED_NP
-              - PROVIDER
-              - AGENT
-              - CUSTOMER
-              - INTERFACING_NP_GRO
-              - COUNTERPARTY_NP_GRO
-              - CASCADED_NP_GRO
-              - CONSUMER
-            enumPath: $.message.issue.actors[*].type
-            _CONTINUE_: "!(enumPath are present)"
-            _RETURN_: enumPath all in enumList
-            
-      - _NAME_: ISSUE_VALIDATION_VERSION_100
-        action:
-          - issue
-        _SCOPE_: $.message.issue.issue_actions  
-        _RETURN_:
-          - _NAME_: ISSUE_VALIDATION_OPEN
-            action:
-              - issue
-            _SCOPE_: $.message.issue[?(@.status=='OPEN')]
+          - _NAME_: REQUIRED_FULFILLMENT_ITEMS
             _RETURN_:
-              # Mandatory fields ONLY for OPEN
-              - _NAME_: REQUIRED_ISSUE_ID
-                attr: $.message.issue.id
+              - *REQUIRED_FULFILLMENT_ID
+              - *REQUIRED_FULFILLMENT_TYPE
+              - *REQUIRED_CREDS
+              - _NAME_: REQUIRED_CUSTOMER_NAME
+                attr: $.message.order.fulfillments[*].customer.person.name
+                _CONTINUE_: '!(attr are present)'
                 _RETURN_: attr are present
 
-              - _NAME_: REQUIRED_ISSUE_STATUS
-                attr: $.message.issue.status
-                validValues:
-                  - OPEN
-                  - CLOSED
-                _RETURN_: attr all in validValues    
+              - _NAME_: REQUIRED_CUSTOMER_CONTACT_DETAILS
+                attr: $.message.order.fulfillments[*].customer.contact.phone
+                _CONTINUE_: '!(attr are present)'
+                _RETURN_:
+                  - _NAME_: REQUIRED_CUSTOMER_CONTACT_NUMBER
+                    attr: $.message.order.fulfillments[*].customer.contact.phone
+                    _RETURN_: attr are present
 
-              - _NAME_: REQUIRED_ISSUE_CATEGORY
-                attr: $.message.issue.category
-                validValues:
-                  - FULFILLMENT
-                  - PAYMENT
-                  - ORDER
-                _RETURN_: attr all in validValues
+                  - _NAME_: REQUIRED_CUSTOMER_CONTACT_EMAIL
+                    attr: $.message.order.fulfillments[*].customer.contact.email
+                    _RETURN_: attr are present
 
-              # - _NAME_: VALID_FULFILLMENT_SUB_CATEGORY
-              #   _SCOPE_: $.message.issue[?(@.category=='FULFILLMENT')]
-              #   subCategory: $.sub_category
-              #   validValues:
-              #     - FLM0190
-              #     - FLM02
-              #     - FLM202
-              #     - FLM203
-              #     - FLM204
-              #     - FLM205
-              #     - FLM206
-              #     - FLM207
-              #     - FLM208
-              #     - FLM209
-              #     - FLM210
-              #     - FLM211
-              #     - FLM212
-              #   _RETURN_: subCategory any in validValues
+              - _NAME_: REQUIRED_CUSTOMER_ORG_DETAILS
+                attr: $.message.order.fulfillments[*].customer.organization.address
+                _CONTINUE_: '!(attr are present)' 
+                _RETURN_:
+                  - _NAME_: REQUIRED_ORG_ADDRESS
+                    attr : $.message.order.fulfillments[*].customer.organization.address
+                    _RETURN_: attr are present
 
-              # - _NAME_: VALID_PAYMENT_SUB_CATEGORY
-              #   _SCOPE_: $.message.issue[?(@.category=='PAYMENT')]
-              #   subCategory: $.sub_category
-              #   validValues:
-              #     - PMT01
-              #     - PMT02
-              #     - PMT03
-              #     - PMT04
-              #     - PMT05
-              #     - PMT06
-              #     - PMT07
-              #     - PMT08
-              #     - PMT09
-              #     - PTM09
-              #     - PTM10
-              #   _RETURN_: subCategory any in validValues
+                  - _NAME_: REQUIRED_ORG_STATE
+                    attr : $.message.order.fulfillments[*].customer.organization.state.name
+                    _RETURN_: attr are present
 
-              # - _NAME_: VALID_ORDER_SUB_CATEGORY
-              #   _SCOPE_: $.message.issue[?(@.category=='ORDER')]
-              #   subCategory: $.sub_category
-              #   validValues:
-              #     - ORD01
-              #     - ORD02
-              #     - ORD03
-              #     - ORD04
-              #   _RETURN_: subCategory any in validValues    
+                  - _NAME_: REQUIRED_ORG_CITY
+                    attr : $.message.order.fulfillments[*].customer.organization.city.name
+                    _RETURN_: attr are present
 
-              - _NAME_: REQUIRED_ISSUE_SUB_CATEGORY
-                attr: $.message.issue.sub_category
-                validValues:
-                  - FLM01
-                  - FLM02
-                  - FLM202
-                  - FLM203
-                  - FLM204
-                  - FLM205
-                  - FLM206
-                  - FLM207
-                  - FLM208
-                  - FLM209
-                  - FLM210
-                  - FLM211
-                  - FLM212
-                  - PMT01
-                  - PMT02
-                  - PMT03
-                  - PMT04
-                  - PMT05
-                  - PMT06
-                  - PMT07
-                  - PMT08
-                  - PMT09
-                  - PTM09
-                  - PTM10
-                  - ORD01
-                  - ORD02
-                  - ORD03
-                  - ORD04
-                _RETURN_: attr all in validValues
+                  - _NAME_: REQUIRED_ORG_CODE
+                    attr : $.message.order.fulfillments[*].customer.organization.city.code
+                    _RETURN_: attr are present
 
-              - _NAME_: REQUIRED_COMPLAINANT_PERSON_NAME
-                attr: $.message.issue.complainant_info.person.name
-                _RETURN_: attr are present
+                  - _NAME_: REQUIRED_ORG_CONTACT_PHONE
+                    attr : $.message.order.fulfillments[*].customer.organization.contact.phone
+                    _RETURN_: attr are present
 
-              - _NAME_: REQUIRED_COMPLAINANT_CONTACT_PHONE
-                attr: $.message.issue.complainant_info.contact.phone
-                _RETURN_: attr are present
+                  - _NAME_: REQUIRED_ORG_CONTACT_EMAIL
+                    attr : $.message.order.fulfillments[*].customer.organization.contact.email
+                    _RETURN_: attr are present        
+                    
 
-              - _NAME_: REQUIRED_ORDER_ID
-                attr: $.message.issue.order_details.id
-                _RETURN_: attr are present
 
-              - _NAME_: REQUIRED_ORDER_ITEMS
-                attr: $.message.issue.order_details.items[*].id
-                _RETURN_: attr are present
 
-              - _NAME_: REQUIRED_ORDER_ITEMS_QUANTITY
-                attr: $.message.issue.order_details.items[*].quantity
-                _RETURN_: attr are present  
+              # - _NAME_: REQUIRED_FULFILLMENT_STATE_CODE
+              #   attr: $.message.order.fulfillments[*].state.descriptor.code
+              #   _RETURN_: attr are present      
 
-              - _NAME_: REQUIRED_FULFILLMENT_ID
-                attr: $.message.issue.order_details.fulfillments[*].id
-                _RETURN_: attr are present
+          - _NAME_: VALID_FULFILLMENT_ITEMS
+            _RETURN_: 
+              - *VALID_FULFILLMENT_TYPE
+              - _NAME_: VALID_FULFILLMENT_STATE_CODE
+                attr: $.message.order.fulfillments[*].state.descriptor.code
+                enumList: *fulfillmentState
+                _CONTINUE_: '!(attr are present)'
+                _RETURN_: attr all in enumList
 
-              - _NAME_: REQUIRED_PROVIDER_ID
-                attr: $.message.issue.order_details.provider_id
-                _RETURN_: attr are present  
-
-              - _NAME_: REQUIRED_DESCRIPTION
-                attr: [$.message.issue.description]
-                _RETURN_: attr are present
-
-              - _NAME_: REQUIRED_DESCRIPTION_SHORT
-                attr: [$.message.issue.description.short_desc]
-                _RETURN_: attr are present
-
-              - _NAME_: REQUIRED_DESCRIPTION_LONG
-                attr: [$.message.issue.description.long_desc]
-                _RETURN_: attr are present
-
-              - _NAME_: REQUIRED_DESCRIPTION_ADDITIONAL_URL
-                attr: [$.message.issue.description.additional_desc.url]
-                _RETURN_: attr are present
-
-              - _NAME_: REQUIRED_DESCRIPTION_ADDITIONAL_CONTENT_TYPE
-                attr: [$.message.issue.description.additional_desc.content_type]
-                _RETURN_: attr are present
-
-              - _NAME_: REQUIRED_DESCRIPTION_IMAGES
-                attr: [$.message.issue.description.images]
-                _RETURN_: attr are present  
-
-              - _NAME_: REQUIRED_EXPECTED_RESPONSE_TIME
-                attr: [$.message.issue.expected_response_time.duration]
-                _RETURN_: attr are present
-
-              - _NAME_: REQUIRED_EXPECTED_RESOLUTION_TIME
-                attr: [$.message.issue.expected_resolution_time.duration]
-                _RETURN_: attr are present
-
-              - _NAME_: REQUIRED_ISSUE_ACTIONS_OPEN
-                attr: $.message.issue.issue_actions.complainant_actions[*].complainant_action
-                validValues:
-                  - OPEN
-                  - CLOSE
-                  - ESCALATE
-                _RETURN_: attr all in validValues
-
-              - _NAME_: REQUIRED_CREATED_AT
-                attr: $.message.issue.created_at
-                _RETURN_: attr are present
-
-              - _NAME_: REQUIRED_UPDATED_AT
-                attr: $.message.issue.updated_at
-                _RETURN_: attr are present
-          - _NAME_: ISSUE_VALIDATION_CLOSED
-            action:
-                - issue
-            _SCOPE_: $.message.issue[?(@.status=='CLOSED')]
-            _RETURN_:
-              - _NAME_: REQUIRED_ISSUE_ID_CLOSED
-                attr: $.message.issue.id
-                _RETURN_: attr are present
-
-              - _NAME_: REQUIRED_ISSUE_STATUS
-                attr: $.message.issue.status
-                validValues:
-                  - OPEN
-                  - CLOSED
-                _RETURN_: attr all in validValues    
-
-              - _NAME_: REQUIRED_ISSUE_ACTIONS_CLOSED
-                attr: $.message.issue.issue_actions.complainant_actions[*].complainant_action
-                validValues:
-                  - OPEN
-                  - CLOSE
-                  - ESCALATE
-                _RETURN_: attr all in validValues
-              - _NAME_: REQUIRED_CREATED_AT_CLOSED
-                attr: $.message.issue.created_at
-                _RETURN_: attr are present
-
-              - _NAME_: REQUIRED_UPDATED_AT_CLOSED
-                attr: $.message.issue.updated_at
-                _RETURN_: attr are present
-
-    on_issue:
-      - _NAME_: REQUIRED_CONTEXT_FIELDS
+          - *VALID_FULFILLMENT_TAGS        
+      
+      - *COMMON_QUOTE_ITEMS
+      #commenting below as on_status also used after on_select call.
+      # - *ON_INIT_PAYMENTS
+      # - *ON_INIT_PAYMENT_TAGS
+      # - *ON_INIT_CANCELLATION_TERMS
+      # - *BAP_BPP_TERMS
+      - _NAME_: REQUIRED_ORDER_DOCUMENTS
+        usecasepath: $.message.order.documents[*].descriptor.code
+        _CONTINUE_: '!(usecasepath are present)'
         _RETURN_:
-          - _NAME_: REQUIRED_CONTEXT_DOMAIN
-            attr: $.context.domain
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_COUNTRY
-            attr: [$.context.location.country.code]
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_CITY
-            attr: [$.context.location.city.code]
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID
-            attr: $.context.transaction_id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID
-            attr: $.context.message_id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_ACTION
-            attr: $.context.action
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_TIMESTAMP
-            attr: $.context.timestamp
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_VERSION
-            attr: [$.context.version]
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_BAP_URI
-            attr: $.context.bap_uri
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_BAP_ID
-            attr: $.context.bap_id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_BPP_URI
-            attr: $.context.bpp_uri
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_BPP_ID
-            attr: $.context.bpp_id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_TTL
-            attr: $.context.ttl
-            _RETURN_: attr are present
-          - _NAME_: VALID_CONTEXT_COUNTRY_CODE
-            attr: [$.context.location.country.code]
-            # enumList:
-            #   - IND
-            _RETURN_: attr are present
-          # - _NAME_: VALID_CONTEXT_COUNTRY_CODE
-          #   attr: $.context.country
-          #   _RETURN_: attr are present  
-      - _NAME_: ON_ISSUE_VALIDATION_VERSION_200
-        action:
-          - on_issue
-        _SCOPE_: $.message.issue.actions
-        _RETURN_:  
-          - _NAME_: REQUIRED_MESSAGE_ID
-            attr: $.message.issue.id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_MESSAGE_STATUS
-            attr: $.message.issue.status
-            _RETURN_: attr are present && attr all in enumList && attr are unique
-            enumList:
-              - OPEN
-              - CLOSED
-              - PROCESSING
-              - RESOLVED
-              - NEED_MORE_INFO
-              - INFO_PROVIDED
-          - _NAME_: REQUIRED_MESSAGE_LEVEL
-            attr: $.message.issue.level
-            _RETURN_: attr are present && attr all in enumList
-            enumList:
-              - ISSUE
-              - GREVIENCE
-              - DISPUTE
-          - _NAME_: REQUIRED_MESSAGE_CREATED_AT
-            attr: $.message.issue.created_at
-            _RETURN_: attr are present 
-          - _NAME_: REQUIRED_MESSAGE_UPDATED_AT
-            attr: $.message.issue.updated_at
-            _RETURN_: attr are present 
-          - _NAME_: REQUIRED_MESSAGE_REF_ID
-            attr: $.message.issue.refs[*].ref_id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_MESSAGE_REF_TYPE
-            attr: $.message.issue.refs[*].ref_type
-            _RETURN_: attr are present && attr all in enumList
-            enumList:
-              - ORDER
-              - ITEM
-              - FULFILLMENT
-              - TRANSACTION_ID
-              - MESSAGE_ID
-              - PROVIDER
-              - COMPLAINT
-              - ACTION
-              - PAYMENT
-              - CUSTOMER
-              - AGENT
-          - _NAME_: REQUIRED_EXPECTED_RESPONSE_TIME
-            attr: [$.message.issue.expected_response_time.duration]
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_EXPECTED_RESOLUTION_TIME
-            attr: [$.message.issue.expected_resolution_time.duration]
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_MESSAGE_ID_10
-            attr: $.message.issue.actors[*].id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_MESSAGE_TYPE
-            attr: $.message.issue.actors[*].type
-            _RETURN_: attr are present && attr all in enumList
-            enumList:
-              - INTERFACING_NP
-              - COUNTERPARTY_NP
-              - CASCADED_NP
-              - PROVIDER
-              - AGENT
-              - CUSTOMER
-              - INTERFACING_NP_GRO
-              - COUNTERPARTY_NP_GRO
-              - CASCADED_NP_GRO
-              - CONSUMER  
-          - _NAME_: REQUIRED_MESSAGE_NAME_13
-            attr: $.message.issue.actors[*].info.person.name
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_MESSAGE_PHONE
-            attr: $.message.issue.actors[*].info.contact.phone
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_MESSAGE_EMAIL
-            attr: $.message.issue.actors[*].info.contact.email
-            _RETURN_: attr are present
-          # - _NAME_: REQUIRED_MESSAGE_SOURCE_ID
-          #   attr: $.message.issue.source_id
-          #   _RETURN_: attr are present 
-          # - _NAME_: REQUIRED_MESSAGE_CODE
-          #   attr: $.message.issue.descriptor.code
-          #   _RETURN_: attr are present
-          # - _NAME_: REQUIRED_MESSAGE_SHORT_DESC
-          #   attr: $.message.issue.descriptor.short_desc
-          #   _RETURN_: attr are present
-          # - _NAME_: REQUIRED_MESSAGE_LONG_DESC
-          #   attr: $.message.issue.descriptor.long_desc
-          #   _RETURN_: attr are present
-          # - _NAME_: REQUIRED_MESSAGE_URL
-          #   attr: $.message.issue.descriptor.additional_desc.url
-          #   _RETURN_: attr are present
-          # - _NAME_: REQUIRED_MESSAGE_CONTENT_TYPE
-          #   attr: $.message.issue.descriptor.additional_desc.content_type
-          #   _RETURN_: attr are present 
-          - _NAME_: REQUIRED_MESSAGE_ID_25
-            attr: $.message.issue.actions[*].id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_MESSAGE_CODE_26
-            attr: $.message.issue.actions[*].descriptor.code
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_MESSAGE_SHORT_DESC_27
-            attr: $.message.issue.actions[*].descriptor.short_desc
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_MESSAGE_UPDATED_AT_28
-            attr: $.message.issue.actions[*].updated_at
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_MESSAGE_ACTION_BY
-            attr: $.message.issue.actions[*].action_by
-            _RETURN_: attr are present              
-      - _NAME_: ON_ISSUE_VALIDATION_VERSION_100
-        action:
-          - on_issue
-        _SCOPE_: $.message.issue.issue_actions
-        _RETURN_: 
-          - _NAME_: REQUIRED_ISSUE_ID
-            attr: $.message.issue.id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_RESPONDENT_ACTION
-            attr: $.message.issue.issue_actions.respondent_actions[*].respondent_action
-            _RETURN_: attr are present && attr all in enumList
-            enumList:
-              - OPEN
-              - PROCESSING
-              - RESOLVED
-              - CLOSED
-              - INFO_PROVIDED
-              - NEED_MORE_INFO
-
-          - _NAME_: REQUIRED_RESPONDENT_SHORT_DESC
-            attr: $.message.issue.issue_actions.respondent_actions[*].short_desc
-            _RETURN_: attr are present
-
-          - _NAME_: REQUIRED_RESPONDENT_UPDATED_AT
-            attr: $.message.issue.issue_actions.respondent_actions[*].updated_at
-            _RETURN_: attr are present
-
-          - _NAME_: REQUIRED_RESPONDENT_UPDATED_BY_PERSON
-            attr: $.message.issue.issue_actions.respondent_actions[*].updated_by.person.name
-            _RETURN_: attr are present
-
-          - _NAME_: REQUIRED_RESPONDENT_UPDATED_BY_ORG
-            attr: $.message.issue.issue_actions.respondent_actions[*].updated_by.org.name
-            _RETURN_: attr are present
-
-          - _NAME_: REQUIRED_ISSUE_CREATED_AT
-            attr: $.message.issue.created_at
-            _RETURN_: attr are present
-
-          - _NAME_: REQUIRED_ISSUE_UPDATED_AT
-            attr: $.message.issue.updated_at
-            _RETURN_: attr are present
-
-    on_issue_status:
-      - _NAME_: REQUIRED_CONTEXT_FIELDS
-        _RETURN_:
-          - _NAME_: REQUIRED_CONTEXT_DOMAIN
-            attr: $.context.domain
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_COUNTRY
-            attr: [$.context.location.country.code]
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_CITY
-            attr: [$.context.location.city.code]
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID
-            attr: $.context.transaction_id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID
-            attr: $.context.message_id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_ACTION
-            attr: $.context.action
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_TIMESTAMP
-            attr: $.context.timestamp
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_VERSION
-            attr: [$.context.version]
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_BAP_URI
-            attr: $.context.bap_uri
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_BAP_ID
-            attr: $.context.bap_id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_BPP_URI
-            attr: $.context.bpp_uri
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_BPP_ID
-            attr: $.context.bpp_id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_CONTEXT_TTL
-            attr: $.context.ttl
-            _RETURN_: attr are present
-          - _NAME_: VALID_CONTEXT_COUNTRY_CODE
-            attr: [$.context.location.country.code]
-            # enumList:
-            #   - IND
-            _RETURN_: attr are present
-          # - _NAME_: VALID_CONTEXT_COUNTRY_CODE
-          #   attr: $.context.country
-          #   _RETURN_: attr are present
-      - _NAME_: ISSUE_ON_ISSUE_STATUS_VALIDATION
-        action:
-          - on_issue_status
-        _RETURN_:
-          - _NAME_: REQUIRED_ISSUE_ID
-            attr: $.message.issue.id
-            _RETURN_: attr are present
-
-          - _NAME_: REQUIRED_RESPONDENT_ACTION
-            attr: $.message.issue.issue_actions.respondent_actions[*].respondent_action
-            _RETURN_: attr are present && attr all in enumList
-            enumList:
-              - OPEN
-              - PROCESSING
-              - RESOLVED
-              - CLOSED
-              - INFO_PROVIDED
-              - NEED_MORE_INFO
-
-          - _NAME_: REQUIRED_RESPONDENT_SHORT_DESC
-            attr: $.message.issue.issue_actions.respondent_actions[*].short_desc
-            _RETURN_: attr are present
-
-          - _NAME_: REQUIRED_RESPONDENT_UPDATED_AT
-            attr: $.message.issue.issue_actions.respondent_actions[*].updated_at
-            _RETURN_: attr are present
-
-          - _NAME_: REQUIRED_RESPONDENT_UPDATED_BY_PERSON
-            attr: $.message.issue.issue_actions.respondent_actions[*].updated_by.person.name
-            _RETURN_: attr are present
-
-          - _NAME_: REQUIRED_RESPONDENT_UPDATED_BY_ORG
-            attr: $.message.issue.issue_actions.respondent_actions[*].updated_by.org.name
-            _RETURN_: attr are present
-
-          - _NAME_: REQUIRED_ISSUE_CREATED_AT
-            attr: $.message.issue.created_at
-            _RETURN_: attr are present
-
-          - _NAME_: REQUIRED_ISSUE_UPDATED_AT
-            attr: $.message.issue.updated_at
-            _RETURN_: attr are present
-
-          - _NAME_: REQUIRED_RESOLUTION_SHORT_DESC
-            attr: [$.message.issue.resolution.short_desc]
-            _RETURN_: attr are present
-
-          - _NAME_: REQUIRED_RESOLUTION_LONG_DESC
-            attr: [$.message.issue.resolution.long_desc]
-            _RETURN_: attr are present
-
-          - _NAME_: REQUIRED_RESOLUTION_ACTION_TRIGGERED
-            attr: [$.message.issue.resolution.action_triggered]
-            _RETURN_: attr are present
-
-          - _NAME_: REQUIRED_RESOLUTION_PROVIDER_TYPE
-            attr: $.message.issue.resolution_provider.respondent_info.type
-            _RETURN_: attr are present
-
-          - _NAME_: REQUIRED_RESOLUTION_PROVIDER_ORG_NAME
-            attr: $.message.issue.resolution_provider.respondent_info.organization.org.name
-            _RETURN_: attr are present
-
-          - _NAME_: REQUIRED_RESOLUTION_PROVIDER_PERSON_NAME
-            attr: $.message.issue.resolution_provider.respondent_info.organization.person.name
-            _RETURN_: attr are present    
+          - *REQUIRED_DOCUMENT_CODE
+          - *REQUIRED_DOCUMENT_NAME
+          - *REQUIRED_DOCUMENT_TYPE
+          - *REQUIRED_DOCUMENT_URL
+          - *VALID_DESCRIPTOR_CODE
   _SESSION_DATA_:
-    trans: {}
+    tx: {}
