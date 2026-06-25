@@ -12,7 +12,7 @@ import { select } from "./select";
 import { checkStatus } from "./status";
 import { track } from "./track";
 import { on_track } from "./on_track";
-// import { onUpdateRouter, updateRouter } from "./update";
+import { onUpdateRouter, updateRouter } from "./update";
 
 export {
   cancel,
@@ -29,6 +29,6 @@ export {
   checkStatus,
   track,
   on_track,
-  // onUpdateRouter,
-  // updateRouter,
+  onUpdateRouter,
+  updateRouter,
 };

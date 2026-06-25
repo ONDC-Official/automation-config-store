@@ -1,54 +1,54 @@
-// import _ from "lodash";
-// import { RedisService } from "ondc-automation-cache-lib";
-// import constants from "../../utils/constants";
-// import {
-//   isPresentInRedisSet,
-// } from "../../utils/helper";
-// import { return_request_reasonCodes } from "../../utils/constants/reasonCode";
-// import { contextChecker } from "../../utils/contextUtils";
+import _ from "lodash";
+import { RedisService } from "ondc-automation-cache-lib";
+import constants from "../../utils/constants";
+import {
+  isPresentInRedisSet,
+} from "../../utils/helper";
+import { return_request_reasonCodes } from "../../utils/constants/reasonCode";
+import { contextChecker } from "../../utils/contextUtils";
 
-// const TTL_IN_SECONDS: number = Number(process.env.TTL_IN_SECONDS) || 3600;
+const TTL_IN_SECONDS: number = Number(process.env.TTL_IN_SECONDS) || 3600;
 
-// // Error codes
-// const ERROR_CODES = {
-//   FEATURE_NOT_SUPPORTED_BNP: 21001, // Feature not supported (BNP)
-//   INCREASE_ITEM_QUANTITY: 21002, // Increase in item quantity (BNP)
-//   CHANGE_ITEM_QUOTE: 21003, // Change in item quote (BNP)
-//   INVALID_PART_CANCEL_REQUEST: 22508, // Invalid Part Cancel Request (BNP)
-//   CANCEL_RETURN_REQUEST: 22509, // Cancel Return Request (BNP)
-//   ITEM_NOT_FOUND: 30004, // Item not found (SNP)
-//   INVALID_RETURN_REQUEST: 30005, // Invalid return request (SNP)
-//   INVALID_ORDER: 30018, // Invalid Order (SNP)
-//   ORDER_PROCESSING: 31003, // Order processing in progress (SNP)
-//   BUSINESS_ERROR: 40000, // Business Error (SNP)
-//   FEATURE_NOT_SUPPORTED_SNP: 40001, // Feature not supported (SNP)
-//   CHANGE_IN_QUOTE: 40008, // Change in quote (SNP)
-//   EXPIRED_AUTHORIZATION: 40010, // Expired authorization (SNP)
-//   INVALID_AUTHORIZATION: 40011, // Invalid authorization (SNP)
-//   POLICY_ERROR: 50000, // Policy Error (SNP)
-//   UPDATION_NOT_POSSIBLE: 50002, // Updation not possible (SNP)
-//   FULFILLMENT_NOT_FOUND: 50007, // Fulfillment not found (SNP)
-//   FULFILLMENT_CANNOT_UPDATE: 50008, // Fulfillment cannot be updated (SNP)
-// };
+// Error codes
+const ERROR_CODES = {
+  FEATURE_NOT_SUPPORTED_BNP: 21001, // Feature not supported (BNP)
+  INCREASE_ITEM_QUANTITY: 21002, // Increase in item quantity (BNP)
+  CHANGE_ITEM_QUOTE: 21003, // Change in item quote (BNP)
+  INVALID_PART_CANCEL_REQUEST: 22508, // Invalid Part Cancel Request (BNP)
+  CANCEL_RETURN_REQUEST: 22509, // Cancel Return Request (BNP)
+  ITEM_NOT_FOUND: 30004, // Item not found (SNP)
+  INVALID_RETURN_REQUEST: 30005, // Invalid return request (SNP)
+  INVALID_ORDER: 30018, // Invalid Order (SNP)
+  ORDER_PROCESSING: 31003, // Order processing in progress (SNP)
+  BUSINESS_ERROR: 40000, // Business Error (SNP)
+  FEATURE_NOT_SUPPORTED_SNP: 40001, // Feature not supported (SNP)
+  CHANGE_IN_QUOTE: 40008, // Change in quote (SNP)
+  EXPIRED_AUTHORIZATION: 40010, // Expired authorization (SNP)
+  INVALID_AUTHORIZATION: 40011, // Invalid authorization (SNP)
+  POLICY_ERROR: 50000, // Policy Error (SNP)
+  UPDATION_NOT_POSSIBLE: 50002, // Updation not possible (SNP)
+  FULFILLMENT_NOT_FOUND: 50007, // Fulfillment not found (SNP)
+  FULFILLMENT_CANNOT_UPDATE: 50008, // Fulfillment cannot be updated (SNP)
+};
 
-// interface ValidationError {
-//   valid: boolean;
-//   code: number;
-//   description: string;
-// }
+interface ValidationError {
+  valid: boolean;
+  code: number;
+  description: string;
+}
 
-// const addError = (description: string, code: number): ValidationError => ({
-//   valid: false,
-//   code,
-//   description,
-// });
+const addError = (description: string, code: number): ValidationError => ({
+  valid: false,
+  code,
+  description,
+});
 
-// export const checkUpdate = async (
-//   data: any,
-//   settlementDetailSet: any,
-//   apiSeq = "update",
-//   targetFf: string
-// ) => {
+export const checkUpdate = async (
+  data: any,
+  settlementDetailSet: any,
+  apiSeq = "update",
+  targetFf: string
+) => {
 //   const result: ValidationError[] = [];
 //   const { message, context }: any = data;
 //   try {
@@ -342,4 +342,4 @@
 //       ),
 //     ];
 //   }
-// };
+};
