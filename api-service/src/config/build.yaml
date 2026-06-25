@@ -23382,16 +23382,16 @@ x-validations:
             attr: $.message.order.payments[?(@.type=='PRE_ORDER')].params.amount
             _RETURN_: attr are present
 
-      - _NAME_: CONFIRM_PAYMENT_TAGS
-        _RETURN_:
-          - _NAME_: REQUIRED_BAP_TERMS_TAG
-            validTags: *BAP_TERMS_TAG
-            tagPath: $.message.order.payments[*].tags[*].descriptor.code
-            _RETURN_: tagPath any in validTags
-          - _NAME_: REQUIRED_BPP_TERMS_TAG
-            validTags: *BPP_TERMS_TAG
-            tagPath: $.message.order.payments[*].tags[*].descriptor.code
-            _RETURN_: tagPath any in validTags
+      # - _NAME_: CONFIRM_PAYMENT_TAGS
+      #   _RETURN_:
+      #     - _NAME_: REQUIRED_BAP_TERMS_TAG
+      #       validTags: *BAP_TERMS_TAG
+      #       tagPath: $.message.order.payments[*].tags[*].descriptor.code
+      #       _RETURN_: tagPath any in validTags
+      #     - _NAME_: REQUIRED_BPP_TERMS_TAG
+      #       validTags: *BPP_TERMS_TAG
+      #       tagPath: $.message.order.payments[*].tags[*].descriptor.code
+      #       _RETURN_: tagPath any in validTags
 
     # ============================================================
     # ON_CONFIRM
