@@ -3383,6 +3383,9 @@ x-tags:
                   - code: MARGIN_CALL
                     description: Describes the margin call
                     reference: <PR/Issue/Discussion Links md format text>
+                  - code: LTV_PERCENT
+                    description: Describes the loan to value percent
+                    reference: <PR/Issue/Discussion Links md format text>
               - code: LOAN_OFFER
                 description: Describes the loan info details
                 reference: <PR/Issue/Discussion Links md format text>
