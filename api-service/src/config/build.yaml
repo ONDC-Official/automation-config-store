@@ -106174,12 +106174,15 @@ x-validations:
           reg: ['^[A-Za-z0-9_-]{1,50}$']
           _RETURN_: attr follow regex reg
         - _NAME_: ORDER_FULFILLMENTS
+          _CONTINUE_: "!(attr are present)"
           _RETURN_:
           - _NAME_: FULFILLMENTS_ID
+            _CONTINUE_: "!(attr are present)"
             attr: "$.message.order.fulfillments[*].id"
             reg: ['^[A-Za-z0-9_-]{1,50}$']
             _RETURN_: attr follow regex reg
           - _NAME_: FULFILLMENTS_TYPE
+            _CONTINUE_: "!(attr are present)"
             attr: "$.message.order.fulfillments[*].type"
             var_enum: ["Delivery", "Self-Pickup", "Buyer-Delivery", "Return", "Cancel"]
             _RETURN_: attr all in var_enum    
