@@ -13,8 +13,8 @@ import {
   checkStatus,
   track,
   on_track,
-  // updateRouter,
-  // onUpdateRouter,
+  updateRouter,
+  onUpdateRouter,
 } from "./apiTests";
 
 import { validationOutput } from "./types";
@@ -72,12 +72,12 @@ export async function performL1CustomValidations(
     case "on_cancel":
       result = await onCancelRouter(payload);
       break;
-    // case "update":
-    //   result = await updateRouter(payload);
-    //   break;
-    // case "on_update":
-    //   result = await onUpdateRouter(payload);
-    //   break;
+    case "update":
+      result = await updateRouter(payload);
+      break;
+    case "on_update":
+      result = await onUpdateRouter(payload);
+      break;
     case "issue":
     case "on_issue":
     case "on_issue_status":
