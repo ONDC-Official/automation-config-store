@@ -265,6 +265,8 @@ paths:
                           properties:
                             id:
                               $ref: '#/components/schemas/Provider/properties/id'
+                            descriptor:
+                              $ref: '#/components/schemas/ProviderDescriptor'
                             locations:
                               type: array
                               maxItems: 1
@@ -659,6 +661,8 @@ paths:
                           properties:
                             id:
                               $ref: '#/components/schemas/Provider/properties/id'
+                            descriptor:
+                              $ref: '#/components/schemas/ProviderDescriptor'
                             locations:
                               type: array
                               maxItems: 1
@@ -104757,14 +104761,14 @@ x-validations:
       - _NAME_: SELECT_ORDER
         _RETURN_:
         - _NAME_: ORDER_PROVIDER
-          _RETURN_: &SELECT_PROVIDER
+          _RETURN_: 
           - _NAME_: ORDER_PROVIDER_ID
             attr: "$.message.order.provider.id"
             _RETURN_: attr are present
           - _NAME_: ORDER_PROVIDER_LOCATIONS_ID
             attr: "$.message.order.provider.locations[*].id"
             _RETURN_: attr are present
-          - __NAME__: ORDER_PROVIDER_DESCRIPTOR
+          - _NAME_: ORDER_PROVIDER_DESCRIPTOR
             _RETURN_:
             - _NAME_: ORDER_PROVIDER_DESCRIPTOR_NAME
               attr: "$.message.order.provider.descriptor.name"
@@ -104884,7 +104888,13 @@ x-validations:
       - _NAME_: ON_SELECT_ORDER
         _RETURN_:
         - _NAME_: ORDER_PROVIDER
-          _RETURN_: *SELECT_PROVIDER
+          _RETURN_: &ON_SELECT_PROVIDER
+          - _NAME_: ORDER_PROVIDER_ID
+            attr: "$.message.order.provider.id"
+            _RETURN_: attr are present
+          - _NAME_: ORDER_PROVIDER_LOCATIONS_ID
+            attr: "$.message.order.provider.locations[*].id"
+            _RETURN_: attr are present
         - _NAME_: ORDER_ITEMS
           _RETURN_: &ON_SELECT_ITEMS
           - _NAME_: ITEMS_ID
@@ -105120,7 +105130,7 @@ x-validations:
       - _NAME_: INIT_ORDER
         _RETURN_:
         - _NAME_: ORDER_PROVIDER
-          _RETURN_: *SELECT_PROVIDER
+          _RETURN_: *ON_SELECT_PROVIDER
         - _NAME_: ORDER_ITEMS
           _RETURN_: *ON_SELECT_ITEMS
           # - _NAME_: ITEMS_ID
@@ -105271,7 +105281,7 @@ x-validations:
       - _NAME_: ON_INIT_ORDER
         _RETURN_:
         - _NAME_: ORDER_PROVIDER
-          _RETURN_: *SELECT_PROVIDER
+          _RETURN_: *ON_SELECT_PROVIDER
         - _NAME_: ORDER_ITEMS
           _RETURN_: *ON_SELECT_ITEMS
         
@@ -105563,7 +105573,7 @@ x-validations:
           var_enum: ["Created", "Accepted", "Cancelled"]
           _RETURN_: attr all in var_enum
         - _NAME_: ORDER_PROVIDER
-          _RETURN_: *SELECT_PROVIDER
+          _RETURN_: *ON_SELECT_PROVIDER
         - _NAME_: ORDER_ITEMS
           _RETURN_: *ON_SELECT_ITEMS
         - _NAME_: ORDER_ITEMS_ADDITIONAL_TAGS
@@ -105973,7 +105983,7 @@ x-validations:
           var_enum: ["Created", "Accepted", "In-progress", "Completed", "Cancelled"]
           _RETURN_: attr all in var_enum
         - _NAME_: ORDER_PROVIDER
-          _RETURN_: *SELECT_PROVIDER
+          _RETURN_: *ON_SELECT_PROVIDER
         - _NAME_: ORDER_CANCELLATION
           _RETURN_:
           - _NAME_: CANCELLATION_CANCELLED_BY
@@ -106916,7 +106926,7 @@ x-validations:
             attr: "$.message.order.cancellation.reason.id"
             _RETURN_: attr are present
         - _NAME_: ORDER_PROVIDER
-          _RETURN_: *SELECT_PROVIDER
+          _RETURN_: *ON_SELECT_PROVIDER
         - _NAME_: ORDER_ITEMS
           _RETURN_: &ON_CANCEL_ITEMS
           - _NAME_: ORDER_ITEM_ID
