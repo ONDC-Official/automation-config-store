@@ -82,6 +82,8 @@ paths:
                           properties:
                             id:
                               $ref: '#/components/schemas/Provider/properties/id'
+                            descriptor:
+                              $ref: '#/components/schemas/ProviderDescriptor'
                             locations:
                               type: array
                               maxItems: 1
@@ -2502,6 +2504,8 @@ components:
           properties:
             id:
               $ref: '#/components/schemas/Provider/properties/id'
+            descriptor:
+              $ref: '#/components/schemas/ProviderDescriptor'
             locations:
               type: array
               maxItems: 1
@@ -104760,6 +104764,17 @@ x-validations:
           - _NAME_: ORDER_PROVIDER_LOCATIONS_ID
             attr: "$.message.order.provider.locations[*].id"
             _RETURN_: attr are present
+          - __NAME__: ORDER_PROVIDER_DESCRIPTOR
+            _RETURN_:
+            - _NAME_: ORDER_PROVIDER_DESCRIPTOR_NAME
+              attr: "$.message.order.provider.descriptor.name"
+              _RETURN_: attr are present
+            - _NAME_: ORDER_PROVIDER_DESCRIPTOR_SHORT_DESC
+              attr: "$.message.order.provider.descriptor.short_desc"
+              _RETURN_: attr are present
+            - _NAME_: ORDER_PROVIDER_DESCRIPTOR_CODE
+              attr: "$.message.order.provider.descriptor.code"
+              _RETURN_: attr are present
         - _NAME_: ORDER_ITEMS
           _RETURN_:
           - _NAME_: ITEMS_ID
@@ -105056,7 +105071,7 @@ x-validations:
           - _NAME_: BREAKUP_ITEM_ITEM_TAGS_TAGS_OFFER_TYPE
             _CONTINUE_: "!(attr are present)"
             attr: "$.message.order.quote.breakup[*].item.tags[?(@.code=='offer')].list[?(@.code=='type')].value"
-            var_enum: ["delivery", "discount"]
+            var_enum: ["delivery", "discount", "buyXgetY","freebie","slab","combo"]
             _RETURN_: attr all in var_enum
           - _NAME_: BREAKUP_ITEM_ITEM_TAGS_TAGS_OFFER_AUTO
             _CONTINUE_: "!(attr are present)"
