@@ -103794,9 +103794,9 @@ x-validations:
                   _CONTINUE_: "!(attr are present)"
                   attr: "$.message.order.quote.breakup[*].item.quantity.maximum.count"
                   _RETURN_: attr are present
-                - _NAME_: BREAKUP_ITEM_ITEM_PRICE_CURRENCY
-                  attr: "$.message.order.quote.breakup[*].item.price.currency"
-                  _RETURN_: attr are present
+                # - _NAME_: BREAKUP_ITEM_ITEM_PRICE_CURRENCY
+                #   attr: "$.message.order.quote.breakup[*].item.price.currency"
+                #   _RETURN_: attr are present
                 - _NAME_: BREAKUP_ITEM_ITEM_PRICE_VALUE
                   attr: "$.message.order.quote.breakup[*].item.price.value"
                   _RETURN_: attr are present
@@ -105767,10 +105767,10 @@ x-validations:
                 _RETURN_: attr are present
               - _NAME_: BREAKUP_ITEM_ITEM
                 _RETURN_:
-                - _NAME_: BREAKUP_ITEM_ITEM_PRICE_CURRENCY
-                  _CONTINUE_: "!(attr are present)"
-                  attr: "$.message.order.quote.breakup[*].item.price.currency"
-                  _RETURN_: attr are present
+                # - _NAME_: BREAKUP_ITEM_ITEM_PRICE_CURRENCY
+                #   _CONTINUE_: "!(attr are present)"
+                #   attr: "$.message.order.quote.breakup[*].item.price.currency"
+                #   _RETURN_: attr are present
                 - _NAME_: BREAKUP_ITEM_ITEM_PRICE_VALUE
                   _CONTINUE_: "!(attr are present)"
                   attr: "$.message.order.quote.breakup[*].item.price.value"
