@@ -16,12 +16,14 @@
  * @param selectedAddOns - Selection data from sessionData.selected_items
  * @returns Merged add-ons with selection quantities
  */
-function mergeAddOnsWithSelection(fullAddOns: any[], selectedAddOns: any[]): any[] {
+function mergeAddOnsWithSelection(fullAddOns: any[], selectedAddOns: any[], selectedItemQuantity: number): any[] {
   return fullAddOns.map((fullAddOn: any) => {
+    const selectedAddOn = selectedAddOns.find((s: any) => s.id === fullAddOn.id);
+    const count = selectedAddOn?.quantity?.selected?.count ?? selectedItemQuantity ?? 1;
     return {
       ...fullAddOn,
       quantity: {
-        selected: { count: selectedAddOns[0].quantity.selected.count }
+        selected: { count }
       }
     };
   });
@@ -48,7 +50,7 @@ function createItemWithSelection(fullItem: any, selectedItem: any): any {
 
   // Handle add-ons - merge selected quantities from selectedItem.add_ons
   if (selectedItem?.add_ons && fullItem?.add_ons) {
-    itemPayload.add_ons = mergeAddOnsWithSelection(fullItem.add_ons, selectedItem.add_ons);
+    itemPayload.add_ons = mergeAddOnsWithSelection(fullItem.add_ons, selectedItem.add_ons, selectedItem.quantity?.selected?.count ?? 1);
   } else {
     delete itemPayload.add_ons; // Remove add_ons if not present in selection
   }
@@ -194,6 +196,16 @@ export async function onSelectDefaultGenerator(existingPayload: any, sessionData
   // Set fulfillments from session data if available and add agent data
   if (sessionData.fulfillments) {
     existingPayload.message.order.fulfillments = sessionData.fulfillments?.filter((fulfillment: any) => fulfillment.id === sessionData.selected_fulfillments[0].id);
+  }
+
+  // Update locations city codes dynamically under provider
+  const provider = existingPayload.message.order.provider;
+  if (provider && Array.isArray(provider.locations)) {
+    const cityCode = Array.isArray(sessionData.city_code) ? sessionData.city_code[0] : (sessionData.city_code ?? "std:011");
+    provider.locations.forEach((loc: any) => {
+      if (!loc.city) loc.city = {};
+      loc.city.code = cityCode;
+    });
   }
   // add xinput to child items (items with parent_item_id)
   if (existingPayload.message.order.items && Array.isArray(existingPayload.message.order.items)) {

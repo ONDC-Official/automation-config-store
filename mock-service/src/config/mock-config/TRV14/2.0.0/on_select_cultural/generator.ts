@@ -1,10 +1,12 @@
 
-function mergeAddOnsWithSelection(fullAddOns: any[], selectedAddOns: any[]): any[] {
+function mergeAddOnsWithSelection(fullAddOns: any[], selectedAddOns: any[], selectedItemQuantity: number): any[] {
   return fullAddOns.map((fullAddOn: any) => {
+    const selectedAddOn = selectedAddOns.find((s: any) => s.id === fullAddOn.id);
+    const count = selectedAddOn?.quantity?.selected?.count ?? selectedItemQuantity ?? 1;
     return {
       ...fullAddOn,
       quantity: {
-        selected: { count: selectedAddOns[0].quantity.selected.count }
+        selected: { count }
       }
     };
   });
@@ -20,7 +22,7 @@ function createItemWithSelection(fullItem: any, selectedItem: any): any {
   }
 
   if (selectedItem.add_ons && fullItem.add_ons) {
-    itemPayload.add_ons = mergeAddOnsWithSelection(fullItem.add_ons, selectedItem.add_ons);
+    itemPayload.add_ons = mergeAddOnsWithSelection(fullItem.add_ons, selectedItem.add_ons, selectedItem.quantity?.selected?.count ?? 1);
   }
   return itemPayload;
 }
@@ -142,6 +144,16 @@ export async function onSelectDefaultGenerator(existingPayload: any, sessionData
 
   if (sessionData.fulfillments) {
     existingPayload.message.order.fulfillments = sessionData.fulfillments?.filter((fulfillment: any) => fulfillment.id === sessionData.selected_fulfillments[0].id);
+  }
+
+  // Update locations city codes dynamically under provider
+  const provider = existingPayload.message.order.provider;
+  if (provider && Array.isArray(provider.locations)) {
+    const cityCode = Array.isArray(sessionData.city_code) ? sessionData.city_code[0] : (sessionData.city_code ?? "std:011");
+    provider.locations.forEach((loc: any) => {
+      if (!loc.city) loc.city = {};
+      loc.city.code = cityCode;
+    });
   }
 
   existingPayload.message.order.xinput = {

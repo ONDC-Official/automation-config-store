@@ -70,6 +70,18 @@ catalog:
               - url: https://api.unreserved-entry-pass.com/sites/images/location.png
                 size_type: md
           rating: "5"
+          city:
+            code: std:011
+          time:
+            - label: OPERATIONAL_HOURS
+              days: 1,2,3,4,5,6,7
+              schedule:
+                holidays:
+                  - "2026-01-26T00:00:00.000Z"
+                  - "2026-08-15T00:00:00.000Z"
+              range:
+                start: 2026-01-26T09:00:00Z
+                end: 2026-01-26T11:00:00Z
         - id: L2
           gps: "28.5244946, 77.1855177"
           descriptor:
@@ -82,6 +94,50 @@ catalog:
               - url: https://api.unreserved-entry-pass.com/sites/images/location.png
                 size_type: md
           rating: "4"
+
+          city:
+            code: std:011
+          time:
+            - label: OPERATIONAL_HOURS
+              days: '1'
+              range:
+                start: '2026-01-26T09:00:00Z'
+                end: '2026-01-26T09:00:00Z'
+            - label: OPERATIONAL_HOURS
+              days: '2'
+              range:
+                start: '2026-01-26T09:00:00Z'
+                end: '2026-01-26T11:00:00Z'
+            - label: OPERATIONAL_HOURS
+              days: '3'
+              range:
+                start: '2026-01-26T09:00:00Z'
+                end: '2026-01-26T11:00:00Z'
+            - label: OPERATIONAL_HOURS
+              days: '4'
+              range:
+                start: '2026-01-26T09:00:00Z'
+                end: '2026-01-26T11:00:00Z'
+            - label: OPERATIONAL_HOURS
+              days: '5'
+              range:
+                start: '2026-01-26T09:00:00Z'
+                end: '2026-01-26T11:00:00Z'
+            - label: OPERATIONAL_HOURS
+              days: '6'
+              range:
+                start: '2026-01-26T09:00:00Z'
+                end: '2026-01-26T11:00:00Z'
+            - label: OPERATIONAL_HOURS
+              days: '7'
+              range:
+                start: '2026-01-26T09:00:00Z'
+                end: '2026-01-26T11:00:00Z'
+            - label: HOLIDAY
+              schedule:
+                holidays:
+                  - '2026-01-26T00:00:00.000Z'
+                  - '2026-08-15T00:00:00.000Z'
       payments:
         - collected_by: BAP
   tags:

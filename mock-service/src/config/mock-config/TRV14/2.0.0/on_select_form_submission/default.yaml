@@ -262,6 +262,19 @@ order:
             - url: https://api.unreserved-entry-pass.com/sites/images/location.png
               size_type: md
         rating: "5"
+
+        city:
+          code: std:011
+        time:
+          - label: OPERATIONAL_HOURS
+            days: 1,2,3,4,5,6,7
+            schedule:
+              holidays:
+                - "2026-01-26T00:00:00.000Z"
+                - "2026-08-15T00:00:00.000Z"
+            range:
+              start: 2026-01-26T09:00:00Z
+              end: 2026-01-26T11:00:00Z
   cancellation_terms:
     - cancellation_fee:
         percentage: "10"

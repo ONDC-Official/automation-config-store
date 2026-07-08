@@ -1,9 +1,5 @@
 
 order:
-  billing:
-    name: John Doe
-    email: john.doe@example.com
-    phone: "+91-9897867564"
   payments:
   - id: PA1
     collected_by: BAP
