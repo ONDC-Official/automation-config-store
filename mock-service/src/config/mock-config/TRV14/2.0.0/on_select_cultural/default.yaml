@@ -33,10 +33,13 @@ order:
             name: Info
           display: false
           list:
-            - descriptor:
-                code: TNC_LINK
-                name: Terms & Conditions
-              value: https://api.unreserved-entry-pass/beckn/tnc.html
+             - descriptor:
+                 name: What to pack
+               value: Expect the weather to be very cold, so pack winter clothes. Trekking shoes are a must, without a trekking shoe, you will not be allowed to participate in the trek. Also, carry 2 torches per person along with a spare battery
+             - descriptor:
+                 code: TNC_LINK
+                 name: Terms & Conditions
+               value: https://api.unreserved-entry-pass/beckn/tnc.html
     - id: I1
       descriptor:
         name: Adult-Ticket Culture & Heritage Item
@@ -106,10 +109,13 @@ order:
             name: Info
           display: false
           list:
-            - descriptor:
-                code: TNC_LINK
-                name: Terms & Conditions
-              value: https://api.unreserved-entry-pass/beckn/tnc.html
+             - descriptor:
+                 name: What to pack
+               value: Expect the weather to be very cold, so pack winter clothes. Trekking shoes are a must, without a trekking shoe, you will not be allowed to participate in the trek. Also, carry 2 torches per person along with a spare battery
+             - descriptor:
+                 code: TNC_LINK
+                 name: Terms & Conditions
+               value: https://api.unreserved-entry-pass/beckn/tnc.html
     - id: I2
       descriptor:
         name: Child-Ticket Culture & Heritage Item
@@ -179,10 +185,13 @@ order:
             name: Info
           display: false
           list:
-            - descriptor:
-                code: TNC_LINK
-                name: Terms & Conditions
-              value: https://api.unreserved-entry-pass/beckn/tnc.html
+             - descriptor:
+                 name: What to pack
+               value: Expect the weather to be very cold, so pack winter clothes. Trekking shoes are a must, without a trekking shoe, you will not be allowed to participate in the trek. Also, carry 2 torches per person along with a spare battery
+             - descriptor:
+                 code: TNC_LINK
+                 name: Terms & Conditions
+               value: https://api.unreserved-entry-pass/beckn/tnc.html
     - id: I5
       location_ids:
         - L1
@@ -205,10 +214,13 @@ order:
             name: Info
           display: false
           list:
-            - descriptor:
-                code: TNC_LINK
-                name: Terms & Conditions
-              value: https://api.unreserved-entry-pass/beckn/tnc.html
+             - descriptor:
+                 name: What to pack
+               value: Expect the weather to be very cold, so pack winter clothes. Trekking shoes are a must, without a trekking shoe, you will not be allowed to participate in the trek. Also, carry 2 torches per person along with a spare battery
+             - descriptor:
+                 code: TNC_LINK
+                 name: Terms & Conditions
+               value: https://api.unreserved-entry-pass/beckn/tnc.html
   xinput:
     head:
       descriptor:
@@ -267,6 +279,18 @@ order:
             - url: https://api.unreserved-entry-pass.com/sites/images/location.png
               size_type: md
         rating: "5"
+        city:
+          code: std:011
+        time:
+        - label: OPERATIONAL_HOURS
+          days: 1,2,3,4,5,6,7
+          schedule:
+            holidays:
+            - '2026-01-26T00:00:00.000Z'
+            - '2026-08-15T00:00:00.000Z'
+          range:
+            start: 2026-01-26T09:00:00Z
+            end: 2026-01-26T11:00:00Z
   cancellation_terms:
     - cancellation_fee:
         percentage: "10"

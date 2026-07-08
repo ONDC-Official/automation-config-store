@@ -28,15 +28,23 @@ export async function onSearchIncrementalPull3Generator(existingPayload: any, se
   
   // Set dynamic timerange with random date generation
   if (sessionData.start_time && sessionData.end_time) {
-    // const randomDate = getRandomDateBetween(sessionData.start_time, sessionData.end_time);
+    const startTime = Array.isArray(sessionData.start_time) ? sessionData.start_time[0] : sessionData.start_time;
+    const endTime = Array.isArray(sessionData.end_time) ? sessionData.end_time[0] : sessionData.end_time;
     provider.time = {
       range: {
-        // start: randomDate.hour(5).minute(30).second(0).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
-        // end: randomDate.hour(23).minute(0).second(0).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
-        start: sessionData.start_time,
-        end: sessionData.end_time
+        start: startTime,
+        end: endTime
       }
     };
+
+    // Update city codes in locations dynamically
+    if (provider && Array.isArray(provider.locations)) {
+      const cityCode = Array.isArray(sessionData.city_code) ? sessionData.city_code[0] : (sessionData.city_code ?? "std:011");
+      provider.locations.forEach((loc: any) => {
+        if (!loc.city) loc.city = {};
+        loc.city.code = cityCode;
+      });
+    }
     
     // ADVANCED: Set fulfillments stops time fields to match provider time window
     // Handles both timestamp and range formats for maximum compatibility
