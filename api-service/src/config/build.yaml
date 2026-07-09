@@ -23575,6 +23575,8 @@ x-validations:
       enumList:
       - lbnp
       - lsp
+      - seller-app
+      - buyer-app
       enumPath: >-
         $.message.order.payment['@ondc/org/settlement_details'][*].settlement_counterparty
       _CONTINUE_: "!(enumPath are present)"
@@ -24243,6 +24245,8 @@ x-validations:
       enumList:
       - lbnp
       - lsp
+      - buyer-app
+      - seller-app
       enumPath: >-
         $.message.order.payment['@ondc/org/settlement_details'][*].settlement_counterparty
       _CONTINUE_: "!(enumPath are present)"
@@ -24899,6 +24903,8 @@ x-validations:
       enumList:
       - lbnp
       - lsp
+      - buyer-app
+      - seller-app
       enumPath: >-
         $.message.order.payment['@ondc/org/settlement_details'][*].settlement_counterparty
       _CONTINUE_: "!(enumPath are present)"
@@ -25596,6 +25602,8 @@ x-validations:
       enumList:
       - lbnp
       - lsp
+      - buyer-app
+      - seller-app
       enumPath: >-
         $.message.order.payment['@ondc/org/settlement_details'][*].settlement_counterparty
       _CONTINUE_: "!(enumPath are present)"
@@ -26304,6 +26312,8 @@ x-validations:
       enumList:
       - lbnp
       - lsp
+      - buyer-app
+      - seller-app
       enumPath: >-
         $.message.order.payment['@ondc/org/settlement_details'][*].settlement_counterparty
       _CONTINUE_: "!(enumPath are present)"
@@ -27031,6 +27041,8 @@ x-validations:
       enumList:
       - lbnp
       - lsp
+      - buyer-app
+      - seller-app
       enumPath: >-
         $.message.order.payment['@ondc/org/settlement_details'][*].settlement_counterparty
       _CONTINUE_: "!(enumPath are present)"
@@ -27849,6 +27861,8 @@ x-validations:
       enumList:
       - lbnp
       - lsp
+      - buyer-app
+      - seller-app
       enumPath: >-
         $.message.order.payment['@ondc/org/settlement_details'][*].settlement_counterparty
       _CONTINUE_: "!(enumPath are present)"
@@ -28510,6 +28524,8 @@ x-validations:
       enumList:
       - lbnp
       - lsp
+      - buyer-app
+      - seller-app
       enumPath: >-
         $.message.order.payment['@ondc/org/settlement_details'][*].settlement_counterparty
       _CONTINUE_: "!(enumPath are present)"
