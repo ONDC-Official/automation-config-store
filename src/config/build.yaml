@@ -101829,17 +101829,17 @@ x-validations:
             _RETURN_: attr follow regex reg
           - _NAME_: CONTEXT_REG_BAP_URI
             attr: "$.context.bap_uri"
-            reg: ['^(https?:\\/\\/)?([\\w.-]+)(:[0-9]+)?(\\/.*)?$']
+            reg: ['^(https?:\/\/)?([\w.-]+)(:[0-9]+)?(\/.*)?$']
             _RETURN_: attr follow regex reg
           - _NAME_: CONTEXT_REG_BPP_URI
             attr: "$.context.bpp_uri"
-            reg: ['^(https?:\\/\\/)?([\\w.-]+)(:[0-9]+)?(\\/.*)?$']
+            reg: ['^(https?:\/\/)?([\w.-]+)(:[0-9]+)?(\/.*)?$']
             search: ["search"]
             _CONTINUE_: "(action equal to search)"
             _RETURN_: attr follow regex reg
           - _NAME_: CONTEXT_REG_TTL
             attr: "$.context.ttl"
-            reg: ['^P(?=\\d|T)(\\d+Y)?(\\d+M)?(\\d+W)?(\\d+D)?(T(?=\\d)(\\d+H)?(\\d+M)?(\\d+S)?)?$']
+            reg: ['^P(?=\d|T)(\d+Y)?(\d+M)?(\d+W)?(\d+D)?(T(?=\d)(\d+H)?(\d+M)?(\d+S)?)?$']
             optional_vars: ["on_search","on_select","on_confirm","on_init","on_cancel","on_track","on_update"]
             _CONTINUE_: "(action all in optional_vars)"
             _RETURN_: attr follow regex reg
@@ -101859,7 +101859,7 @@ x-validations:
               _RETURN_: attr all in var_fee_type
             - _NAME_: PAYMENT_REG_ONDC_ORG_BAP_FINDER_FEE_AMOUNT
               attr: "$.message.intent.payment['@ondc/org/buyer_app_finder_fee_amount']"
-              reg: ['^(\\d*.?\\d{1,2})$']
+              reg: ['^(\d*.?\d{1,2})$']
               _RETURN_: attr follow regex reg
         - _NAME_: SEARCH_CATEGORY
           _RETURN_:
@@ -101989,7 +101989,7 @@ x-validations:
             _RETURN_: attr all in var_enum
           - _NAME_: FULFILLMENT_END_LOCATION_GPS
             attr: "$.message.intent.fulfillment.end.location.gps"
-            reg: ['^[-+]?([1-8]?\\d|90)\\.\\d{4,},\\s*[-+]?(180|1[0-7]\\d|[1-9]?\\d)\\.\\d{4,}$']
+            reg: ['^[-+]?([1-8]?\d|90)\.\d{4,},\s*[-+]?(180|1[0-7]\d|[1-9]?\d)\.\d{4,}$']
             _CONTINUE_: "!(attr are present)"
             _RETURN_: attr follow regex reg
           - _NAME_: FULFILLMENT_END_LOCATION_ADDRESS_AREA_CODE  
@@ -102212,7 +102212,7 @@ x-validations:
               _RETURN_: attr are present
           - _NAME_: PROVIDERS_TTL
             attr: "$.message.catalog['bpp/providers'][*].ttl"
-            reg: ['^P(?=\\d|T)(\\d+Y)?(\\d+M)?(\\d+W)?(\\d+D)?(T(?=\\d)(\\d+H)?(\\d+M)?(\\d+S)?)?$']
+            reg: ['^P(?=\d|T)(\d+Y)?(\d+M)?(\d+W)?(\d+D)?(T(?=\d)(\d+H)?(\d+M)?(\d+S)?)?$']
             _RETURN_: attr follow regex reg
           - _NAME_: PROVIDERS_LOCATIONS
             _RETURN_:
@@ -102238,7 +102238,7 @@ x-validations:
                   _RETURN_: attr follow regex reg
             - _NAME_: LOCATIONS_GPS
               attr: "$.message.catalog['bpp/providers'][*].locations[*].gps"
-              reg: ['^[-+]?([1-8]?\\d|90)\\.\\d{4,},\\s*[-+]?(180|1[0-7]\\d|[1-9]?\\d)\\.\\d{4,}$']
+              reg: ['^[-+]?([1-8]?\d|90)\.\d{4,},\s*[-+]?(180|1[0-7]\d|[1-9]?\d)\.\d{4,}$']
               _RETURN_: attr follow regex reg
             - _NAME_: LOCATIONS_ADDRESS
               _RETURN_: 
@@ -102361,11 +102361,11 @@ x-validations:
                 _RETURN_: attr all in var_enum
               - _NAME_: ITEMS_PRICE_VALUE
                 attr: "$.message.catalog['bpp/providers'][*].items[*].price.value"
-                reg: ['^[0-9]+(\\.[0-9]{2,})?$']
+                reg: ['^[0-9]+(\.[0-9]{2,})?$']
                 _RETURN_: attr follow regex reg
               - _NAME_: ITEMS_PRICE_MAXIMUM_VALUE
                 attr: "$.message.catalog['bpp/providers'][*].items[*].price.maximum_value"
-                reg: ['^[0-9]+(\\.[0-9]{2,})?$']
+                reg: ['^[0-9]+(\.[0-9]{2,})?$']
                 _RETURN_: attr follow regex reg
             - _NAME_: ITEMS_CATEGORY_ID
               attr: "$.message.catalog['bpp/providers'][*].items[*].category_id"
@@ -102384,7 +102384,7 @@ x-validations:
               attr: "$.message.catalog['bpp/providers'][*].items[*]['@ondc/org/cancellable']"
               _RETURN_: attr are present
             - _NAME_: ITEMS_ONDC_ORG_RETURN_WINDOW
-              reg: ['^P(?=\\d|T)(\\d+Y)?(\\d+M)?(\\d+W)?(\\d+D)?(T(?=\\d)(\\d+H)?(\\d+M)?(\\d+S)?)?$']
+              reg: ['^P(?=\d|T)(\d+Y)?(\d+M)?(\d+W)?(\d+D)?(T(?=\d)(\d+H)?(\d+M)?(\d+S)?)?$']
               attr: "$.message.catalog['bpp/providers'][*].items[*]['@ondc/org/return_window']"
               _RETURN_: attr follow regex reg
             - _NAME_: ITEMS_ONDC_ORG_SELLER_PICKUP_RETURN
@@ -102392,7 +102392,7 @@ x-validations:
               _RETURN_: attr are present
             - _NAME_: ITEMS_ONDC_ORG_TIME_TO_SHIP
               attr: "$.message.catalog['bpp/providers'][*].items[*]['@ondc/org/time_to_ship']"
-              reg: ['^P(?=\\d|T)(\\d+Y)?(\\d+M)?(\\d+W)?(\\d+D)?(T(?=\\d)(\\d+H)?(\\d+M)?(\\d+S)?)?$']
+              reg: ['^P(?=\d|T)(\d+Y)?(\d+M)?(\d+W)?(\d+D)?(T(?=\d)(\d+H)?(\d+M)?(\d+S)?)?$']
               _RETURN_: attr follow regex reg
             - _NAME_: ITEMS_ONDC_ORG_AVAILABLE_ON_COD
               attr: "$.message.catalog['bpp/providers'][*].items[*]['@ondc/org/available_on_cod']"
@@ -102413,7 +102413,7 @@ x-validations:
                 _RETURN_: attr are present
               - _NAME_: MONTH_YEAR_OF_MANUFACTURE_PACKING_IMPORT
                 attr: "$.message.catalog['bpp/providers'][*].items[*]['@ondc/org/statutory_reqs_packaged_commodities'].month_year_of_manufacture_packing_import"
-                reg: ['^\\d{2}/\\d{4}|NA$']
+                reg: ['^\d{2}/\d{4}|NA$']
                 _RETURN_: attr follow regex reg
 
             - _NAME_: ITEMS_TAGS
@@ -102561,21 +102561,21 @@ x-validations:
               - _NAME_: ITEMS_PRICE_VALUE
                 attr: "$.message.catalog['bpp/providers'][*].items[*].price.value"
                 _CONTINUE_: "!(attr are present)"
-                reg: ['^[0-9]+(\\.[0-9]{2,})?$']
+                reg: ['^[0-9]+(\.[0-9]{2,})?$']
                 _RETURN_: attr follow regex reg
               - _NAME_: ITEMS_PRICE_MAXIMUM_VALUE
                 attr: "$.message.catalog['bpp/providers'][*].items[*].price.maximum_value"
                 _CONTINUE_: "!(attr are present)"
-                reg: ['^[0-9]+(\\.[0-9]{2,})?$']
+                reg: ['^[0-9]+(\.[0-9]{2,})?$']
                 _RETURN_: attr follow regex reg
             - _NAME_: ITEMS_ONDC_ORG_RETURN_WINDOW
-              reg: ['^P(?=\\d|T)(\\d+Y)?(\\d+M)?(\\d+W)?(\\d+D)?(T(?=\\d)(\\d+H)?(\\d+M)?(\\d+S)?)?$']
+              reg: ['^P(?=\d|T)(\d+Y)?(\d+M)?(\d+W)?(\d+D)?(T(?=\d)(\d+H)?(\d+M)?(\d+S)?)?$']
               _CONTINUE_: "!(attr are present)"
               attr: "$.message.catalog['bpp/providers'][*].items[*]['@ondc/org/return_window']"
               _RETURN_: attr follow regex reg
             - _NAME_: ITEMS_ONDC_ORG_TIME_TO_SHIP
               attr: "$.message.catalog['bpp/providers'][*].items[*]['@ondc/org/time_to_ship']"
-              reg: ['^P(?=\\d|T)(\\d+Y)?(\\d+M)?(\\d+W)?(\\d+D)?(T(?=\\d)(\\d+H)?(\\d+M)?(\\d+S)?)?$']
+              reg: ['^P(?=\d|T)(\d+Y)?(\d+M)?(\d+W)?(\d+D)?(T(?=\d)(\d+H)?(\d+M)?(\d+S)?)?$']
               _CONTINUE_: "!(attr are present)"
               _RETURN_: attr follow regex reg
           - _NAME_: PROVIDERS_LOCATIONS
@@ -102654,7 +102654,7 @@ x-validations:
           _RETURN_:
           - _NAME_: FULFILLMENT_END_LOCATION_GPS
             attr: "$.message.order.fulfillments[*].end.location.gps"
-            reg: ['^[-+]?([1-8]?\\d|90)\\.\\d{4,},\\s*[-+]?(180|1[0-7]\\d|[1-9]?\\d)\\.\\d{4,}$']
+            reg: ['^[-+]?([1-8]?\d|90)\.\d{4,},\s*[-+]?(180|1[0-7]\d|[1-9]?\d)\.\d{4,}$']
             _RETURN_: attr follow regex reg
           - _NAME_: FULFILLMENT_END_LOCATION_ADDRESS_AREA_CODE
             attr: "$.message.order.fulfillments[*].end.location.address.area_code"
@@ -102714,7 +102714,7 @@ x-validations:
             _RETURN_: attr all in var_enum
           - _NAME_: FULFILLMENTS_ONDC_ORG_TAT
             attr: "$.message.order.fulfillments[*]['@ondc/org/TAT']"
-            reg: ['^P(?=\\d|T)(\\d+Y)?(\\d+M)?(\\d+W)?(\\d+D)?(T(?=\\d)(\\d+H)?(\\d+M)?(\\d+S)?)?|^$']
+            reg: ['^P(?=\d|T)(\d+Y)?(\d+M)?(\d+W)?(\d+D)?(T(?=\d)(\d+H)?(\d+M)?(\d+S)?)?|^$']
             _RETURN_: attr follow regex reg
           - _NAME_: FULFILLMENTS_STATE_DESCRIPTOR_CODE
             attr: "$.message.order.fulfillments[*].state.descriptor.code"
@@ -102729,7 +102729,7 @@ x-validations:
               _RETURN_: attr are present
             - _NAME_: QUOTE_PRICE_VALUE
               attr: "$.message.order.quote.price.value"
-              reg: ['^[0-9]+(\\.[0-9]{2,})?$']
+              reg: ['^[0-9]+(\.[0-9]{2,})?$']
               _RETURN_: attr are present
           - _NAME_: QUOTE_BREAKUP
             _RETURN_:
@@ -102755,7 +102755,7 @@ x-validations:
                 _RETURN_: attr are present
               - _NAME_: BREAKUP_PRICE_VALUE
                 attr: "$.message.order.quote.breakup[*].price.value"
-                reg: ['^[0-9]+(\\.[0-9]{2,})?$']
+                reg: ['^[0-9]+(\.[0-9]{2,})?$']
                 _RETURN_: attr follow regex reg
             - _NAME_: BREAKUP_ITEM 
               _RETURN_:
@@ -102775,7 +102775,7 @@ x-validations:
                 _RETURN_: attr are present
               - _NAME_: BREAKUP_ITEM_PRICE_VALUE
                 attr: "$.message.order.quote.breakup[*].item.price.value"
-                reg: ['^[0-9]+(\\.[0-9]{2,})?$']
+                reg: ['^[0-9]+(\.[0-9]{2,})?$']
                 _CONTINUE_: "!(attr are present)"
                 _RETURN_: attr are present
               - _NAME_: BREAKUP_ITEM_TAGS
@@ -102789,7 +102789,7 @@ x-validations:
                     _RETURN_: attr all in var_enum
           - _NAME_: QUOTE_TTL
             attr: "$.message.order.quote.ttl"
-            reg: ['^P(?=\\d|T)(\\d+Y)?(\\d+M)?(\\d+W)?(\\d+D)?(T(?=\\d)(\\d+H)?(\\d+M)?(\\d+S)?)?$']
+            reg: ['^P(?=\d|T)(\d+Y)?(\d+M)?(\d+W)?(\d+D)?(T(?=\d)(\d+H)?(\d+M)?(\d+S)?)?$']
             _RETURN_: attr follow regex reg
       
     init:
@@ -102875,7 +102875,7 @@ x-validations:
             _RETURN_: attr all in var_enum
           - _NAME_: FULFILLMENTS_END_LOCATION_GPS
             attr: "$.message.order.fulfillments[*].end.location.gps"
-            reg: ['^[-+]?([1-8]?\\d|90)\\.\\d{4,},\\s*[-+]?(180|1[0-7]\\d|[1-9]?\\d)\\.\\d{4,}$']
+            reg: ['^[-+]?([1-8]?\d|90)\.\d{4,},\s*[-+]?(180|1[0-7]\d|[1-9]?\d)\.\d{4,}$']
             _RETURN_: attr follow regex reg
           - _NAME_: FULFILLMENTS_END_LOCATION_ADDRESS
             _RETURN_:
@@ -102935,7 +102935,7 @@ x-validations:
             _RETURN_: attr all in var_enum
           - _NAME_: PAYMENT_ONDC_ORG_BUYER_APP_FINDER_FEE_AMOUNT
             attr: "$.message.order.payment['@ondc/org/buyer_app_finder_fee_amount']"
-            reg: ['^(\\d*.?\\d{1,2})$']
+            reg: ['^(\d*.?\d{1,2})$']
             _RETURN_: attr are present && attr follow regex reg   
           - _NAME_: PAYMENT_ONDC_ORG_SETTLEMENT_DETAILS
             _RETURN_:
@@ -102977,7 +102977,7 @@ x-validations:
             _RETURN_: attr all in var_enum
           - _NAME_: FULFILLMENTS_ONDC_ORG_TAT
             attr: "$.message.order.fulfillments[*]['@ondc/org/TAT']"
-            reg: ['^P(?=\\d|T)(\\d+Y)?(\\d+M)?(\\d+W)?(\\d+D)?(T(?=\\d)(\\d+H)?(\\d+M)?(\\d+S)?)?$']
+            reg: ['^P(?=\d|T)(\d+Y)?(\d+M)?(\d+W)?(\d+D)?(T(?=\d)(\d+H)?(\d+M)?(\d+S)?)?$']
             _RETURN_: attr follow regex reg
           - _NAME_: FULFILLMENTS_TRACKING
             attr: "$.message.order.fulfillments[*].tracking"
@@ -102995,7 +102995,7 @@ x-validations:
               _RETURN_:
               - _NAME_: FULFILLMENTS_END_LOCATION_GPS
                 attr: "$.message.order.fulfillments[*].end.location.gps"
-                reg: ['^[-+]?([1-8]?\\d|90)\\.\\d{4,},\\s*[-+]?(180|1[0-7]\\d|[1-9]?\\d)\\.\\d{4,}$']
+                reg: ['^[-+]?([1-8]?\d|90)\.\d{4,},\s*[-+]?(180|1[0-7]\d|[1-9]?\d)\.\d{4,}$']
                 _RETURN_: attr follow regex reg
               - _NAME_: FULFILLMENTS_END_LOCATION_ADDRESS
                 _RETURN_:
@@ -103042,7 +103042,7 @@ x-validations:
               _RETURN_: attr follow regex reg
             - _NAME_: PAYMENT_PARAMS_AMOUNT
               attr: "$.message.order.payment.params.amount"
-              reg: ['^(\\d*.?\\d{1,2})$']
+              reg: ['^(\d*.?\d{1,2})$']
               _RETURN_: attr are present && attr follow regex reg
           - _NAME_: PAYMENT_STATUS
             attr: "$.message.order.payment.status"
@@ -103059,7 +103059,7 @@ x-validations:
             _RETURN_: attr all in var_enum
           - _NAME_: PAYMENT_ONDC_ORG_SETTLEMENT_WINDOW
             attr: "$.message.order.payment['@ondc/org/settlement_window']"
-            reg: ['^P(?=\\d|T)(\\d+Y)?(\\d+M)?(\\d+W)?(\\d+D)?(T(?=\\d)(\\d+H)?(\\d+M)?(\\d+S)?)?$']
+            reg: ['^P(?=\d|T)(\d+Y)?(\d+M)?(\d+W)?(\d+D)?(T(?=\d)(\d+H)?(\d+M)?(\d+S)?)?$']
             _CONTINUE_: "!(attr are present)"
             _RETURN_: attr follow regex reg
           - _NAME_: PAYMENT_ONDC_ORG_WITHHOLDING_AMOUNT
@@ -103155,7 +103155,7 @@ x-validations:
                   _RETURN_: attr follow regex reg
               - _NAME_: FULFILLMENTS_START_LOCATION_GPS
                 attr: "$.message.order.fulfillments[*].start.location.gps"
-                reg: ['^[-+]?([1-8]?\\d|90)\\.\\d{4,},\\s*[-+]?(180|1[0-7]\\d|[1-9]?\\d)\\.\\d{4,}$']
+                reg: ['^[-+]?([1-8]?\d|90)\.\d{4,},\s*[-+]?(180|1[0-7]\d|[1-9]?\d)\.\d{4,}$']
                 _RETURN_: attr follow regex reg
             - _NAME_: FULFILLMENTS_START_CONTACT
               _RETURN_:
@@ -103510,7 +103510,7 @@ x-validations:
                 _RETURN_: attr all in var_enum
               - _NAME_: PARAMS_TTL_RESPONSE
                 attr: "$.message.descriptor.tags[?(@.code=='params')].list[?(@.code=='ttl_response')].value"
-                reg: ['^P(?=\\d|T)(\\d+Y)?(\\d+M)?(\\d+W)?(\\d+D)?(T(?=\\d)(\\d+H)?(\\d+M)?(\\d+S)?)?$']
+                reg: ['^P(?=\d|T)(\d+Y)?(\d+M)?(\d+W)?(\d+D)?(T(?=\d)(\d+H)?(\d+M)?(\d+S)?)?$']
                 _CONTINUE_: "!(attr are present)"
                 _RETURN_: attr follow regex reg
     on_cancel:
@@ -103556,7 +103556,7 @@ x-validations:
           - _NAME_: FULFILLMENTS_ONDC_ORG_TAT
             _CONTINUE_: "!(attr are present)"
             attr: "$.message.order.fulfillments[*]['@ondc/org/TAT']"
-            reg: ['^P(?=\\d|T)(\\d+Y)?(\\d+M)?(\\d+W)?(\\d+D)?(T(?=\\d)(\\d+H)?(\\d+M)?(\\d+S)?)?$']
+            reg: ['^P(?=\d|T)(\d+Y)?(\d+M)?(\d+W)?(\d+D)?(T(?=\d)(\d+H)?(\d+M)?(\d+S)?)?$']
             _RETURN_: attr follow regex reg
           - _NAME_: FULFILLMENTS_START
             _RETURN_:
@@ -103569,7 +103569,7 @@ x-validations:
                 _RETURN_: attr follow regex reg
               - _NAME_: FULFILLMENTS_START_LOCATION_GPS
                 _CONTINUE_: "!(attr are present)"
-                reg: ['^[-+]?([1-8]?\\d|90)\\.\\d{4,},\\s*[-+]?(180|1[0-7]\\d|[1-9]?\\d)\\.\\d{4,}$']
+                reg: ['^[-+]?([1-8]?\d|90)\.\d{4,},\s*[-+]?(180|1[0-7]\d|[1-9]?\d)\.\d{4,}$']
                 attr: "$.message.order.fulfillments[*].start.location.gps"
                 _RETURN_: attr are present
               - _NAME_: FULFILLMENTS_START_LOCATION_ADDRESS
@@ -103616,7 +103616,7 @@ x-validations:
               _RETURN_:
               - _NAME_: FULFILLMENTS_END_LOCATION_GPS
                 attr: "$.message.order.fulfillments[*].end.location.gps"
-                reg: ['^[-+]?([1-8]?\\d|90)\\.\\d{4,},\\s*[-+]?(180|1[0-7]\\d|[1-9]?\\d)\\.\\d{4,}$']
+                reg: ['^[-+]?([1-8]?\d|90)\.\d{4,},\s*[-+]?(180|1[0-7]\d|[1-9]?\d)\.\d{4,}$']
                 _CONTINUE_: "!(attr are present)"
                 _RETURN_: attr follow regex reg
               - _NAME_: FULFILLMENTS_END_LOCATION_ADDRESS
@@ -103663,7 +103663,7 @@ x-validations:
               - _NAME_: QUOTE_TRAIL_VALUE
                 _CONTINUE_: "!(attr are present)"
                 attr: "$.message.order.tags[?(@.code=='quote_trail')].list[?(@.code=='value')].value"
-                reg: ['^[+-]?[0-9]+(\\.[0-9]{2})?$']
+                reg: ['^[+-]?[0-9]+(\.[0-9]{2})?$']
                 _RETURN_: attr follow regex reg
               
             - _NAME_: TAGS_CANCEL_REQUEST
@@ -103725,7 +103725,7 @@ x-validations:
           _RETURN_:
             - _NAME_: TRACKING_LOCATION_GPS
               attr: "$.message.tracking.location.gps"
-              reg: ['^[-+]?([1-8]?\\d|90)\\.\\d{4,},\\s*[-+]?(180|1[0-7]\\d|[1-9]?\\d)\\.\\d{4,}$']
+              reg: ['^[-+]?([1-8]?\d|90)\.\d{4,},\s*[-+]?(180|1[0-7]\d|[1-9]?\d)\.\d{4,}$']
               _RETURN_: attr follow regex reg
             - _NAME_: TRACKING_LOCATION_TIME_TIMESTAMP
               attr: "$.message.tracking.location.time.timestamp"
@@ -103763,7 +103763,7 @@ x-validations:
             _RETURN_:
               - _NAME_: PATH_LAT_LNG
                 attr: "$.message.tracking.tags[?(@.code=='path')].list[?(@.code=='lat_lng')].value"
-                reg: ['^[-+]?([1-8]?\\d|90)\\.\\d{4,},\\s*[-+]?(180|1[0-7]\\d|[1-9]?\\d)\\.\\d{4,}$']
+                reg: ['^[-+]?([1-8]?\d|90)\.\d{4,},\s*[-+]?(180|1[0-7]\d|[1-9]?\d)\.\d{4,}$']
                 _CONTINUE_: "!(attr are present)"
                 _RETURN_: attr follow regex reg
               - _NAME_: PATH_SEQUENCE
@@ -103846,7 +103846,7 @@ x-validations:
           - _NAME_: FULFILLMENTS_ONDC_ORG_TAT
             _CONTINUE_: "!(attr are present)"
             attr: "$.message.order.fulfillments[*]['@ondc/org/TAT']"
-            reg: ['^P(?=\\d|T)(\\d+Y)?(\\d+M)?(\\d+W)?(\\d+D)?(T(?=\\d)(\\d+H)?(\\d+M)?(\\d+S)?)?$']
+            reg: ['^P(?=\d|T)(\d+Y)?(\d+M)?(\d+W)?(\d+D)?(T(?=\d)(\d+H)?(\d+M)?(\d+S)?)?$']
             _RETURN_: attr follow regex reg
           - _NAME_: FULFILLMENTS_STATE_DESCRIPTOR_CODE
             attr: "$.message.order.fulfillments[*].state.descriptor.code"
@@ -103863,7 +103863,7 @@ x-validations:
                 _RETURN_: attr follow regex reg
               - _NAME_: FULFILLMENTS_START_LOCATION_GPS
                 _CONTINUE_: "!(attr are present)"
-                reg: ['^[-+]?([1-8]?\\d|90)\\.\\d{4,},\\s*[-+]?(180|1[0-7]\\d|[1-9]?\\d)\\.\\d{4,}$']
+                reg: ['^[-+]?([1-8]?\d|90)\.\d{4,},\s*[-+]?(180|1[0-7]\d|[1-9]?\d)\.\d{4,}$']
                 attr: "$.message.order.fulfillments[*].start.location.gps"
                 _RETURN_: attr are present
               - _NAME_: FULFILLMENTS_START_LOCATION_ADDRESS
@@ -103908,7 +103908,7 @@ x-validations:
               _RETURN_:
               - _NAME_: FULFILLMENTS_END_LOCATION_GPS
                 attr: "$.message.order.fulfillments[*].end.location.gps"
-                reg: ['^[-+]?([1-8]?\\d|90)\\.\\d{4,},\\s*[-+]?(180|1[0-7]\\d|[1-9]?\\d)\\.\\d{4,}$']
+                reg: ['^[-+]?([1-8]?\d|90)\.\d{4,},\s*[-+]?(180|1[0-7]\d|[1-9]?\d)\.\d{4,}$']
                 _CONTINUE_: "!(attr are present)"
                 _RETURN_: attr follow regex reg
               - _NAME_: FULFILLMENTS_END_LOCATION_ADDRESS
