@@ -142,22 +142,25 @@ async function validateProviders(
         attributeMap.set(attr.code, attr.value);
       });
 
-      for (const [code, rule] of Object.entries(categoryRules)) {
-        const attrValue = attributeMap.get(code);
+      if ("category_id" in item) {
+        itemCategoriesId.add(item.category_id);
+      }
 
-        if (
-          rule.mandatory &&
-          (attrValue === undefined || attrValue === null || attrValue === "")
-        ) {
-          addError(
-            result,
-            20007,
-            `Missing mandatory attribute '${code}' in item ${item.id}`
-          );
-          continue;
-        }
-        if ("category_id" in item) {
-          itemCategoriesId.add(item.category_id);
+      if (categoryRules) {
+        for (const [code, rule] of Object.entries(categoryRules)) {
+          const attrValue = attributeMap.get(code);
+
+          if (
+            rule.mandatory &&
+            (attrValue === undefined || attrValue === null || attrValue === "")
+          ) {
+            addError(
+              result,
+              20007,
+              `Missing mandatory attribute '${code}' in item ${item.id}`
+            );
+            continue;
+          }
         }
       }
 
