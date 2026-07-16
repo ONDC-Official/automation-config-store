@@ -103565,49 +103565,49 @@ x-validations:
               - _NAME_: FULFILLMENTS_START_LOCATION_ID
                 _CONTINUE_: "!(attr are present)"
                 reg: ['^[0-9a-zA-Z\_\-]{1,36}$']
-                attr: "$.message.order.fulfillments[*].start.location.id"
+                attr: "$.message.order.fulfillments[?(@.type!='Cancel')].start.location.id"
                 _RETURN_: attr follow regex reg
               - _NAME_: FULFILLMENTS_START_LOCATION_GPS
                 _CONTINUE_: "!(attr are present)"
                 reg: ['^[-+]?([1-8]?\d|90)\.\d{4,},\s*[-+]?(180|1[0-7]\d|[1-9]?\d)\.\d{4,}$']
-                attr: "$.message.order.fulfillments[*].start.location.gps"
+                attr: "$.message.order.fulfillments[?(@.type!='Cancel')].start.location.gps"
                 _RETURN_: attr are present
               - _NAME_: FULFILLMENTS_START_LOCATION_ADDRESS
                 _RETURN_:
                 - _NAME_: FULFILLMENTS_START_LOCATION_ADDRESS_AREA_CODE
                   _CONTINUE_: "!(attr are present)"
                   reg: ['^[0-9]{6}$']
-                  attr: "$.message.order.fulfillments[*].start.location.address.area_code"
+                  attr: "$.message.order.fulfillments[?(@.type!='Cancel')].start.location.address.area_code"
                   _RETURN_: attr are present
             - _NAME_: FULFILLMENTS_START_CONTACT
               _RETURN_:
               - _NAME_: FULFILLMENTS_START_CONTACT_PHONE
                 _CONTINUE_: "!(attr are present)"
-                attr: "$.message.order.fulfillments[*].start.contact.phone"
+                attr: "$.message.order.fulfillments[?(@.type!='Cancel')].start.contact.phone"
                 reg: ['^[0-9]{10}$']
                 _RETURN_: attr follow regex reg
             - _NAME_: FULFILLMENTS_START_TIME
               _RETURN_:
               - _NAME_: FULFILLMENTS_START_TIME_RANGE_START
                 _CONTINUE_: "!(attr are present)"
-                attr: "$.message.order.fulfillments[*].start.time.range.start"
+                attr: "$.message.order.fulfillments[?(@.type!='Cancel')].start.time.range.start"
                 reg: ['^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{3}Z$']
                 _RETURN_: attr follow regex reg
               - _NAME_: FULFILLMENTS_START_TIME_RANGE_END
                 _CONTINUE_: "!(attr are present)"
-                attr: "$.message.order.fulfillments[*].start.time.range.end"
+                attr: "$.message.order.fulfillments[?(@.type!='Cancel')].start.time.range.end"
                 reg: ['^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{3}Z$']
                 _RETURN_: attr follow regex reg
               - _NAME_: FULFILLMENTS_START_TIME_TIMESTAMP
                 _CONTINUE_: "!(attr are present)"
-                attr: "$.message.order.fulfillments[*].start.time.timestamp"
+                attr: "$.message.order.fulfillments[?(@.type!='Cancel')].start.time.timestamp"
                 reg: ['^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{3}Z$']
                 _RETURN_: attr follow regex reg
 
           - _NAME_: FULFILLMENTS_END
             _RETURN_:
             - _NAME_: FULFILLMENTS_END_CONTACT_PHONE
-              attr: "$.message.order.fulfillments[*].end.contact.phone"
+              attr: "$.message.order.fulfillments[?(@.type!='Cancel')].end.contact.phone"
               reg: ['^[0-9]{10}$']
               _CONTINUE_: "!(attr are present)"
               _RETURN_: attr are present
@@ -103615,14 +103615,14 @@ x-validations:
             - _NAME_: FULFILLMENTS_END_LOCATION
               _RETURN_:
               - _NAME_: FULFILLMENTS_END_LOCATION_GPS
-                attr: "$.message.order.fulfillments[*].end.location.gps"
+                attr: "$.message.order.fulfillments[?(@.type!='Cancel')].end.location.gps"
                 reg: ['^[-+]?([1-8]?\d|90)\.\d{4,},\s*[-+]?(180|1[0-7]\d|[1-9]?\d)\.\d{4,}$']
                 _CONTINUE_: "!(attr are present)"
                 _RETURN_: attr follow regex reg
               - _NAME_: FULFILLMENTS_END_LOCATION_ADDRESS
                 _RETURN_:
                 - _NAME_: FULFILLMENTS_END_LOCATION_ADDRESS_AREA_CODE
-                  attr: "$.message.order.fulfillments[*].end.location.address.area_code"
+                  attr: "$.message.order.fulfillments[?(@.type!='Cancel')].end.location.address.area_code"
                   reg: ['^[0-9]{6}$']
                   _CONTINUE_: "!(attr are present)"
                   _RETURN_: attr follow regex reg
@@ -103631,17 +103631,17 @@ x-validations:
               _RETURN_:
               - _NAME_: FULFILLMENTS_END_TIME_RANGE_START
                 _CONTINUE_: "!(attr are present)"
-                attr: "$.message.order.fulfillments[*].end.time.range.start"
+                attr: "$.message.order.fulfillments[?(@.type!='Cancel')].end.time.range.start"
                 reg: ['^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{3}Z$']
                 _RETURN_: attr follow regex reg
               - _NAME_: FULFILLMENTS_END_TIME_RANGE_END
                 _CONTINUE_: "!(attr are present)"
-                attr: "$.message.order.fulfillments[*].end.time.range.end"
+                attr: "$.message.order.fulfillments[?(@.type!='Cancel')].end.time.range.end"
                 reg: ['^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{3}Z$']
                 _RETURN_: attr follow regex reg
               - _NAME_: FULFILLMENTS_END_TIME_TIMESTAMP
                 _CONTINUE_: "!(attr are present)"
-                attr: "$.message.order.fulfillments[*].end.time.timestamp"
+                attr: "$.message.order.fulfillments[?(@.type!='Cancel')].end.time.timestamp"
                 reg: ['^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{3}Z$']
                 _RETURN_: attr follow regex reg
 
