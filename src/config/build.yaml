@@ -102055,12 +102055,6 @@ x-validations:
               attr: "$.message.intent.tags[?(@.code=='bap_terms')].list[?(@.code=='static_terms')].value"
               _RETURN_: attr are present
 
-            - _NAME_: TAGS_BAP_TERMS_STATIC_TERMS_NEW
-              _CONTINUE_: "!(attr are present)"
-              attr: "$.message.intent.tags[?(@.code=='bap_terms')].list[?(@.code=='static_terms_new')].value"
-              var_enum_static_terms_new: ["https://github.com/ONDC-Official/NP-Static-Terms/buyerNP_BNP/1.0/tc.pdf"]
-              _RETURN_: attr all in var_enum_static_terms_new
-
             - _NAME_: TAGS_BAP_TERMS_EFFECTIVE_DATE
               _CONTINUE_: "!(attr are present)"
               attr: "$.message.intent.tags[?(@.code=='bap_terms')].list[?(@.code=='effective_date')].value"
