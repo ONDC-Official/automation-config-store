@@ -1,6 +1,6 @@
 name: Deploy api service
 on:
-  workflow_dispatch:
+  # workflow_dispatch:
   # push:
   #   paths:
   #     - "src/config/build.yaml"
